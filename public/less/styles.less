@@ -1,0 +1,12 @@
+@colors: red, blue, green, yellow, orange, purple, pink, brown, black, gray, cyan, magenta, lime, teal, navy, olive, maroon, gold, silver;
+
+.item {
+    each(@colors, {
+            &:nth-child(@{index}) {
+                color: @value;
+            }
+        }
+
+    );
+
+}

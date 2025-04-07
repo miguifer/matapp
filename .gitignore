@@ -1,0 +1,32 @@
+# Ignore system files
+# .DS_Store
+# Thumbs.db
+
+# # Ignore log files and databases
+# *.log
+# *.sql
+# *.sqlite
+
+# # Ignore environment files
+# .env
+
+# # Ignore vendor and composer files
+# /vendor/
+# /node_modules/
+
+# # Ignore compiled files
+# /public/storage
+# /public/hot
+# /public/js/*.js.map
+# /public/css/*.css.map
+
+# # Ignore IDE specific files
+# .idea/
+# .vscode/
+
+# # Ignore Laravel specific files
+# /storage/*.key
+# /storage/logs/*.log
+# /storage/framework/cache/*
+# /storage/framework/sessions/*
+# /storage/framework/views/*
