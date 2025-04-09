@@ -50,10 +50,13 @@
  },
  eventClick: function(info) {
  Swal.fire({
+ icon: 'warning',
  title: 'Editar Evento',
  html: `
  <input type="text" id="title" class="swal2-input" value="${info.event.title}" placeholder="Título del Evento" required>
+ <label for="start">Fecha de Inicio</label>
  <input type="date" id="start" class="swal2-input" value="${info.event.startStr}" required>
+ <label for="end">Fecha de Fin</label>
  <input type="date" id="end" class="swal2-input" value="${info.event.endStr}">
  `,
  preConfirm: () => {
@@ -73,8 +76,8 @@
  },
  showCancelButton: true,
  cancelButtonText: 'Cancelar',
- confirmButtonText: 'Guardar Evento',
- cancelButtonColor: '#d33',
+ confirmButtonText: 'Editar Evento',
+ cancelButtonColor: '#6c757d',
  showDenyButton: true,
  denyButtonText: 'Eliminar Evento',
  denyButtonColor: '#dc3545'
@@ -112,9 +115,10 @@
  Swal.fire({
  title: '¿Estás seguro?',
  text: "Esta acción eliminará el evento permanentemente.",
- icon: 'warning',
+ icon: 'question',
  showCancelButton: true,
  confirmButtonText: 'Sí, eliminar',
+ confirmButtonColor: '#dc3545',
  cancelButtonText: 'Cancelar',
  reverseButtons: true
  }).then((confirmResult) => {
@@ -156,10 +160,14 @@
  dateClick: function(info) {
  // Crear nuevo evento con SweetAlert2
  Swal.fire({
+ icon: 'info',
  title: 'Agregar Evento',
+ confirmButtonText: 'Agregar',
  html: `
  <input type="text" id="title" class="swal2-input" placeholder="Título del Evento" required>
+ <label for="start">Fecha de Inicio</label>
  <input type="date" id="start" class="swal2-input" value="${info.dateStr}" required>
+ <label for="end">Fecha de Fin</label>
  <input type="date" id="end" class="swal2-input">
  `,
  preConfirm: () => {
@@ -167,7 +175,7 @@
  const start = Swal.getPopup().querySelector('#start').value;
  if (!title || !start) {
  Swal.showValidationMessage(
- 'Por favor, completa todos los campos');
+ 'Titulo y fecha de inicio son requeridos');
  }
  return {
  title,

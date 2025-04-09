@@ -31,7 +31,22 @@
 
 <body>
 
+ <?php /* google translate */ ?>
+ <div id="google_translate_element"></div>
+ <script type="text/javascript">
+ function googleTranslateElementInit() {
+ new google.translate.TranslateElement({
+ pageLanguage: 'es',
+ includedLanguages: 'en,es,fr,de,it,pt', // Lista de idiomas disponibles
+ layout: google.translate.TranslateElement.InlineLayout.SIMPLE // Diseño más moderno y compacto
+ }, 'google_translate_element');
+ }
+ </script>
+ <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+ </script>
+
  <div class="container mt-5" id="main">
+
 
  <?php /* start chatbot */ ?>
  <button class="chatbot-toggler">

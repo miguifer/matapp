@@ -21,8 +21,6 @@
     <br>
     <a href="{{ RUTA_URL }}/paginas/calendario">Ir al método del controlador</a>
 
-
-
     <script>
         /* 
          *Da clase a los elementos de la lista con Jquery 
