@@ -2,6 +2,7 @@
 <script src="https://cdn.jsdelivr.net/npm/less"></script> {{-- Carga LESS desde CDN (tiene que estar solo y en el footer) --}}
 <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script> {{-- Carga Darkmode desde CDN --}}
 <script src="{{ RUTA_URL }}/public/js/chatbot.js"></script> {{-- Carga JS genérico para el chatbot --}}
+<script src="{{ RUTA_URL }}/public/js/variables.js"></script> {{-- Carga JS de variables --}}
 
 <script>
     const options = {

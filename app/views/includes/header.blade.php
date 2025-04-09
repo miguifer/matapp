@@ -21,6 +21,8 @@
     <!-- Fuentes e íconos para chatbot-->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    {{-- Carga FULLCALENDAR desde su ruta en local --}}
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.17/index.global.min.js'></script>
 
 </head>
 

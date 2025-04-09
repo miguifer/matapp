@@ -1,7 +1,7 @@
 <?php
 class DataBase
 {
-    private $rutaBD = 'C:/Program Files/Ampps/www/misProyectos/matapp-mvc/app/db/matapp.db';
+    private $rutaBD = 'C:/Program Files/Ampps/www/matapp/app/db/matapp.db';
 
     private $dbh;   // Database handler
     private $stmt;  // Statement para ejecutar consultas
