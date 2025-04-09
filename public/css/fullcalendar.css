@@ -1,6 +1,7 @@
 #calendar {
   max-width: 700px;
   margin: 0 auto;
+  margin-top: 40px;
 }
 /* Estilo del contenedor del calendario (FullCalendar) */
 .fc {
@@ -156,4 +157,8 @@
 /* Cambiar el color de fondo y bordes cuando el día actual es hover */
 #calendar .fc-day-today:hover {
   background-color: #a5dd8756 !important; /* Fondo más claro al hacer hover */
+}
+
+#calendar .fc-header-toolbar {
+  margin-bottom: 0.5em;
 }

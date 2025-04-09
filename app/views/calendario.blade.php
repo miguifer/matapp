@@ -37,7 +37,7 @@
                     buttonText: 'Semana'
                 }
             },
-            editable: true, // Permitir editar eventos
+            editable: false, // Permitir editar eventos
             droppable: false, // No permitir dropear eventos
             eventDidMount: function(info) {
                 // Mostrar tooltip con la descripción del evento
