@@ -54,11 +54,21 @@
  title: 'Editar Evento',
  html: `
  <input type="text" id="title" class="swal2-input" value="${info.event.title}" placeholder="Título del Evento" required>
- <label for="start">Fecha de Inicio</label>
- <input type="date" id="start" class="swal2-input" value="${info.event.startStr}" required>
- <label for="end">Fecha de Fin</label>
- <input type="date" id="end" class="swal2-input" value="${info.event.endStr}">
+ <input type="text" id="start" class="swal2-input" placeholder="Fecha de inicio" value="${info.event.startStr}" required>
+ <input type="text" id="end" class="swal2-input" placeholder="Fecha de fin" value="${info.event.endStr}">
  `,
+ didOpen: () => {
+ flatpickr("#start", {
+ enableTime: true,
+ dateFormat: "Y-m-d H:i",
+ time_24hr: true
+ });
+ flatpickr("#end", {
+ enableTime: true,
+ dateFormat: "Y-m-d H:i",
+ time_24hr: true
+ });
+ },
  preConfirm: () => {
  const title = Swal.getPopup().querySelector('#title').value;
  const start = Swal.getPopup().querySelector('#start').value;
@@ -81,7 +91,8 @@
  showDenyButton: true,
  denyButtonText: 'Eliminar Evento',
  denyButtonColor: '#dc3545'
- }).then((result) => {
+ })
+ .then((result) => {
  const eventData = result.value;
  if (result.isConfirmed) {
  // Guardar o editar evento
@@ -165,11 +176,22 @@
  confirmButtonText: 'Agregar',
  html: `
  <input type="text" id="title" class="swal2-input" placeholder="Título del Evento" required>
- <label for="start">Fecha de Inicio</label>
- <input type="date" id="start" class="swal2-input" value="${info.dateStr}" required>
- <label for="end">Fecha de Fin</label>
- <input type="date" id="end" class="swal2-input">
+ <input type="text" id="start" placeholder="Fecha de inicio" class="swal2-input" value="${info.dateStr}" required>
+ <input type="text" id="end"  placeholder="Fecha de fin" class="swal2-input">
  `,
+ didOpen: () => {
+ flatpickr("#start", {
+ enableTime: true,
+ dateFormat: "Y-m-d H:i",
+ time_24hr: true
+ });
+ flatpickr("#end", {
+ enableTime: true,
+ dateFormat: "Y-m-d H:i",
+ time_24hr: true
+ });
+ },
+
  preConfirm: () => {
  const title = Swal.getPopup().querySelector('#title').value;
  const start = Swal.getPopup().querySelector('#start').value;
@@ -218,6 +240,17 @@
  });
 
  calendar.render();
+ });
+</script>
+
+<?php /* <input type="text" id="fechaHora" name="fechaHora" placeholder="Selecciona fecha y hora" class="form-control"> */ ?>
+
+
+<script>
+ flatpickr("#fechaHora   ", {
+ enableTime: true, // Habilita selección de hora
+ dateFormat: "Y-m-d H:i", // Formato: 2025-04-10 16:30
+ time_24hr: true // Usa formato 24h
  });
 </script>
 

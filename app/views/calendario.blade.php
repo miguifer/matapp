@@ -50,112 +50,123 @@
             },
             eventClick: function(info) {
                 Swal.fire({
-                    icon: 'warning',
-                    title: 'Editar Evento',
-                    html: `
-            <input type="text" id="title" class="swal2-input" value="${info.event.title}" placeholder="Título del Evento" required>
-            <label for="start">Fecha de Inicio</label>
-            <input type="date" id="start" class="swal2-input" value="${info.event.startStr}" required>
-            <label for="end">Fecha de Fin</label>
-            <input type="date" id="end" class="swal2-input" value="${info.event.endStr}">
-        `,
-                    preConfirm: () => {
-                        const title = Swal.getPopup().querySelector('#title').value;
-                        const start = Swal.getPopup().querySelector('#start').value;
-                        const end = Swal.getPopup().querySelector('#end').value;
-                        if (!title || !start) {
-                            Swal.showValidationMessage(
-                                'Por favor, completa todos los campos');
-                        }
-                        return {
-                            title,
-                            start,
-                            end,
-                            id: info.event.id
-                        };
-                    },
-                    showCancelButton: true,
-                    cancelButtonText: 'Cancelar',
-                    confirmButtonText: 'Editar Evento',
-                    cancelButtonColor: '#6c757d',
-                    showDenyButton: true,
-                    denyButtonText: 'Eliminar Evento',
-                    denyButtonColor: '#dc3545'
-                }).then((result) => {
-                    const eventData = result.value;
-                    if (result.isConfirmed) {
-                        // Guardar o editar evento
-                        $.ajax({
-                            url: `${RUTA_URL}/paginas/update_event`,
-                            type: 'POST',
-                            dataType: 'json',
-                            data: eventData,
-                            success: function(response) {
-                                if (response && response.message) {
-                                    Swal.fire({
-                                        title: 'Éxito!',
-                                        text: response.message,
-                                        icon: 'success',
-                                        confirmButtonText: 'Genial'
-                                    });
-                                    calendar.refetchEvents();
-                                }
-                            },
-                            error: function() {
-                                Swal.fire({
-                                    title: 'Error',
-                                    text: 'Hubo un problema al guardar el evento.',
-                                    icon: 'error',
-                                    confirmButtonText: 'Cerrar'
-                                });
+                        icon: 'warning',
+                        title: 'Editar Evento',
+                        html: `
+        <input type="text" id="title" class="swal2-input" value="${info.event.title}" placeholder="Título del Evento" required>
+        <input type="text" id="start" class="swal2-input" placeholder="Fecha de inicio" value="${info.event.startStr}" required>
+        <input type="text" id="end" class="swal2-input" placeholder="Fecha de fin" value="${info.event.endStr}">
+    `,
+                        didOpen: () => {
+                            flatpickr("#start", {
+                                enableTime: true,
+                                dateFormat: "Y-m-d H:i",
+                                time_24hr: true
+                            });
+                            flatpickr("#end", {
+                                enableTime: true,
+                                dateFormat: "Y-m-d H:i",
+                                time_24hr: true
+                            });
+                        },
+                        preConfirm: () => {
+                            const title = Swal.getPopup().querySelector('#title').value;
+                            const start = Swal.getPopup().querySelector('#start').value;
+                            const end = Swal.getPopup().querySelector('#end').value;
+                            if (!title || !start) {
+                                Swal.showValidationMessage(
+                                    'Por favor, completa todos los campos');
                             }
-                        });
-                    } else if (result.isDenied) {
-                        // Agregamos un diálogo de confirmación para eliminar
-                        Swal.fire({
-                            title: '¿Estás seguro?',
-                            text: "Esta acción eliminará el evento permanentemente.",
-                            icon: 'question',
-                            showCancelButton: true,
-                            confirmButtonText: 'Sí, eliminar',
-                            confirmButtonColor: '#dc3545',
-                            cancelButtonText: 'Cancelar',
-                            reverseButtons: true
-                        }).then((confirmResult) => {
-                            if (confirmResult.isConfirmed) {
-                                $.ajax({
-                                    url: `${RUTA_URL}/paginas/delete_event`,
-                                    type: 'POST',
-                                    dataType: 'json',
-                                    data: {
-                                        id: info.event.id
-                                    },
-                                    success: function(response) {
-                                        if (response && response
-                                            .message) {
-                                            Swal.fire({
-                                                title: 'Éxito!',
-                                                text: response
-                                                    .message,
-                                                icon: 'success',
-                                                confirmButtonText: 'Genial'
-                                            });
-                                            calendar.refetchEvents();
-                                        }
-                                    },
-                                    error: function() {
+                            return {
+                                title,
+                                start,
+                                end,
+                                id: info.event.id
+                            };
+                        },
+                        showCancelButton: true,
+                        cancelButtonText: 'Cancelar',
+                        confirmButtonText: 'Editar Evento',
+                        cancelButtonColor: '#6c757d',
+                        showDenyButton: true,
+                        denyButtonText: 'Eliminar Evento',
+                        denyButtonColor: '#dc3545'
+                    })
+                    .then((result) => {
+                        const eventData = result.value;
+                        if (result.isConfirmed) {
+                            // Guardar o editar evento
+                            $.ajax({
+                                url: `${RUTA_URL}/paginas/update_event`,
+                                type: 'POST',
+                                dataType: 'json',
+                                data: eventData,
+                                success: function(response) {
+                                    if (response && response.message) {
                                         Swal.fire({
-                                            title: 'Error',
-                                            text: 'Hubo un problema al eliminar el evento.',
-                                            icon: 'error',
-                                            confirmButtonText: 'Cerrar'
+                                            title: 'Éxito!',
+                                            text: response.message,
+                                            icon: 'success',
+                                            confirmButtonText: 'Genial'
                                         });
+                                        calendar.refetchEvents();
                                     }
-                                });
-                            }
-                        });
-                    }
-                });
+                                },
+                                error: function() {
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: 'Hubo un problema al guardar el evento.',
+                                        icon: 'error',
+                                        confirmButtonText: 'Cerrar'
+                                    });
+                                }
+                            });
+                        } else if (result.isDenied) {
+                            // Agregamos un diálogo de confirmación para eliminar
+                            Swal.fire({
+                                title: '¿Estás seguro?',
+                                text: "Esta acción eliminará el evento permanentemente.",
+                                icon: 'question',
+                                showCancelButton: true,
+                                confirmButtonText: 'Sí, eliminar',
+                                confirmButtonColor: '#dc3545',
+                                cancelButtonText: 'Cancelar',
+                                reverseButtons: true
+                            }).then((confirmResult) => {
+                                if (confirmResult.isConfirmed) {
+                                    $.ajax({
+                                        url: `${RUTA_URL}/paginas/delete_event`,
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        data: {
+                                            id: info.event.id
+                                        },
+                                        success: function(response) {
+                                            if (response && response
+                                                .message) {
+                                                Swal.fire({
+                                                    title: 'Éxito!',
+                                                    text: response
+                                                        .message,
+                                                    icon: 'success',
+                                                    confirmButtonText: 'Genial'
+                                                });
+                                                calendar.refetchEvents();
+                                            }
+                                        },
+                                        error: function() {
+                                            Swal.fire({
+                                                title: 'Error',
+                                                text: 'Hubo un problema al eliminar el evento.',
+                                                icon: 'error',
+                                                confirmButtonText: 'Cerrar'
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
+                    });
             },
             dateClick: function(info) {
                 // Crear nuevo evento con SweetAlert2
@@ -164,12 +175,23 @@
                     title: 'Agregar Evento',
                     confirmButtonText: 'Agregar',
                     html: `
-                    <input type="text" id="title" class="swal2-input" placeholder="Título del Evento" required>
-                    <label for="start">Fecha de Inicio</label>
-                    <input type="date" id="start" class="swal2-input" value="${info.dateStr}" required>
-                    <label for="end">Fecha de Fin</label>
-                    <input type="date" id="end" class="swal2-input">
-                `,
+        <input type="text" id="title" class="swal2-input" placeholder="Título del Evento" required>
+        <input type="text" id="start" placeholder="Fecha de inicio" class="swal2-input" value="${info.dateStr}" required>
+        <input type="text" id="end"  placeholder="Fecha de fin" class="swal2-input">
+    `,
+                    didOpen: () => {
+                        flatpickr("#start", {
+                            enableTime: true,
+                            dateFormat: "Y-m-d H:i",
+                            time_24hr: true
+                        });
+                        flatpickr("#end", {
+                            enableTime: true,
+                            dateFormat: "Y-m-d H:i",
+                            time_24hr: true
+                        });
+                    },
+
                     preConfirm: () => {
                         const title = Swal.getPopup().querySelector('#title').value;
                         const start = Swal.getPopup().querySelector('#start').value;
@@ -218,6 +240,17 @@
         });
 
         calendar.render();
+    });
+</script>
+
+{{-- <input type="text" id="fechaHora" name="fechaHora" placeholder="Selecciona fecha y hora" class="form-control"> --}}
+
+
+<script>
+    flatpickr("#fechaHora   ", {
+        enableTime: true, // Habilita selección de hora
+        dateFormat: "Y-m-d H:i", // Formato: 2025-04-10 16:30
+        time_24hr: true // Usa formato 24h
     });
 </script>
 
