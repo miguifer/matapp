@@ -25,8 +25,8 @@
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.17/index.global.min.js'></script>
     {{-- Carga sweetalerts desde archivo CDN --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
+    {{-- Carga datatablesJS css desde CDN --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 </head>
 
 <body>

@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/fullcalendar.css" />
 
 <div class="container mt-5">
-    <h1 class="text-center">Calendario de Eventos</h1>
+    <h1 class="text-center tituloCalendario">Calendario de Eventos</h1>
     <div id="calendar"></div>
 </div>
 

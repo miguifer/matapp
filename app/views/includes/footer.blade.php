@@ -3,7 +3,7 @@
 <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script> {{-- Carga Darkmode desde CDN --}}
 <script src="{{ RUTA_URL }}/public/js/chatbot.js"></script> {{-- Carga JS genérico para el chatbot --}}
 <script src="{{ RUTA_URL }}/public/js/variables.js"></script> {{-- Carga JS de variables --}}
-
+<script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script> {{-- Carga JS de datatables desde cdm --}}
 <script>
     const options = {
         bottom: '22px', // Ajusta la altura del botón

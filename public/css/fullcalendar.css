@@ -67,6 +67,7 @@
   transition: background-color 0.3s ease;
   border: none !important; /* Sin borde */
   text-align: center;
+  font-family: sans-serif;
 }
 
 /* Efecto hover sobre los eventos */
@@ -125,6 +126,9 @@
   transition: background-color 0.3s ease;
 }
 
+#calendar {
+  font-family: "Jost";
+}
 
 #calendar button[title="Previous month"] {
   display: flex !important;
@@ -161,4 +165,23 @@
 
 #calendar .fc-header-toolbar {
   margin-bottom: 0.5em;
+}
+
+@font-face {
+  font-family: "Jost";
+  src: url("../fonts/Jost-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+#calendar .fc-toolbar-title {
+  font-family: "Jost";
+  font-size: 1.5em;
+  font-weight: 600;
+  color: white; /* Color del texto del título */
+  text-transform: capitalize; /* Primera letra en mayúscula */
+}
+
+.tituloCalendario {
+  font-family: "Jost";
 }

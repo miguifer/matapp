@@ -2,7 +2,9 @@
 
     <link rel="stylesheet/less" type="text/css" href="{{ RUTA_URL }}/public/less/styles.less" />{{-- Carga LESS desde archivo local --}}
     <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/styles.css" /> {{-- Carga css desde archivo local --}}
-
+    <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/fontawesome.css" /> {{-- Carga css desde archivo local --}}
+    <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/datatables.css" /> {{-- Carga css datatables desde archivo local --}}
+    {{-- Carga css desde archivo local --}}
     {{-- start contenido --}}
 
 
@@ -21,12 +23,43 @@
     <br>
     <a href="{{ RUTA_URL }}/paginas/calendario">Ir al método del controlador</a>
 
+
+    <table id="myTable" class="display">
+                <thead>
+                        <tr>
+                                <th>Id Usuario</th>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                        </tr>
+                </thead>
+                <tbody>
+                        @foreach ($usuarios as $usuario)
+                                <tr>
+                                        <td>{{ $usuario->id_usuario }}</td>
+                                        <td>{{ $usuario->nombre }}</td>
+                                        <td>{{ $usuario->email }}</td>
+                                        <td>{{ $usuario->telefono }}</td>
+                                </tr>
+                        @endforeach
+                </tbody>
+        </table>
+
     <script>
         /* 
          *Da clase a los elementos de la lista con Jquery 
          */
         $(document).ready(function() {
             $("ul li").addClass("item");
+        });
+
+
+        /* 
+         *Ejemplo de uso de DataTable con Jquery 
+         */
+
+        $(document).ready(function() {
+            $('#myTable').DataTable();
         });
     </script>
 
