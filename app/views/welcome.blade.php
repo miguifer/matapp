@@ -25,25 +25,59 @@
 
 
     <table id="myTable" class="display">
-                <thead>
-                        <tr>
-                                <th>Id Usuario</th>
-                                <th>Nombre</th>
-                                <th>Email</th>
-                                <th>Teléfono</th>
-                        </tr>
-                </thead>
-                <tbody>
-                        @foreach ($usuarios as $usuario)
-                                <tr>
-                                        <td>{{ $usuario->id_usuario }}</td>
-                                        <td>{{ $usuario->nombre }}</td>
-                                        <td>{{ $usuario->email }}</td>
-                                        <td>{{ $usuario->telefono }}</td>
-                                </tr>
-                        @endforeach
-                </tbody>
-        </table>
+        <thead>
+            <tr>
+                <th>Id Usuario</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($usuarios as $usuario)
+                <tr>
+                    <td>{{ $usuario->id_usuario }}</td>
+                    <td>{{ $usuario->nombre }}</td>
+                    <td>{{ $usuario->email }}</td>
+                    <td>{{ $usuario->telefono }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <canvas id="miGrafico"></canvas>
+    
+    <script>
+        const ctx = document.getElementById('miGrafico').getContext('2d');
+        const miGrafico = new Chart(ctx, {
+            type: 'bar', // tipos: bar, line, pie, doughnut, radar, polarArea...
+            data: {
+                labels: ['Boxeo', 'Jiu-Jitsu', 'Muay Thai', 'MMA'],
+                datasets: [{
+                    label: 'Número de alumnos',
+                    data: [12, 19, 7, 14],
+                    backgroundColor: [
+                        '#f87171',
+                        '#60a5fa',
+                        '#34d399',
+                        '#fbbf24'
+                    ],
+                    borderColor: '#111827',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+
 
     <script>
         /* 
