@@ -1,4 +1,4 @@
-# Nombre del Proyecto
+# MatApp
 
 Descripción breve del proyecto: qué hace, para qué sirve o qué problema resuelve.
 
