@@ -47,7 +47,7 @@
 
 
     <canvas id="miGrafico"></canvas>
-    
+
     <script>
         const ctx = document.getElementById('miGrafico').getContext('2d');
         const miGrafico = new Chart(ctx, {
@@ -95,6 +95,8 @@
             $('#myTable').DataTable();
         });
     </script>
+
+    
 
     {{-- stop contenido --}}
 

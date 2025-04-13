@@ -6,7 +6,7 @@
 <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script> {{-- Carga JS de datatables desde cdm --}}
 
 
-<script>
+{{-- <script>
     const options = {
         bottom: '22px', // Ajusta la altura del botón
         right: 'unset', // Lo coloca a la derecha
@@ -28,7 +28,7 @@
     if (darkmode.isActivated()) {
         darkmode.toggle();
     }
-</script>
+</script> --}}
 </body>
 
 </html>

@@ -1,0 +1,56 @@
+<?php
+
+class calendarioModelo
+{
+    private $db;
+
+    public function __construct()
+    {
+        $this->db = new DataBase();
+    }
+    public function obtenerClases($idAcademia)
+    {
+        $this->db->query("SELECT * FROM clases WHERE idAcademia = :idAcademia");
+        $this->db->bind(':idAcademia', $idAcademia);
+        return $this->db->registros(); // Devuelve todos los registros como objetos
+    }
+
+    public function agregarClase($datos)
+    {
+        $this->db->query("INSERT INTO clases (title, start, end, idAcademia) VALUES (:title, :start, :end, :idAcademia)");
+        $this->db->bind(':title', $datos['title']);
+        $this->db->bind(':start', $datos['start']);
+        $this->db->bind(':end', $datos['end']);
+        $this->db->bind(':idAcademia', $datos['idAcademia']);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function eliminarClase($id)
+    {
+        $this->db->query("DELETE FROM clases WHERE id = :id");
+        $this->db->bind(':id', $id);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function actualizarClase($id, $datos)
+    {
+        $this->db->query("UPDATE clases SET title = :title, start = :start, end = :end WHERE id = :id");
+        $this->db->bind(':id', $id);
+        $this->db->bind(':title', $datos['title']);
+        $this->db->bind(':start', $datos['start']);
+        $this->db->bind(':end', $datos['end']);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}

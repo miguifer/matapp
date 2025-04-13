@@ -23,22 +23,25 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     {{-- Carga FULLCALENDAR desde su ruta en local --}}
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.17/index.global.min.js'></script>
+    <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/fullcalendar.css" />
     {{-- Carga sweetalerts desde archivo CDN --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {{-- Carga datatablesJS css desde CDN --}}
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"> --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> {{-- Carga chart.js desde CDN --}}
     {{-- Carga flatpickr desde CDN --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_green.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> {{-- Carga flatpickr desde cdn --}}
+    {{-- Carga offcanvasMenuLibrary --}}
 
 </head>
 
 <body>
 
     {{-- google translate --}}
-    <div id="google_translate_element"></div>
+    {{-- <div id="google_translate_element"></div>
     <script type="text/javascript">
         function googleTranslateElementInit() {
             new google.translate.TranslateElement({
@@ -51,11 +54,11 @@
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
     </script>
 
-    <div class="container mt-5" id="main">
+    <div class="container mt-5" id="main"> --}}
 
 
-        {{-- start chatbot --}}
-        <button class="chatbot-toggler">
+    {{-- start chatbot --}}
+    {{-- <button class="chatbot-toggler">
             <span class="material-symbols-outlined">mode_comment</span>
             <span class="material-symbols-outlined">close</span>
         </button>
@@ -75,5 +78,9 @@
                 <textarea placeholder="Ingresa un mensaje..." required id="user-input"></textarea>
                 <span id="send-btn" class="material-symbols-outlined">send</span>
             </div>
-        </div>
-        {{-- stop chatbot --}}
+        </div> --}}
+    {{-- stop chatbot --}}
+
+
+    {{-- se repitita  --}}
+    <div class="container mt-5" id="main">
