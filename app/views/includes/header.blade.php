@@ -84,3 +84,12 @@
 
     {{-- se repitita  --}}
     <div class="container mt-5" id="main">
+        @php
+            $usuarioLogueado = isset($_SESSION['userLogin']);
+        @endphp
+
+        @if ($usuarioLogueado)
+            <a href="{{ RUTA_URL }}/perfilController/perfil">Perfil</a>
+        @else
+            <a href="{{ RUTA_URL }}/homeController/inicioSesion">Iniciar Sesión</a>
+        @endif
