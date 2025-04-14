@@ -21,19 +21,16 @@ class academiaController extends Controlador
 
     public function index()
     {
-
         $academia = isset($_GET['academia']) ? json_decode(urldecode($_GET['academia'])) : null;
 
         $usuario = isset($_SESSION['userLogin']['usuario']) ? json_decode($_SESSION['userLogin']['usuario']) : null;
 
         $esAlumno = $this->academiaModelo->esAlumno($academia->idAcademia, $usuario->idUsuario);
-
-
-
+        $esGerente = $academia->idGerente == $usuario->idUsuario;
 
         if ($academia == null) {
             redireccionar('/');
-        } elseif ($usuario == null || $esAlumno == false) {
+        } elseif ($usuario == null || (!$esAlumno && !$esGerente)) {
             redireccionar('/');
         } else {
             $datos = [
