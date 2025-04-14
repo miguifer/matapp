@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 use eftec\bladeone\BladeOne;
 use Dotenv\Dotenv;

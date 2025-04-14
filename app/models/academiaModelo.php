@@ -17,11 +17,9 @@ class academiaModelo
 
     public function obtenerRolDeUsuario($idUsuario)
     {
-        $this->db->query("SELECT ur.idRol, r.nombreRol FROM UsuariosRoles ur INNER JOIN Roles r ON ur.idRol = r.idRol WHERE ur.idUsuario = :idUsuario");
+        $this->db->query("SELECT r.nombreRol FROM UsuariosRoles ur INNER JOIN Roles r ON ur.idRol = r.idRol WHERE ur.idUsuario = :idUsuario");
         $this->db->bind(':idUsuario', $idUsuario);
-        $resultado = $this->db->registro();
-        return $resultado ? $resultado : null;
-        //usuarios base no estan en roles, asi que si no eisten en la tabla dará null
+        return $this->db->registro();
     }
 
     public function obtenerUsuarioPorLogin($login)

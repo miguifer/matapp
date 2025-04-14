@@ -39,12 +39,15 @@ class homeController extends Controlador
             $login = $_POST['login'];
             $password = $_POST['password'];
 
-            if ($usuario = $this->academiaModelo->obtenerUsuarioPorLogin($login)) {
+            if ($this->academiaModelo->obtenerUsuarioPorLogin($login)) {
+
+                $usuario = $this->academiaModelo->obtenerUsuarioPorLogin($login);
 
                 if (password_verify($password, $usuario->password)) {
 
                     //usuarios base no estan en roles, asi que si no eisten en la tabla dará null
-                    $usuario->rol = $this->academiaModelo->obtenerRolDeUsuario($usuario->idUsuario);
+                    $usuario->rol = $this->academiaModelo->obtenerRolDeUsuario($usuario->idUsuario) ?? 'cliente';
+                    
                     //aqui se guarda el usuario en la sesiiony puedo añadir mas cosas
 
                     $_SESSION['userLogin'] = [

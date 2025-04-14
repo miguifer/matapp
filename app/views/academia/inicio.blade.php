@@ -1,8 +1,18 @@
 @include('includes.header')
 
+<?php
+// Decodificamos la cadena JSON almacenada en la sesión
+$usuario = json_decode($_SESSION['userLogin']['usuario']);
+
+// Comprobamos si se ha decodificado correctamente y accedemos al rol
+$userRole = isset($usuario->rol->nombreRol) ? $usuario->rol->nombreRol : 'cliente';
+
+// $userRole = 'cliente';
+
+echo $userRole; // Esto te mostrará el rol del usuario;
+?>
 
 <h1>Bienvenido a la Academia <strong>{{ $academia->nombreAcademia }}</strong></h1>
-
 <table id="academiaTable" class="display compact">
     <thead>
         <tr>
@@ -39,6 +49,14 @@
     //crear una variable que contenga la ruta de la url en js
     const RUTA_URL = '<?= RUTA_URL ?>';
 
+    const ACADEMIA_ID = '<?= $academia->idAcademia ?>';
+
+    const ACADEMIA_ID_GERENTE = '<?= $academia->idGerente ?>';
+
+    let USUARIO_ID = '<?= $usuario->idUsuario ?>';
+    // USUARIO_ID = '23';
+
+    const USUARIO_ROL = '<?= $userRole ?>';
 
     document.addEventListener("DOMContentLoaded", function() {
         const calendarEl = document.getElementById('calendar');
@@ -73,6 +91,8 @@
                 });
             },
             eventClick: function(info) {
+                if (USUARIO_ROL !== 'Gerente' || ACADEMIA_ID_GERENTE !== USUARIO_ID) return;
+
                 Swal.fire({
                         icon: 'warning',
                         title: 'Editar Clase',
@@ -195,6 +215,9 @@
                     });
             },
             dateClick: function(info) {
+                if (USUARIO_ROL !== 'Gerente' || ACADEMIA_ID_GERENTE !== USUARIO_ID) return;
+
+
                 // Crear nuevo evento con SweetAlert2
                 Swal.fire({
                     icon: 'info',
