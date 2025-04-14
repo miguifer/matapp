@@ -198,7 +198,7 @@ echo $userRole; // Esto te mostrará el rol del usuario;
                                                         confirmButtonText: 'Genial'
                                                     });
                                                     calendar
-                                                .refetchEvents();
+                                                        .refetchEvents();
                                                 }
                                             },
                                             error: function() {
@@ -341,5 +341,64 @@ echo $userRole; // Esto te mostrará el rol del usuario;
         calendar.render();
     });
 </script>
+
+<?php
+if ($userRole == 'Gerente') {
+    echo '<div class="alert alert-info text-center mt-4">Eres gerente, tienes acceso a funciones administrativas.</div>';
+?>
+
+<h4>Estadísticas de tipos de Academias</h4>
+<canvas id="miGrafico"></canvas>
+
+
+<?php
+// Asegúrate de que la variable $estadisticaAcademia tiene los datos correctos
+$estadisticaAcademiaJS = json_encode($estadisticaAcademia);
+?>
+
+<script>
+    const ctx = document.getElementById('miGrafico').getContext('2d');
+
+    // Pasamos los datos de PHP a JavaScript sin comillas adicionales
+    const estadisticasAcademia = <?= $estadisticaAcademiaJS ?>;
+
+    // Extraemos los nombres de los tipos de academia y los números de alumnos
+    const labels = estadisticasAcademia.map(item => item.nombreTipo);
+    const data = estadisticasAcademia.map(item => item.numAlumnos);
+
+    // Crear el gráfico con los datos obtenidos
+    const miGrafico = new Chart(ctx, {
+        type: 'bar', // tipos: bar, line, pie, doughnut, radar, polarArea...
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Número de alumnos',
+                data: data,
+                backgroundColor: [
+                    '#f87171', // Puedes modificar los colores o hacerlos dinámicos
+                    '#60a5fa',
+                    '#34d399',
+                    '#fbbf24'
+                ],
+                borderColor: '#111827',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+
+<?php
+} else {
+    echo '<div class="alert alert-info text-center mt-4">Eres cliente, no tienes acceso a funciones administrativas.</div>';
+ } ?>
+
 
 @include('includes.footer')

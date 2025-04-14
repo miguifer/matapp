@@ -38,4 +38,21 @@ class academiaModelo
         return $result && $result->count > 0;
     }
 
+    public function obtenerEstadisticaAcademias()
+    {
+        // Consulta SQL para obtener el número de alumnos por tipo de academia
+        $this->db->query("
+        SELECT ta.nombreTipo, COUNT(au.idUsuario) AS numAlumnos
+        FROM TipoAcademia ta
+        INNER JOIN Academias a ON a.tipoAcademia = ta.idTipo  -- Cambié idTipo por tipoAcademia
+        LEFT JOIN AcademiaUsuarios au ON au.idAcademia = a.idAcademia
+        GROUP BY ta.idTipo;
+
+    ");
+
+        // Ejecutamos la consulta
+        $result = $this->db->registros(); // Usamos 'registros' si queremos obtener todos los resultados
+
+        return $result; // Devolvemos los resultados de la consulta
+    }
 }

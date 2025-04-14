@@ -33,9 +33,16 @@ class academiaController extends Controlador
         } elseif ($usuario == null || (!$esAlumno && !$esGerente)) {
             redireccionar('/');
         } else {
+
             $datos = [
                 'academia' => $academia,
             ];
+
+            if ($esGerente) {
+                $estadisticaAcademia = $this->academiaModelo->obtenerEstadisticaAcademias();
+                $datos['estadisticaAcademia'] = $estadisticaAcademia;
+            }
+
 
             $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
             echo $this->blade->run("academia.inicio", $datos);

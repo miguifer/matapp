@@ -1,44 +1,11 @@
 <?php echo $this->runChild('includes.header'); ?>
 
-<?php
-// Decodificamos la cadena JSON almacenada en la sesión
-$usuario = json_decode($_SESSION['userLogin']['usuario']);
+<?php /* <link rel="stylesheet/less" type="text/css" href="<?php echo \htmlentities(RUTA_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/public/less/styles.less" />Carga LESS desde archivo local */ ?>
+<?php /* <link rel="stylesheet" type="text/css" href="<?php echo \htmlentities(RUTA_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/public/css/styles.css" /> Carga css desde archivo local */ ?>
 
-// Comprobamos si se ha decodificado correctamente y accedemos al rol
-$userRole = isset($usuario->rol->nombreRol) ? $usuario->rol->nombreRol : 'Cliente';
+<?php /* start contenido */ ?>
 
-// $userRole = 'cliente';
-
-echo $userRole; // Esto te mostrará el rol del usuario;
-?>
-
-<h1>Bienvenido a la Academia <strong><?php echo \htmlentities($academia->nombreAcademia??'', ENT_QUOTES, 'UTF-8', false); ?></strong></h1>
-<table id="academiaTable" class="display compact">
- <thead>
- <tr>
- <th>Nombre Academia</th>
- <th>ID Academia</th>
- <th>Ubicación Academia</th>
- <th>Tipo Academia</th>
- <th>ID Gerente</th>
- </tr>
- </thead>
- <tbody>
- <tr>
- <td><?php echo \htmlentities($academia->idAcademia??'', ENT_QUOTES, 'UTF-8', false); ?></td>
- <td><?php echo \htmlentities($academia->nombreAcademia??'', ENT_QUOTES, 'UTF-8', false); ?></td>
- <td><?php echo \htmlentities($academia->ubicacionAcademia??'', ENT_QUOTES, 'UTF-8', false); ?></td>
- <td><?php echo \htmlentities($academia->tipoAcademia??'', ENT_QUOTES, 'UTF-8', false); ?></td>
- <td><?php echo \htmlentities($academia->idGerente??'', ENT_QUOTES, 'UTF-8', false); ?></td>
- </tr>
- </tbody>
-</table>
-
-<script>
- $(document).ready(function() {
- $('#academiaTable').DataTable();
- });
-</script>
+<link rel="stylesheet" type="text/css" href="<?php echo \htmlentities(RUTA_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/public/css/fullcalendar.css" />
 
 <div class="container mt-5">
  <h1 class="text-center tituloCalendario">Calendario de Eventos</h1>
@@ -49,15 +16,6 @@ echo $userRole; // Esto te mostrará el rol del usuario;
  //crear una variable que contenga la ruta de la url en js
  const RUTA_URL = '<?= RUTA_URL ?>';
 
- const ACADEMIA_ID = '<?= $academia->idAcademia ?>';
-
- const ACADEMIA_ID_GERENTE = '<?= $academia->idGerente ?>';
-
- let USUARIO_ID = '<?= $usuario->idUsuario ?>';
- // USUARIO_ID = '23';
-
- const USUARIO_ROL = '<?= $userRole ?>';
-
  document.addEventListener("DOMContentLoaded", function() {
  const calendarEl = document.getElementById('calendar');
  const calendar = new FullCalendar.Calendar(calendarEl, {
@@ -65,7 +23,7 @@ echo $userRole; // Esto te mostrará el rol del usuario;
  locale: 'es',
  initialView: 'dayGridMonth',
  editable: true,
- events: `${RUTA_URL}/calendarioController/get_clases?idAcademia=${ <?php echo \htmlentities($academia->idAcademia??'', ENT_QUOTES, 'UTF-8', false); ?> }`, //url para obtener eventos con idAcademia
+ events: `${RUTA_URL}/paginas/get_events`, //url para obtener eventos
  headerToolbar: {
  left: 'prev,next today',
  center: 'title',
@@ -91,12 +49,9 @@ echo $userRole; // Esto te mostrará el rol del usuario;
  });
  },
  eventClick: function(info) {
- // Si el usuario es Gerente, ya tienes la lógica para editar
- if (USUARIO_ROL === 'Gerente' && ACADEMIA_ID_GERENTE === USUARIO_ID) {
- // Lógica para editar el evento
  Swal.fire({
  icon: 'warning',
- title: 'Editar Clase',
+ title: 'Editar Evento',
  html: `
  <input type="text" id="title" class="swal2-input" value="${info.event.title}" placeholder="Título del Evento" required>
  <input type="text" id="start" class="swal2-input" placeholder="Fecha de inicio" value="${info.event.startStr}" required>
@@ -118,7 +73,6 @@ echo $userRole; // Esto te mostrará el rol del usuario;
  const title = Swal.getPopup().querySelector('#title').value;
  const start = Swal.getPopup().querySelector('#start').value;
  const end = Swal.getPopup().querySelector('#end').value;
-
  if (!title || !start) {
  Swal.showValidationMessage(
  'Por favor, completa todos los campos');
@@ -143,7 +97,7 @@ echo $userRole; // Esto te mostrará el rol del usuario;
  if (result.isConfirmed) {
  // Guardar o editar evento
  $.ajax({
- url: `${RUTA_URL}/calendarioController/update_clase`,
+ url: `${RUTA_URL}/paginas/update_event`,
  type: 'POST',
  dataType: 'json',
  data: eventData,
@@ -168,7 +122,7 @@ echo $userRole; // Esto te mostrará el rol del usuario;
  }
  });
  } else if (result.isDenied) {
- // Confirmación para eliminar
+ // Agregamos un diálogo de confirmación para eliminar
  Swal.fire({
  title: '¿Estás seguro?',
  text: "Esta acción eliminará el evento permanentemente.",
@@ -181,7 +135,7 @@ echo $userRole; // Esto te mostrará el rol del usuario;
  }).then((confirmResult) => {
  if (confirmResult.isConfirmed) {
  $.ajax({
- url: `${RUTA_URL}/calendarioController/delete_clase`,
+ url: `${RUTA_URL}/paginas/delete_event`,
  type: 'POST',
  dataType: 'json',
  data: {
@@ -197,8 +151,7 @@ echo $userRole; // Esto te mostrará el rol del usuario;
  icon: 'success',
  confirmButtonText: 'Genial'
  });
- calendar
- .refetchEvents();
+ calendar.refetchEvents();
  }
  },
  error: function() {
@@ -214,65 +167,17 @@ echo $userRole; // Esto te mostrará el rol del usuario;
  });
  }
  });
- } else if (USUARIO_ROL === 'Cliente') {
- // Lógica para el cliente, mostrando un mensaje de confirmación de reserva
- Swal.fire({
- icon: 'info',
- title: 'Confirmar Reserva',
- text: `¿Estás seguro de que deseas reservar la clase "${info.event.title}"?`,
- showCancelButton: true,
- cancelButtonText: 'Cancelar',
- confirmButtonText: 'Reservar',
- confirmButtonColor: '#28a745'
- }).then((result) => {
- if (result.isConfirmed) {
- // Enviar la reserva de clase al servidor
- $.ajax({
- url: `${RUTA_URL}/calendarioController/reservar_clase`, // Cambia la URL al controlador que maneja la reserva
- type: 'POST',
- dataType: 'json',
- data: {
- idClase: info.event.id,
- idUsuario: USUARIO_ID // El id del cliente
- },
- success: function(response) {
- if (response && response.message) {
- Swal.fire({
- title: '¡Éxito!',
- text: response.message,
- icon: 'success',
- confirmButtonText: 'Genial'
- });
- }
- },
- error: function() {
- Swal.fire({
- title: 'Error',
- text: 'Hubo un problema al reservar la clase.',
- icon: 'error',
- confirmButtonText: 'Cerrar'
- });
- }
- });
- }
- });
- }
  },
  dateClick: function(info) {
- if (USUARIO_ROL !== 'Gerente' || ACADEMIA_ID_GERENTE !== USUARIO_ID) return;
-
-
  // Crear nuevo evento con SweetAlert2
  Swal.fire({
  icon: 'info',
- title: 'Agregar Clase',
+ title: 'Agregar Evento',
  confirmButtonText: 'Agregar',
  html: `
- <input type="text" id="title" class="swal2-input" placeholder="Título de la clase" required>
+ <input type="text" id="title" class="swal2-input" placeholder="Título del Evento" required>
  <input type="text" id="start" placeholder="Fecha de inicio" class="swal2-input" value="${info.dateStr}" required>
  <input type="text" id="end"  placeholder="Fecha de fin" class="swal2-input">
- <input type="hidden" id="idAcademia" value="<?php echo \htmlentities($academia->idAcademia??'', ENT_QUOTES, 'UTF-8', false); ?>">
-
  `,
  didOpen: () => {
  flatpickr("#start", {
@@ -290,9 +195,6 @@ echo $userRole; // Esto te mostrará el rol del usuario;
  preConfirm: () => {
  const title = Swal.getPopup().querySelector('#title').value;
  const start = Swal.getPopup().querySelector('#start').value;
- const idAcademia = Swal.getPopup().querySelector('#idAcademia')
- .value;
-
  if (!title || !start) {
  Swal.showValidationMessage(
  'Titulo y fecha de inicio son requeridos');
@@ -300,15 +202,14 @@ echo $userRole; // Esto te mostrará el rol del usuario;
  return {
  title,
  start,
- end: Swal.getPopup().querySelector('#end').value,
- idAcademia
+ end: Swal.getPopup().querySelector('#end').value
  };
  }
  }).then((result) => {
  if (result.isConfirmed) {
  const eventData = result.value;
  $.ajax({
- url: `${RUTA_URL}/calendarioController/add_clase`,
+ url: `${RUTA_URL}/paginas/add_event`,
  type: 'POST',
  dataType: 'json',
  data: eventData,
@@ -342,63 +243,22 @@ echo $userRole; // Esto te mostrará el rol del usuario;
  });
 </script>
 
-<?php
-if ($userRole == 'Gerente') {
- echo '<div class="alert alert-info text-center mt-4">Eres gerente, tienes acceso a funciones administrativas.</div>';
-?>
+<?php /* <input type="text" id="fechaHora" name="fechaHora" placeholder="Selecciona fecha y hora" class="form-control"> */ ?>
 
-<h4>Estadísticas de tipos de Academias</h4>
-<canvas id="miGrafico"></canvas>
-
-
-<?php
-// Asegúrate de que la variable $estadisticaAcademia tiene los datos correctos
-$estadisticaAcademiaJS = json_encode($estadisticaAcademia);
-?>
 
 <script>
- const ctx = document.getElementById('miGrafico').getContext('2d');
-
- // Pasamos los datos de PHP a JavaScript sin comillas adicionales
- const estadisticasAcademia = <?= $estadisticaAcademiaJS ?>;
-
- // Extraemos los nombres de los tipos de academia y los números de alumnos
- const labels = estadisticasAcademia.map(item => item.nombreTipo);
- const data = estadisticasAcademia.map(item => item.numAlumnos);
-
- // Crear el gráfico con los datos obtenidos
- const miGrafico = new Chart(ctx, {
- type: 'bar', // tipos: bar, line, pie, doughnut, radar, polarArea...
- data: {
- labels: labels,
- datasets: [{
- label: 'Número de alumnos',
- data: data,
- backgroundColor: [
- '#f87171', // Puedes modificar los colores o hacerlos dinámicos
- '#60a5fa',
- '#34d399',
- '#fbbf24'
- ],
- borderColor: '#111827',
- borderWidth: 1
- }]
- },
- options: {
- scales: {
- y: {
- beginAtZero: true
- }
- }
- }
+ flatpickr("#fechaHora   ", {
+ enableTime: true, // Habilita selección de hora
+ dateFormat: "Y-m-d H:i", // Formato: 2025-04-10 16:30
+ time_24hr: true // Usa formato 24h
  });
 </script>
 
 
-<?php
-} else {
- echo '<div class="alert alert-info text-center mt-4">Eres cliente, no tienes acceso a funciones administrativas.</div>';
- } ?>
+<?php /* stop contenido */ ?>
+
+
+<?php /* <script src="<?php echo \htmlentities(RUTA_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/public/js/script.js"></script> Carga JS desde archivo local */ ?>
 
 
 <?php echo $this->runChild('includes.footer'); ?>
