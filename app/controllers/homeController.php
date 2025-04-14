@@ -46,7 +46,7 @@ class homeController extends Controlador
                 if (password_verify($password, $usuario->password)) {
 
                     //usuarios base no estan en roles, asi que si no eisten en la tabla dará null
-                    $usuario->rol = $this->academiaModelo->obtenerRolDeUsuario($usuario->idUsuario) ?? 'cliente';
+                    $usuario->rol = $this->academiaModelo->obtenerRolDeUsuario($usuario->idUsuario) ?? 'Cliente';
                     
                     //aqui se guarda el usuario en la sesiiony puedo añadir mas cosas
 

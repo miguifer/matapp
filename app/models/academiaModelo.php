@@ -37,4 +37,5 @@ class academiaModelo
         $result = $this->db->registro();
         return $result && $result->count > 0;
     }
+
 }

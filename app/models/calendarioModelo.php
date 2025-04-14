@@ -53,4 +53,33 @@ class calendarioModelo
             return false;
         }
     }
+
+    public function reservarClase($datos)
+    {
+        $this->db->query("INSERT INTO Reservas (idClase, idUsuario) VALUES (:idClase, :idUsuario)");
+        $this->db->bind(':idClase', $datos['idClase']);
+        $this->db->bind(':idUsuario', $datos['idUsuario']);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function verificarReserva($idClase, $idUsuario)
+    {
+        $this->db->query("SELECT * FROM Reservas WHERE idClase = :idClase AND idUsuario = :idUsuario");
+        $this->db->bind(':idClase', $idClase);
+        $this->db->bind(':idUsuario', $idUsuario);
+        return $this->db->registro(); // Devuelve un único registro como objeto o false si no existe
+    }
+
+    public function obtenerClasesPorUsuario($idUsuario)
+    {
+        $this->db->query("SELECT c.* FROM clases c 
+                          INNER JOIN Reservas r ON c.id = r.idClase 
+                          WHERE r.idUsuario = :idUsuario");
+        $this->db->bind(':idUsuario', $idUsuario);
+        return $this->db->registros(); // Devuelve todos los registros como objetos
+    }
 }

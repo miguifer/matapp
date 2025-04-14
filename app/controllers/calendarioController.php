@@ -113,4 +113,61 @@ class calendarioController extends Controlador
             redireccionar('/');
         }
     }
+
+    public function reservar_clase()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $datos = [
+                'idClase' => $_POST['idClase'],
+                'idUsuario' => $_POST['idUsuario'],
+            ];
+
+            // Verificar si el usuario ya tiene una reserva para esta clase
+            $reservaExistente = $this->calendarioModelo->verificarReserva($datos['idClase'], $datos['idUsuario']);
+
+            // Devolver respuesta en JSON si ya existe la reserva
+            if ($reservaExistente) {
+                header('Content-Type: application/json');
+                echo json_encode(['message' => 'Ya has reservado esta clase']);
+                return;
+            }
+
+            // Intentar reservar la clase
+            $resultado = $this->calendarioModelo->reservarClase($datos);
+
+            // Devolver respuesta en JSON
+            header('Content-Type: application/json');
+            if ($resultado) {
+                echo json_encode(['message' => 'Clase reservada con éxito']);
+            } else {
+                echo json_encode(['message' => 'Error al reservar la clase']);
+            }
+        } else {
+            redireccionar('/');
+        }
+    }
+
+    public function get_clases_cliente()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $idUsuario = $_GET['idUsuario'];
+            $clases = $this->calendarioModelo->obtenerClasesPorUsuario($idUsuario);
+
+            // Devolver respuesta en JSON
+            header('Content-Type: application/json');
+            $clasesArray = [];
+            foreach ($clases as $clase) {
+                $clasesArray[] = [
+                    'id' => $clase->id,
+                    'title' => $clase->title,
+                    'start' => $clase->start,
+                    'end' => $clase->end
+                ];
+            }
+
+            echo json_encode($clasesArray);
+        } else {
+            redireccionar('/');
+        }
+    }
 }
