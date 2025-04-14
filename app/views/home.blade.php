@@ -1,6 +1,5 @@
 @include('includes.header')
 
-
 <table id="academiasTable" class="display compact">
     <thead>
         <tr>

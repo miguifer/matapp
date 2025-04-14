@@ -16,7 +16,7 @@ class academiaController extends Controlador
 
     public function __construct()
     {
-        // $this->academiaModelo = $this->modelo('academiaModelo');
+        $this->academiaModelo = $this->modelo('academiaModelo');
     }
 
     public function index()
@@ -24,7 +24,16 @@ class academiaController extends Controlador
 
         $academia = isset($_GET['academia']) ? json_decode(urldecode($_GET['academia'])) : null;
 
+        $usuario = isset($_SESSION['userLogin']['usuario']) ? json_decode($_SESSION['userLogin']['usuario']) : null;
+
+        $esAlumno = $this->academiaModelo->esAlumno($academia->idAcademia, $usuario->idUsuario);
+
+
+
+
         if ($academia == null) {
+            redireccionar('/');
+        } elseif ($usuario == null || $esAlumno == false) {
             redireccionar('/');
         } else {
             $datos = [
@@ -35,5 +44,4 @@ class academiaController extends Controlador
             echo $this->blade->run("academia.inicio", $datos);
         }
     }
-
 }

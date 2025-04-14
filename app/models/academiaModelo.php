@@ -28,4 +28,13 @@ class academiaModelo
         $this->db->bind(':login', $login);
         return $this->db->registro();
     }
+
+    public function esAlumno($idAcademia, $idUsuario)
+    {
+        $this->db->query("SELECT COUNT(*) as count FROM AcademiaUsuarios WHERE idAcademia = :idAcademia AND idUsuario = :idUsuario");
+        $this->db->bind(':idAcademia', $idAcademia);
+        $this->db->bind(':idUsuario', $idUsuario);
+        $result = $this->db->registro();
+        return $result && $result->count > 0;
+    }
 }
