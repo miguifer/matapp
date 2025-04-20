@@ -7,7 +7,7 @@ use Dotenv\Dotenv;
 
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../..');
 $dotenv->load();
-class perfilController extends Controlador
+class perfil extends Controlador
 {
 
     private $academiaModelo;

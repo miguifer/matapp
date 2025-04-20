@@ -3,7 +3,7 @@
 
 <div class="container">
     <h2>Inicio de Sesión</h2>
-    <form action="{{ RUTA_URL }}/homeController/inicioSesion" method="POST">
+    <form action="{{ RUTA_URL }}/inicioSesion/" method="POST">
         @csrf
         <div class="form-group">
             <label for="login">login:</label>

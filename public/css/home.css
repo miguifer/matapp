@@ -1,0 +1,80 @@
+:root {
+  --fondo: #161d22;
+  --blanco: white;
+  --blanco-secundario: rgb(228, 224, 224);
+  --azul: rgb(109, 175, 219);
+  --gris-claro: rgb(201, 201, 201);
+  --verde: #228637;
+
+}
+
+body {
+  background-color: var(--fondo);
+}
+
+#registrarse:hover {
+  color: var(--gris-claro);
+  background-color: var(--fondo);
+  border: 1px solid var(--gris-claro);
+  transition: all 100ms linear;
+}
+
+#searchInput {
+  background: none;
+  border: none;
+  outline: none;
+  color: var(--blanco);
+}
+
+#searchInput::placeholder {
+  color: var(--blanco-secundario);
+}
+
+.input-subtitle {
+  color: var(--blanco-secundario);
+  font-size: small;
+}
+
+.search-bar {
+  border-bottom: 1px solid var(--blanco-secundario);
+}
+
+#link-crear-academia{
+  color: var(--azul) !important;
+}
+
+#link-crear-academia:hover {
+  text-decoration: underline !important;
+}
+
+#iniciar-sesion:hover span {
+  color: var(--gris-claro);
+}
+
+#iniciar-sesion:hover svg path {
+  fill: var(--gris-claro);
+}
+
+.resultado {
+  color: var(--blanco);
+  border-bottom: 1px solid var(--gris-claro);
+}
+
+#resultados {
+  max-height: 15rem;
+  overflow-y: scroll;
+}
+
+#resultados::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+#resultados::-webkit-scrollbar-thumb {
+  background-color: var(--gris-claro);
+  border-radius: 10px;
+}
+
+#resultados::-webkit-scrollbar-thumb:hover {
+  background-color: var(--azul);
+}
+

@@ -12,7 +12,8 @@
     </thead>
     <tbody>
         @foreach ($academias as $academia)
-            <tr onclick="window.location.href='{{ RUTA_URL }}/academiaController?academia={{ urlencode(json_encode($academia)) }}'">
+            <tr
+                onclick="window.location.href='{{ RUTA_URL }}/academia?academia={{ urlencode(json_encode($academia)) }}'">
                 <td>{{ $academia->idAcademia }}</td>
                 <td>{{ $academia->nombreAcademia }}</td>
                 <td>{{ $academia->ubicacacionAcademia }}</td>
@@ -34,6 +35,17 @@
         cursor: pointer;
     }
 </style>
+
+<script>
+    toastr.options = {
+        "closeButton": true,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "timeOut": "3000"
+    };
+
+    // toastr.info('Ya tienes una solicitud activa para esta academia.');
+</script>
 
 
 @include('includes.footer')

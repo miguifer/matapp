@@ -7,7 +7,7 @@ use Dotenv\Dotenv;
 
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../..');
 $dotenv->load();
-class homeController extends Controlador
+class inicioSesion extends Controlador
 {
 
     private $academiaModelo;
@@ -22,18 +22,6 @@ class homeController extends Controlador
 
     public function index()
     {
-
-        $academias = $this->academiaModelo->obtenerAcademias();
-        $datos = [
-            'academias' => $academias,
-        ];
-
-        $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
-        echo $this->blade->run("home", $datos);
-    }
-
-    public function inicioSesion()
-    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $login = $_POST['login'];
@@ -47,7 +35,7 @@ class homeController extends Controlador
 
                     //usuarios base no estan en roles, asi que si no eisten en la tabla dará null
                     $usuario->rol = $this->academiaModelo->obtenerRolDeUsuario($usuario->idUsuario) ?? 'Cliente';
-                    
+
                     //aqui se guarda el usuario en la sesiiony puedo añadir mas cosas
 
                     $_SESSION['userLogin'] = [
@@ -55,7 +43,11 @@ class homeController extends Controlador
                     ];
 
                     redireccionar('/');
+                } else {
+                    redireccionar('/');
                 }
+            } else {
+                redireccionar('/');
             }
         } else if (isset($_SESSION['userLogin'])) {
             redireccionar('/');
@@ -63,5 +55,11 @@ class homeController extends Controlador
             $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
             echo $this->blade->run("inicioSesion", []);
         }
+    }
+
+    public function cerrarSesion()
+    {
+        unset($_SESSION['userLogin']);
+        redireccionar('/');
     }
 }

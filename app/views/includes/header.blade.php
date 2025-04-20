@@ -1,4 +1,3 @@
-<!-- views/welcome.blade.php -->
 <!DOCTYPE html>
 <html>
 
@@ -35,6 +34,9 @@
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_green.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> {{-- Carga flatpickr desde cdn --}}
     {{-- Carga offcanvasMenuLibrary --}}
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 </head>
 
@@ -84,12 +86,30 @@
 
     {{-- se repitita  --}}
     <div class="container mt-5" id="main">
-        @php
-            $usuarioLogueado = isset($_SESSION['userLogin']);
-        @endphp
 
-        @if ($usuarioLogueado)
-            <a href="{{ RUTA_URL }}/perfilController/perfil">Perfil</a>
-        @else
-            <a href="{{ RUTA_URL }}/homeController/inicioSesion">Iniciar Sesión</a>
-        @endif
+
+        <nav>
+
+            @php
+                $usuarioLogueado = isset($_SESSION['userLogin']['usuario']);
+                if ($usuarioLogueado) {
+                    $usuario = json_decode($_SESSION['userLogin']['usuario']);
+                    $loginUsuario = $usuario->login; // o el campo que uses como nombre
+                    $rolUsuario = $usuario->rol; // o el campo que uses como nombre
+                    
+                } else {
+                    $nombreUsuario = 'Invitado';
+                }
+            @endphp
+
+            @if ($usuarioLogueado)
+                <a href="{{ RUTA_URL }}/perfil/"><?= $loginUsuario ?></a>
+                <span href="{{ RUTA_URL }}/perfil/"><?= $rolUsuario ?></a>
+                <a href="{{ RUTA_URL }}/inicioSesion/cerrarSesion">Cerrar Sesión</a>
+            @else
+                <a href="{{ RUTA_URL }}/inicioSesion/">Iniciar Sesión</a>
+            @endif
+
+            <strong><a class="" href="{{ RUTA_URL }}/">Inicio</a></strong>
+
+        </nav>

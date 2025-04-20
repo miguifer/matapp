@@ -4,10 +4,14 @@
 @php
 
     $usuario = json_decode($_SESSION['userLogin']['usuario']);
+    $loginUsuario = $usuario->login; // o el campo que uses como nombre
+    $rolUsuario = $usuario->rol; // o el campo que uses como nombre
+    $nombreUsuario = $usuario->nombreUsuario;
+    $ape = $usuario->apellido1Usuario . ' ' . $usuario->apellido2Usuario;
 
 @endphp
 
-<h1>PERFIL <strong>{{ $usuario->login }}</strong></h1>
+<h1><strong>{{ $nombreUsuario }} {{ $ape }}</strong></h1>
 
 <div class="container mt-5">
     <h1 class="text-center tituloCalendario">Calendario de Mis Reservas</h1>
