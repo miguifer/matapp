@@ -384,10 +384,12 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
                 <td>{{ $solicitud->idUsuario }}</td>
                 <td>{{ $solicitud->nombreUsuario }}</td>
                 <td>
-                    <button class="btn btn-success aceptarSolicitud"
-                        data-id="{{ $solicitud->idSolicitud }}">Aceptar</button>
-                    <button class="btn btn-danger rechazarSolicitud"
-                        data-id="{{ $solicitud->idSolicitud }}">Rechazar</button>
+                    <button class="btn btn-success aceptarSolicitud" data-id="{{ $solicitud->idSolicitud }}"
+                        data-id-Usuario="{{ $solicitud->idUsuario }}"
+                        data-id-Academia="{{ $solicitud->idAcademia }}">Aceptar</button>
+                    <button class="btn btn-danger rechazarSolicitud" data-id="{{ $solicitud->idSolicitud }}"
+                        data-id-Usuario="{{ $solicitud->idUsuario }}"
+                        data-id-Academia="{{ $solicitud->idAcademia }}">Rechazar</button>
                 </td>
             </tr>
         @endforeach
@@ -403,8 +405,8 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
         $('.aceptarSolicitud').on('click', function() {
             const id = $(this).data('id');
             const row = $(this).closest('tr');
-            const idUsuario = {{ $solicitud->idUsuario }};
-            const idAcademia = {{ $academia->idAcademia }};
+            const idUsuario = $(this).data('idUsuario');
+            const idAcademia = $(this).data('idAcademia');
 
             Swal.fire({
                 title: '¿Estás seguro?',
@@ -492,10 +494,12 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
 
 <h3>Alumnos</h3>
 
+
 <table id="alumnosTable" class="display compact">
     <thead>
         <tr>
             <th>Nombre Usuario</th>
+            <th>Rol</th>
             <th>Eliminar</th>
         </tr>
     </thead>
@@ -503,8 +507,14 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
         @foreach ($alumnos as $alumno)
             <tr>
                 <td>{{ $alumno->nombreUsuario }}</td>
+                <td>{{ $alumno->rol }}</td>
                 <td>
-                    <button class="btn btn-danger eliminarAlumno" data-id="{{ $alumno->idAlumno }}">Eliminar</button>
+                    <button class="btn btn-danger eliminarAlumno"
+                        data-id-Usuario="{{ $alumno->idUsuario }}">Eliminar</button>
+                    @if ($alumno->rol !== 'Entrenador')
+                        <button class="btn btn-primary hacerEntrenador" data-id-Usuario=" {{ $alumno->idUsuario }}  ">Hacer 
+                            entrenador</button>
+                    @endif
                 </td>
             </tr>
         @endforeach
@@ -516,9 +526,8 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
         $('#alumnosTable').DataTable();
 
         $('.eliminarAlumno').on('click', function() {
-            const id = $(this).data('id');
             const row = $(this).closest('tr');
-            const idUsuario = {{ $alumno->idUsuario }};
+            const idUsuario = $(this).data('idUsuario');
             const idAcademia = {{ $academia->idAcademia }};
 
             Swal.fire({
@@ -536,7 +545,6 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
                         type: 'POST',
                         dataType: 'json',
                         data: {
-                            id: id,
                             idUsuario: idUsuario,
                             idAcademia: idAcademia
                         },
@@ -552,6 +560,49 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
                             Swal.fire(
                                 '¡Error!',
                                 'Hubo un problema al eliminar al usuario.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        });
+
+        $('.hacerEntrenador').on('click', function() {
+            const row = $(this).closest('tr');
+            const idUsuario = $(this).data('idUsuario');
+            const idAcademia = {{ $academia->idAcademia }};
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¿Quieres hacer entrenador a este alumno?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `${RUTA_URL}/entrenadorController/hacerEntrenador`,
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            idUsuario: idUsuario,
+                            idAcademia: idAcademia
+                        },
+                        success: function(response) {
+                            Swal.fire(
+                                '¡Aceptada!',
+                                'El usuario es entrenador.',
+                                'success'
+                            );
+                            row.remove();
+                        },
+                        error: function() {
+                            Swal.fire(
+                                '¡Error!',
+                                'Hubo un problema al hacer entrenador.',
                                 'error'
                             );
                         }
@@ -578,7 +629,8 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
             <tr>
                 <td>{{ $entrenador->nombreUsuario }}</td>
                 <td>
-                    <button class="btn btn-danger eliminarEntrenador" data-id="{{ $entrenador->idUsuario }}">Eliminar</button>
+                    <button class="btn btn-danger eliminarEntrenador"
+                        data-id="{{ $entrenador->idUsuario }}">Eliminar</button>
                 </td>
             </tr>
         @endforeach

@@ -132,10 +132,30 @@ class academiaModelo
     public function obtenerAlumnosAcademia($idAcademia)
     {
         $this->db->query("
-            SELECT u.* 
-            FROM AcademiaUsuarios au
-            INNER JOIN Usuarios u ON au.idUsuario = u.idUsuario
-            WHERE au.idAcademia = :idAcademia
+            SELECT 
+            u.*,
+            -- Si el usuario tiene un rol explícito, lo usamos;
+            -- si no, comprobamos si es entrenador en esta academia;
+            -- en caso contrario, es Cliente
+            COALESCE(r.nombreRol,
+                CASE 
+                    WHEN ae.idAcademiaEntrenador IS NOT NULL THEN 'Entrenador'
+                    ELSE 'Cliente'
+                END
+            ) AS rol
+        FROM AcademiaUsuarios au
+        INNER JOIN Usuarios u 
+            ON au.idUsuario = u.idUsuario
+        LEFT JOIN UsuariosRoles ur 
+            ON ur.idUsuario = u.idUsuario
+        LEFT JOIN Roles r 
+            ON r.idRol = ur.idRol
+        -- Unimos también con la tabla de entrenadores, 
+        -- pero solo en esta misma academia
+        LEFT JOIN AcademiasEntrenadores ae 
+            ON ae.idUsuario    = u.idUsuario
+           AND ae.idACademia  = au.idAcademia
+        WHERE au.idAcademia = :idAcademia
         ");
         $this->db->bind(':idAcademia', $idAcademia);
         return $this->db->registros(); // Returns an array of results
@@ -169,6 +189,18 @@ class academiaModelo
         $this->db->query("
             DELETE FROM AcademiasEntrenadores 
             WHERE idUsuario = :idUsuario AND idAcademia = :idAcademia
+        ");
+        $this->db->bind(':idUsuario', $idUsuario);
+        $this->db->bind(':idAcademia', $idAcademia);
+
+        return $this->db->execute(); // Returns true if the query was successful
+    }
+
+    public function hacerEntrenador($idUsuario, $idAcademia)
+    {
+        $this->db->query("
+            INSERT INTO AcademiasEntrenadores (idUsuario, idAcademia)
+            VALUES (:idUsuario, :idAcademia)
         ");
         $this->db->bind(':idUsuario', $idUsuario);
         $this->db->bind(':idAcademia', $idAcademia);

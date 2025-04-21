@@ -70,6 +70,9 @@ class solicitudesController extends Controlador
 
             header('Content-Type: application/json');
             if ($resultado) {
+                // Eliminar en caso de que sea entrenador
+                $this->academiaModelo->eliminarEntrenador($idUsuario, $idAcademia);
+
                 echo json_encode(['message' => 'Alumno eliminado con éxito']);
             } else {
                 echo json_encode(['message' => 'Error al eliminar al alumno']);

@@ -103,7 +103,6 @@
 
             @if ($usuarioLogueado)
                 <a href="{{ RUTA_URL }}/perfil/"><?= $loginUsuario ?></a>
-                <span href="{{ RUTA_URL }}/perfil/"><?= $rolUsuario ?></a>
                     <a href="{{ RUTA_URL }}/inicioSesion/cerrarSesion">Cerrar Sesión</a>
                     @if ($rolUsuario == 'Administrador')
                         <strong><a class="" href="{{ RUTA_URL }}/admin/">Admin</a></strong>
