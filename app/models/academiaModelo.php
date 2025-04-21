@@ -152,4 +152,27 @@ class academiaModelo
 
         return $this->db->execute(); // Returns true if the query was successful
     }
+
+    public function obtenerEntrenadoresAcademia($idAcademia)
+    {
+        $this->db->query("SELECT u.*
+            FROM Usuarios u
+            INNER JOIN AcademiasEntrenadores ae ON u.idUsuario = ae.idUsuario
+            WHERE ae.idAcademia = :idAcademia");
+        $this->db->bind(':idAcademia', $idAcademia);
+        return $this->db->registros();  // Returns true if the query was successful
+
+    }
+
+    public function eliminarEntrenador($idUsuario, $idAcademia)
+    {
+        $this->db->query("
+            DELETE FROM AcademiasEntrenadores 
+            WHERE idUsuario = :idUsuario AND idAcademia = :idAcademia
+        ");
+        $this->db->bind(':idUsuario', $idUsuario);
+        $this->db->bind(':idAcademia', $idAcademia);
+
+        return $this->db->execute(); // Returns true if the query was successful
+    }
 }

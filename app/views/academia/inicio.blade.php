@@ -403,7 +403,7 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
         $('.aceptarSolicitud').on('click', function() {
             const id = $(this).data('id');
             const row = $(this).closest('tr');
-            const idUsuario = {{ $usuario->idUsuario }};
+            const idUsuario = {{ $solicitud->idUsuario }};
             const idAcademia = {{ $academia->idAcademia }};
 
             Swal.fire({
@@ -518,7 +518,7 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
         $('.eliminarAlumno').on('click', function() {
             const id = $(this).data('id');
             const row = $(this).closest('tr');
-            const idUsuario = {{ $usuario->idUsuario }};
+            const idUsuario = {{ $alumno->idUsuario }};
             const idAcademia = {{ $academia->idAcademia }};
 
             Swal.fire({
@@ -544,6 +544,80 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
                             Swal.fire(
                                 '¡Aceptada!',
                                 'El usuario ha sido eliminado.',
+                                'success'
+                            );
+                            row.remove();
+                        },
+                        error: function() {
+                            Swal.fire(
+                                '¡Error!',
+                                'Hubo un problema al eliminar al usuario.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        });
+
+    });
+</script>
+
+
+<h3>Entrenadores</h3>
+
+<table id="entrenadoresTable" class="display compact">
+    <thead>
+        <tr>
+            <th>Nombre entrenador</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($entrenadores as $entrenador)
+            <tr>
+                <td>{{ $entrenador->nombreUsuario }}</td>
+                <td>
+                    <button class="btn btn-danger eliminarEntrenador" data-id="{{ $entrenador->idUsuario }}">Eliminar</button>
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function() {
+        $('#entrenadoresTable').DataTable();
+
+        $('.eliminarEntrenador').on('click', function() {
+            const id = $(this).data('id');
+            const row = $(this).closest('tr');
+            const idUsuario = {{ $entrenador->idUsuario }};
+            const idAcademia = {{ $academia->idAcademia }};
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¿Quieres eliminar este entrenador?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `${RUTA_URL}/entrenadorController/eliminarEntrenador`,
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            id: id,
+                            idUsuario: idUsuario,
+                            idAcademia: idAcademia
+                        },
+                        success: function(response) {
+                            Swal.fire(
+                                '¡Aceptada!',
+                                'El entrenador ha sido eliminado.',
                                 'success'
                             );
                             row.remove();
