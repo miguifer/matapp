@@ -29,9 +29,17 @@ class academia extends Controlador
         $esAdmin = $usuario->rol == 'Administrador' ? true : false;
         $esAlumno = $this->academiaModelo->esAlumno($academia->idAcademia, $usuario->idUsuario);
         $esGerente = $academia->idGerente == $usuario->idUsuario;
+        $esEntrenador = $this->academiaModelo->esEntrenador($academia->idAcademia, $usuario->idUsuario);
 
-        if ($esAdmin){
+        if ($esAdmin) {
             $esGerente = true;
+        }
+
+        if ($esEntrenador) {
+            $usuario->rol = 'Entrenador';
+            $_SESSION['userLogin'] = [
+                'usuario' => json_encode($usuario),
+            ];
         }
 
         if ($academia == null) {
@@ -52,7 +60,7 @@ class academia extends Controlador
                 $solicitudes = $this->academiaModelo->obtenerSolicitudesAcademia($academia->idAcademia);
                 $alumnos = $this->academiaModelo->obtenerAlumnosAcademia($academia->idAcademia);
                 $entrenadores = $this->academiaModelo->obtenerEntrenadoresAcademia($academia->idAcademia);
-                
+
                 $datos['entrenadores'] = $entrenadores;
                 $datos['alumnos'] = $alumnos;
                 $datos['estadisticaAcademia'] = $estadisticaAcademia;

@@ -207,4 +207,17 @@ class academiaModelo
 
         return $this->db->execute(); // Returns true if the query was successful
     }
+
+    public function esEntrenador($idAcademia, $idUsuario)
+    {
+        $this->db->query("
+        SELECT COUNT(*) as count 
+        FROM AcademiasEntrenadores 
+        WHERE idAcademia = :idAcademia AND idUsuario = :idUsuario
+    ");
+        $this->db->bind(':idAcademia', $idAcademia);
+        $this->db->bind(':idUsuario', $idUsuario);
+        $result = $this->db->registro();
+        return $result && $result->count > 0;
+    }
 }

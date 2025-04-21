@@ -11,10 +11,33 @@ $userRole = $usuario->rol;
 <h1><strong>{{ $academia->nombreAcademia }}</strong></h1>
 
 
+<button id="myButton" class="btn btn-primary" onclick="toggleRole()">Entrenador</button>
+
+
 <div class="container mt-5">
     <h1 class="text-center tituloCalendario">Calendario de Eventos</h1>
     <div id="calendar"></div>
 </div>
+
+
+
+<script>
+    let currentRole = "Entrenador"; // Valor inicial
+
+    function toggleRole() {
+        // Alternar el valor de la variable y el texto del botón
+        if (currentRole === "Entrenador") {
+            currentRole = "Cliente";
+            document.getElementById("myButton").innerText = "Cliente";
+        } else {
+            currentRole = "Entrenador";
+            document.getElementById("myButton").innerText = "Entrenador";
+        }
+
+        // Opcional: Mostrar el valor actual de la variable en la consola
+        console.log(currentRole); // Esto mostrará "Cliente" o "Ntrenedor" en la consola
+    }
+</script>
 
 <script>
     //crear una variable que contenga la ruta de la url en js
@@ -63,7 +86,8 @@ $userRole = $usuario->rol;
             },
             eventClick: function(info) {
                 // Si el usuario es Gerente, ya tienes la lógica para editar
-                if (USUARIO_ROL === 'Gerente' && ACADEMIA_ID_GERENTE === USUARIO_ID) {
+                if ((USUARIO_ROL === 'Gerente' && ACADEMIA_ID_GERENTE === USUARIO_ID) ||
+                    currentRole === 'Entrenador') {
                     // Lógica para editar el evento
                     Swal.fire({
                             icon: 'warning',
@@ -185,7 +209,8 @@ $userRole = $usuario->rol;
                                 });
                             }
                         });
-                } else if (USUARIO_ROL === 'Cliente') {
+                } else if (USUARIO_ROL === 'Cliente' ||
+                    currentRole === 'Cliente') {
                     // Lógica para el cliente, mostrando un mensaje de confirmación de reserva
                     Swal.fire({
                         icon: 'info',
@@ -312,7 +337,6 @@ $userRole = $usuario->rol;
         calendar.render();
     });
 </script>
-
 
 <?php
 if ($userRole == 'Gerente' || $userRole == 'Administrador') {
@@ -512,7 +536,8 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
                     <button class="btn btn-danger eliminarAlumno"
                         data-id-Usuario="{{ $alumno->idUsuario }}">Eliminar</button>
                     @if ($alumno->rol !== 'Entrenador')
-                        <button class="btn btn-primary hacerEntrenador" data-id-Usuario=" {{ $alumno->idUsuario }}  ">Hacer 
+                        <button class="btn btn-primary hacerEntrenador"
+                            data-id-Usuario=" {{ $alumno->idUsuario }}  ">Hacer
                             entrenador</button>
                     @endif
                 </td>
