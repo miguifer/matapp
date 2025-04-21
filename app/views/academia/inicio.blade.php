@@ -7,10 +7,6 @@ $userRole = $usuario->rol;
 
 ?>
 
-<?php
-if ($userRole == 'Gerente') {
-    echo '<div class="alert alert-info text-center mt-4">Eres gerente, tienes acceso a funciones administrativas.</div>';
-?>
 
 <h1><strong>{{ $academia->nombreAcademia }}</strong></h1>
 
@@ -317,6 +313,11 @@ if ($userRole == 'Gerente') {
     });
 </script>
 
+
+<?php
+if ($userRole == 'Gerente') {
+    echo '<div class="alert alert-info text-center mt-4">Eres gerente, tienes acceso a funciones administrativas.</div>';
+?>
 
 <h4>Estadísticas de tipos de Academias</h4>
 <canvas id="miGrafico"></canvas>

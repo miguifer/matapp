@@ -48,8 +48,51 @@
             },
             editable: false,
             droppable: false,
+
+            eventClick: function(info) {
+                const idClase = info.event.id; // Asegúrate de que el evento tenga un id único
+
+                Swal.fire({
+                    title: '¿Quieres desapuntarte?',
+                    text: "Perderás tu reserva en esta clase.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, desapuntarme',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: `${RUTA_URL}/calendarioController/desapuntarse`,
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                                idClase: idClase,
+                                idUsuario: USUARIO_ID
+                            },
+                            success: function(response) {
+                                Swal.fire(
+                                    '¡Hecho!',
+                                    'Te has desapuntado de la clase.',
+                                    'success'
+                                );
+                                info.event
+                            .remove(); // Elimina el evento del calendario
+                            },
+                            error: function() {
+                                Swal.fire(
+                                    'Error',
+                                    'No se pudo desapuntar de la clase.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            },
+
             eventDidMount: function(info) {
-                const tooltip = new bootstrap.Tooltip(info.el, {
+                new bootstrap.Tooltip(info.el, {
                     title: info.event.extendedProps.description || 'Sin descripción',
                     placement: 'top',
                     trigger: 'hover',
@@ -57,6 +100,7 @@
                 });
             }
         });
+
         calendar.render();
     });
 </script>

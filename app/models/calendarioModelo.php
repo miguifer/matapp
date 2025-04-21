@@ -82,4 +82,16 @@ class calendarioModelo
         $this->db->bind(':idUsuario', $idUsuario);
         return $this->db->registros(); // Devuelve todos los registros como objetos
     }
+
+    public function eliminarReserva($idClase, $idUsuario)
+    {
+        $this->db->query("DELETE FROM Reservas WHERE idClase = :idClase AND idUsuario = :idUsuario");
+        $this->db->bind(':idClase', $idClase);
+        $this->db->bind(':idUsuario', $idUsuario);
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

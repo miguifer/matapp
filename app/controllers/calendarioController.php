@@ -170,4 +170,27 @@ class calendarioController extends Controlador
             redireccionar('/');
         }
     }
+
+    public function desapuntarse()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $datos = [
+                'idClase' => $_POST['idClase'],
+                'idUsuario' => $_POST['idUsuario'],
+            ];
+
+            // Intentar eliminar la reserva de la clase
+            $resultado = $this->calendarioModelo->eliminarReserva($datos['idClase'], $datos['idUsuario']);
+
+            // Devolver respuesta en JSON
+            header('Content-Type: application/json');
+            if ($resultado) {
+                echo json_encode(['message' => 'Reserva eliminada con éxito']);
+            } else {
+                echo json_encode(['message' => 'Error al eliminar la reserva']);
+            }
+        } else {
+            redireccionar('/');
+        }
+    }
 }
