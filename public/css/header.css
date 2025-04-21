@@ -1,3 +1,41 @@
 #logo {
-    cursor: pointer;
+  cursor: pointer;
+  transition: 200ms linear;
+}
+
+#logo:hover {
+  opacity: 0.8;
+  scale: 1.02;
+  transition: 200ms linear;
+}
+
+#botonPerfil:hover {
+  opacity: 0.9;
+  scale: 1.04;
+  transition: 200ms linear;
+}
+
+#iniciar-sesion:hover {
+  scale: 1.02;
+  opacity: 0.8;
+  transition: 200ms linear;
+}
+
+#registrarse:hover {
+  transition: 200ms linear;
+}
+
+.menu-item {
+  transition: 150ms linear !important;
+}
+.menu-item:hover {
+  transition: 150ms linear !important;
+}
+
+.cerrarBoton {
+  transition: 150ms linear !important;
+}
+.cerrarBoton:hover {
+  transform: rotate(90deg);
+  transition: 200ms linear !important;
 }

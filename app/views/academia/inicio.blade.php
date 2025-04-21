@@ -11,7 +11,9 @@ $userRole = $usuario->rol;
 <h1><strong>{{ $academia->nombreAcademia }}</strong></h1>
 
 
-<button id="myButton" class="btn btn-primary" onclick="toggleRole()">Entrenador</button>
+@if ($usuario->rol == 'Entrenador')
+    <button id="myButton" class="btn btn-primary" onclick="toggleRole()">Entrenador</button>
+@endif
 
 
 <div class="container mt-5">
