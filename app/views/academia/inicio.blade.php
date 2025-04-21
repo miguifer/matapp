@@ -315,7 +315,7 @@ $userRole = $usuario->rol;
 
 
 <?php
-if ($userRole == 'Gerente') {
+if ($userRole == 'Gerente' || $userRole == 'Administrador') {
     echo '<div class="alert alert-info text-center mt-4">Eres gerente, tienes acceso a funciones administrativas.</div>';
 ?>
 

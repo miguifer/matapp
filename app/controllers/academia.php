@@ -26,8 +26,13 @@ class academia extends Controlador
 
         $usuario = isset($_SESSION['userLogin']['usuario']) ? json_decode($_SESSION['userLogin']['usuario']) : null;
 
+        $esAdmin = $usuario->rol == 'Administrador' ? true : false;
         $esAlumno = $this->academiaModelo->esAlumno($academia->idAcademia, $usuario->idUsuario);
         $esGerente = $academia->idGerente == $usuario->idUsuario;
+
+        if ($esAdmin){
+            $esGerente = true;
+        }
 
         if ($academia == null) {
             redireccionar('/');

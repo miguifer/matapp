@@ -96,7 +96,6 @@
                     $usuario = json_decode($_SESSION['userLogin']['usuario']);
                     $loginUsuario = $usuario->login; // o el campo que uses como nombre
                     $rolUsuario = $usuario->rol; // o el campo que uses como nombre
-                    
                 } else {
                     $nombreUsuario = 'Invitado';
                 }
@@ -105,11 +104,17 @@
             @if ($usuarioLogueado)
                 <a href="{{ RUTA_URL }}/perfil/"><?= $loginUsuario ?></a>
                 <span href="{{ RUTA_URL }}/perfil/"><?= $rolUsuario ?></a>
-                <a href="{{ RUTA_URL }}/inicioSesion/cerrarSesion">Cerrar Sesión</a>
-            @else
-                <a href="{{ RUTA_URL }}/inicioSesion/">Iniciar Sesión</a>
+                    <a href="{{ RUTA_URL }}/inicioSesion/cerrarSesion">Cerrar Sesión</a>
+                    @if ($rolUsuario == 'Administrador')
+                        <strong><a class="" href="{{ RUTA_URL }}/admin/">Admin</a></strong>
+                    @endif
+                @else
+                    <a href="{{ RUTA_URL }}/inicioSesion/">Iniciar Sesión</a>
+
             @endif
 
             <strong><a class="" href="{{ RUTA_URL }}/">Inicio</a></strong>
+
+
 
         </nav>
