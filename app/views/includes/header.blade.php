@@ -85,35 +85,105 @@
 
 
     {{-- se repitita  --}}
-    <div class="container mt-5" id="main">
+    <div class="container" id="main">
+
+        <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/header.css" />
+
+        <nav class="navbar mb-3 mt-3">
+            <div class="container-fluid d-flex justify-content-end">
+
+                <?php
+        
+                if (!isset($_SESSION['userLogin'])) {
+        
+                ?>
+                <span class="text-white me-auto">
+                    <img src="<?= RUTA_URL ?>/public/img/favicon/android-chrome-512x512.png" alt="Logo"
+                        class="img-fluid" width="40" height="40" id="logo" title="Home" />
+                </span>
 
 
-        <nav>
+                <a class="navbar-brand text-black me-0 d-flex align-items-center" id="iniciar-sesion"
+                    href="<?= RUTA_URL ?>/inicioSesion">
+                    <!-- Esta el svg dentro del codigo para poder hacerle el fill -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M12 3.75a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5m-4 9.5A3.75 3.75 0 0 0 4.25 17v1.188c0 .754.546 1.396 1.29 1.517c4.278.699 8.642.699 12.92 0a1.54 1.54 0 0 0 1.29-1.517V17A3.75 3.75 0 0 0 16 13.25h-.34q-.28.001-.544.086l-.866.283a7.25 7.25 0 0 1-4.5 0l-.866-.283a1.8 1.8 0 0 0-.543-.086z" />
+                    </svg>
+                    <span class="small">Iniciar Sesion</span>
+                </a>
+                <a id="registrarse" class="btn btn-dark ms-3" type="submit" href="<?= RUTA_URL ?>/">
+                    Registrarse
+                </a>
 
-            @php
-                $usuarioLogueado = isset($_SESSION['userLogin']['usuario']);
-                if ($usuarioLogueado) {
-                    $usuario = json_decode($_SESSION['userLogin']['usuario']);
-                    $loginUsuario = $usuario->login; // o el campo que uses como nombre
-                    $rolUsuario = $usuario->rol; // o el campo que uses como nombre
+                <?php
                 } else {
-                    $nombreUsuario = 'Invitado';
+
+                    $usuario = json_decode($_SESSION['userLogin']['usuario']);
+
+                ?>
+
+                <span class="text-white me-auto">
+                    <img src="<?= RUTA_URL ?>/public/img/favicon/android-chrome-512x512.png" alt="Logo"
+                        class="img-fluid" width="40" height="40" id="logo" title="Home" />
+                </span>
+
+                <button id="botonPerfil" class="btn rounded-circle p-0" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                    <?php if (!empty($usuario->pathImagen)) { ?>
+                    <img src="#" alt="Imagen del cliente" class="rounded-circle"
+                        style="width: 40px; height: 40px;">
+                    <?php } else { ?>
+                    <img src="<?= RUTA_URL ?>/public/img/default_profile.png" alt="Imagen por defecto"
+                        class=" rounded-circle" style="width: 40px; height: 40px;">
+                    <?php } ?>
+                </button>
+
+                <div class="offcanvas offcanvas-end  text-white" tabindex="-1" id="offcanvasRight"
+                    aria-labelledby="offcanvasRightLabel">
+                    <div class="offcanvas-header">
+                        <?php if (isset($usuario->pathImagen)) { ?>
+                        <img src="#" alt="Imagen del cliente" class="me-2 rounded-circle"
+                            style="width: 40px; height: 40px;">
+                        <?php } else { ?>
+                        <img src="<?= RUTA_URL ?>/public/img/default_profile.png" alt="Imagen por defecto"
+                            class="me-2 rounded-circle" style="width: 40px; height: 40px;">
+                        <?php } ?>
+                        <h5 class="offcanvas-title text-dark" id="offcanvasRightLabel">
+                            <?= isset($usuario->login) ? $usuario->login : 'Invitado' ?>
+                        </h5>
+                        <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+
+                        <div class="row">
+                            <div class="col-12 mb-1">
+                                <a class="w-100 btn btn-light text-start text-dark text-opacity-70"
+                                    href="<?= RUTA_URL ?>/perfil"><i
+                                        class="fa-regular fa-user"></i>&nbsp;&nbsp;Tu perfil </a>
+                            </div>
+                            <div class="col-12 mt-2 border-top border-dark-subtle">
+                                <a class="link link-danger d-flex align-items-center text-decoration-none ms-2 mt-3"
+                                    href="<?= RUTA_URL ?>/inicioSesion/cerrarSesion"><i
+                                        class="fa-solid fa-right-from-bracket"></i>&nbsp;Cerrar Sesion </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <?php
                 }
-            @endphp
-
-            @if ($usuarioLogueado)
-                <a href="{{ RUTA_URL }}/perfil/"><?= $loginUsuario ?></a>
-                    <a href="{{ RUTA_URL }}/inicioSesion/cerrarSesion">Cerrar Sesión</a>
-                    @if ($rolUsuario == 'Administrador')
-                        <strong><a class="" href="{{ RUTA_URL }}/admin/">Admin</a></strong>
-                    @endif
-                @else
-                    <a href="{{ RUTA_URL }}/inicioSesion/">Iniciar Sesión</a>
-
-            @endif
-
-            <strong><a class="" href="{{ RUTA_URL }}/">Inicio</a></strong>
+                ?>
 
 
 
+            </div>
         </nav>
+
+        <script>
+            document.getElementById('logo').addEventListener('click', function() {
+                window.location.href = '<?= RUTA_URL ?>'; // Cambia esta URL por la URL de destino
+            });
+        </script>
