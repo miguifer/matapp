@@ -402,6 +402,8 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
         $('.aceptarSolicitud').on('click', function() {
             const id = $(this).data('id');
             const row = $(this).closest('tr');
+            const idUsuario = {{ $usuario->idUsuario }};
+            const idAcademia = {{ $academia->idAcademia }};
 
             Swal.fire({
                 title: '¿Estás seguro?',
@@ -418,7 +420,9 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
                         type: 'POST',
                         dataType: 'json',
                         data: {
-                            id: id
+                            id: id,
+                            idUsuario: idUsuario,
+                            idAcademia: idAcademia
                         },
                         success: function(response) {
                             Swal.fire(
@@ -444,6 +448,7 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
             const id = $(this).data('id');
             const row = $(this).closest('tr');
 
+
             Swal.fire({
                 title: '¿Estás seguro?',
                 text: "¿Quieres rechazar esta solicitud?",
@@ -459,7 +464,7 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
                         type: 'POST',
                         dataType: 'json',
                         data: {
-                            id: id
+                            id: id,
                         },
                         success: function(response) {
                             Swal.fire(
@@ -481,8 +486,6 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
             });
         });
     });
-
-    
 </script>
 
 

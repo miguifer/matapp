@@ -23,11 +23,16 @@ class solicitudesController extends Controlador
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $idSolicitud = $_POST['id'];
+            $idUsuario = $_POST['idUsuario'];
+            $idAcademia = $_POST['idAcademia'];
 
             $resultado = $this->academiaModelo->aceptarSolicitud($idSolicitud);
 
             header('Content-Type: application/json');
             if ($resultado) {
+
+                $this->academiaModelo->añadirAlumno($idUsuario, $idAcademia);
+
                 echo json_encode(['message' => 'Solicitud aceptada con éxito']);
             } else {
                 echo json_encode(['message' => 'Error al aceptar la solicitud']);

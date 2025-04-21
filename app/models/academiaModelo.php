@@ -116,4 +116,16 @@ class academiaModelo
 
         return $this->db->execute(); // Returns true if the query was successful
     }
+
+    public function añadirAlumno($idUsuario, $idAcademia)
+    {
+        $this->db->query("
+            INSERT INTO AcademiaUsuarios (idUsuario, idAcademia)
+            VALUES (:idUsuario, :idAcademia)
+        ");
+        $this->db->bind(':idUsuario', $idUsuario);
+        $this->db->bind(':idAcademia', $idAcademia);
+
+        return $this->db->execute(); // Returns true if the query was successful
+    }
 }
