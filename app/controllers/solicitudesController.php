@@ -59,4 +59,23 @@ class solicitudesController extends Controlador
             redireccionar('/');
         }
     }
+
+    public function eliminarAlumno()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $idUsuario = $_POST['idUsuario'];
+            $idAcademia = $_POST['idAcademia'];
+
+            $resultado = $this->academiaModelo->eliminarAlumno($idUsuario, $idAcademia);
+
+            header('Content-Type: application/json');
+            if ($resultado) {
+                echo json_encode(['message' => 'Alumno eliminado con éxito']);
+            } else {
+                echo json_encode(['message' => 'Error al eliminar al alumno']);
+            }
+        } else {
+            redireccionar('/');
+        }
+    }
 }

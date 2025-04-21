@@ -45,6 +45,8 @@ class academia extends Controlador
             if ($esGerente) {
                 $estadisticaAcademia = $this->academiaModelo->obtenerEstadisticaAcademias();
                 $solicitudes = $this->academiaModelo->obtenerSolicitudesAcademia($academia->idAcademia);
+                $alumnos = $this->academiaModelo->obtenerAlumnosAcademia($academia->idAcademia);
+                $datos['alumnos'] = $alumnos;
                 $datos['estadisticaAcademia'] = $estadisticaAcademia;
                 $datos['solicitudes'] = $solicitudes;
             }

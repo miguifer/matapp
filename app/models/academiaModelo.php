@@ -128,4 +128,28 @@ class academiaModelo
 
         return $this->db->execute(); // Returns true if the query was successful
     }
+
+    public function obtenerAlumnosAcademia($idAcademia)
+    {
+        $this->db->query("
+            SELECT u.* 
+            FROM AcademiaUsuarios au
+            INNER JOIN Usuarios u ON au.idUsuario = u.idUsuario
+            WHERE au.idAcademia = :idAcademia
+        ");
+        $this->db->bind(':idAcademia', $idAcademia);
+        return $this->db->registros(); // Returns an array of results
+    }
+
+    public function eliminarAlumno($idUsuario, $idAcademia)
+    {
+        $this->db->query("
+            DELETE FROM AcademiaUsuarios 
+            WHERE idUsuario = :idUsuario AND idAcademia = :idAcademia
+        ");
+        $this->db->bind(':idUsuario', $idUsuario);
+        $this->db->bind(':idAcademia', $idAcademia);
+
+        return $this->db->execute(); // Returns true if the query was successful
+    }
 }

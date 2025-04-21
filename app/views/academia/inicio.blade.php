@@ -489,10 +489,78 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
 </script>
 
 
+<h3>Alumnos</h3>
 
+<table id="alumnosTable" class="display compact">
+    <thead>
+        <tr>
+            <th>Nombre Usuario</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($alumnos as $alumno)
+            <tr>
+                <td>{{ $alumno->nombreUsuario }}</td>
+                <td>
+                    <button class="btn btn-danger eliminarAlumno" data-id="{{ $alumno->idAlumno }}">Eliminar</button>
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
 
+<script>
+    $(document).ready(function() {
+        $('#alumnosTable').DataTable();
 
+        $('.eliminarAlumno').on('click', function() {
+            const id = $(this).data('id');
+            const row = $(this).closest('tr');
+            const idUsuario = {{ $usuario->idUsuario }};
+            const idAcademia = {{ $academia->idAcademia }};
 
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¿Quieres eliminar este alumno?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Aceptar',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `${RUTA_URL}/solicitudesController/eliminarAlumno`,
+                        type: 'POST',
+                        dataType: 'json',
+                        data: {
+                            id: id,
+                            idUsuario: idUsuario,
+                            idAcademia: idAcademia
+                        },
+                        success: function(response) {
+                            Swal.fire(
+                                '¡Aceptada!',
+                                'El usuario ha sido eliminado.',
+                                'success'
+                            );
+                            row.remove();
+                        },
+                        error: function() {
+                            Swal.fire(
+                                '¡Error!',
+                                'Hubo un problema al eliminar al usuario.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        });
+
+    });
+</script>
 
 <?php
 } else {
