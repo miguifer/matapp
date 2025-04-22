@@ -22,22 +22,22 @@ $userRole = $usuario->rol;
 </div>
 
 
-@if ($usuario->rol == 'Entrenador')
 <script>
     let currentRole = "Entrenador"; // Valor inicial
 </script>
-@else
+
+<?php if ($usuario->rol == 'Entrenador') { ?>
+    <script>
+        currentRole = "Entrenador"; // Valor inicial
+    </script>
+<?php } else { ?>
+    <script>
+        currentRole = "Cliente"; // Valor inicial
+    </script>
+<?php } ?>
+
 <script>
-    let currentRole = "Cliente"; // Valor inicial
-</script>
-@endif
-
-
-
-<script>
-    let currentRole = "Entrenador"; // Valor inicial
-
-     function toggleRole() {
+    function toggleRole() {
         // Alternar el valor de la variable y el texto del botón
         if (currentRole === "Cliente") {
             currentRole = "Entrenador";
