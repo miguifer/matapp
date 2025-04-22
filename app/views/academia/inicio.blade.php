@@ -26,14 +26,14 @@ $userRole = $usuario->rol;
 <script>
     let currentRole = "Entrenador"; // Valor inicial
 
-    function toggleRole() {
+     function toggleRole() {
         // Alternar el valor de la variable y el texto del botón
-        if (currentRole === "Entrenador") {
-            currentRole = "Cliente";
-            document.getElementById("myButton").innerText = "Cliente";
-        } else {
+        if (currentRole === "Cliente") {
             currentRole = "Entrenador";
             document.getElementById("myButton").innerText = "Entrenador";
+        } else {
+            currentRole = "Cliente";
+            document.getElementById("myButton").innerText = "Cliente";
         }
 
         // Opcional: Mostrar el valor actual de la variable en la consola
