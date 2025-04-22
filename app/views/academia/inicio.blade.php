@@ -24,7 +24,7 @@ $userRole = $usuario->rol;
 
 
 <script>
-    let currentRole = "Entrenador"; // Valor inicial
+    let currentRole = "Cliente"; // Valor inicial
 
      function toggleRole() {
         // Alternar el valor de la variable y el texto del botón
