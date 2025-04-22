@@ -27,13 +27,13 @@ $userRole = $usuario->rol;
 </script>
 
 <?php if ($usuario->rol == 'Entrenador') { ?>
-    <script>
-        currentRole = "Entrenador"; // Valor inicial
-    </script>
+<script>
+    currentRole = "Entrenador"; // Valor inicial
+</script>
 <?php } else { ?>
-    <script>
-        currentRole = "Cliente"; // Valor inicial
-    </script>
+<script>
+    currentRole = "Cliente"; // Valor inicial
+</script>
 <?php } ?>
 
 <script>
@@ -89,9 +89,19 @@ $userRole = $usuario->rol;
             editable: false, // Permitir editar eventos
             droppable: false, // No permitir dropear eventos
             eventDidMount: function(info) {
-                // Mostrar tooltip con la descripción del evento
-                const tooltip = new bootstrap.Tooltip(info.el, {
-                    title: info.event.extendedProps.description || 'Sin descripción',
+                const eventDate = new Date(info.event.start);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // Comparación sin hora
+
+                const dot = info.el.querySelector('.fc-daygrid-event-dot');
+                if (dot) {
+                    const color = eventDate < today ? 'red' : 'green';
+                    dot.setAttribute('style', `border-color: ${color} !important`);
+                }
+
+                // Tooltip
+                new bootstrap.Tooltip(info.el, {
+                    title: info.event.title || 'Sin Título',
                     placement: 'top',
                     trigger: 'hover',
                     container: 'body'
@@ -268,7 +278,7 @@ $userRole = $usuario->rol;
                 }
             },
             dateClick: function(info) {
-                if (USUARIO_ROL !== 'Gerente' || ACADEMIA_ID_GERENTE !== USUARIO_ID) return;
+                if ((USUARIO_ROL !== 'Gerente' || ACADEMIA_ID_GERENTE !== USUARIO_ID) && currentRole !== "Entrenador") return;
 
 
                 // Crear nuevo evento con SweetAlert2
