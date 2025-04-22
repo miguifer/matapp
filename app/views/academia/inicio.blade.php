@@ -22,6 +22,17 @@ $userRole = $usuario->rol;
 </div>
 
 
+@if ($usuario->rol == 'Entrenador')
+<script>
+    let currentRole = "Entrenador"; // Valor inicial
+</script>
+@else
+<script>
+    let currentRole = "Cliente"; // Valor inicial
+</script>
+@endif
+
+
 
 <script>
     let currentRole = "Entrenador"; // Valor inicial
