@@ -28,7 +28,7 @@
     document.addEventListener("DOMContentLoaded", function() {
         const calendarEl = document.getElementById('calendar');
         const calendar = new FullCalendar.Calendar(calendarEl, {
-            schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+            schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
             locale: 'es',
             initialView: 'dayGridMonth',
             editable: true,
