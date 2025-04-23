@@ -181,7 +181,7 @@ $userRole = $usuario->rol;
             eventClick: function(info) {
                 // Si el usuario es Gerente, ya tienes la lógica para editar
                 if ((USUARIO_ROL === 'Gerente' && ACADEMIA_ID_GERENTE === USUARIO_ID) ||
-                    currentRole === 'Entrenador') {
+                    currentRole === 'Entrenador' || USUARIO_ROL === 'Administrador') {
 
 
 
@@ -407,7 +407,7 @@ $userRole = $usuario->rol;
             },
             dateClick: function(info) {
                 if ((USUARIO_ROL !== 'Gerente' || ACADEMIA_ID_GERENTE !== USUARIO_ID) &&
-                    currentRole !== "Entrenador") return;
+                    currentRole !== "Entrenador" && USUARIO_ROL !== 'Administrador') return;
 
 
                 // Crear nuevo evento con SweetAlert2
@@ -419,7 +419,7 @@ $userRole = $usuario->rol;
         <input type="text" id="title" class="swal2-input" placeholder="Título de la clase" required>
         <input type="text" id="start" placeholder="Fecha de inicio" class="swal2-input" value="${info.dateStr}" required>
         <input type="text" id="end"  placeholder="Fecha de fin" class="swal2-input">
-        <select id="idEntrenador" class="swal2-input">
+        <select id="idEntrenador" class="swal2-select">
             <option value="" disabled selected>Sin asignar entrenador</option>
             @foreach ($entrenadores as $entrenador)
             <option value="{{ $entrenador->idUsuario }}">{{ $entrenador->nombreUsuario }}</option>
