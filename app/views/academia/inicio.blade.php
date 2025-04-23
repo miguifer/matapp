@@ -501,8 +501,8 @@ if ($userRole == 'Gerente' || $userRole == 'Administrador') {
     echo '<div class="alert alert-info text-center mt-4">Eres gerente, tienes acceso a funciones administrativas.</div>';
 ?>
 
-<h4>Estadísticas de tipos de Academias</h4>
-<canvas id="miGrafico"></canvas>
+{{-- <h4>Estadísticas de tipos de Academias</h4>
+<canvas id="miGrafico"></canvas> --}}
 
 
 <?php
