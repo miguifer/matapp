@@ -45,6 +45,30 @@ class calendarioController extends Controlador
         echo json_encode($clasesArray);
     }
 
+    public function usuariosReservados()
+    {
+        // Solo procesamos POST
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['idClase'])) {
+            $idClase = $_POST['idClase'];
+
+            // Obtener los usuarios reservados desde el modelo
+            $usuariosReservados = $this->calendarioModelo->obtenerUsuariosReservados($idClase);
+
+            // Devolver la respuesta en formato JSON
+            header('Content-Type: application/json');
+            echo json_encode($usuariosReservados);
+            return;
+        }
+
+        // Si no es POST o falta idClase
+        header('Content-Type: application/json', true, 400);
+        echo json_encode([
+            'error' => 'Solicitud inválida: se esperaba POST con idClase'
+        ]);
+    }
+
+
+
     public function add_clase()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {

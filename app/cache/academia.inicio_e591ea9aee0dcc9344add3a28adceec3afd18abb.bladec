@@ -52,6 +52,10 @@ $userRole = $usuario->rol;
  }
 </script>
 
+<?php /* <div id="lista-usuarios"></div>
+<button onclick="obtenerUsuariosApuntados(19)">Ver usuarios clase </button> */ ?>
+
+
 <script>
  //crear una variable que contenga la ruta de la url en js
  const RUTA_URL = '<?= RUTA_URL ?>';
@@ -64,6 +68,71 @@ $userRole = $usuario->rol;
  // USUARIO_ID = '23';
 
  const USUARIO_ROL = '<?= $userRole ?>';
+
+
+ function obtenerUsuariosApuntados(idClase) {
+ return $.ajax({
+ url: `${RUTA_URL}/calendarioController/usuariosReservados`,
+ type: 'POST',
+ dataType: 'json',
+ data: {
+ idClase
+ }
+ });
+ }
+
+
+ // function obtenerUsuariosApuntados(idClase) {
+
+ //     $.ajax({
+ //         url: `${RUTA_URL}/calendarioController/usuariosReservados`,
+ //         type: 'POST',
+ //         dataType: 'json',
+ //         data: {
+ //             idClase
+ //         }, // jQuery envía como application/x-www-form-urlencoded
+ //         success: mostrarUsuarios,
+ //         error(xhr, status, error) {
+ //             console.error('Error al obtener usuarios:', error);
+ //             Swal.fire('Error', 'No se pudieron cargar los usuarios.', 'error');
+ //         }
+ //     });
+
+ // }
+
+ // function mostrarUsuarios(usuarios) {
+ //     console.log('Array de usuarios recibido:', usuarios);
+
+ //     const contenedor = document.getElementById('lista-usuarios');
+ //     contenedor.innerHTML = '';
+
+ //     // Validamos que venga un Array
+ //     if (!Array.isArray(usuarios)) {
+ //         contenedor.textContent = 'Error: formato de datos inesperado.';
+ //         return null;
+ //     }
+
+ //     // Si no hay usuarios
+ //     if (usuarios.length === 0) {
+ //         contenedor.textContent = 'No hay usuarios apuntados a esta clase.';
+ //         return usuarios;
+ //     }
+
+ //     // Creamos un <ul> con cada usuario
+ //     const ul = document.createElement('ul');
+ //     usuarios.forEach(u => {
+ //         const li = document.createElement('li');
+ //         // Aquí asumes que el objeto usuario tiene .nombre y .email
+ //         li.textContent = `${u.nombreUsuario ?? 'Nombre desconocido'} (${u.emailUsuario ?? 'Sin email'})`;
+ //         ul.appendChild(li);
+ //     });
+
+ //     contenedor.appendChild(ul);
+ //     return usuarios;
+ // }
+
+
+
 
  document.addEventListener("DOMContentLoaded", function() {
  const calendarEl = document.getElementById('calendar');
@@ -247,7 +316,32 @@ $userRole = $usuario->rol;
  });
  } else if (USUARIO_ROL === 'Cliente' ||
  currentRole === 'Cliente') {
+
+
  // Lógica para el cliente, mostrando un mensaje de confirmación de reserva
+ $.ajax({
+ url: `${RUTA_URL}/calendarioController/usuariosReservados`,
+ type: 'POST',
+ dataType: 'json',
+ data: {
+ idClase: info.event.id
+ },
+ success: function(usuarios) {
+ // Crear el HTML con la lista de usuarios
+ let usuariosHtml = '';
+ if (usuarios.length === 0) {
+ usuariosHtml =
+ '<p>No hay usuarios reservados para esta clase.</p>';
+ } else {
+ usuariosHtml = '<ul>';
+ usuarios.forEach(u => {
+ usuariosHtml +=
+ `<li>${u.nombreUsuario ?? 'Nombre desconocido'} (${u.emailUsuario ?? 'Sin email'})</li>`;
+ });
+ usuariosHtml += '</ul>';
+ }
+
+ // Ahora mostramos el cuadro de confirmación con la lista de usuarios reservados
  Swal.fire({
  icon: 'info',
  title: 'Confirmar Reserva',
@@ -255,7 +349,11 @@ $userRole = $usuario->rol;
  html: `
  <p>Fecha de inicio: ${info.event.start.toLocaleString()}</p>
  <p>Fecha de fin: ${info.event.end ? info.event.end.toLocaleString() : 'Sin fecha de fin'}</p>
- <p>Entrenador: ${info.event.extendedProps.nombreEntrenador || 'No asignado'}</p>`,
+ <p>Entrenador: ${info.event.extendedProps.nombreEntrenador || 'No asignado'}</p>
+ <div id="usuarios-reservados" style="margin-top: 10px;">
+ ${usuariosHtml} <!-- Aquí se agrega la lista de usuarios -->
+ </div>
+ `,
  showCancelButton: true,
  cancelButtonText: 'Cancelar',
  confirmButtonText: 'Reservar',
@@ -264,7 +362,7 @@ $userRole = $usuario->rol;
  if (result.isConfirmed) {
  // Enviar la reserva de clase al servidor
  $.ajax({
- url: `${RUTA_URL}/calendarioController/reservar_clase`, // Cambia la URL al controlador que maneja la reserva
+ url: `${RUTA_URL}/calendarioController/reservar_clase`,
  type: 'POST',
  dataType: 'json',
  data: {
@@ -272,10 +370,12 @@ $userRole = $usuario->rol;
  idUsuario: USUARIO_ID // El id del cliente
  },
  success: function(response) {
- if (response && response.message) {
+ if (response && response
+ .message) {
  Swal.fire({
  title: '¡Éxito!',
- text: response.message,
+ text: response
+ .message,
  icon: 'success',
  confirmButtonText: 'Genial'
  });
@@ -289,6 +389,16 @@ $userRole = $usuario->rol;
  confirmButtonText: 'Cerrar'
  });
  }
+ });
+ }
+ });
+ },
+ error: function() {
+ Swal.fire({
+ title: 'Error',
+ text: 'Hubo un problema al obtener los usuarios reservados.',
+ icon: 'error',
+ confirmButtonText: 'Cerrar'
  });
  }
  });

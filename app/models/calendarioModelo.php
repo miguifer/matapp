@@ -18,6 +18,16 @@ class calendarioModelo
         return $this->db->registros(); // Devuelve todos los registros como objetos
     }
 
+    public function obtenerUsuariosReservados($idClase)
+    {
+        $this->db->query("SELECT u.* 
+                          FROM Reservas r
+                          JOIN Usuarios u ON r.idUsuario = u.idUsuario
+                          WHERE r.idClase = :idClase");
+        $this->db->bind(':idClase', $idClase);
+        return $this->db->registros(); // Devuelve todos los registros como objetos
+    }
+
     public function agregarClase($datos)
     {
         $this->db->query("INSERT INTO clases (title, start, end, idAcademia, idEntrenador) VALUES (:title, :start, :end, :idAcademia, :idEntrenador)");
