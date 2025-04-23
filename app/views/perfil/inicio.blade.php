@@ -38,6 +38,9 @@
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek'
             },
+            buttonText: {
+                today: 'Hoy',
+            },
             views: {
                 dayGridMonth: {
                     buttonText: 'Mes'

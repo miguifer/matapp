@@ -17,7 +17,6 @@ $userRole = $usuario->rol;
 
 
 <div class="container mt-5">
- <h1 class="text-center tituloCalendario">Calendario de Eventos</h1>
  <div id="calendar"></div>
 </div>
 
@@ -147,6 +146,9 @@ $userRole = $usuario->rol;
  center: 'title',
  right: 'dayGridMonth,timeGridWeek'
  },
+ buttonText: {
+ today: 'Hoy',
+ },
  views: {
  dayGridMonth: {
  buttonText: 'Mes'
@@ -164,7 +166,7 @@ $userRole = $usuario->rol;
 
  const dot = info.el.querySelector('.fc-daygrid-event-dot');
  if (dot) {
- const color = eventDate < today ? 'red' : 'green';
+ const color = eventDate < today ? '#ff870c' : '#46bc62';
  dot.setAttribute('style', `border-color: ${color} !important`);
  }
 
@@ -336,7 +338,7 @@ $userRole = $usuario->rol;
  usuariosHtml = '<ul>';
  usuarios.forEach(u => {
  usuariosHtml +=
- `<li>${u.nombreUsuario ?? 'Nombre desconocido'} (${u.emailUsuario ?? 'Sin email'})</li>`;
+ `<li>${u.nombreUsuario ?? 'Nombre desconocido'} </li>`;
  });
  usuariosHtml += '</ul>';
  }
@@ -344,19 +346,19 @@ $userRole = $usuario->rol;
  // Ahora mostramos el cuadro de confirmación con la lista de usuarios reservados
  Swal.fire({
  icon: 'info',
- title: 'Confirmar Reserva',
  text: `¿Estás seguro de que deseas reservar la clase "${info.event.title}"?`,
  html: `
- <p>Fecha de inicio: ${info.event.start.toLocaleString()}</p>
- <p>Fecha de fin: ${info.event.end ? info.event.end.toLocaleString() : 'Sin fecha de fin'}</p>
- <p>Entrenador: ${info.event.extendedProps.nombreEntrenador || 'No asignado'}</p>
+ <p><strong>${info.event.title}</strong></p>
+ <p>${info.event.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - ${info.event.end ? info.event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Sin fecha de fin'}</p>
+ <p>${info.event.extendedProps.nombreEntrenador || 'Entrenador no asignado'}</p>
+ <p><strong>Asistentes(${usuarios.length})</strong></p>
  <div id="usuarios-reservados" style="margin-top: 10px;">
  ${usuariosHtml} <!-- Aquí se agrega la lista de usuarios -->
  </div>
  `,
  showCancelButton: true,
  cancelButtonText: 'Cancelar',
- confirmButtonText: 'Reservar',
+ confirmButtonText: 'Apúntate a la clase',
  confirmButtonColor: '#28a745'
  }).then((result) => {
  if (result.isConfirmed) {

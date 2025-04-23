@@ -13,7 +13,7 @@
 
 /* Estilo de la barra de encabezado */
 .fc-header-toolbar {
-  background-color: #7066e0; /* Azul, similar al botón de SweetAlert2 */
+  background-color: white; /* Azul, similar al botón de SweetAlert2 */
   color: white;
   padding: 10px 15px;
   border-radius: 8px 8px 0 0; /* Bordes redondeados solo en la parte superior */
@@ -21,7 +21,7 @@
 
 /* Estilo de los botones en la barra de herramientas */
 .fc-button {
-  background-color: #7066e0; /* Azul */
+  background-color: #2150c7; /* Azul */
   color: white;
   border: none;
   border-radius: 25px; /* Botones con bordes redondeados */
@@ -31,7 +31,7 @@
   cursor: pointer;
 }
 .fc-button:hover {
-  background-color: #7066e0; /* Azul más oscuro */
+  background-color: #2150c7; /* Azul más oscuro */
 }
 .fc-button:focus {
   outline: none;
@@ -59,7 +59,7 @@
 
 /* Estilo para los eventos */
 .fc-event {
-  background-color: #7066e0; /* Azul para los eventos */
+  background-color: #2150c7; /* Azul para los eventos */
   color: white;
   border-radius: 5px;
   font-size: 12px;
@@ -97,14 +97,14 @@
 
 /* Cambiar el color de fondo del evento cuando está seleccionado */
 .fc-event.fc-event-selected {
-  background-color: #7066e0;
+  background-color: #2150c7;
   border: none;
 }
 
 /* Estilo de los botones de navegación */
 .fc-prev-button,
 .fc-next-button {
-  background-color: #7066e0;
+  background-color: #2150c7;
   border-radius: 50%;
   color: white;
   font-size: 18px;
@@ -117,7 +117,7 @@
 
 .fc-prev-button:hover,
 .fc-next-button:hover {
-  background-color: #7066e0;
+  background-color: #2150c7;
 }
 
 /* Estilo de la selección de la fecha */
@@ -128,6 +128,7 @@
 
 #calendar {
   font-family: "Jost";
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 #calendar button[title="Previous month"] {
@@ -153,8 +154,8 @@
 /* Estilo del día actual */
 #calendar .fc-day-today {
   background-color: #a5dd8725 !important; /* Fondo más claro para el día de hoy */
-  border: 2px solid #a5dd87 !important; /* Borde azul alrededor del día de hoy */
-  color: #495057 !important; /* Color del texto */
+  border: 2px solid #46bc62 !important; /* Borde azul alrededor del día de hoy */
+  color: #46bc62 !important; /* Color del texto */
   font-weight: bold; /* Negrita para el día de hoy */
 }
 
@@ -178,10 +179,110 @@
   font-family: "Jost";
   font-size: 1.5em;
   font-weight: 600;
-  color: white; /* Color del texto del título */
+  color: #2150c7; /* Color del texto del título */
   text-transform: capitalize; /* Primera letra en mayúscula */
 }
 
 .tituloCalendario {
   font-family: "Jost";
+}
+
+.fc-button {
+  border: none !important;
+  background: none !important;
+}
+
+.fc-button span {
+  color: #2150c7;
+}
+
+.fc-daygrid-day-number {
+  color: gray;
+}
+
+.fc-col-header-cell-cushion {
+  color: black;
+}
+
+/* #46bc62
+#ff870c */
+
+.fc-today-button {
+  background-color: #2150c7 !important;
+  color: white !important;
+  opacity: 1 !important;
+  border-radius: 10px !important;
+  transition: all 0.3s ease !important;
+}
+
+.fc-today-button:hover {
+  opacity: 0.8 !important;
+  transition: all 0.3s ease !important;
+}
+
+.fc-dayGridMonth-button {
+  color: #2150c7 !important;
+}
+
+.fc-timeGridWeek-button {
+  color: #2150c7 !important;
+}
+
+.fc-button-active {
+  border: 2px solid #2150c7 !important;
+  box-shadow: none !important;
+}
+
+.fc-button-active:focus {
+  box-shadow: none !important;
+}
+
+.fc-button {
+  box-shadow: none !important;
+}
+
+.fc-col-header-cell-cushion {
+  text-transform: capitalize;
+}
+
+/*** Estilo para el tooltip de SweetAlert2 */
+
+div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm) {
+  border: 2px solid #2150c7 !important;
+  border-radius: 0.25em;
+  background: initial;
+  background-color: #2150c7 !important;
+  color: #fff;
+  font-size: 1em;
+  box-shadow: none !important;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {
+  border-radius: 20px;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel) {
+  border: 2px solid black !important;
+  border-radius: 0.25em;
+  background: initial;
+  background-color: white !important;
+  color: black !important;
+  font-size: 1em;
+}
+
+div:where(.swal2-icon).swal2-info {
+  border: .25em solid rgba(255, 135, 12, .3) !important;
+}
+
+div:where(.swal2-icon).swal2-info {
+  color: #ff870c !important;
+}
+
+#usuarios-reservados {
+  width: fit-content;
+  margin: 0 auto;
+  text-align: left;
+  ul {
+    list-style-type: number;
+  }
 }
