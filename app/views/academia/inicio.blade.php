@@ -111,6 +111,9 @@ $userRole = $usuario->rol;
                 // Si el usuario es Gerente, ya tienes la lógica para editar
                 if ((USUARIO_ROL === 'Gerente' && ACADEMIA_ID_GERENTE === USUARIO_ID) ||
                     currentRole === 'Entrenador') {
+
+
+
                     // Lógica para editar el evento
                     Swal.fire({
                             icon: 'warning',
@@ -120,7 +123,9 @@ $userRole = $usuario->rol;
                 <input type="text" id="start" class="swal2-input" placeholder="Fecha de inicio" value="${info.event.startStr}" required>
                 <input type="text" id="end" class="swal2-input" placeholder="Fecha de fin" value="${info.event.endStr}">
                 <select id="idEntrenador" class="swal2-input">
-                    <option value="">Entrenador</option>
+                    <option value="">Sin asignar</option>
+                    <option value="` + (info.event.extendedProps.idEntrenador || 'Sin asignar') + `" selected> ` + (info.event
+                                .extendedProps.nombreEntrenador || 'Sin asignar') + ` </option>
                     @foreach ($entrenadores as $entrenador)
                     <option value="{{ $entrenador->idUsuario }}">{{ $entrenador->nombreUsuario }}</option>
                     @endforeach
@@ -251,7 +256,7 @@ $userRole = $usuario->rol;
                         html: `
         <p>Fecha de inicio: ${info.event.start.toLocaleString()}</p>
         <p>Fecha de fin: ${info.event.end ? info.event.end.toLocaleString() : 'Sin fecha de fin'}</p>
-        <p>Entrenador: ${info.event.extendedProps.nombreEntrenador}</p>`,
+        <p>Entrenador: ${info.event.extendedProps.nombreEntrenador || 'No asignado'}</p>`,
                         showCancelButton: true,
                         cancelButtonText: 'Cancelar',
                         confirmButtonText: 'Reservar',
@@ -305,7 +310,7 @@ $userRole = $usuario->rol;
         <input type="text" id="start" placeholder="Fecha de inicio" class="swal2-input" value="${info.dateStr}" required>
         <input type="text" id="end"  placeholder="Fecha de fin" class="swal2-input">
         <select id="idEntrenador" class="swal2-input">
-            <option value="" disabled selected>Entrenador</option>
+            <option value="" disabled selected>Sin asignar entrenador</option>
             @foreach ($entrenadores as $entrenador)
             <option value="{{ $entrenador->idUsuario }}">{{ $entrenador->nombreUsuario }}</option>
             @endforeach
