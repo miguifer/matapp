@@ -10,7 +10,10 @@ class calendarioModelo
     }
     public function obtenerClases($idAcademia)
     {
-        $this->db->query("SELECT * FROM clases WHERE idAcademia = :idAcademia");
+        $this->db->query("SELECT c.*, u.nombreUsuario AS nombreEntrenador 
+                          FROM clases c
+                          LEFT JOIN Usuarios u ON c.idEntrenador = u.idUsuario
+                          WHERE c.idAcademia = :idAcademia");
         $this->db->bind(':idAcademia', $idAcademia);
         return $this->db->registros(); // Devuelve todos los registros como objetos
     }

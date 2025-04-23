@@ -142,7 +142,8 @@ $userRole = $usuario->rol;
                                 const title = Swal.getPopup().querySelector('#title').value;
                                 const start = Swal.getPopup().querySelector('#start').value;
                                 const end = Swal.getPopup().querySelector('#end').value;
-                                const idEntrenador = Swal.getPopup().querySelector('#idEntrenador').value;
+                                const idEntrenador = Swal.getPopup().querySelector(
+                                    '#idEntrenador').value;
 
                                 if (!title || !start) {
                                     Swal.showValidationMessage(
@@ -247,6 +248,10 @@ $userRole = $usuario->rol;
                         icon: 'info',
                         title: 'Confirmar Reserva',
                         text: `¿Estás seguro de que deseas reservar la clase "${info.event.title}"?`,
+                        html: `
+        <p>Fecha de inicio: ${info.event.start.toLocaleString()}</p>
+        <p>Fecha de fin: ${info.event.end ? info.event.end.toLocaleString() : 'Sin fecha de fin'}</p>
+        <p>Entrenador: ${info.event.extendedProps.nombreEntrenador}</p>`,
                         showCancelButton: true,
                         cancelButtonText: 'Cancelar',
                         confirmButtonText: 'Reservar',

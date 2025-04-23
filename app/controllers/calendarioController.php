@@ -35,7 +35,9 @@ class calendarioController extends Controlador
                 'id' => $clase->id,
                 'title' => $clase->title,
                 'start' => $clase->start,
-                'end' => $clase->end
+                'end' => $clase->end,
+                'idEntrenador' => $clase->idEntrenador,
+                'nombreEntrenador' => $clase->nombreEntrenador,
             ];
         }
 
