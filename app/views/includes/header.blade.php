@@ -11,7 +11,7 @@
     <link href="{{ RUTA_URL }}/public/libs/bootstrap-5.3.5-dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous">
     {{-- Carga fontawesome desde CDN --}}
-    <link rel="stylesheet" href="{{ RUTA_URL }}/public/libs/fontawesome-free-6.7.2-web/css/all.min.css"  />
+    <link rel="stylesheet" href="{{ RUTA_URL }}/public/libs/fontawesome-free-6.7.2-web/css/all.min.css" />
     {{-- Carga CSS genérico para el chatBot --}}
     <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/chatbot.css" /> {{-- Carga css desde archivo local --}}
     <!-- Fuentes e íconos para chatbot-->
@@ -20,17 +20,17 @@
     {{-- Carga FULLCALENDAR desde su ruta en local --}}
     <script src='{{ RUTA_URL }}/public/libs/fullcalendar-scheduler-6.1.17/dist/index.global.min.js'></script>
     <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/fullcalendar.css" />
-    {{-- Carga sweetalerts desde archivo CDN --}}
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {{-- Carga datatablesJS css desde CDN --}}
     {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"> --}}
-    <link rel="stylesheet" href="{{ RUTA_URL }}/public/libs/DataTables/datatables.min.css" /> {{-- Carga datatables desde archivo local --}}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> {{-- Carga chart.js desde CDN --}}
+    <link rel="stylesheet" href="{{ RUTA_URL }}/public/libs/DataTables/datatables.min.css" />
+    {{-- Carga datatables desde archivo local --}}
     {{-- Carga flatpickr desde CDN --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_green.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> {{-- Carga flatpickr desde cdn --}}
-    {{-- Carga offcanvasMenuLibrary --}}
+    <link rel="stylesheet" href="{{ RUTA_URL }}/public/libs/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/libs/material_green.css">
+    <script src="{{ RUTA_URL }}/public/libs/flatpickr.min.js"></script> {{-- Carga flatpickr desde cdn --}}
+    <script src="{{ RUTA_URL }}/public/libs/chart.umd.js"></script> {{-- Carga ChartJs  --}}
+    {{-- Carga sweetalerts desde archivo CDN --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
