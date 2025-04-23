@@ -124,8 +124,6 @@ $userRole = $usuario->rol;
                 <input type="text" id="end" class="swal2-input" placeholder="Fecha de fin" value="${info.event.endStr}">
                 <select id="idEntrenador" class="swal2-input">
                     <option value="">Sin asignar</option>
-                    <option value="` + (info.event.extendedProps.idEntrenador || 'Sin asignar') + `" selected> ` + (info.event
-                                .extendedProps.nombreEntrenador || 'Sin asignar') + ` </option>
                     @foreach ($entrenadores as $entrenador)
                     <option value="{{ $entrenador->idUsuario }}">{{ $entrenador->nombreUsuario }}</option>
                     @endforeach
