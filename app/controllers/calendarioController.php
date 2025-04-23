@@ -85,7 +85,7 @@ class calendarioController extends Controlador
             // Devolver respuesta en JSON
             header('Content-Type: application/json');
             if ($resultado) {
-                echo json_encode(['message' => 'Evento agregado con éxito']);
+                echo json_encode(['message' => 'Clase agregada con éxito']);
             } else {
                 echo json_encode(['message' => 'Error al guardar en la base de datos']);
             }
@@ -113,7 +113,7 @@ class calendarioController extends Controlador
             // Devolver respuesta en JSON
             header('Content-Type: application/json');
             if ($resultado) {
-                echo json_encode(['message' => 'Evento actualizado con éxito']);
+                echo json_encode(['message' => 'Clase actualizada con éxito']);
             } else {
                 echo json_encode(['message' => 'Error al actualizar en la base de datos']);
             }
@@ -133,7 +133,7 @@ class calendarioController extends Controlador
             // Devolver respuesta en JSON
             header('Content-Type: application/json');
             if ($resultado) {
-                echo json_encode(['message' => 'Evento eliminado con éxito']);
+                echo json_encode(['message' => 'Clase eliminada con éxito']);
             } else {
                 echo json_encode(['message' => 'Error al eliminar en la base de datos']);
             }

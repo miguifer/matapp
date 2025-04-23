@@ -322,3 +322,8 @@ span.flatpickr-weekday {
 div:where(.swal2-container) .swal2-select {
   min-width: 58% !important;
 }
+
+div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny) {
+  border: 2px solid #c2040b !important;
+  background-color: #c2040b !important;
+}

@@ -193,7 +193,8 @@ $userRole = $usuario->rol;
  <input type="text" id="title" class="swal2-input" value="${info.event.title}" placeholder="Título del Evento" required>
  <input type="text" id="start" class="swal2-input" placeholder="Fecha de inicio" value="${info.event.startStr}" required>
  <input type="text" id="end" class="swal2-input" placeholder="Fecha de fin" value="${info.event.endStr}">
- <select id="idEntrenador" class="swal2-input">
+ <select id="idEntrenador" class="swal2-select">
+ <option value="" disabled selected>Selecciona un entrenador</option>
  <option value="">Sin asignar</option>
  <?php $__currentLoopData = $entrenadores; $this->addLoop($__currentLoopData);$this->getFirstLoop();
  foreach($__currentLoopData as $entrenador): $loop = $this->incrementLoopIndices();  ?>
