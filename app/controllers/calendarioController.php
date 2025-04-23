@@ -51,6 +51,7 @@ class calendarioController extends Controlador
                 'start' => $_POST['start'],
                 'end'   => $_POST['end'],
                 'idAcademia' => $_POST['idAcademia'],
+                'idEntrenador' => $_POST['idEntrenador'],
             ];
 
             $resultado = $this->calendarioModelo->agregarClase($datos);
@@ -77,6 +78,7 @@ class calendarioController extends Controlador
                 'title' => $_POST['title'],
                 'start' => $_POST['start'],
                 'end'   => $_POST['end'],
+                'idEntrenador' => $_POST['idEntrenador']
                 // 'idAcademia' => $_POST['idAcademia'],
             ];
 
@@ -191,6 +193,25 @@ class calendarioController extends Controlador
             }
         } else {
             redireccionar('/');
+        }
+    }
+
+    public function get_usuarios_apuntados()
+    {
+        // Comprobar si la solicitud es AJAX y contiene el idClase
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['idClase'])) {
+            $idClase = $_POST['idClase'];
+
+            // Obtener los usuarios apuntados desde el modelo
+            $usuarios = $this->calendarioModelo->obtenerUsuariosApuntados($idClase);
+
+            // Devolver la respuesta en formato JSON
+            header('Content-Type: application/json');
+            echo json_encode($usuarios);
+        } else {
+            // Si no es una solicitud válida, devolver array vacío
+            header('Content-Type: application/json');
+            echo json_encode([]);
         }
     }
 }

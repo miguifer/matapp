@@ -17,11 +17,12 @@ class calendarioModelo
 
     public function agregarClase($datos)
     {
-        $this->db->query("INSERT INTO clases (title, start, end, idAcademia) VALUES (:title, :start, :end, :idAcademia)");
+        $this->db->query("INSERT INTO clases (title, start, end, idAcademia, idEntrenador) VALUES (:title, :start, :end, :idAcademia, :idEntrenador)");
         $this->db->bind(':title', $datos['title']);
         $this->db->bind(':start', $datos['start']);
         $this->db->bind(':end', $datos['end']);
         $this->db->bind(':idAcademia', $datos['idAcademia']);
+        $this->db->bind(':idEntrenador', $datos['idEntrenador']);
         if ($this->db->execute()) {
             return true;
         } else {
@@ -42,11 +43,12 @@ class calendarioModelo
 
     public function actualizarClase($id, $datos)
     {
-        $this->db->query("UPDATE clases SET title = :title, start = :start, end = :end WHERE id = :id");
+        $this->db->query("UPDATE clases SET title = :title, start = :start, end = :end, idEntrenador = :idEntrenador WHERE id = :id");
         $this->db->bind(':id', $id);
         $this->db->bind(':title', $datos['title']);
         $this->db->bind(':start', $datos['start']);
         $this->db->bind(':end', $datos['end']);
+        $this->db->bind(':idEntrenador', $datos['idEntrenador']);
         if ($this->db->execute()) {
             return true;
         } else {
@@ -93,5 +95,17 @@ class calendarioModelo
         } else {
             return false;
         }
+    }
+
+    public function obtenerUsuariosApuntados($idClase)
+    {
+        $this->db->query("SELECT u.nombreUsuario 
+                      FROM Reservas r
+                      JOIN Usuarios u ON r.idUsuario = u.idUsuario
+                      WHERE r.idClase = :idClase");
+
+        $this->db->bind(':idClase', $idClase);
+
+        return $this->db->registros(); // equivalente a fetchAll()
     }
 }
