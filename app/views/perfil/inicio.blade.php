@@ -1,6 +1,14 @@
 @include('includes.header')
 
+<?php
+$usuario = json_decode($_SESSION['userLogin']['usuario']);
+$userRole = $usuario->rol;
 
+if($userRole == 'Administrador'){
+    redireccionar('/admin');
+}
+
+?>
 @php
 
     $usuario = json_decode($_SESSION['userLogin']['usuario']);

@@ -155,18 +155,20 @@
                     <div class="offcanvas-body">
 
                         <div class="row">
-                            <div class="col-12 mb-1">
-                                <a class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
-                                    href="<?= RUTA_URL ?>/perfil"><i class="fa-regular fa-user"></i>&nbsp;&nbsp;Tu
-                                    perfil </a>
-                            </div>
+                            
                             <?php if (isset($usuario->rol) && $usuario->rol == "Administrador") { ?>
                             <div class="col-12 mb-1">
                                 <a class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
                                     href="<?= RUTA_URL ?>/admin"><i class="fa-solid fa-lock"></i>&nbsp;&nbsp;Panel
                                     de administración</a>
                             </div>
-                            <?php } ?>
+                            <?php }else{ ?>
+                            <div class="col-12 mb-1">
+                                <a class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
+                                    href="<?= RUTA_URL ?>/perfil"><i class="fa-regular fa-user"></i>&nbsp;&nbsp;Tu
+                                    perfil </a>
+                            </div>
+                            <?php } ?>  
                             <div class="col-12 mt-2 border-top border-dark-subtle">
                                 <a class=" link link-danger d-flex align-items-center text-decoration-none ms-2 mt-3"
                                     href="<?= RUTA_URL ?>/inicioSesion/cerrarSesion"><i

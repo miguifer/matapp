@@ -272,7 +272,6 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-cancel) {
 
 div:where(.swal2-icon).swal2-info {
   border-color: #ff870c !important;
-  
 }
 
 div:where(.swal2-icon).swal2-info {
@@ -290,32 +289,46 @@ div:where(.swal2-icon).swal2-info {
 
 .flatpickr-months .flatpickr-month {
   background: #2150c7 !important;
- 
 }
 
 .flatpickr-current-month .flatpickr-monthDropdown-months {
   background: #2150c7 !important;
-  
 }
 
 .flatpickr-weekdays {
   background: #2150c7 !important;
- 
 }
-
 
 span.flatpickr-weekday {
   background: #2150c7 !important;
   color: white !important;
-  
 }
 
-.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay {
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected.inRange,
+.flatpickr-day.startRange.inRange,
+.flatpickr-day.endRange.inRange,
+.flatpickr-day.selected:focus,
+.flatpickr-day.startRange:focus,
+.flatpickr-day.endRange:focus,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover,
+.flatpickr-day.selected.prevMonthDay,
+.flatpickr-day.startRange.prevMonthDay,
+.flatpickr-day.endRange.prevMonthDay,
+.flatpickr-day.selected.nextMonthDay,
+.flatpickr-day.startRange.nextMonthDay,
+.flatpickr-day.endRange.nextMonthDay {
   background: #2150c7 !important;
   border-color: #2150c7 !important;
 }
 
-.flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {
+.flatpickr-current-month
+  .flatpickr-monthDropdown-months
+  .flatpickr-monthDropdown-month {
   background-color: #2150c7 !important;
 }
 
@@ -327,3 +340,5 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny) {
   border: 2px solid #c2040b !important;
   background-color: #c2040b !important;
 }
+
+
