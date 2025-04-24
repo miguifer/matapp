@@ -116,7 +116,11 @@ class inicioSesion extends Controlador
                             'usuario' => json_encode($usuario),
                         ];
 
-                        redireccionar('/');
+                        if (isset($_GET['academia'])) {
+                            redireccionar('/academia?academia=' . urlencode($_GET['academia']));
+                        } else {
+                            redireccionar('/');
+                        }
                     } else {
                         $datos = [
                             'login' => $login,
@@ -125,7 +129,8 @@ class inicioSesion extends Controlador
                         ];
                         // $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
                         // echo $this->blade->run("inicioSesion", $datos);
-                        header("Location: " . RUTA_URL . "/inicioSesion?error=Credencialesçincorrectas");
+                        header("Location: " . RUTA_URL . "/inicioSesion?error=Credencialesçincorrectas" .
+                            (isset($_GET['academia']) ? "&academia=" . urlencode($_GET['academia']) : ""));
                     }
                 } else {
                     $datos = [
@@ -135,7 +140,8 @@ class inicioSesion extends Controlador
                     ];
                     // $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
                     // echo $this->blade->run("inicioSesion", $datos);
-                    header("Location: " . RUTA_URL . "/inicioSesion?error=Credencialesçincorrectas");
+                    header("Location: " . RUTA_URL . "/inicioSesion?error=Credencialesçincorrectas" .
+                        (isset($_GET['academia']) ? "&academia=" . urlencode($_GET['academia']) : ""));
                 }
             } else {
                 $datos = [
@@ -145,7 +151,8 @@ class inicioSesion extends Controlador
                 ];
                 // $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
                 // echo $this->blade->run("inicioSesion", $datos);
-                header("Location: " . RUTA_URL . "/inicioSesion?error=Ambosçcamposçsonçobligatorios");
+                header("Location: " . RUTA_URL . "/inicioSesion?error=Ambosçcamposçsonçobligatorios" .
+                    (isset($_GET['academia']) ? "&academia=" . urlencode($_GET['academia']) : ""));
             }
         } else if (isset($_SESSION['userLogin'])) {
             redireccionar('/');

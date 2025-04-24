@@ -58,9 +58,20 @@
             <span class="position-absolute end-0 p-3">¿No tienes una cuenta?
                 <a id="link-iniciar-sesion" class="text-decoration-none" href="<?= RUTA_URL ?>/">Registrate →</a></span>
 
+
             <div class="register-container w-100 w-md-50 d-flex justify-content-center" style="margin-top: 20vh">
-                <form class="p-3 rounded-2" id="form-register" action="<?= RUTA_URL ?>/inicioSesion" method="POST"
-                    style="min-width: 70%;">
+
+                <?php
+                // Antes del <form>, construimos el sufijo de query si viene idAcademia
+                $idAcademiaQS = '';
+                if (isset($_GET['academia']) && $_GET['academia'] !== '') {
+                    $academiaQS = '?academia=' . urlencode($_GET['academia']);
+                }
+                ?>
+
+                <form class="p-3 rounded-2" id="form-register" action="<?= RUTA_URL ?>/inicioSesion<?= !empty($academiaQS) ? $academiaQS : '' ?>
+"
+                    method="POST" style="min-width: 70%;">
 
                     <div class="d-flex justify-content-center mb-4">
                         <img src="<?= RUTA_URL ?>/public/img/favicon/android-chrome-512x512.png" alt="Logo"
@@ -73,7 +84,7 @@
                     if (isset($_GET['error'])) {
                     
                     ?>
-                    
+
                     <span id="error_email" class="small text-danger d-flex align-items-center"><svg
                             xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="-2 -3 24 24"
                             class="ms-1 me-1">

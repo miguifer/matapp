@@ -45,7 +45,7 @@ class academia extends Controlador
             redireccionar('/');
         } elseif ($usuario == null) {
             // a iniciar sesion
-            redireccionar('/');
+            redireccionar('/inicioSesion?academia=' . urlencode(json_encode($academia)));
         } elseif (!$esAlumno && !$esGerente) {
             redireccionar('/academia/solicitarAcceso?academia=' . urlencode(json_encode($academia)));
         } else {
