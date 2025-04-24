@@ -56,8 +56,7 @@
         <div class="col-12 col-md-6 text-dark bg-white d-flex justify-content-center" style="height: 100vh"
             id="derecha">
             <span class="position-absolute end-0 p-3">¿No tienes una cuenta?
-                <a id="link-iniciar-sesion" class="text-decoration-none"
-                    href="<?= RUTA_URL ?>/">Registrate →</a></span>
+                <a id="link-iniciar-sesion" class="text-decoration-none" href="<?= RUTA_URL ?>/">Registrate →</a></span>
 
             <div class="register-container w-100 w-md-50 d-flex justify-content-center" style="margin-top: 20vh">
                 <form class="p-3 rounded-2" id="form-register" action="<?= RUTA_URL ?>/inicioSesion" method="POST"
@@ -70,6 +69,20 @@
 
                     <h4>Inicia Sesión en MatApp</h4>
 
+                    <?php
+                    if (isset($error)) {
+                    
+                    ?>
+                    
+                    <span id="error_email" class="small text-danger d-flex align-items-center"><svg
+                            xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="-2 -3 24 24"
+                            class="ms-1 me-1">
+                            <path fill="currentColor"
+                                d="m12.8 1.613l6.701 11.161c.963 1.603.49 3.712-1.057 4.71a3.2 3.2 0 0 1-1.743.516H3.298C1.477 18 0 16.47 0 14.581c0-.639.173-1.264.498-1.807L7.2 1.613C8.162.01 10.196-.481 11.743.517c.428.276.79.651 1.057 1.096M10 14a1 1 0 1 0 0-2a1 1 0 0 0 0 2m0-9a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V6a1 1 0 0 0-1-1" />
+                        </svg><?= $error ?></span>
+                    <?php
+                    }
+                    ?>
 
 
                     <div>
@@ -80,15 +93,16 @@
                     <div>
                         <label for="password" class="fw-semibold form-label mt-2">Contraseña</label><sup>*</sup>
                         <input type="password" class="form-control" placeholder="Contraseña" id="password"
-                            name="password"
-                            value="" />
+                            name="password" value="" />
 
                     </div>
 
                     <button type="submit" id="submit" class="mt-4 btn p-2 btn-dark w-100">
                         Iniciar sesión >
                     </button>
-                   
+
+
+
                 </form>
             </div>
         </div>
@@ -104,6 +118,6 @@
         }
     </script>
 
-    
+
 
     @include('includes.footer')

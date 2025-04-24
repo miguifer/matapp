@@ -20,34 +20,128 @@ class inicioSesion extends Controlador
         $this->academiaModelo = $this->modelo('academiaModelo');
     }
 
+    // public function index()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    //         $login = $_POST['login'];
+    //         $password = $_POST['password'];
+
+    //         if ($this->academiaModelo->obtenerUsuarioPorLogin($login)) {
+
+    //             $usuario = $this->academiaModelo->obtenerUsuarioPorLogin($login);
+
+    //             if (password_verify($password, $usuario->password)) {
+
+    //                 //usuarios base no estan en roles, asi que si no eisten en la tabla dará null
+    //                 $usuario->rol = $this->academiaModelo->obtenerRolDeUsuario($usuario->idUsuario) ?? 'Cliente';
+
+    //                 //aqui se guarda el usuario en la sesiiony puedo añadir mas cosas
+
+    //                 $_SESSION['userLogin'] = [
+    //                     'usuario' => json_encode($usuario),
+    //                 ];
+
+    //                 redireccionar('/');
+    //             } else {
+    //                 redireccionar('/');
+    //             }
+    //         } else {
+    //             redireccionar('/');
+    //         }
+    //     } else if (isset($_SESSION['userLogin'])) {
+    //         redireccionar('/');
+    //     } else {
+    //         $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+    //         echo $this->blade->run("inicioSesion", []);
+    //     }
+    // }
+
     public function index()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-            $login = $_POST['login'];
-            $password = $_POST['password'];
+            if (isset($_POST["login"])) {
+                if (!empty($_POST['login'])) {
 
-            if ($this->academiaModelo->obtenerUsuarioPorLogin($login)) {
-
-                $usuario = $this->academiaModelo->obtenerUsuarioPorLogin($login);
-
-                if (password_verify($password, $usuario->password)) {
-
-                    //usuarios base no estan en roles, asi que si no eisten en la tabla dará null
-                    $usuario->rol = $this->academiaModelo->obtenerRolDeUsuario($usuario->idUsuario) ?? 'Cliente';
-
-                    //aqui se guarda el usuario en la sesiiony puedo añadir mas cosas
-
-                    $_SESSION['userLogin'] = [
-                        'usuario' => json_encode($usuario),
-                    ];
-
-                    redireccionar('/');
+                    if (strlen(($_POST['login'])) < 50) {
+                        $login = test_input($_POST["login"]);
+                        $datos['login'] = $login;
+                    } else {
+                        $datos['error'] = "El login no puede tener mas de 50 caracteres";
+                    }
                 } else {
-                    redireccionar('/');
+                    $datos['error'] = "Ambos campos son obligatorios";
                 }
             } else {
-                redireccionar('/');
+                $datos['error'] = "Ambos campos son obligatorios";
+            }
+
+
+            if (isset($_POST["password"])) {
+                if (!empty($_POST['password'])) {
+
+                    if (strlen(($_POST['password'])) < 50) {
+                        $password = test_input($_POST["password"]);
+                        $datos['password'] = $password;
+                    } else {
+                        $datos['error'] = "El password no puede tener mas de 255 caracteres";
+                    }
+                } else {
+                    $datos['error'] = "Ambos campos son obligatorios";
+                }
+            } else {
+                $datos['error'] = "Ambos campos son obligatorios";
+            }
+
+
+            if (!isset($datos['error'])) {
+
+
+                if ($this->academiaModelo->obtenerUsuarioPorLogin($login)) {
+
+
+                    $usuario = $this->academiaModelo->obtenerUsuarioPorLogin($login);
+
+
+                    if (password_verify($password, $usuario->password)) {
+
+                        //usuarios base no estan en roles, asi que si no eisten en la tabla dará null
+                        $usuario->rol = $this->academiaModelo->obtenerRolDeUsuario($usuario->idUsuario) ?? 'Cliente';
+
+                        //aqui se guarda el usuario en la sesiiony puedo añadir mas cosas
+
+                        $_SESSION['userLogin'] = [
+                            'usuario' => json_encode($usuario),
+                        ];
+
+                        redireccionar('/');
+                    }else{
+                        $datos = [
+                            'login' => $login,
+                            'password' => $password,
+                            'error' => "Credenciales incorrectas"
+                        ];
+                        $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                        echo $this->blade->run("inicioSesion", $datos);
+                    }
+                } else {
+                    $datos = [
+                        'login' => "",
+                        'password' => "",
+                        'error' => "Credenciales incorrectas"
+                    ];
+                    $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                    echo $this->blade->run("inicioSesion", $datos);
+                }
+            } else {
+                $datos = [
+                    'login' => "",
+                    'password' => "",
+                    'error' => "Ambos campos son obligatorios"
+                ];
+                $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                echo $this->blade->run("inicioSesion", $datos);
             }
         } else if (isset($_SESSION['userLogin'])) {
             redireccionar('/');
