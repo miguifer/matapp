@@ -38,19 +38,19 @@
 
     <!-- Main content -->
     <div class="main">
-        <h1>Bienvenido de nuevo</h1>
+        <h1>Panel de administrador</h1>
         <div class="container-fluid">
             <!-- Inicio -->
             <div id="inicio" class="tab-content active">
                 <div class="row g-4">
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         <div class="card p-3">
                             <div class="card-header">Ventas Mensuales</div>
                             <div class="card-body">
                                 <canvas id="salesChart" height="150"></canvas>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="col-md-6">
                         <div class="card p-4 text-center">
                             <div class="card-header">Resumen de Usuarios</div>
@@ -75,20 +75,20 @@
                 <div class="row g-4">
                     <div class="col-md-6">
                         <div class="card p-3">
-                            <div class="card-header">Tipos de academia</div>
+                            <div class="card-header">Alumnos por modalidad</div>
                             <div class="card-body">
                                 <canvas id="miGrafico"></canvas>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         <div class="card p-3">
                             <div class="card-header">Usuarios por Región</div>
                             <div class="card-body">
                                 <canvas id="barChart" height="150"></canvas>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
@@ -100,7 +100,7 @@
                         <div class="card p-3">
                             <div class="card-header">Total de Usuarios</div>
                             <div class="card-body">
-                                <div class="stat-number">320</div>
+                                <div class="stat-number"><?= $estadisticaUsuarios ?></div>
                                 <div class="stat-label">Usuarios Registrados</div>
                             </div>
                         </div>
@@ -109,8 +109,8 @@
                         <div class="card p-3">
                             <div class="card-header">Usuarios Activos</div>
                             <div class="card-body">
-                                <div class="stat-number">276</div>
-                                <div class="stat-label">Usuarios Activos</div>
+                                <div class="stat-number"><?=$_SESSION['activos']?></div>
+                                <div class="stat-label">Usuarios Activos en los últimos 30 minutos</div>
                             </div>
                         </div>
                     </div>
