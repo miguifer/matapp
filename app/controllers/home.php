@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 
 use eftec\bladeone\BladeOne;
@@ -27,6 +26,10 @@ class home extends Controlador
         $datos = [
             'academias' => $academias,
         ];
+
+        $_SESSION['activos'] = $this->academiaModelo->obtenerUsuariosActivos();
+
+        $this->academiaModelo->eliminarSesionesInactivas();
 
         $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
         echo $this->blade->run("home", $datos);

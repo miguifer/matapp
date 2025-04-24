@@ -231,4 +231,36 @@ class academiaModelo
         $result = $this->db->registro(); // Assuming registro() fetches a single record
         return $result ? $result->totalUsuarios : 0; // Returns the total count of users
     }
+
+    //SESIONES ACTIVAS
+    public function actualizarActividad($userId)
+    {
+        $this->db->query("
+        REPLACE INTO sesiones_activas (idUsuario, last_activity)
+        VALUES (:user_id, datetime('now'))
+    ");
+        $this->db->bind(':user_id', $userId);
+        $this->db->execute();
+    }
+
+    public function obtenerUsuariosActivos($minutos = 5)
+    {
+        $this->db->query("
+        SELECT COUNT(*) AS totalActivos
+        FROM sesiones_activas
+        WHERE last_activity >= datetime('now', '-' || :minutos || ' minutes')
+    ");
+        $this->db->bind(':minutos', $minutos);
+        $resultado = $this->db->registro();
+        return $resultado ? $resultado->totalActivos : 0;
+    }
+
+    public function eliminarSesionesInactivas()
+    {
+        $this->db->query("
+        DELETE FROM sesiones_activas
+        WHERE last_activity < datetime('now', '-30 minutes')
+    ");
+        $this->db->execute();
+    }
 }

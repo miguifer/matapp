@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 // Cargamos librerias
 require_once 'config/configurar.php';
 
@@ -20,3 +22,7 @@ require '../vendor/autoload.php';
 spl_autoload_register(function ($nombreClase) {
     require_once 'librerias/' . $nombreClase . '.php';
 });
+
+
+
+

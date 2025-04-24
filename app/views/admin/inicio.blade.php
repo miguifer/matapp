@@ -60,7 +60,7 @@
                                     <div class="stat-label">Total de Usuarios</div>
                                 </div>
                                 <div>
-                                    <div class="stat-number text-success">276</div>
+                                    <div class="stat-number text-success"><?=$_SESSION['activos']?></div>
                                     <div class="stat-label">Usuarios Activos</div>
                                 </div>
                             </div>
