@@ -56,7 +56,7 @@
  <div class="card-header">Resumen de Usuarios</div>
  <div class="card-body">
  <div class="mb-4">
- <div class="stat-number">320</div>
+ <div class="stat-number"><?=$estadisticaUsuarios?></div>
  <div class="stat-label">Total de Usuarios</div>
  </div>
  <div>
@@ -169,37 +169,7 @@
  });
  });
 
- // Gráfico de línea (Ventas Mensuales)
- const salesChart = document.getElementById('salesChart').getContext('2d');
- new Chart(salesChart, {
- type: 'line',
- data: {
- labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun'],
- datasets: [{
- label: 'Ventas',
- data: [100, 150, 130, 170, 200, 250],
- borderColor: 'rgba(0, 122, 255, 1)',
- backgroundColor: 'rgba(0, 122, 255, 0.2)',
- fill: true
- }]
- }
- });
-
- // Gráfico de barras (Usuarios por Región)
- const barChart = document.getElementById('barChart').getContext('2d');
- new Chart(barChart, {
- type: 'bar',
- data: {
- labels: ['Norte', 'Sur', 'Este', 'Oeste'],
- datasets: [{
- label: 'Usuarios',
- data: [120, 150, 180, 100],
- backgroundColor: 'rgba(0, 122, 255, 0.7)',
- borderColor: 'rgba(0, 122, 255, 1)',
- borderWidth: 1
- }]
- }
- });
+ 
  </script>
 
  <script>

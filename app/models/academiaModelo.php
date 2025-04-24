@@ -220,4 +220,15 @@ class academiaModelo
         $result = $this->db->registro();
         return $result && $result->count > 0;
     }
+
+    public function obtenerTotalUsuarios()
+    {
+        $this->db->query("
+            SELECT COUNT(*) AS totalUsuarios
+            FROM Usuarios
+        ");
+
+        $result = $this->db->registro(); // Assuming registro() fetches a single record
+        return $result ? $result->totalUsuarios : 0; // Returns the total count of users
+    }
 }

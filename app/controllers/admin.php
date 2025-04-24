@@ -28,7 +28,9 @@ class admin extends Controlador
         if ($usuario && $userRole == 'Administrador') {
             
             $estadisticaAcademia = $this->academiaModelo->obtenerEstadisticaAcademias();
+            $estadisticaUsuarios = $this->academiaModelo->obtenerTotalUsuarios();
             $datos['estadisticaAcademia'] = $estadisticaAcademia;
+            $datos['estadisticaUsuarios'] = $estadisticaUsuarios;;
 
             $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
             echo $this->blade->run("admin.inicio", $datos);
