@@ -116,14 +116,16 @@ class inicioSesion extends Controlador
                         ];
 
                         redireccionar('/');
-                    }else{
+                    } else {
                         $datos = [
                             'login' => $login,
                             'password' => $password,
                             'error' => "Credenciales incorrectas"
                         ];
-                        $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
-                        echo $this->blade->run("inicioSesion", $datos);
+                        // $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                        // echo $this->blade->run("inicioSesion", $datos);
+                        header("Location: " . RUTA_URL . "/inicioSesion?error=Credencialesçincorrectas");
+
                     }
                 } else {
                     $datos = [
@@ -131,8 +133,10 @@ class inicioSesion extends Controlador
                         'password' => "",
                         'error' => "Credenciales incorrectas"
                     ];
-                    $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
-                    echo $this->blade->run("inicioSesion", $datos);
+                    // $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                    // echo $this->blade->run("inicioSesion", $datos);
+                    header("Location: " . RUTA_URL . "/inicioSesion?error=Credencialesçincorrectas");
+
                 }
             } else {
                 $datos = [
@@ -140,8 +144,9 @@ class inicioSesion extends Controlador
                     'password' => "",
                     'error' => "Ambos campos son obligatorios"
                 ];
-                $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
-                echo $this->blade->run("inicioSesion", $datos);
+                // $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                // echo $this->blade->run("inicioSesion", $datos);
+                header("Location: " . RUTA_URL . "/inicioSesion?error=Ambosçcamposçsonçobligatorios");
             }
         } else if (isset($_SESSION['userLogin'])) {
             redireccionar('/');
