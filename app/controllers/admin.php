@@ -22,10 +22,9 @@ class admin extends Controlador
     public function index()
     {
         $usuario = json_decode($_SESSION['userLogin']['usuario']);
-        $userRole = $usuario->rol;
 
-        if ($usuario && $userRole == 'Administrador') {
-            
+        if ($usuario->rol == 'Administrador') {
+
             $estadisticaAcademia = $this->academiaModelo->obtenerEstadisticaAcademias();
             $estadisticaUsuarios = $this->academiaModelo->obtenerTotalUsuarios();
             $datos['estadisticaAcademia'] = $estadisticaAcademia;

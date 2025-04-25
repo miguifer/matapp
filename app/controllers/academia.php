@@ -30,31 +30,19 @@ class academia extends Controlador
         $esGerente = $academia->idGerente == $usuario->idUsuario;
         $esEntrenador = $this->academiaModelo->esEntrenador($academia->idAcademia, $usuario->idUsuario);
 
-        if ($esAdmin) {
-            $esGerente = true;
-        }
-
-        if ($esEntrenador) {
-            $usuario->rol = 'Entrenador';
-            $_SESSION['userLogin'] = [
-                'usuario' => json_encode($usuario),
-            ];
-        }
 
         if ($academia == null) {
             redireccionar('/');
         } elseif ($usuario == null) {
             // a iniciar sesion
             redireccionar('/inicioSesion?academia=' . urlencode(json_encode($academia)));
-        } elseif (!$esAlumno && !$esGerente) {
-            redireccionar('/academia/solicitarAcceso?academia=' . urlencode(json_encode($academia)));
         } else {
 
             $datos = [
                 'academia' => $academia,
             ];
 
-            if ($esGerente) {
+            if ($esAdmin) {
                 $estadisticaAcademia = $this->academiaModelo->obtenerEstadisticaAcademias();
                 $solicitudes = $this->academiaModelo->obtenerSolicitudesAcademia($academia->idAcademia);
                 $alumnos = $this->academiaModelo->obtenerAlumnosAcademia($academia->idAcademia);
@@ -62,9 +50,52 @@ class academia extends Controlador
                 $datos['alumnos'] = $alumnos;
                 $datos['estadisticaAcademia'] = $estadisticaAcademia;
                 $datos['solicitudes'] = $solicitudes;
+
+                $usuario->rol = 'Administrador';
+                $_SESSION['userLogin'] = [
+                    'usuario' => json_encode($usuario),
+                ];
+            } else if ($esGerente) {
+                $estadisticaAcademia = $this->academiaModelo->obtenerEstadisticaAcademias();
+                $solicitudes = $this->academiaModelo->obtenerSolicitudesAcademia($academia->idAcademia);
+                $alumnos = $this->academiaModelo->obtenerAlumnosAcademia($academia->idAcademia);
+
+                $datos['alumnos'] = $alumnos;
+                $datos['estadisticaAcademia'] = $estadisticaAcademia;
+                $datos['solicitudes'] = $solicitudes;
+
+
+                $usuario->rol = 'Gerente';
+                $_SESSION['userLogin'] = [
+                    'usuario' => json_encode($usuario),
+                ];
+            } elseif ($esEntrenador) {
+                $estadisticaAcademia = $this->academiaModelo->obtenerEstadisticaAcademias();
+                $datos['estadisticaAcademia'] = $estadisticaAcademia;
+
+                $usuario->rol = 'Entrenador';
+                $_SESSION['userLogin'] = [
+                    'usuario' => json_encode($usuario),
+                ];
+            } elseif ($esAlumno) {
+                $estadisticaAcademia = $this->academiaModelo->obtenerEstadisticaAcademias();
+                $datos['estadisticaAcademia'] = $estadisticaAcademia;
+
+                $usuario->rol = 'Alumno';
+                $_SESSION['userLogin'] = [
+                    'usuario' => json_encode($usuario),
+                ];
+            } else {
+
+                $usuario->rol = 'Cliente';
+                $_SESSION['userLogin'] = [
+                    'usuario' => json_encode($usuario),
+                ];
+
+                redireccionar('/academia/solicitarAcceso?academia=' . urlencode(json_encode($academia)));
             }
-            
-            $entrenadores = $this->academiaModelo->obtenerEntrenadoresAcademia($academia->idAcademia);
+
+            $entrenadores = $this->academiaModelo->obtenerEntrenadoresAcademia($academia->idAcademia) ?? [];
             $datos['entrenadores'] = $entrenadores;
 
 

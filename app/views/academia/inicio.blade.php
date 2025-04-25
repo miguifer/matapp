@@ -7,9 +7,32 @@ $userRole = $usuario->rol;
 
 ?>
 
+<?php if ($usuario->rol == 'Entrenador') { ?>
+<script>
+    currentRole = "Entrenador"; // Valor inicial
+</script>
+<?php } else if ($usuario->rol == 'Alumno') { ?>
+<script>
+    currentRole = "Alumno"; // Valor inicial
+</script>
+<?php } else if ($usuario->rol == 'Gerente') { ?>
+<script>
+    currentRole = "Gerente"; // Valor inicial
+</script>
+<?php } else if ($usuario->rol == 'Administrador') { ?>
+<script>
+    currentRole = "Administrador"; // Valor inicial
+</script>
+<?php }else{
+    redireccionar('/academia/solicitarAcceso?academia=' . urlencode(json_encode($academia)));
+} ?>
 
 <h1><strong>{{ $academia->nombreAcademia }}</strong></h1>
 
+<h1>{{ $usuario->rol }}</h1>
+{{-- <script>
+    let currentRole = "Entrenador"; // Valor inicial
+</script> --}}
 
 @if ($usuario->rol == 'Entrenador')
     <button id="myButton" class="btn btn-primary" onclick="toggleRole()">Entrenador</button>
@@ -21,33 +44,18 @@ $userRole = $usuario->rol;
 </div>
 
 
-<script>
-    let currentRole = "Entrenador"; // Valor inicial
-</script>
-
-<?php if ($usuario->rol == 'Entrenador') { ?>
-<script>
-    currentRole = "Entrenador"; // Valor inicial
-</script>
-<?php } else { ?>
-<script>
-    currentRole = "Cliente"; // Valor inicial
-</script>
-<?php } ?>
 
 <script>
     function toggleRole() {
         // Alternar el valor de la variable y el texto del botón
-        if (currentRole === "Cliente") {
+        if (currentRole === "Alumno") {
             currentRole = "Entrenador";
             document.getElementById("myButton").innerText = "Entrenador";
         } else {
-            currentRole = "Cliente";
-            document.getElementById("myButton").innerText = "Cliente";
+            currentRole = "Alumno";
+            document.getElementById("myButton").innerText = "Alumno";
         }
 
-        // Opcional: Mostrar el valor actual de la variable en la consola
-        console.log(currentRole); // Esto mostrará "Cliente" o "Ntrenedor" en la consola
     }
 </script>
 
@@ -66,7 +74,7 @@ $userRole = $usuario->rol;
     let USUARIO_ID = '<?= $usuario->idUsuario ?>';
     // USUARIO_ID = '23';
 
-    const USUARIO_ROL = '<?= $userRole ?>';
+    // const USUARIO_ROL = '<?= $userRole ?>';
 
 
     function obtenerUsuariosApuntados(idClase) {
@@ -180,8 +188,8 @@ $userRole = $usuario->rol;
             },
             eventClick: function(info) {
                 // Si el usuario es Gerente, ya tienes la lógica para editar
-                if ((USUARIO_ROL === 'Gerente' && ACADEMIA_ID_GERENTE === USUARIO_ID) ||
-                    currentRole === 'Entrenador' || USUARIO_ROL === 'Administrador') {
+                if ((currentRole == 'Gerente' && ACADEMIA_ID_GERENTE === USUARIO_ID) ||
+                    currentRole === 'Entrenador' || currentRole === 'Administrador') {
 
 
 
@@ -316,8 +324,7 @@ $userRole = $usuario->rol;
                                 });
                             }
                         });
-                } else if (USUARIO_ROL === 'Cliente' ||
-                    currentRole === 'Cliente') {
+                } else if (currentRole === 'Alumno') {
 
 
                     // Lógica para el cliente, mostrando un mensaje de confirmación de reserva
@@ -407,16 +414,17 @@ $userRole = $usuario->rol;
                 }
             },
             dateClick: function(info) {
-                if ((USUARIO_ROL !== 'Gerente' || ACADEMIA_ID_GERENTE !== USUARIO_ID) &&
-                    currentRole !== "Entrenador" && USUARIO_ROL !== 'Administrador') return;
+                if ((currentRole == 'Gerente' && ACADEMIA_ID_GERENTE === USUARIO_ID) ||
+                    currentRole === 'Entrenador' || currentRole === 'Administrador') {
 
 
-                // Crear nuevo evento con SweetAlert2
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Agregar Clase',
-                    confirmButtonText: 'Agregar',
-                    html: `
+
+                    // Crear nuevo evento con SweetAlert2
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Agregar Clase',
+                        confirmButtonText: 'Agregar',
+                        html: `
         <input type="text" id="title" class="swal2-input" placeholder="Título de la clase" required>
         <input type="text" id="start" placeholder="Fecha de inicio" class="swal2-input" value="${info.dateStr}" required>
         <input type="text" id="end"  placeholder="Fecha de fin" class="swal2-input">
@@ -429,69 +437,72 @@ $userRole = $usuario->rol;
         <input type="hidden" id="idAcademia" value="{{ $academia->idAcademia }}">
 
     `,
-                    didOpen: () => {
-                        flatpickr("#start", {
-                            enableTime: true,
-                            dateFormat: "Y-m-d H:i",
-                            time_24hr: true
-                        });
-                        flatpickr("#end", {
-                            enableTime: true,
-                            dateFormat: "Y-m-d H:i",
-                            time_24hr: true
-                        });
-                    },
+                        didOpen: () => {
+                            flatpickr("#start", {
+                                enableTime: true,
+                                dateFormat: "Y-m-d H:i",
+                                time_24hr: true
+                            });
+                            flatpickr("#end", {
+                                enableTime: true,
+                                dateFormat: "Y-m-d H:i",
+                                time_24hr: true
+                            });
+                        },
 
-                    preConfirm: () => {
-                        const title = Swal.getPopup().querySelector('#title').value;
-                        const start = Swal.getPopup().querySelector('#start').value;
-                        const idAcademia = Swal.getPopup().querySelector('#idAcademia')
-                            .value;
+                        preConfirm: () => {
+                            const title = Swal.getPopup().querySelector('#title').value;
+                            const start = Swal.getPopup().querySelector('#start').value;
+                            const idAcademia = Swal.getPopup().querySelector(
+                                    '#idAcademia')
+                                .value;
 
-                        if (!title || !start) {
-                            Swal.showValidationMessage(
-                                'Titulo y fecha de inicio son requeridos');
-                        }
-                        return {
-                            title,
-                            start,
-                            end: Swal.getPopup().querySelector('#end').value,
-                            idEntrenador: Swal.getPopup().querySelector('#idEntrenador')
-                                .value,
-                            idAcademia
-                        };
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        const eventData = result.value;
-                        $.ajax({
-                            url: `${RUTA_URL}/calendarioController/add_clase`,
-                            type: 'POST',
-                            dataType: 'json',
-                            data: eventData,
-                            success: function(response) {
-                                if (response && response.message) {
-                                    Swal.fire({
-                                        title: 'Éxito!',
-                                        text: response.message,
-                                        icon: 'success',
-                                        confirmButtonText: 'Genial'
-                                    });
-                                    calendar
-                                        .refetchEvents(); // Recargar eventos
-                                }
-                            },
-                            error: function() {
-                                Swal.fire({
-                                    title: 'Error',
-                                    text: 'Hubo un problema al guardar el evento.',
-                                    icon: 'error',
-                                    confirmButtonText: 'Cerrar'
-                                });
+                            if (!title || !start) {
+                                Swal.showValidationMessage(
+                                    'Titulo y fecha de inicio son requeridos');
                             }
-                        });
-                    }
-                });
+                            return {
+                                title,
+                                start,
+                                end: Swal.getPopup().querySelector('#end').value,
+                                idEntrenador: Swal.getPopup().querySelector(
+                                        '#idEntrenador')
+                                    .value,
+                                idAcademia
+                            };
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            const eventData = result.value;
+                            $.ajax({
+                                url: `${RUTA_URL}/calendarioController/add_clase`,
+                                type: 'POST',
+                                dataType: 'json',
+                                data: eventData,
+                                success: function(response) {
+                                    if (response && response.message) {
+                                        Swal.fire({
+                                            title: 'Éxito!',
+                                            text: response.message,
+                                            icon: 'success',
+                                            confirmButtonText: 'Genial'
+                                        });
+                                        calendar
+                                            .refetchEvents(); // Recargar eventos
+                                    }
+                                },
+                                error: function() {
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: 'Hubo un problema al guardar el evento.',
+                                        icon: 'error',
+                                        confirmButtonText: 'Cerrar'
+                                    });
+                                }
+                            });
+                        }
+                    });
+                }
             }
         });
 
@@ -500,8 +511,8 @@ $userRole = $usuario->rol;
 </script>
 
 <?php
-if ($userRole == 'Gerente' || $userRole == 'Administrador') {
-    echo '<div class="alert alert-info text-center mt-4">Eres gerente, tienes acceso a funciones administrativas.</div>';
+if ($usuario->rol== 'Gerente' || $usuario->rol == 'Administrador') {
+    echo '<div class="alert alert-info text-center mt-4">Eres '. $usuario->rol .' , tienes acceso a funciones administrativas.</div>';
 ?>
 
 {{-- <h4>Estadísticas de tipos de Academias</h4>
