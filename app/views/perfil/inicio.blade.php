@@ -4,7 +4,7 @@
 $usuario = json_decode($_SESSION['userLogin']['usuario']);
 $userRole = $usuario->rol;
 
-if($userRole == 'Administrador'){
+if ($userRole == 'Administrador') {
     redireccionar('/admin');
 }
 
@@ -59,7 +59,25 @@ if($userRole == 'Administrador'){
             },
             editable: false,
             droppable: false,
+            eventDidMount: function(info) {
+                const eventDate = new Date(info.event.start);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // Comparación sin hora
 
+                const dot = info.el.querySelector('.fc-daygrid-event-dot');
+                if (dot) {
+                    const color = eventDate < today ? '#ff870c' : '#46bc62';
+                    dot.setAttribute('style', `border-color: ${color} !important`);
+                }
+
+                // Tooltip
+                new bootstrap.Tooltip(info.el, {
+                    title: info.event.title || 'Sin Título',
+                    placement: 'top',
+                    trigger: 'hover',
+                    container: 'body'
+                });
+            },
             eventClick: function(info) {
                 const idClase = info.event.id; // Asegúrate de que el evento tenga un id único
 
@@ -88,7 +106,7 @@ if($userRole == 'Administrador'){
                                     'success'
                                 );
                                 info.event
-                            .remove(); // Elimina el evento del calendario
+                                    .remove(); // Elimina el evento del calendario
                             },
                             error: function() {
                                 Swal.fire(
@@ -100,16 +118,8 @@ if($userRole == 'Administrador'){
                         });
                     }
                 });
-            },
-
-            eventDidMount: function(info) {
-                new bootstrap.Tooltip(info.el, {
-                    title: info.event.extendedProps.description || 'Sin descripción',
-                    placement: 'top',
-                    trigger: 'hover',
-                    container: 'body'
-                });
             }
+
         });
 
         calendar.render();
