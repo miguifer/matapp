@@ -277,4 +277,41 @@ class academiaModelo
         $this->db->bind(':email', $emailUsuario);
         return $this->db->registro(); // Assuming this returns a single record
     }
+
+    public function registro($datos)
+    {
+        $this->db->query("INSERT INTO usuarios (login, password, emailUsuario, activo, token) VALUES (:login, :password, :email, 0, :token)");
+        $this->db->bind(":login", $datos['login']);
+        $this->db->bind(":password", $datos['password']);
+        $this->db->bind(":email", $datos['email']);
+        $this->db->bind(":token", $datos['token']);
+
+
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function activarCuenta($id, $token)
+    {
+        $this->db->query("UPDATE usuarios SET activo = 1 WHERE idUsuario = :id AND token = :token");
+        $this->db->bind(":id", $id);
+        $this->db->bind(":token", $token);
+
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function eliminarCuenta($idUsuario)
+    {
+        $this->db->query("DELETE FROM Usuarios WHERE idUsuario = :idUsuario");
+        $this->db->bind(':idUsuario', $idUsuario);
+
+        return $this->db->execute(); // Returns true if the query was successful
+    }
 }

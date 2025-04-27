@@ -22,6 +22,7 @@ class home extends Controlador
     public function index()
     {
 
+
         $academias = $this->academiaModelo->obtenerAcademias();
         $datos = [
             'academias' => $academias,

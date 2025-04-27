@@ -14,6 +14,7 @@ require_once 'helpers/helper.php';
 //load composer autoload
 require '../vendor/autoload.php';
 
+
 // Autoload php
 // Hemos sustituido las lineas anteriores comentadas por
 // la función autoload que nos permite cargar 

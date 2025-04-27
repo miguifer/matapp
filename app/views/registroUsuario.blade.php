@@ -41,11 +41,11 @@
                     <div>
                         <label for="email" class="fw-semibold form-label mt-4">Email</label><sup>*</sup>
                         <input type="email" class="form-control mb-2" placeholder="Email" id="email"
-                            name="email" value="<?= isset($datos['email']) ? $datos['email'] : '' ?>" />
+                            name="email" value="<?= isset($email) ? $email : '' ?>" />
 
                         <?php
 
-                        if (isset($datos['errores']['email_error'])) {
+                        if (isset($errores['email_error'])) {
 
                         ?>
 
@@ -54,7 +54,7 @@
                                 class="ms-1 me-1">
                                 <path fill="currentColor"
                                     d="m12.8 1.613l6.701 11.161c.963 1.603.49 3.712-1.057 4.71a3.2 3.2 0 0 1-1.743.516H3.298C1.477 18 0 16.47 0 14.581c0-.639.173-1.264.498-1.807L7.2 1.613C8.162.01 10.196-.481 11.743.517c.428.276.79.651 1.057 1.096M10 14a1 1 0 1 0 0-2a1 1 0 0 0 0 2m0-9a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V6a1 1 0 0 0-1-1" />
-                            </svg><?= $datos['errores']['email_error'] ?></span>
+                            </svg><?= $errores['email_error'] ?></span>
 
                         <?php
                         }
@@ -63,10 +63,10 @@
                     <div>
                         <label for="login" class="fw-semibold form-label">Nombre de usuario</label><sup>*</sup>
                         <input type="text" class="form-control mb-2" placeholder="Nombre de usuario" id="login"
-                            name="login" value="<?= isset($datos['login']) ? $datos['login'] : '' ?>" />
+                            name="login" value="<?= isset($login) ? $login : '' ?>" />
                         <?php
 
-                        if (isset($datos['errores']['login_error'])) {
+                        if (isset($errores['login_error'])) {
 
                         ?>
                         <span id="error_login" class="small text-danger d-flex align-items-center"><svg
@@ -74,7 +74,7 @@
                                 class="ms-1 me-1">
                                 <path fill="currentColor"
                                     d="m12.8 1.613l6.701 11.161c.963 1.603.49 3.712-1.057 4.71a3.2 3.2 0 0 1-1.743.516H3.298C1.477 18 0 16.47 0 14.581c0-.639.173-1.264.498-1.807L7.2 1.613C8.162.01 10.196-.481 11.743.517c.428.276.79.651 1.057 1.096M10 14a1 1 0 1 0 0-2a1 1 0 0 0 0 2m0-9a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V6a1 1 0 0 0-1-1" />
-                            </svg><?= $datos['errores']['login_error'] ?></span>
+                            </svg><?= $errores['login_error'] ?></span>
                         <?php
                         }
                         ?>
@@ -83,14 +83,14 @@
                         <label for="password" class="fw-semibold form-label mt-2">Contraseña</label><sup>*</sup>
                         <input type="password" class="form-control" placeholder="Contraseña" id="password"
                             name="password"
-                            value="<?= isset($datos['password_sin_hash']) ? $datos['password_sin_hash'] : '' ?>" />
+                            value="<?= isset($password_sin_hash) ? $password_sin_hash : '' ?>" />
 
                         <input type="password" class="form-control mt-2" placeholder="Confirmar contraseña"
                             id="password" name="password2"
-                            value="<?= isset($datos['password_sin_hash']) ? $datos['password_sin_hash'] : '' ?>" />
+                            value="<?= isset($password_sin_hash) ? $password_sin_hash : '' ?>" />
                         <?php
 
-                        if (isset($datos['errores']['password_error'])) {
+                        if (isset($errores['password_error'])) {
 
                         ?>
                         <span id="error_password" class="small text-danger d-flex align-items-center"><svg
@@ -98,7 +98,7 @@
                                 class="ms-1 me-1">
                                 <path fill="currentColor"
                                     d="m12.8 1.613l6.701 11.161c.963 1.603.49 3.712-1.057 4.71a3.2 3.2 0 0 1-1.743.516H3.298C1.477 18 0 16.47 0 14.581c0-.639.173-1.264.498-1.807L7.2 1.613C8.162.01 10.196-.481 11.743.517c.428.276.79.651 1.057 1.096M10 14a1 1 0 1 0 0-2a1 1 0 0 0 0 2m0-9a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V6a1 1 0 0 0-1-1" />
-                            </svg><?= $datos['errores']['password_error'] ?></span>
+                            </svg><?= $errores['password_error'] ?></span>
                         <?php
                         }
                         ?>
@@ -108,7 +108,37 @@
                         Registrarse >
                     </button>
 
+                    <?php
 
+                    if (isset($registro_error)) {
+
+                    ?>
+                        <span
+                            id="error_password"
+                            class="small text-danger d-flex align-items-center"><svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="12"
+                                height="12"
+                                viewBox="-2 -3 24 24"
+                                class="ms-1 me-1">
+                                <path
+                                    fill="currentColor"
+                                    d="m12.8 1.613l6.701 11.161c.963 1.603.49 3.712-1.057 4.71a3.2 3.2 0 0 1-1.743.516H3.298C1.477 18 0 16.47 0 14.581c0-.639.173-1.264.498-1.807L7.2 1.613C8.162.01 10.196-.481 11.743.517c.428.276.79.651 1.057 1.096M10 14a1 1 0 1 0 0-2a1 1 0 0 0 0 2m0-9a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V6a1 1 0 0 0-1-1" />
+                            </svg><?= $registro_error ?></span>
+                    <?php
+                    }
+
+                    if (isset($success)) {
+
+                    ?>
+                        <p class="alert alert-success mt-2"><?= $success ?></p>
+                    <?php
+                    } else if (isset($no_success)) {
+                    ?>
+                        <p class="alert alert-danger mt-2"><?= $no_success ?></p>
+                    <?php
+                    }
+                    ?>
 
                 </form>
             </div>

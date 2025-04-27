@@ -36,6 +36,7 @@ class ComposerStaticInitb7a7cb69e04350e3eda8f612c81b8ebc
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
             'PhpOption\\' => 10,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
         array (
@@ -87,6 +88,10 @@ class ComposerStaticInitb7a7cb69e04350e3eda8f612c81b8ebc
         'PhpOption\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'Mfern\\Matapp\\' => 
         array (
