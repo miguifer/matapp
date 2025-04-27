@@ -120,7 +120,6 @@ if ($userRole == 'Administrador') {
  });
  }
 
- 
  });
 
  calendar.render();
