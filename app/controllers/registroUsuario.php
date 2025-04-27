@@ -141,7 +141,6 @@ class registroUsuario extends Controlador
                             if ($_POST['password'] == $_POST['password2']) {
                                 $password = password_hash(test_input($_POST["password"]), PASSWORD_DEFAULT);
                                 $datos['password'] = $password;
-                                $datos['password_sin_hash'] = test_input($_POST["password"]);
                             } else {
                                 $errores['password_error'] = "Las contraseñas no coinciden";
                                 $datos['password'] = "";
@@ -208,31 +207,23 @@ class registroUsuario extends Controlador
                     //envio de correo de confirmación
                     if ($this->enviarCorreo($email, $login)) {
                         $datos['success'] = "Se ha enviado un email a " . $email . " para confirmar la cuenta.";
-                        $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_DEBUG);
-                        echo $this->blade->run("registroUsuario", $datos);
+                        header("Location: " . RUTA_URL . "/registroUsuario?errores=" . urlencode(json_encode($datos['errores'])) . "&login=" . urlencode($datos['login']) . "&email=" . urlencode($datos['email']) . "&success=" . urlencode($datos['success']) . "&registro_error=" . urlencode($datos['registro_error']));
                     } else {
                         $datos['no_success'] = "No se ha podido enviar el email de confirmación a " . $email . ", contacte con soporte para activar la cuenta.";
-                        $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_DEBUG);
-                        echo $this->blade->run("registroUsuario", $datos);
+                        header("Location: " . RUTA_URL . "/registroUsuario?errores=" . urlencode(json_encode($datos['errores'])) . "&login=" . urlencode($datos['login']) . "&email=" . urlencode($datos['email']) . "&success=" . urlencode($datos['success']) . "&registro_error=" . urlencode($datos['registro_error']));
                     }
                 } else {
                     $datos['registro_error'] = "Error al registrar el usuario, reintentar mas tarde";
-                    $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_DEBUG);
-                    echo $this->blade->run("registroUsuario", $datos);
+                    header("Location: " . RUTA_URL . "/registroUsuario?errores=" . urlencode(json_encode($datos['errores'])) . "&login=" . urlencode($datos['login']) . "&email=" . urlencode($datos['email']) . "&success=" . urlencode($datos['success']) . "&registro_error=" . urlencode($datos['registro_error']));
                 }
             } else {
                 $datos['errores'] = $errores;
-                $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_DEBUG);
-                echo $this->blade->run("registroUsuario", $datos);
+                header("Location: " . RUTA_URL . "/registroUsuario?errores=" . urlencode(json_encode($datos['errores'])) . "&login=" . urlencode($datos['login']) . "&email=" . urlencode($datos['email']) . "&success=" . urlencode($datos['success']) . "&registro_error=" . urlencode($datos['registro_error']));;
             }
         } else {
-            $datos = [
-                'login' => "",
-                'password' => "",
-                'email' => ""
-            ];
+
             $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_DEBUG);
-            echo $this->blade->run("registroUsuario", $datos);
+            echo $this->blade->run("registroUsuario", []);
         }
     }
 

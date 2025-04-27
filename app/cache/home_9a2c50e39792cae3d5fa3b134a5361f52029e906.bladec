@@ -24,7 +24,10 @@
  toastr.options = {
  "closeButton": true,
  "positionClass": "toast-top-right",
- "timeOut": "3000"
+ "timeOut": "10000",
+ "progressBar": true,
+ "showMethod": "fadeIn",
+ "hideMethod": "fadeOut"
  };
 
  toastr.info('<?=$_GET['toastrErr']?>');
