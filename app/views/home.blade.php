@@ -1,6 +1,6 @@
 @include('includes.header')
 
-<link rel="stylesheet" href="<?= RUTA_URL ?>/public/css/home.css" type="text/css"/>
+<link rel="stylesheet" href="<?= RUTA_URL ?>/public/css/home.css" type="text/css" />
 
 <div class="search-container" style="margin-top: 25vh">
     <h4 class="text-white">Encuentra tu academia</h4>
@@ -17,6 +17,20 @@
 
 {{-- imagen: "data:image/jpeg;base64, base64_encode($academia->imagen) ?>" // Convertimos la imagen en base64 --}}
 
+
+<?php if (isset($_GET['toastrErr'])) {?>
+
+<script>
+    toastr.options = {
+        "closeButton": true,
+        "positionClass": "toast-top-right",
+        "timeOut": "3000"
+    };
+
+    toastr.info('<?=$_GET['toastrErr']?>');
+</script>
+
+<?php } ?>
 
 <script>
     const gimnasios = [
@@ -88,7 +102,8 @@
                     const form = document.createElement("form");
                     form.method = "POST";
                     form.action =
-                        "<?= RUTA_URL ?>/academia?academia=" + encodeURIComponent(JSON.stringify(gimnasio));
+                        "<?= RUTA_URL ?>/academia?academia=" + encodeURIComponent(JSON.stringify(
+                            gimnasio));
 
                     const input = document.createElement("input");
                     input.type = "hidden";

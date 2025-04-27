@@ -124,7 +124,7 @@ class academia extends Controlador
 
         if ($solicitudEnCurso) {
 
-            redireccionar('/');
+            redireccionar( '?toastrErr=Ya tienes una solicitud en curso para esta academia');
         }
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
