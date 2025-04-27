@@ -1,0 +1,206 @@
+@include('includes.header')
+
+<link rel="stylesheet" type="text/css" href="<?= RUTA_URL ?>/public/css/crearAcademia.css">
+
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-6 text-dark bg-white d-flex justify-content-center" style="height: 100vh" id="derecha">
+            <div class="register-container w-100 w-md-50 d-flex justify-content-center" style="margin-top: 5vh">
+                <form class="p-3 rounded-2" id="form-register" style="min-width: 70%" onsubmit="enviarMail(event)">
+                    <div class="d-flex justify-content-center mb-4">
+                        <img src="<?= RUTA_URL ?>/public/img/favicon/android-chrome-512x512.png" alt="Logo"
+                            class="img-fluid" width="50" height="50" id="logo" title="Home" />
+                    </div>
+                    <h4 class="mb-2 fw-bold">AÑADE TU ACADEMIA</h4>
+                    <p class="small opacity-55">
+                        Una vez recibida la información, nos pondremos en contacto a
+                        través de de teléfono. <br />
+                        Durante nuestra llamada, hablaremos sobre tu academia y tus
+                        necesidades y <br />
+                        cómo MAAT puede ayudarte a gestionar tu negocio.
+                    </p>
+
+                    <div>
+                        <input type="text" class="form-control mb-2 rounded-5" placeholder="Nombre de la academia"
+                            id="nombre" required />
+                    </div>
+
+                    <div>
+                        <select class="form-control mb-2 rounded-5" id="tamaño" required>
+                            <option value="" disabled selected>
+                                Tamaño de la academia
+                            </option>
+                            <option value="0-20">0-20</option>
+                            <option value="21-80">21-80</option>
+                            <option value="81-150">81-150</option>
+                            <option value="mas-de-150">Más de 150</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="propietario" class="mb-2">¿Eres el propietario de la academia?</label><br />
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                                value="Si" />
+                            <label class="form-check-label" for="inlineRadio1">Si</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                value="No" />
+                            <label class="form-check-label" for="inlineRadio2">No</label>
+                        </div>
+                    </div>
+
+                    <label for="pais" class="form-label mt-2">País</label>
+                    <select class="form-control mb-2 rounded-5" id="pais" name="pais">
+                        <option value="España" selected>España</option>
+                        <option value="México">México</option>
+                        <option value="Argentina">Argentina</option>
+                        <option value="Chile">Chile</option>
+                        <option value="Colombia">Colombia</option>
+                        <option value="Perú">Perú</option>
+                        <option value="Ecuador">Ecuador</option>
+                        <option value="Francia">Francia</option>
+                        <option value="Estados Unidos">Estados Unidos</option>
+                        <option value="Brasil">Brasil</option>
+                        <option value="Alemania">Alemania</option>
+                        <option value="Italia">Italia</option>
+                        <option value="Reino Unido">Reino Unido</option>
+                        <option value="Canadá">Canadá</option>
+                        <option value="Japón">Japón</option>
+                        <option value="China">China</option>
+                        <option value="Australia">Australia</option>
+                        <option value="India">India</option>
+                        <option value="Portugal">Portugal</option>
+                    </select>
+
+                    <div class="d-flex">
+                        <select class="form-control mb-2 me-2 rounded-5" id="prefijo" name="prefijo"
+                            style="width: 120px">
+                            <option value="+34" selected>🇪🇸 +34</option>
+                            <option value="+52">🇲🇽 +52</option>
+                            <option value="+54">🇦🇷 +54</option>
+                            <option value="+56">🇨🇱 +56</option>
+                            <option value="+57">🇨🇴 +57</option>
+                            <option value="+51">🇵🇪 +51</option>
+                            <option value="+593">🇪🇨 +593</option>
+                            <option value="+33">🇫🇷 +33</option>
+                            <option value="+1">🇺🇸 +1</option>
+                            <option value="+55">🇧🇷 +55</option>
+                            <option value="+49">🇩🇪 +49</option>
+                            <option value="+39">🇮🇹 +39</option>
+                            <option value="+44">🇬🇧 +44</option>
+                            <option value="+1">🇨🇦 +1</option>
+                            <option value="+81">🇯🇵 +81</option>
+                            <option value="+86">🇨🇳 +86</option>
+                            <option value="+61">🇦🇺 +61</option>
+                            <option value="+91">🇮🇳 +91</option>
+                            <option value="+351">🇵🇹 +351</option>
+                        </select>
+                        <input type="tel" class="form-control mb-2 rounded-5" id="telefono" name="telefono"
+                            placeholder="Teléfono (ej. 123 456 789)" required />
+                    </div>
+
+
+                    <div>
+                        <div class="input-group mb-3">
+                            <span class="arroba input-group-text rounded-start-pill" id="basic-addon1">@</span>
+                            <input type="text" class="form-control rounded-end-pill" id="instagram"
+                                name="instagram" placeholder="Cuenta de Instagram" required />
+                        </div>
+                    </div>
+
+
+                    <button type="submit" id="submit" class="mt-4 btn p-2 btn-dark w-100 rounded-5">
+                        Enviar información
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 text-white d-none d-md-block"
+            style="
+            background-image: url('<?= RUTA_URL ?>/public/img/crearAcademia/hero.png');
+            background-position: top;
+            background-repeat: no-repeat;
+            background-size: cover;
+          "
+            id="izquierda">
+            <div class="hero-image" style="height: 100vh">
+                <div class="hero-text text-start" style="margin-top: 10vh">
+                    <svg fill="#ffffff" viewBox="0 0 8 8" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"
+                        width="100px">
+                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                        <g id="SVGRepo_iconCarrier">
+                            <path
+                                d="M0 0v3h2c0 1.11-.89 2-2 2v1c1.65 0 3-1.35 3-3v-3h-3zm5 0v3h2c0 1.11-.89 2-2 2v1c1.65 0 3-1.35 3-3v-3h-3z"
+                                transform="translate(0 1)"></path>
+                        </g>
+                    </svg>
+                    <p class="fst-italic mt-2">
+                        Creímos en MatApp desde el principio. Hace que la vida en la
+                        academia sea mucho más sencilla.
+                    </p>
+                    <p><strong> Jose Alvarado, Barcelona </strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="main">
+
+    <script>
+        function enviarMail(event) {
+            event.preventDefault(); // Evita el comportamiento predeterminado de enviar el formulario
+
+            const nombre = encodeURIComponent(
+                document.getElementById("nombre").value
+            );
+            const tamaño = encodeURIComponent(
+                document.getElementById("tamaño").value
+            );
+            const propietario = document.querySelector(
+                'input[name="inlineRadioOptions"]:checked'
+            ).value;
+            const pais = encodeURIComponent(document.getElementById("pais").value);
+            const prefijo = encodeURIComponent(
+                document.getElementById("prefijo").value
+            );
+            const telefono = encodeURIComponent(
+                document.getElementById("telefono").value
+            );
+            const instagram = encodeURIComponent(
+                document.getElementById("instagram").value
+            );
+
+            const asunto = "Información de la Academia";
+            const cuerpo =
+                "Nombre de la academia: " + nombre + "%0A" +
+                "Tamaño de la academia: " + tamaño + "%0A" +
+                "¿Es propietario?: " + propietario + "%0A" +
+                "País: " + pais + "%0A" +
+                "Teléfono: " + prefijo + " " + telefono + "%0A" +
+                "Instagram: @" + instagram;
+
+
+
+            window.location.href = `mailto:mailermatapp@gmail.com?subject=${asunto}&body=${cuerpo}`;
+        }
+
+        document.getElementById('logo').addEventListener('click', function() {
+            window.location.href = '<?= RUTA_URL ?>'; // Cambia esta URL por la URL de destino
+        });
+    </script>
+
+    <script>
+        if (document.querySelector('#navegacion')) {
+            document.querySelector('#navegacion').style.display = 'none';
+        }
+    </script>
+
+
+    @include('includes.footer')

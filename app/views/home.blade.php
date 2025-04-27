@@ -10,7 +10,7 @@
     </div>
     <span class="input-subtitle">Empieza a escribir para encontrar tu academia</span><br />
     <div id="resultados"></div>
-    <a href="<?= RUTA_URL ?>/" class="small text-decoration-none" id="link-crear-academia">¿No puedes encontrar tu
+    <a href="<?= RUTA_URL ?>/crearAcademia" class="small text-decoration-none" id="link-crear-academia">¿No puedes encontrar tu
         academia? ¡Crea una!</a>
 </div>
 </div>

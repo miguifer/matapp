@@ -39,6 +39,11 @@ $userRole = $usuario->rol;
 <?php endif; ?>
 
 
+<?php if($usuario->rol == 'Gerente'): ?>
+ <button id="myButton" class="btn btn-primary" onclick="toggleRole2()">Gerente</button>
+<?php endif; ?>
+
+
 <div class="container mt-5">
  <div id="calendar"></div>
 </div>
@@ -51,6 +56,18 @@ $userRole = $usuario->rol;
  if (currentRole === "Alumno") {
  currentRole = "Entrenador";
  document.getElementById("myButton").innerText = "Entrenador";
+ } else {
+ currentRole = "Alumno";
+ document.getElementById("myButton").innerText = "Alumno";
+ }
+
+ }
+
+ function toggleRole2() {
+ // Alternar el valor de la variable y el texto del botón
+ if (currentRole === "Alumno") {
+ currentRole = "Gerente";
+ document.getElementById("myButton").innerText = "Gerente";
  } else {
  currentRole = "Alumno";
  document.getElementById("myButton").innerText = "Alumno";
