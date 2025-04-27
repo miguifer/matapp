@@ -110,7 +110,7 @@
  </svg>
  <span class="small">Iniciar Sesion</span>
  </a>
- <a id="registrarse" class="btn btn-dark ms-3" type="submit" href="<?= RUTA_URL ?>/">
+ <a id="registrarse" class="btn btn-dark ms-3" type="submit" href="<?= RUTA_URL ?>/registroUsuario">
  Registrarse
  </a>
 

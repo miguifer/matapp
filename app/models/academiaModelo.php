@@ -263,4 +263,18 @@ class academiaModelo
     ");
         $this->db->execute();
     }
+
+    public function getUsuarioPorLogin($login)
+    {
+        $this->db->query("SELECT * FROM Usuarios WHERE login = :login");
+        $this->db->bind(':login', $login);
+        return $this->db->registro(); // Assuming this returns a single record
+    }
+
+    public function getUsuarioPorEmail($emailUsuario)
+    {
+        $this->db->query("SELECT * FROM Usuarios WHERE emailUsuario = :email");
+        $this->db->bind(':email', $emailUsuario);
+        return $this->db->registro(); // Assuming this returns a single record
+    }
 }

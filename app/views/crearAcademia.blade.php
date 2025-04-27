@@ -11,7 +11,7 @@
                 <form class="p-3 rounded-2" id="form-register" style="min-width: 70%" onsubmit="enviarMail(event)">
                     <div class="d-flex justify-content-center mb-4">
                         <img src="<?= RUTA_URL ?>/public/img/favicon/android-chrome-512x512.png" alt="Logo"
-                            class="img-fluid" width="50" height="50" id="logo" title="Home" />
+                            class="img-fluid" width="50" height="50" id="" title="Home" />
                     </div>
                     <h4 class="mb-2 fw-bold">AÑADE TU ACADEMIA</h4>
                     <p class="small opacity-55">

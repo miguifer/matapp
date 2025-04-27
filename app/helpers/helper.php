@@ -13,3 +13,14 @@ function test_input($data)
     $data = htmlspecialchars($data);
     return $data;
 }
+
+
+function validar_telefono($telefono)
+{
+    return preg_match('/^[0-9]{9}$/', $telefono);
+}
+
+function validar_email($email)
+{
+    return filter_var($email, FILTER_VALIDATE_EMAIL);
+}

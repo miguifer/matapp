@@ -28,16 +28,20 @@
             <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img src="<?= RUTA_URL ?>/public/img/registro/i1.jpg" class="d-block w-100" alt="..." />
+                        <img src="<?= RUTA_URL ?>/public/img/inicioSesion/i1.jpg" class="d-block w-100"
+                            alt="..." />
                     </div>
                     <div class="carousel-item">
-                        <img src="<?= RUTA_URL ?>/public/img/registro/i2.jpg" class="d-block w-100" alt="..." />
+                        <img src="<?= RUTA_URL ?>/public/img/inicioSesion/i2.jpg" class="d-block w-100"
+                            alt="..." />
                     </div>
                     <div class="carousel-item">
-                        <img src="<?= RUTA_URL ?>/public/img/registro/i3.jpg" class="d-block w-100" alt="..." />
+                        <img src="<?= RUTA_URL ?>/public/img/inicioSesion/i3.jpg" class="d-block w-100"
+                            alt="..." />
                     </div>
                     <div class="carousel-item">
-                        <img src="<?= RUTA_URL ?>/public/img/registro/i4.webp" class="d-block w-100" alt="..." />
+                        <img src="<?= RUTA_URL ?>/public/img/inicioSesion/i4.webp" class="d-block w-100"
+                            alt="..." />
                     </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
@@ -56,22 +60,16 @@
         <div class="col-12 col-md-6 text-dark bg-white d-flex justify-content-center" style="height: 100vh"
             id="derecha">
             <span class="position-absolute end-0 p-3">¿No tienes una cuenta?
-                <a id="link-iniciar-sesion" class="text-decoration-none" href="<?= RUTA_URL ?>/">Registrate →</a></span>
+                <a id="link-iniciar-sesion" class="text-decoration-none"
+                    href="<?= RUTA_URL ?>/registroUsuario">Registrate →</a></span>
 
 
             <div class="register-container w-100 w-md-50 d-flex justify-content-center" style="margin-top: 20vh">
 
-                <?php
-                // Antes del <form>, construimos el sufijo de query si viene idAcademia
-                $idAcademiaQS = '';
-                if (isset($_GET['academia']) && $_GET['academia'] !== '') {
-                    $academiaQS = '?academia=' . urlencode($_GET['academia']);
-                }
-                ?>
 
-                <form class="p-3 rounded-2" id="form-register" action="<?= RUTA_URL ?>/inicioSesion<?= !empty($academiaQS) ? $academiaQS : '' ?>
-"
-                    method="POST" style="min-width: 70%;">
+
+                <form class="p-3 rounded-2" id="form-register" action="<?= RUTA_URL ?>/inicioSesion" method="POST"
+                    style="min-width: 70%;">
 
                     <div class="d-flex justify-content-center mb-4">
                         <img src="<?= RUTA_URL ?>/public/img/favicon/android-chrome-512x512.png" alt="Logo"
