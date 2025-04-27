@@ -102,34 +102,47 @@ class inicioSesion extends Controlador
 
                     $usuario = $this->academiaModelo->obtenerUsuarioPorLogin($login);
 
-
-                    if (password_verify($password, $usuario->password)) {
-
-                        //usuarios base no estan en roles, asi que si no eisten en la tabla dará null
-                        $usuario->rol = $this->academiaModelo->obtenerRolDeUsuario($usuario->idUsuario) ?? 'Cliente';
+                    if ($usuario->activo == 1) {
 
 
-                        $this->academiaModelo->actualizarActividad($usuario->idUsuario);
+                        if (password_verify($password, $usuario->password)) {
 
-                        //aqui se guarda el usuario en la sesiiony puedo añadir mas cosas
-                        $_SESSION['userLogin'] = [
-                            'usuario' => json_encode($usuario),
-                        ];
+                            //usuarios base no estan en roles, asi que si no eisten en la tabla dará null
+                            $usuario->rol = $this->academiaModelo->obtenerRolDeUsuario($usuario->idUsuario) ?? 'Cliente';
 
-                        if (isset($_GET['academia'])) {
-                            redireccionar('/academia?academia=' . urlencode($_GET['academia']));
+
+                            $this->academiaModelo->actualizarActividad($usuario->idUsuario);
+
+                            //aqui se guarda el usuario en la sesiiony puedo añadir mas cosas
+                            $_SESSION['userLogin'] = [
+                                'usuario' => json_encode($usuario),
+                            ];
+
+                            if (isset($_GET['academia'])) {
+                                redireccionar('/academia?academia=' . urlencode($_GET['academia']));
+                            } else {
+                                redireccionar('/');
+                            }
                         } else {
-                            redireccionar('/');
+                            $datos = [
+                                'login' => $login,
+                                'password' => $password,
+                                'error' => "Credenciales incorrectas"
+                            ];
+                            // $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                            // echo $this->blade->run("inicioSesion", $datos);
+                            header("Location: " . RUTA_URL . "/inicioSesion?error=Credencialesçincorrectas" .
+                                (isset($_GET['academia']) ? "&academia=" . urlencode($_GET['academia']) : ""));
                         }
                     } else {
                         $datos = [
                             'login' => $login,
                             'password' => $password,
-                            'error' => "Credenciales incorrectas"
+                            'error' => "Debe activar la cuenta"
                         ];
                         // $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
                         // echo $this->blade->run("inicioSesion", $datos);
-                        header("Location: " . RUTA_URL . "/inicioSesion?error=Credencialesçincorrectas" .
+                        header("Location: " . RUTA_URL . "/inicioSesion?error=Debeçactivarçlaçcuenta" .
                             (isset($_GET['academia']) ? "&academia=" . urlencode($_GET['academia']) : ""));
                     }
                 } else {
