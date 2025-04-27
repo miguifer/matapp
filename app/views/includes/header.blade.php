@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ NOMBRE_SITIO }}</title>
+    <link rel="icon" type="image/png" href="{{ RUTA_URL }}/public/img/favicon/favicon-32x32.png">
     <script src="{{ RUTA_URL }}/public/libs/jquery-3.7.1.min.js"></script> {{-- Carga jQuery  --}}
     <script src="{{ RUTA_URL }}/public/libs/bootstrap-5.3.5-dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
     </script> {{-- Carga bootstrap  --}}
