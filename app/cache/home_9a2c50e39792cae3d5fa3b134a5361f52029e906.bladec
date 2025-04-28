@@ -10,7 +10,8 @@
  </div>
  <span class="input-subtitle">Empieza a escribir para encontrar tu academia</span><br />
  <div id="resultados"></div>
- <a href="<?= RUTA_URL ?>/crearAcademia" class="small text-decoration-none" id="link-crear-academia">¿No puedes encontrar tu
+ <a href="<?= RUTA_URL ?>/crearAcademia" class="small text-decoration-none" id="link-crear-academia">¿No puedes
+ encontrar tu
  academia? ¡Crea una!</a>
 </div>
 </div>
@@ -31,19 +32,23 @@
  "hideMethod": "fadeOut"
  };
 
- toastr.info('<?=$_GET['toastrErr']?>');
+ toastr.info('<?= $_GET['toastrErr'] ?>');
 </script>
 
 <?php } ?>
 
 <script>
+
+ const defecto = "<?= RUTA_URL ?>/public/img/home/logo.png"; // Logo por defecto si no hay imagen
+
  const gimnasios = [
  <?php foreach ($academias as $academia): ?> {
  idAcademia: <?= $academia->idAcademia ?>,
  nombreAcademia: "<?= $academia->nombreAcademia ?>",
  ubicacionAcademia: "<?= $academia->ubicacionAcademia ?>",
  tipoAcademia: "<?= $academia->tipoAcademia ?>",
- idGerente: <?= $academia->idGerente ?>
+ idGerente: <?= $academia->idGerente ?>,
+ path_imagen: "<?= RUTA_IMG_ACADEMIAS .  $academia->path_imagen ?>"
 
  },
  <?php endforeach; ?>
@@ -73,16 +78,17 @@
  const div = document.createElement("div");
  div.classList.add("resultado");
  div.classList.add("p-2");
-
  const img = document.createElement("img");
  img.classList.add("me-2");
- img.src = gimnasio.imagen; // Usamos la imagen codificada en base64
- img.alt = gimnasio.nombre; // Alt text para la imagen
+ img.src = (gimnasio.path_imagen && gimnasio.path_imagen.trim() !== "" && gimnasio.path_imagen !== "undefined" && gimnasio.path_imagen !== null)
+ ? gimnasio.path_imagen
+ : defecto; // Logo por defecto si no hay imagen, si está vacío, undefined o null
+ img.alt = gimnasio.nombreAcademia; // Alt text para la imagen
  img.style.width = "30px"; // Ancho de la imagen
  img.style.height = "30px"; // Alto de la imagen
  img.classList.add("rounded-5");
 
- // div.appendChild(img);
+ div.appendChild(img);
 
  const span = document.createElement("span");
  span.textContent = gimnasio.nombreAcademia;

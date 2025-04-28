@@ -14,3 +14,5 @@ define('RUTA_URL', 'http://localhost/matapp');
 
 // Nombre del sitio
 define('NOMBRE_SITIO', 'matapp');
+
+define('RUTA_IMG_ACADEMIAS', RUTA_URL . '/public/data/academias-img/');
