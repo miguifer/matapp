@@ -15,6 +15,7 @@
 </div>
 </div>
 
+
 <?php /* imagen: "data:image/jpeg;base64, base64_encode($academia->imagen) ?>" // Convertimos la imagen en base64 */ ?>
 
 

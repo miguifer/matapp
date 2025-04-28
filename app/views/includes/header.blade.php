@@ -128,9 +128,8 @@
 
                 <button id="botonPerfil" class="btn rounded-circle p-0" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                    <?php if (!empty($usuario->pathImagen)) { ?>
-                    <img src="#" alt="Imagen del cliente" class="rounded-circle"
-                        style="width: 40px; height: 40px;">
+                    <?php if (!empty($usuario->imagen)) { ?>
+                        <img src="data:image/jpeg;base64,<?= $usuario->imagen ?>" alt="Imagen del cliente" class="rounded-circle" style="width: 40px; height: 40px;">
                     <?php } else { ?>
                     <img src="<?= RUTA_URL ?>/public/img/default_profile.png" alt="Imagen por defecto"
                         class=" rounded-circle" style="width: 40px; height: 40px;">
@@ -140,8 +139,8 @@
                 <div class="offcanvas offcanvas-end  text-white" tabindex="-1" id="offcanvasRight"
                     aria-labelledby="offcanvasRightLabel">
                     <div class="offcanvas-header">
-                        <?php if (isset($usuario->pathImagen)) { ?>
-                        <img src="#" alt="Imagen del cliente" class="me-2 rounded-circle"
+                        <?php if (isset($usuario->imagen)) { ?>
+                        <img  src="data:image/jpeg;base64,<?= $usuario->imagen ?>" alt="Imagen del cliente" class="me-2 rounded-circle"
                             style="width: 40px; height: 40px;">
                         <?php } else { ?>
                         <img src="<?= RUTA_URL ?>/public/img/default_profile.png" alt="Imagen por defecto"
@@ -156,7 +155,7 @@
                     <div class="offcanvas-body">
 
                         <div class="row">
-                            
+
                             <?php if (isset($usuario->rol) && $usuario->rol == "Administrador") { ?>
                             <div class="col-12 mb-1">
                                 <a class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
@@ -169,7 +168,7 @@
                                     href="<?= RUTA_URL ?>/perfil"><i class="fa-regular fa-user"></i>&nbsp;&nbsp;Tu
                                     perfil </a>
                             </div>
-                            <?php } ?>  
+                            <?php } ?>
                             <div class="col-12 mt-2 border-top border-dark-subtle">
                                 <a class=" link link-danger d-flex align-items-center text-decoration-none ms-2 mt-3"
                                     href="<?= RUTA_URL ?>/inicioSesion/cerrarSesion"><i
@@ -186,8 +185,12 @@
 
 
 
+
             </div>
         </nav>
+
+        
+
 
 
 

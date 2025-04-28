@@ -113,10 +113,18 @@ class inicioSesion extends Controlador
 
                             $this->academiaModelo->actualizarActividad($usuario->idUsuario);
 
+
+            
                             //aqui se guarda el usuario en la sesiiony puedo añadir mas cosas
+                            if (isset($usuario->imagen)) {
+                                $usuario->imagen = base64_encode($usuario->imagen);
+                            }
+                            
+                            // Ahora sí puedes codificar todo
                             $_SESSION['userLogin'] = [
                                 'usuario' => json_encode($usuario),
                             ];
+                            
 
                             if (isset($_GET['academia'])) {
                                 redireccionar('/academia?academia=' . urlencode($_GET['academia']));
