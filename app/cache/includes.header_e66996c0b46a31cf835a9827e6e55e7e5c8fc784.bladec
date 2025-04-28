@@ -139,7 +139,7 @@
  <div class="offcanvas offcanvas-end  text-white" tabindex="-1" id="offcanvasRight"
  aria-labelledby="offcanvasRightLabel">
  <div class="offcanvas-header">
- <?php if (isset($usuario->imagen)) { ?>
+ <?php if (!empty($usuario->imagen)) { ?>
  <img  src="data:image/jpeg;base64,<?= $usuario->imagen ?>" alt="Imagen del cliente" class="me-2 rounded-circle"
  style="width: 40px; height: 40px;">
  <?php } else { ?>

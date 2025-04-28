@@ -157,7 +157,7 @@ if ($userRole == 'Administrador') {
                         }
                         ?>" class="rounded-circle profile-pic" alt="Profile Picture" />
 
-                        <form action="<?= RUTA_URL ?>/usuario/actualizarImagen" method="POST"
+                        <form action="<?= RUTA_URL ?>/perfil/actualizarImagen" method="POST"
                             enctype="multipart/form-data" class="position-absolute bottom-0 end-0" id="formImagen">
                             <input type="file" name="imagen" id="imagen" class="d-none"
                                 onchange="this.form.submit();">
@@ -209,7 +209,7 @@ if ($userRole == 'Administrador') {
                                     <!-- Personal Information -->
                                     <div class="mb-4 content-section" id="infoPersonal">
                                         <h5 class="mb-4">Información personal</h5>
-                                        <form id="editForm" action="<?= RUTA_URL ?>/usuario/actualizarPerfil"
+                                        <form id="editForm" action="<?= RUTA_URL ?>/perfil/actualizarPerfil"
                                             method="POST" style="height: 200px;">
                                             <input type="hidden" name="id"
                                                 value="<?= $usuario->idUsuario ?>">

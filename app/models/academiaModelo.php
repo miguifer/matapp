@@ -314,4 +314,38 @@ class academiaModelo
 
         return $this->db->execute(); // Returns true if the query was successful
     }
+
+    public function getUsuarioPorId($idUsuario)
+    {
+        $this->db->query("SELECT * FROM Usuarios WHERE idUsuario = :idUsuario");
+        $this->db->bind(':idUsuario', $idUsuario);
+        return $this->db->registro(); // Returns the user record or null if not found
+    }
+
+    public function modificarUsuario($id, $datos)
+    {
+        $this->db->query("UPDATE usuarios SET email = :email, login = :login WHERE id = :id");
+        $this->db->bind(":id", $id);
+        $this->db->bind(":email", $datos['email']);
+        $this->db->bind(":login", $datos['login']);
+
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function modificarImagen($id, $datos)
+    {
+        $this->db->query("UPDATE usuarios SET imagen = :imagen WHERE idUsuario = :id");
+        $this->db->bind(":id", $id);
+        $this->db->bind(":imagen", $datos['imagen'], PDO::PARAM_LOB);
+
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }  
 }
