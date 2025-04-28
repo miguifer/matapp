@@ -10,10 +10,11 @@
  </div>
  <span class="input-subtitle">Empieza a escribir para encontrar tu academia</span><br />
  <div id="resultados"></div>
- <a href="<?= RUTA_URL ?>/crearAcademia" class="small text-decoration-none" id="link-crear-academia">¿No puedes encontrar tu
+ <a href="<?= RUTA_URL ?>/crearAcademia" class="small text-decoration-none" id="link-crear-academia">¿No puedes
+ encontrar tu
  academia? ¡Crea una!</a>
 </div>
-</div>
+
 
 
 <?php /* imagen: "data:image/jpeg;base64, base64_encode($academia->imagen) ?>" // Convertimos la imagen en base64 */ ?>
@@ -31,7 +32,7 @@
  "hideMethod": "fadeOut"
  };
 
- toastr.info('<?=$_GET['toastrErr']?>');
+ toastr.info('<?= $_GET['toastrErr'] ?>');
 </script>
 
 <?php } ?>
@@ -43,7 +44,8 @@
  nombreAcademia: "<?= $academia->nombreAcademia ?>",
  ubicacionAcademia: "<?= $academia->ubicacionAcademia ?>",
  tipoAcademia: "<?= $academia->tipoAcademia ?>",
- idGerente: <?= $academia->idGerente ?>
+ idGerente: <?= $academia->idGerente ?>,
+ imagen: "<?= base64_encode($academia->imagen) ?>", // Convertimos la imagen en base64
 
  },
  <?php endforeach; ?>
@@ -73,16 +75,19 @@
  const div = document.createElement("div");
  div.classList.add("resultado");
  div.classList.add("p-2");
-
  const img = document.createElement("img");
  img.classList.add("me-2");
- img.src = gimnasio.imagen; // Usamos la imagen codificada en base64
- img.alt = gimnasio.nombre; // Alt text para la imagen
+ if (gimnasio.imagen && gimnasio.imagen !== "undefined") {
+ img.src = "data:image/jpeg;base64," + gimnasio.imagen;
+ } else {
+ img.src = "<?= RUTA_URL ?>/public/img/favicon/favicon-32x32.png"; // Imagen predeterminada
+ }
+ img.alt = gimnasio.nombreAcademia; // Alt text para la imagen
  img.style.width = "30px"; // Ancho de la imagen
  img.style.height = "30px"; // Alto de la imagen
  img.classList.add("rounded-5");
 
- // div.appendChild(img);
+ div.appendChild(img);
 
  const span = document.createElement("span");
  span.textContent = gimnasio.nombreAcademia;
@@ -103,17 +108,21 @@
  });
 
  div.addEventListener("click", () => {
+ // Clona el objeto gimnasio y elimina la imagen antes de enviarlo
+ const gimnasioSinImagen = {
+ ...gimnasio
+ };
+ delete gimnasioSinImagen.imagen;
+
  const form = document.createElement("form");
  form.method = "POST";
- form.action =
- "<?= RUTA_URL ?>/academia?academia=" + encodeURIComponent(JSON.stringify(
- gimnasio));
+ form.action = "<?= RUTA_URL ?>/academia?academia=" + encodeURIComponent(JSON
+ .stringify(gimnasioSinImagen));
 
  const input = document.createElement("input");
  input.type = "hidden";
  input.name = "academia_id";
- input.value = gimnasio
- .id; // Asegúrate de que el objeto gimnasio tenga una propiedad id
+ input.value = gimnasio.idAcademia; // Usa la propiedad correcta
 
  form.appendChild(input);
  document.body.appendChild(form);

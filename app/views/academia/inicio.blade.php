@@ -29,7 +29,6 @@ $userRole = $usuario->rol;
 
 <h1><strong>{{ $academia->nombreAcademia }}</strong></h1>
 
-<h1>{{ $usuario->rol }}</h1>
 {{-- <script>
     let currentRole = "Entrenador"; // Valor inicial
 </script> --}}
@@ -44,9 +43,27 @@ $userRole = $usuario->rol;
 @endif
 
 
+<!-- Muestra la imagen de la academia -->
+<img id="academia-imagen" alt="Imagen academia"
+    style="width:60px;height:60px;object-fit:cover;border-radius:50%;margin-right:10px;">
+</div>
+
+<script>
+    let imagen =  "<?= base64_encode($imagen) ?>"; // Convertimos la imagen en base64
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const img = document.getElementById("academia-imagen");
+        img.src = "data:image/jpeg;base64," + imagen;
+        img.onerror = function() {
+            img.src = "<?= RUTA_URL ?>/public/img/favicon/favicon-32x32.png";
+        };
+    });
+</script>
+
 <div class="container mt-5">
     <div id="calendar"></div>
 </div>
+
 
 
 

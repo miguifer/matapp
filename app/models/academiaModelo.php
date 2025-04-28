@@ -361,4 +361,20 @@ class academiaModelo
             return false;
         }
     }
+
+    public function getAcademiaPorId($idAcademia)
+    {
+        $this->db->query("SELECT * FROM Academias WHERE idAcademia = :idAcademia");
+        $this->db->bind(':idAcademia', $idAcademia);
+        return $this->db->registro(); // Returns the academy record or null if not found
+    }
+
+    public function obtenerImagenAcademia($idAcademia)
+    {
+        $this->db->query("SELECT imagen FROM Academias WHERE idAcademia = :idAcademia");
+        $this->db->bind(':idAcademia', $idAcademia);
+        $result = $this->db->registro();
+        return $result ? $result->imagen : null;
+    }
+
 }

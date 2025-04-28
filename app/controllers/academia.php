@@ -98,6 +98,7 @@ class academia extends Controlador
             $entrenadores = $this->academiaModelo->obtenerEntrenadoresAcademia($academia->idAcademia) ?? [];
             $datos['entrenadores'] = $entrenadores;
 
+            $datos['imagen'] = $this->academiaModelo->obtenerImagenAcademia($academia->idAcademia) ?? null;
 
             $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
             echo $this->blade->run("academia.inicio", $datos);
@@ -124,7 +125,7 @@ class academia extends Controlador
 
         if ($solicitudEnCurso) {
 
-            redireccionar( '?toastrErr=Ya tienes una solicitud en curso para esta academia');
+            redireccionar('?toastrErr=Ya tienes una solicitud en curso para esta academia');
         }
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -173,4 +174,5 @@ class academia extends Controlador
             }
         }
     }
+
 }
