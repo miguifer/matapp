@@ -648,6 +648,9 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
                                 'success'
                             );
                             row.remove();
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);
                         },
                         error: function() {
                             Swal.fire(
@@ -655,6 +658,7 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
                                 'Hubo un problema al aceptar la solicitud.',
                                 'error'
                             );
+                            
                         }
                     });
                 }
@@ -690,6 +694,9 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
                                 'success'
                             );
                             row.remove();
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);
                         },
                         error: function() {
                             Swal.fire(
@@ -697,6 +704,7 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
                                 'Hubo un problema al rechazar la solicitud.',
                                 'error'
                             );
+
                         }
                     });
                 }
@@ -770,6 +778,9 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
                                 'success'
                             );
                             row.remove();
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);
                         },
                         error: function() {
                             Swal.fire(
@@ -813,6 +824,9 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
                                 'success'
                             );
                             row.remove();
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);
                         },
                         error: function() {
                             Swal.fire(
@@ -888,6 +902,9 @@ $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
                                 'success'
                             );
                             row.remove();
+                            setTimeout(function() {
+                                location.reload();
+                            }, 2000);
                         },
                         error: function() {
                             Swal.fire(
