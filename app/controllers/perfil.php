@@ -83,7 +83,7 @@ class perfil extends Controlador
 
                     $email = test_input($_POST['email']);
 
-                    if ($usuario->email == $_POST['email']) {
+                    if ($usuario->emailUsuario == $_POST['email']) {
                         $datos['email'] = $email;
                     } else {
                         if ($this->academiaModelo->getUsuarioPorEmail($email)) {
@@ -120,30 +120,35 @@ class perfil extends Controlador
 
                     unset($_SESSION['userLogin']);
 
-                    if (isset($usuario->imagen)) {
-                        $usuario->imagen = base64_encode($usuario->imagen);
-                    }
+                   //tocho usuarios
+                   $usuario = $this->academiaModelo->getUsuarioPorId($id);
 
-                    $_SESSION['userLogin'] = [
-                        'usuario' => json_encode($usuario),
-                    ];
+                   $usuario->imagen = base64_encode($usuario->imagen);
 
+                   $usuario->rol = $this->academiaModelo->obtenerRolDeUsuario($usuario->idUsuario) ?? 'Cliente';
 
+                   // Ahora sí puedes codificar todo
+                   $_SESSION['userLogin'] = [
+                       'usuario' => json_encode($usuario),
+                   ];
 
-                    redireccionar('/usuario/perfil');
+                   // tocho usuarios
+
+                    redireccionar('/perfil');
+
                 } else {
 
                     $datos['error_modificacion'] = "Hubo un error al modificar el cliente.";
-                    $this->vista('usuario/perfil', $datos);
-                }
+                    $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                    echo $this->blade->run("perfil.inicio", $datos);                 }
             } else {
 
                 $datos['errores'] = $errores;
-                $this->vista('usuario/perfil', $datos);
-            }
+                $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                echo $this->blade->run("perfil.inicio", $datos);            }
         } else {
 
-            redireccionar('/usuario/perfil');
+            redireccionar('/');
         }
     }
 

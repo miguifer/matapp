@@ -324,7 +324,7 @@ class academiaModelo
 
     public function modificarUsuario($id, $datos)
     {
-        $this->db->query("UPDATE usuarios SET email = :email, login = :login WHERE id = :id");
+        $this->db->query("UPDATE usuarios SET emailUsuario = :email, login = :login WHERE idUsuario = :id");
         $this->db->bind(":id", $id);
         $this->db->bind(":email", $datos['email']);
         $this->db->bind(":login", $datos['login']);
