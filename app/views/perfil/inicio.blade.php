@@ -5,7 +5,6 @@
 
 <?php
 $usuario = json_decode($_SESSION['userLogin']['usuario']);
-$userRole = $usuario->rol;
 
 if ($userRole == 'Administrador') {
     redireccionar('/admin');
@@ -19,6 +18,8 @@ if ($userRole == 'Administrador') {
     $rolUsuario = $usuario->rol; // o el campo que uses como nombre
 
 @endphp
+
+
 
 <div class="container mt-5">
     <h1 class="text-center tituloCalendario">Calendario de Mis Reservas</h1>

@@ -29,8 +29,9 @@ $userRole = $usuario->rol;
 
 <h1><strong>{{ $academia->nombreAcademia }}</strong></h1>
 
-<h1>{{ $usuario->rol }}</h1>
-{{-- <script>
+<!-- Muestra la imagen de la academia -->
+<img src="{{ $academia->path_imagen }}" alt="Imagen academia"
+    style="width:80px; height:80px; object-fit:cover; border-radius:50%; margin-bottom:10px;">{{-- <script>
     let currentRole = "Entrenador"; // Valor inicial
 </script> --}}
 
