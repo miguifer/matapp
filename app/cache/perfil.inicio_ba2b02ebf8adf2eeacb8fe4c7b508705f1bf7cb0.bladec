@@ -1,13 +1,29 @@
 <?php echo $this->runChild('includes.header'); ?>
 
+<?php if (isset($_GET['toastrMsg'])) {?>
+
+<script>
+ toastr.options = {
+ "closeButton": true,
+ "positionClass": "toast-top-right",
+ "timeOut": "10000",
+ "progressBar": true,
+ "showMethod": "fadeIn",
+ "hideMethod": "fadeOut",
+ };
+
+ toastr.info('<?= $_GET['toastrMsg'] ?>');
+</script>
+
+<?php } ?>
+
 <link rel="stylesheet" type="text/css" href="<?= RUTA_URL ?>/public/css/perfil.css">
 
 
 <?php
 $usuario = json_decode($_SESSION['userLogin']['usuario']);
-$userRole = $usuario->rol;
 
-if ($userRole == 'Administrador') {
+if ($usuario->rol == 'Administrador') {
  redireccionar('/admin');
 }
 
@@ -19,6 +35,8 @@ if ($userRole == 'Administrador') {
  $rolUsuario = $usuario->rol; // o el campo que uses como nombre
 
  ?>
+
+
 
 <div class="container mt-5">
  <h1 class="text-center tituloCalendario">Calendario de Mis Reservas</h1>

@@ -1,12 +1,29 @@
 @include('includes.header')
 
+<?php if (isset($_GET['toastrMsg'])) {?>
+
+<script>
+    toastr.options = {
+        "closeButton": true,
+        "positionClass": "toast-top-right",
+        "timeOut": "10000",
+        "progressBar": true,
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut",
+    };
+
+    toastr.info('<?= $_GET['toastrMsg'] ?>');
+</script>
+
+<?php } ?>
+
 <link rel="stylesheet" type="text/css" href="<?= RUTA_URL ?>/public/css/perfil.css">
 
 
 <?php
 $usuario = json_decode($_SESSION['userLogin']['usuario']);
 
-if ($userRole == 'Administrador') {
+if ($usuario->rol == 'Administrador') {
     redireccionar('/admin');
 }
 

@@ -207,7 +207,7 @@ class perfil extends Controlador
 
                     // tocho usuarios
 
-                    redireccionar('/perfil');
+                    redireccionar('/perfil?toastrMsg=Perfil actualizado correctamente');
                 } else {
 
                     $datos['error_modificacion'] = "Hubo un error al modificar el cliente.";
@@ -278,7 +278,7 @@ class perfil extends Controlador
                     // tocho usuarios
 
                     // Redirigir a la página del perfil
-                    redireccionar('/perfil');
+                    redireccionar('/perfil?toastrMsg=Imagen de perfil actualizada correctamente');
                 } else {
                     // En caso de error al modificar la imagen
                     $datos['error_modificacion'] = "Hubo un error al modificar la imagen.";
