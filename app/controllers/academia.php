@@ -35,6 +35,8 @@ class academia extends Controlador
             redireccionar('/');
         } elseif ($usuario == null) {
             // a iniciar sesion
+            unset($academia->imagen);
+
             redireccionar('/inicioSesion?academia=' . urlencode(json_encode($academia)));
         } else {
 
@@ -91,7 +93,7 @@ class academia extends Controlador
                 $_SESSION['userLogin'] = [
                     'usuario' => json_encode($usuario),
                 ];
-
+           
                 redireccionar('/academia/solicitarAcceso?academia=' . urlencode(json_encode($academia)));
             }
 
@@ -175,4 +177,60 @@ class academia extends Controlador
         }
     }
 
+    public function actualizarImagen()
+    {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $errores = [];
+            $idAcademia = isset($_POST['idAcademia']) ? test_input($_POST['idAcademia']) : null;
+            $academia = $this->academiaModelo->getAcademiaPorId($idAcademia);
+
+            // Verificar si se sube una imagen
+            if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] == 0) {
+                $permitidos = ['image/jpeg', 'image/png', 'image/gif'];
+                $max_tamano = 2 * 1024 * 1024; // 2MB
+
+                $tipo = mime_content_type($_FILES["imagen"]["tmp_name"]);
+                $tamano = $_FILES["imagen"]["size"];
+
+                if (!in_array($tipo, $permitidos)) {
+                    $errores['imagen_error'] = "Formato de imagen no permitido. Solo JPG, PNG o GIF.";
+                    $datos['imagen'] = $academia->imagen;
+                } elseif ($tamano > $max_tamano) {
+                    $errores['imagen_error'] = "La imagen es demasiado grande. Máximo 2MB.";
+                    $datos['imagen'] = $academia->imagen;
+                } else {
+                    // Obtener los datos binarios de la imagen
+                    $imagen = file_get_contents($_FILES["imagen"]["tmp_name"]);
+                    $datos['imagen'] = $imagen;
+                }
+            } else {
+                $errores['imagen_error'] = "Error al subir la imagen.";
+                $datos['imagen'] = $academia->imagen; // Mantener la imagen actual si hay un error
+            }
+
+            // Si no hay errores, actualizar la imagen en la base de datos
+            if (empty($errores)) {
+                if ($this->academiaModelo->modificarImagenAcademia($idAcademia, $datos['imagen'])) {
+                    // Redirigir a la página de la academia
+                    unset($academia->imagen);
+                    redireccionar('/academia?academia=' . urlencode(json_encode($academia)));
+                } else {
+                    // En caso de error al modificar la imagen
+                    $datos['error_modificacion'] = "Hubo un error al modificar la imagen.";
+                    $datos['academia'] = $academia;
+                    $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                    echo $this->blade->run("academia.inicio", $datos);
+                }
+            } else {
+                // Si hay errores, mostrar el formulario de academia con los errores
+                $datos['errores'] = $errores;
+                $datos['academia'] = $academia;
+                $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
+                echo $this->blade->run("academia.inicio", $datos);
+            }
+        } else {
+            // Si no es un POST, redirigir a la página principal
+            redireccionar('/');
+        }
+    }
 }

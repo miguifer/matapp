@@ -377,4 +377,13 @@ class academiaModelo
         return $result ? $result->imagen : null;
     }
 
+    public function modificarImagenAcademia($idAcademia, $imagen)
+    {
+        $this->db->query("UPDATE Academias SET imagen = :imagen WHERE idAcademia = :idAcademia");
+        $this->db->bind(":idAcademia", $idAcademia);
+        $this->db->bind(":imagen", $imagen, PDO::PARAM_LOB);
+
+        return $this->db->execute();
+    }
+
 }
