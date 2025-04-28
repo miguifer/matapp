@@ -113,6 +113,64 @@ class perfil extends Controlador
                 $datos['email'] = "";
             }
 
+            if (isset($_POST["nombreUsuario"])) {
+                $nombreUsuario = test_input($_POST['nombreUsuario']);
+                // No es obligatorio ni único, pero controlar longitud
+                if (strlen($nombreUsuario) <= 50) {
+                    $datos['nombreUsuario'] = $nombreUsuario;
+                } else {
+                    $errores['nombreUsuario_error'] = "El nombre no puede superar los 50 caracteres.";
+                    $datos['nombreUsuario'] = "";
+                }
+            } else {
+                $datos['nombreUsuario'] = "";
+            }
+
+            if (isset($_POST["apellido1Usuario"])) {
+                $apellido1Usuario = test_input($_POST['apellido1Usuario']);
+                if (strlen($apellido1Usuario) <= 50) {
+                    $datos['apellido1Usuario'] = $apellido1Usuario;
+                } else {
+                    $errores['apellido1Usuario_error'] = "El primer apellido no puede superar los 50 caracteres.";
+                    $datos['apellido1Usuario'] = "";
+                }
+            } else {
+                $datos['apellido1Usuario'] = "";
+            }
+
+            if (isset($_POST["apellido2Usuario"])) {
+                $apellido2Usuario = test_input($_POST['apellido2Usuario']);
+                if (strlen($apellido2Usuario) <= 50) {
+                    $datos['apellido2Usuario'] = $apellido2Usuario;
+                } else {
+                    $errores['apellido2Usuario_error'] = "El segundo apellido no puede superar los 50 caracteres.";
+                    $datos['apellido2Usuario'] = "";
+                }
+            } else {
+                $datos['apellido2Usuario'] = "";
+            }
+
+            if (isset($_POST["telefonoUsuario"])) {
+                $telefonoUsuario = test_input($_POST['telefonoUsuario']);
+                // Validar el teléfono solo si no está vacío
+                if (!empty($telefonoUsuario)) {
+                    if (validar_telefono($telefonoUsuario)) {
+                        $datos['telefonoUsuario'] = $telefonoUsuario;
+                    } else {
+                        $errores['telefono_error'] = "El teléfono debe tener 9 dígitos numéricos.";
+                        $datos['telefonoUsuario'] = "";
+                    }
+                } else {
+                    // Puede estar vacío, no es obligatorio
+                    $datos['telefonoUsuario'] = "";
+                }
+            } else {
+                // Si no se envía, guardar como cadena vacía
+                $datos['telefonoUsuario'] = "";
+            }
+
+
+
 
             if (empty($errores)) {
 
@@ -120,32 +178,33 @@ class perfil extends Controlador
 
                     unset($_SESSION['userLogin']);
 
-                   //tocho usuarios
-                   $usuario = $this->academiaModelo->getUsuarioPorId($id);
+                    //tocho usuarios
+                    $usuario = $this->academiaModelo->getUsuarioPorId($id);
 
-                   $usuario->imagen = base64_encode($usuario->imagen);
+                    $usuario->imagen = base64_encode($usuario->imagen);
 
-                   $usuario->rol = $this->academiaModelo->obtenerRolDeUsuario($usuario->idUsuario) ?? 'Cliente';
+                    $usuario->rol = $this->academiaModelo->obtenerRolDeUsuario($usuario->idUsuario) ?? 'Cliente';
 
-                   // Ahora sí puedes codificar todo
-                   $_SESSION['userLogin'] = [
-                       'usuario' => json_encode($usuario),
-                   ];
+                    // Ahora sí puedes codificar todo
+                    $_SESSION['userLogin'] = [
+                        'usuario' => json_encode($usuario),
+                    ];
 
-                   // tocho usuarios
+                    // tocho usuarios
 
                     redireccionar('/perfil');
-
                 } else {
 
                     $datos['error_modificacion'] = "Hubo un error al modificar el cliente.";
                     $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
-                    echo $this->blade->run("perfil.inicio", $datos);                 }
+                    echo $this->blade->run("perfil.inicio", $datos);
+                }
             } else {
 
                 $datos['errores'] = $errores;
                 $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
-                echo $this->blade->run("perfil.inicio", $datos);            }
+                echo $this->blade->run("perfil.inicio", $datos);
+            }
         } else {
 
             redireccionar('/');

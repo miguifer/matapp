@@ -324,10 +324,22 @@ class academiaModelo
 
     public function modificarUsuario($id, $datos)
     {
-        $this->db->query("UPDATE usuarios SET emailUsuario = :email, login = :login WHERE idUsuario = :id");
+        $this->db->query("UPDATE usuarios 
+        SET 
+            emailUsuario = :email, 
+            login = :login, 
+            nombreUsuario = :nombreUsuario, 
+            apellido1Usuario = :apellido1Usuario, 
+            apellido2Usuario = :apellido2Usuario, 
+            telefonoUsuario = :telefonoUsuario
+        WHERE idUsuario = :id");
         $this->db->bind(":id", $id);
         $this->db->bind(":email", $datos['email']);
         $this->db->bind(":login", $datos['login']);
+        $this->db->bind(":nombreUsuario", $datos['nombreUsuario']);
+        $this->db->bind(":apellido1Usuario", $datos['apellido1Usuario']);
+        $this->db->bind(":apellido2Usuario", $datos['apellido2Usuario']);
+        $this->db->bind(":telefonoUsuario", $datos['telefonoUsuario']);
 
         if ($this->db->execute()) {
             return true;
@@ -347,5 +359,5 @@ class academiaModelo
         } else {
             return false;
         }
-    }  
+    }
 }
