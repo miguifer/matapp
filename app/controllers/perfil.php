@@ -169,11 +169,26 @@ class perfil extends Controlador
                 $datos['telefonoUsuario'] = "";
             }
 
-
+            if (isset($_POST["password"]) && !empty($_POST["password"])) {
+                $password = $_POST["password"];
+                if (strlen($password) < 6) {
+                    $errores['password_error'] = "La contraseña debe tener al menos 6 caracteres.";
+                    $datos['password'] = "";
+                } else {
+                    // Hashea la contraseña antes de guardar
+                    $datos['password'] = password_hash($password, PASSWORD_DEFAULT);
+                }
+            } else {
+                // No se cambia la contraseña si el campo está vacío
+                $datos['password'] = null;
+            }
 
 
             if (empty($errores)) {
-
+                // Elimina el campo password si es null para no actualizarlo
+                if ($datos['password'] === null) {
+                    unset($datos['password']);
+                }
                 if ($this->academiaModelo->modificarUsuario($id, $datos)) {
 
                     unset($_SESSION['userLogin']);

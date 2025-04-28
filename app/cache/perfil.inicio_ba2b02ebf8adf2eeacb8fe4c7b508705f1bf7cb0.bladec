@@ -207,8 +207,7 @@ if ($userRole == 'Administrador') {
  <h5 class="mb-4">Información personal</h5>
  <form id="editForm" action="<?= RUTA_URL ?>/perfil/actualizarPerfil"
  method="POST" style="height: 200px;">
- <input type="hidden" name="id"
- value="<?= $usuario->idUsuario ?>">
+ <input type="hidden" name="id" value="<?= $usuario->idUsuario ?>">
  <div class="row g-3">
  <div class="col-md-6">
  <label class="form-label">login de usuario</label>
@@ -245,7 +244,8 @@ if ($userRole == 'Administrador') {
  <div class="col-md-6">
  <label class="form-label">Primer Apellido</label>
  <input type="text" class="form-control editable"
- value="<?= $usuario->apellido1Usuario ?>" name="apellido1Usuario" />
+ value="<?= $usuario->apellido1Usuario ?>"
+ name="apellido1Usuario" />
  <?php if (isset($errores['apellido1Usuario_error'])) { ?>
  <span class="small text-danger d-flex align-items-center">
  <?= $errores['apellido1Usuario_error'] ?>
@@ -255,7 +255,8 @@ if ($userRole == 'Administrador') {
  <div class="col-md-6">
  <label class="form-label">Segundo Apellido</label>
  <input type="text" class="form-control editable"
- value="<?= $usuario->apellido2Usuario ?>" name="apellido2Usuario" />
+ value="<?= $usuario->apellido2Usuario ?>"
+ name="apellido2Usuario" />
  <?php if (isset($errores['apellido2Usuario_error'])) { ?>
  <span class="small text-danger d-flex align-items-center">
  <?= $errores['apellido2Usuario_error'] ?>
@@ -265,10 +266,21 @@ if ($userRole == 'Administrador') {
  <div class="col-md-6">
  <label class="form-label">Teléfono</label>
  <input type="text" class="form-control editable"
- value="<?= $usuario->telefonoUsuario ?>" name="telefonoUsuario" />
+ value="<?= $usuario->telefonoUsuario ?>"
+ name="telefonoUsuario" />
  <?php if (isset($errores['telefono_error'])) { ?>
  <span class="small text-danger d-flex align-items-center">
  <?= $errores['telefono_error'] ?>
+ </span>
+ <?php } ?>
+ </div>
+ <div class="col-md-6">
+ <label class="form-label">Nueva contraseña</label>
+ <input type="password" class="form-control editable"
+ name="password" />
+ <?php if (isset($errores['password_error'])) { ?>
+ <span class="small text-danger d-flex align-items-center">
+ <?= $errores['password_error'] ?>
  </span>
  <?php } ?>
  </div>
