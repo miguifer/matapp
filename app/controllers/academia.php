@@ -139,7 +139,7 @@ class academia extends Controlador
             if (isset($_POST['idAcademia']) && isset($_POST['idUsuario'])) {
 
                 $this->academiaModelo->crearSolicitud($_POST['idUsuario'], $_POST['idAcademia']);
-                redireccionar('/');
+                redireccionar('?toastrErr=Solicitud enviada correctamente, espera la respuesta del administrador de la academia');
             } else {
                 redireccionar('/');
             }
