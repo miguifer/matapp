@@ -68,8 +68,9 @@
 
 
 
-                <form class="p-3 rounded-2" id="form-register" action="<?= RUTA_URL ?>/inicioSesion" method="POST"
-                    style="min-width: 70%;">
+                <form class="p-3 rounded-2" id="form-register"
+                    action="<?= RUTA_URL ?>/inicioSesion<?= isset($_GET['academia']) ? '?academia=' . urlencode($_GET['academia']) : '' ?>"
+                    method="POST" style="min-width: 70%;">
 
                     <div class="d-flex justify-content-center mb-4">
                         <img src="<?= RUTA_URL ?>/public/img/favicon/android-chrome-512x512.png" alt="Logo"
