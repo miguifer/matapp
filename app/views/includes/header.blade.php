@@ -54,33 +54,33 @@
         }
     </script>
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
-    </script>
+    </script> --}}
 
-    <div class="container mt-5" id="main"> --}}
+    {{-- <div class="container mt-5" id="main">  --}}
 
 
     {{-- start chatbot --}}
-    {{-- <button class="chatbot-toggler">
-            <span class="material-symbols-outlined">mode_comment</span>
-            <span class="material-symbols-outlined">close</span>
-        </button>
+    <button class="chatbot-toggler">
+        <span class="material-symbols-outlined">mode_comment</span>
+        <span class="material-symbols-outlined">close</span>
+    </button>
 
-        <div class="chatbot">
-            <header>
-                <h2>ChatBot - MatApp</h2>
-                <span class="close-btn material-symbols-outlined">close</span>
-            </header>
-            <ul class="chatbox" id="chatbox">
-                <li class="chat incoming">
-                    <span class="material-symbols-outlined">smart_toy</span>
-                    <p>Hola 👋🏻<br />¿Cómo puedo ayudarte hoy?</p>
-                </li>
-            </ul>
-            <div class="chat-input">
-                <textarea placeholder="Ingresa un mensaje..." required id="user-input"></textarea>
-                <span id="send-btn" class="material-symbols-outlined">send</span>
-            </div>
-        </div> --}}
+    <div class="chatbot">
+        <header>
+            <h2>ChatBot - MatApp</h2>
+            <span class="close-btn material-symbols-outlined">close</span>
+        </header>
+        <ul class="chatbox" id="chatbox">
+            <li class="chat incoming">
+                <span class="material-symbols-outlined">smart_toy</span>
+                <p>Hola 👋🏻<br />¿Cómo puedo ayudarte hoy?</p>
+            </li>
+        </ul>
+        <div class="chat-input">
+            <textarea placeholder="Ingresa un mensaje..." required id="user-input"></textarea>
+            <span id="send-btn" class="material-symbols-outlined">send</span>
+        </div>
+    </div>
     {{-- stop chatbot --}}
 
 
@@ -128,10 +128,11 @@
                         class="img-fluid" width="40" height="40" id="logo" title="Home" />
                 </span>
 
-                <button id="botonPerfil" class="btn rounded-circle p-0" type="button" data-bs-toggle="offcanvas" title="Menú"
-                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                <button id="botonPerfil" class="btn rounded-circle p-0" type="button" data-bs-toggle="offcanvas"
+                    title="Menú" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     <?php if (!empty($usuario->imagen)) { ?>
-                        <img src="data:image/jpeg;base64,<?= $usuario->imagen ?>" alt="Imagen del cliente" class="rounded-circle" style="width: 40px; height: 40px;">
+                    <img src="data:image/jpeg;base64,<?= $usuario->imagen ?>" alt="Imagen del cliente"
+                        class="rounded-circle" style="width: 40px; height: 40px;">
                     <?php } else { ?>
                     <img src="<?= RUTA_URL ?>/public/img/default_profile.png" alt="Imagen por defecto"
                         class=" rounded-circle" style="width: 40px; height: 40px;">
@@ -142,8 +143,8 @@
                     aria-labelledby="offcanvasRightLabel">
                     <div class="offcanvas-header">
                         <?php if (!empty($usuario->imagen)) { ?>
-                        <img  src="data:image/jpeg;base64,<?= $usuario->imagen ?>" alt="Imagen del cliente" class="me-2 rounded-circle"
-                            style="width: 40px; height: 40px;">
+                        <img src="data:image/jpeg;base64,<?= $usuario->imagen ?>" alt="Imagen del cliente"
+                            class="me-2 rounded-circle" style="width: 40px; height: 40px;">
                         <?php } else { ?>
                         <img src="<?= RUTA_URL ?>/public/img/default_profile.png" alt="Imagen por defecto"
                             class="me-2 rounded-circle" style="width: 40px; height: 40px;">
@@ -151,8 +152,8 @@
                         <h5 class="offcanvas-title text-dark" id="offcanvasRightLabel">
                             <?= isset($usuario->login) ? $usuario->login : 'Invitado' ?>
                         </h5>
-                        <button type="button" class="cerrarBoton btn-close btn-close-dark" data-bs-dismiss="offcanvas"
-                            aria-label="Close" title="Cerrar" ></button>
+                        <button type="button" class="cerrarBoton btn-close btn-close-dark"
+                            data-bs-dismiss="offcanvas" aria-label="Close" title="Cerrar"></button>
                     </div>
                     <div class="offcanvas-body">
 
@@ -161,7 +162,7 @@
                             <?php if (isset($usuario->rol) && $usuario->rol == "Administrador") { ?>
                             <div class="col-12 mb-1">
                                 <a class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
-                                    href="<?= RUTA_URL ?>/admin" ><i class="fa-solid fa-lock"></i>&nbsp;&nbsp;Panel
+                                    href="<?= RUTA_URL ?>/admin"><i class="fa-solid fa-lock"></i>&nbsp;&nbsp;Panel
                                     de administración</a>
                             </div>
                             <?php }else{ ?>
@@ -191,7 +192,7 @@
             </div>
         </nav>
 
-        
+
 
 
 
