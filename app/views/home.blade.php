@@ -3,9 +3,9 @@
 <link rel="stylesheet" href="<?= RUTA_URL ?>/public/css/home.css" type="text/css" />
 
 <div class="search-container" style="margin-top: 25vh">
-    <h4 class="text-white">Encuentra tu academia</h4>
+    <h4 class="">Encuentra tu academia</h4>
     <div class="search-bar d-flex">
-        <input class="w-100 p-2" type="text" id="searchInput" placeholder="Buscar..." autocomplete="off" />
+        <input class="w-100 p-2" type="text" title="Busca por nombre de academia" id="searchInput" placeholder="Buscar..." autocomplete="off" />
         <img src="<?= RUTA_URL ?>/public/img/home/lupita.svg" alt="lupa de buscar" />
     </div>
     <span class="input-subtitle">Empieza a escribir para encontrar tu academia</span><br />
@@ -32,7 +32,10 @@
         "hideMethod": "fadeOut"
     };
 
+
     toastr.info('<?= $_GET['toastrErr'] ?>');
+
+
 </script>
 
 <?php } ?>
@@ -89,6 +92,8 @@
                 img.classList.add("rounded-5");
 
                 div.appendChild(img);
+
+                div.title = "Ir a " + gimnasio.nombreAcademia;
 
                 const span = document.createElement("span");
                 span.textContent = gimnasio.nombreAcademia;

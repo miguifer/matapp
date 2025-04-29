@@ -36,6 +36,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+    <link rel="stylesheet/less" href="<?= RUTA_URL ?>/public/less/navbar.less" type="text/css" />
+
 </head>
 
 <body>
@@ -126,7 +128,7 @@
                         class="img-fluid" width="40" height="40" id="logo" title="Home" />
                 </span>
 
-                <button id="botonPerfil" class="btn rounded-circle p-0" type="button" data-bs-toggle="offcanvas"
+                <button id="botonPerfil" class="btn rounded-circle p-0" type="button" data-bs-toggle="offcanvas" title="Menú"
                     data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     <?php if (!empty($usuario->imagen)) { ?>
                         <img src="data:image/jpeg;base64,<?= $usuario->imagen ?>" alt="Imagen del cliente" class="rounded-circle" style="width: 40px; height: 40px;">
@@ -150,7 +152,7 @@
                             <?= isset($usuario->login) ? $usuario->login : 'Invitado' ?>
                         </h5>
                         <button type="button" class="cerrarBoton btn-close btn-close-dark" data-bs-dismiss="offcanvas"
-                            aria-label="Close"></button>
+                            aria-label="Close" title="Cerrar" ></button>
                     </div>
                     <div class="offcanvas-body">
 
@@ -159,7 +161,7 @@
                             <?php if (isset($usuario->rol) && $usuario->rol == "Administrador") { ?>
                             <div class="col-12 mb-1">
                                 <a class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
-                                    href="<?= RUTA_URL ?>/admin"><i class="fa-solid fa-lock"></i>&nbsp;&nbsp;Panel
+                                    href="<?= RUTA_URL ?>/admin" ><i class="fa-solid fa-lock"></i>&nbsp;&nbsp;Panel
                                     de administración</a>
                             </div>
                             <?php }else{ ?>
