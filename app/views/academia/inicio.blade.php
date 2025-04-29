@@ -525,6 +525,15 @@ $userRole = $usuario->rol;
         });
 
         calendar.render();
+        // Forzar el ajuste de tamaño después de renderizar
+        setTimeout(() => {
+            calendar.updateSize();
+        }, 100);
+
+        // También actualizar tamaño al cambiar el tamaño de la ventana
+        window.addEventListener('resize', function() {
+            calendar.updateSize();
+        });
     });
 </script>
 
