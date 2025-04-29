@@ -36,12 +36,21 @@ $userRole = $usuario->rol;
 </script> */ ?>
 
 <?php if($usuario->rol == 'Entrenador'): ?>
- <button id="myButton" class="btn btn-primary" onclick="toggleRole()">Entrenador</button>
+ <div class="form-check form-switch mb-3">
+ <input class="form-check-input" type="checkbox" id="switchEntrenador" onchange="toggleRoleSwitch()" checked>
+ <label class="form-check-label" for="switchEntrenador">
+ <span id="labelEntrenador">Entrenador</span>
+ </label>
+ </div>
 <?php endif; ?>
 
-
 <?php if($usuario->rol == 'Gerente'): ?>
- <button id="myButton" class="btn btn-primary" onclick="toggleRole2()">Gerente</button>
+ <div class="form-check form-switch mb-3">
+ <input class="form-check-input" type="checkbox" id="switchGerente" onchange="toggleRoleSwitch2()" checked>
+ <label class="form-check-label" for="switchGerente">
+ <span id="labelGerente">Gerente</span>
+ </label>
+ </div>
 <?php endif; ?>
 
 
@@ -52,28 +61,30 @@ $userRole = $usuario->rol;
 
 
 <script>
- function toggleRole() {
- // Alternar el valor de la variable y el texto del botón
+ function toggleRoleSwitch() {
+ // Entrenador <-> Alumno
  if (currentRole === "Alumno") {
  currentRole = "Entrenador";
- document.getElementById("myButton").innerText = "Entrenador";
+ document.getElementById("labelEntrenador").innerText = "Entrenador";
+ document.getElementById("switchEntrenador").checked = true;
  } else {
  currentRole = "Alumno";
- document.getElementById("myButton").innerText = "Alumno";
+ document.getElementById("labelEntrenador").innerText = "Alumno";
+ document.getElementById("switchEntrenador").checked = false;
+ }
  }
 
- }
-
- function toggleRole2() {
- // Alternar el valor de la variable y el texto del botón
+ function toggleRoleSwitch2() {
+ // Gerente <-> Alumno
  if (currentRole === "Alumno") {
  currentRole = "Gerente";
- document.getElementById("myButton").innerText = "Gerente";
+ document.getElementById("labelGerente").innerText = "Gerente";
+ document.getElementById("switchGerente").checked = true;
  } else {
  currentRole = "Alumno";
- document.getElementById("myButton").innerText = "Alumno";
+ document.getElementById("labelGerente").innerText = "Alumno";
+ document.getElementById("switchGerente").checked = false;
  }
-
  }
 </script>
 
