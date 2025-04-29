@@ -1,7 +1,6 @@
 #calendar {
   max-width: 700px;
   margin: 0 auto;
-  margin-top: 40px;
 }
 /* Estilo del contenedor del calendario (FullCalendar) */
 .fc {

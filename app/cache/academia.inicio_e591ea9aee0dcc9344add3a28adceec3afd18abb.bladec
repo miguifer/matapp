@@ -943,13 +943,19 @@ $userRole = $usuario->rol;
  });
 
  calendar.render();
- // Forzar el ajuste de tamaño después de renderizar
- setTimeout(() => {
- calendar.updateSize();
- }, 100);
 
- // También actualizar tamaño al cambiar el tamaño de la ventana
+ // Actualizar varias veces con diferentes intervalos para garantizar renderizado correcto
+ setTimeout(() => calendar.updateSize(), 100);
+ setTimeout(() => calendar.updateSize(), 500);
+ setTimeout(() => calendar.updateSize(), 1000);
+
+ // También cuando la ventana cambie de tamaño
  window.addEventListener('resize', function() {
+ calendar.updateSize();
+ });
+
+ // Y cuando se muestre la pestaña
+ document.querySelector('#calendario-tab').addEventListener('shown.bs.tab', function() {
  calendar.updateSize();
  });
  });
