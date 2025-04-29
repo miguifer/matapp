@@ -105,7 +105,6 @@ if ($usuario->rol == 'Administrador') {
                                                 class="fas fa-user me-2"></i>Información personal</a>
                                         <a class="nav-link" href="#" data-section="infoClases"><i
                                                 class="fas fa-calendar-alt me-2"></i>Clases</a>
-
                                     </div>
                                 </div>
                             </div>
@@ -202,8 +201,13 @@ if ($usuario->rol == 'Administrador') {
                                             </div>
                                         </form>
                                     </div>
-
-
+                                    <!-- Tab de Clases -->
+                                    <div class="mb-4 content-section d-none" id="infoClases">
+                                        <h5 class="mb-4">Tus clases</h5>
+                                        <div id="calendar-container" style="min-height: 500px;">
+                                            <div id="calendar"></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -217,10 +221,6 @@ if ($usuario->rol == 'Administrador') {
     </div>
 
 
-</div>
-
-<div class="container mt-5">
-    <div id="calendar"></div>
 </div>
 
 
