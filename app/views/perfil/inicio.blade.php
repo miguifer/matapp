@@ -229,11 +229,11 @@ if ($usuario->rol == 'Administrador') {
     const RUTA_URL = '<?= RUTA_URL ?>';
 
     let USUARIO_ID = '<?= $usuario->idUsuario ?>';
-
+    let calendar; // Haz calendar global
 
     document.addEventListener("DOMContentLoaded", function() {
         const calendarEl = document.getElementById('calendar');
-        const calendar = new FullCalendar.Calendar(calendarEl, {
+        calendar = new FullCalendar.Calendar(calendarEl, {
             schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
             locale: 'es',
             initialView: 'dayGridMonth',
@@ -319,12 +319,41 @@ if ($usuario->rol == 'Administrador') {
             }
 
         });
+    });
 
-        calendar.render();
+    // Renderiza el calendario solo cuando se muestra el tab de clases
+    document.addEventListener("DOMContentLoaded", function() {
+        const navLinks = document.querySelectorAll("#perfilNav .nav-link");
+        const sections = document.querySelectorAll(".content-section");
+
+        navLinks.forEach(link => {
+            link.addEventListener("click", function(e) {
+                e.preventDefault();
+
+                navLinks.forEach(nav => nav.classList.remove("active"));
+                sections.forEach(section => section.classList.add("d-none"));
+
+                this.classList.add("active");
+                const sectionId = this.getAttribute("data-section");
+                document.getElementById(sectionId).classList.remove("d-none");
+
+                // Si es el tab de clases, renderiza o refrezca el calendario
+                if (sectionId === "infoClases" && calendar) {
+                    setTimeout(() => {
+                        calendar.render();
+                    }, 10); // Pequeño delay para asegurar que el div es visible
+                }
+            });
+        });
+
+        // Si quieres que el calendario se muestre la primera vez si el tab está activo:
+        if(document.querySelector('.nav-link.active').getAttribute('data-section') === 'infoClases' && calendar) {
+            setTimeout(() => {
+                calendar.render();
+            }, 10);
+        }
     });
 </script>
-
-
 
 
 <script>
@@ -353,25 +382,6 @@ if ($usuario->rol == 'Administrador') {
                 } else {
                     saveButton.classList.add("d-none");
                 }
-            });
-        });
-    });
-
-
-    document.addEventListener("DOMContentLoaded", function() {
-        const navLinks = document.querySelectorAll("#perfilNav .nav-link");
-        const sections = document.querySelectorAll(".content-section");
-
-        navLinks.forEach(link => {
-            link.addEventListener("click", function(e) {
-                e.preventDefault();
-
-                navLinks.forEach(nav => nav.classList.remove("active"));
-                sections.forEach(section => section.classList.add("d-none"));
-
-                this.classList.add("active");
-                const sectionId = this.getAttribute("data-section");
-                document.getElementById(sectionId).classList.remove("d-none");
             });
         });
     });
