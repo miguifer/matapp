@@ -29,17 +29,39 @@ $userRole = $usuario->rol;
 
 <!-- Agrega los tabs de Bootstrap antes del contenido principal -->
 <ul class="nav nav-tabs mb-3" id="academiaTabs" role="tablist">
+
     <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="calendario-tab" data-bs-toggle="tab" data-bs-target="#calendario" type="button" role="tab" aria-controls="calendario" aria-selected="true">
+        <button class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab"
+            aria-controls="info" aria-selected="false">
+            Información
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="galeria-tab" data-bs-toggle="tab" data-bs-target="#galeria" type="button"
+            role="tab" aria-controls="galeria" aria-selected="false">
+            Galería
+        </button>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="calendario-tab" data-bs-toggle="tab" data-bs-target="#calendario"
+            type="button" role="tab" aria-controls="calendario" aria-selected="true">
             Calendario
         </button>
     </li>
-    @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Administrador')
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button" role="tab" aria-controls="admin" aria-selected="false">
-            Funciones Administrativas
+        <button class="nav-link" id="mensajes-tab" data-bs-toggle="tab" data-bs-target="#mensajes" type="button"
+            role="tab" aria-controls="mensajes" aria-selected="false">
+            Mensajes
         </button>
     </li>
+    @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Administrador')
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button"
+                role="tab" aria-controls="admin" aria-selected="false">
+                Funciones Administrativas
+            </button>
+        </li>
     @endif
 </ul>
 
@@ -51,7 +73,8 @@ $userRole = $usuario->rol;
             style="width:80px; height:80px; object-fit:cover; border-radius:50%; margin-bottom:10px;">
         @if ($usuario->rol == 'Entrenador')
             <div class="form-check form-switch mb-3">
-                <input class="form-check-input" type="checkbox" id="switchEntrenador" onchange="toggleRoleSwitch()" checked>
+                <input class="form-check-input" type="checkbox" id="switchEntrenador" onchange="toggleRoleSwitch()"
+                    checked>
                 <label class="form-check-label" for="switchEntrenador">
                     <span id="labelEntrenador">Entrenador</span>
                 </label>
@@ -59,7 +82,8 @@ $userRole = $usuario->rol;
         @endif
         @if ($usuario->rol == 'Gerente')
             <div class="form-check form-switch mb-3">
-                <input class="form-check-input" type="checkbox" id="switchGerente" onchange="toggleRoleSwitch2()" checked>
+                <input class="form-check-input" type="checkbox" id="switchGerente" onchange="toggleRoleSwitch2()"
+                    checked>
                 <label class="form-check-label" for="switchGerente">
                     <span id="labelGerente">Gerente</span>
                 </label>
@@ -72,396 +96,434 @@ $userRole = $usuario->rol;
 
     <!-- Funciones Administrativas -->
     @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Administrador')
-    <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="admin-tab">
-        <div class="alert alert-info text-center mt-4">Eres {{ $usuario->rol }}, tienes acceso a funciones administrativas.</div>
-        {{-- Aquí va TODO el contenido administrativo: estadísticas, tablas, scripts, etc. --}}
-        <h2>Solicitudes de Academias</h2>
-        <!-- ...pega aquí el contenido administrativo existente... -->
-        <!-- Desde <h4>Estadísticas de tipos de Academias</h4> hasta el final de la sección admin -->
-        <!-- Puedes mover todo el bloque PHP y HTML de funciones administrativas aquí -->
-        {{-- ...contenido administrativo existente... --}}
-        <?php
-        // Asegúrate de que la variable $estadisticaAcademia tiene los datos correctos
-        $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
-        ?>
-        <script>
-            const ctx = document.getElementById('miGrafico').getContext('2d');
+        <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="admin-tab">
+            {{-- Aquí va TODO el contenido administrativo: estadísticas, tablas, scripts, etc. --}}
+            <!-- ...pega aquí el contenido administrativo existente... -->
+            <!-- Desde <h4>Estadísticas de tipos de Academias</h4> hasta el final de la sección admin -->
+            <!-- Puedes mover todo el bloque PHP y HTML de funciones administrativas aquí -->
+            {{-- ...contenido administrativo existente... --}}
+            <?php
+            // Asegúrate de que la variable $estadisticaAcademia tiene los datos correctos
+            $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
+            ?>
+            <script>
+                const ctx = document.getElementById('miGrafico').getContext('2d');
 
-            // Pasamos los datos de PHP a JavaScript sin comillas adicionales
-            const estadisticasAcademia = <?= $estadisticaAcademiaJS ?>;
+                // Pasamos los datos de PHP a JavaScript sin comillas adicionales
+                const estadisticasAcademia = <?= $estadisticaAcademiaJS ?>;
 
-            // Extraemos los nombres de los tipos de academia y los números de alumnos
-            const labels = estadisticasAcademia.map(item => item.nombreTipo);
-            const data = estadisticasAcademia.map(item => item.numAlumnos);
+                // Extraemos los nombres de los tipos de academia y los números de alumnos
+                const labels = estadisticasAcademia.map(item => item.nombreTipo);
+                const data = estadisticasAcademia.map(item => item.numAlumnos);
 
-            // Crear el gráfico con los datos obtenidos
-            const miGrafico = new Chart(ctx, {
-                type: 'bar', // tipos: bar, line, pie, doughnut, radar, polarArea...
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Número de alumnos',
-                        data: data,
-                        backgroundColor: [
-                            '#f87171', // Puedes modificar los colores o hacerlos dinámicos
-                            '#60a5fa',
-                            '#34d399',
-                            '#fbbf24'
-                        ],
-                        borderColor: '#111827',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
+                // Crear el gráfico con los datos obtenidos
+                const miGrafico = new Chart(ctx, {
+                    type: 'bar', // tipos: bar, line, pie, doughnut, radar, polarArea...
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Número de alumnos',
+                            data: data,
+                            backgroundColor: [
+                                '#f87171', // Puedes modificar los colores o hacerlos dinámicos
+                                '#60a5fa',
+                                '#34d399',
+                                '#fbbf24'
+                            ],
+                            borderColor: '#111827',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
                         }
                     }
-                }
-            });
-        </script>
+                });
+            </script>
 
-        <h2>Solicitudes de Academias</h2>
+            <h2>Solicitudes de Academias</h2>
 
-        <table id="solicitudesTable" class="display compact">
-            <thead>
-                <tr>
-                    <th>idSolicitud</th>
-                    <th>idUsuario</th>
-                    <th>Nombre Usuario</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($solicitudes as $solicitud)
+            <table id="solicitudesTable" class="display compact">
+                <thead>
                     <tr>
-                        <td>{{ $solicitud->idSolicitud }}</td>
-                        <td>{{ $solicitud->idUsuario }}</td>
-                        <td>{{ $solicitud->nombreUsuario }}</td>
-                        <td>
-                            <button class="btn btn-success aceptarSolicitud" data-id="{{ $solicitud->idSolicitud }}"
-                                data-id-Usuario="{{ $solicitud->idUsuario }}"
-                                data-id-Academia="{{ $solicitud->idAcademia }}">Aceptar</button>
-                            <button class="btn btn-danger rechazarSolicitud" data-id="{{ $solicitud->idSolicitud }}"
-                                data-id-Usuario="{{ $solicitud->idUsuario }}"
-                                data-id-Academia="{{ $solicitud->idAcademia }}">Rechazar</button>
-                        </td>
+                        <th>idSolicitud</th>
+                        <th>idUsuario</th>
+                        <th>Nombre Usuario</th>
+                        <th>Acciones</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($solicitudes as $solicitud)
+                        <tr>
+                            <td>{{ $solicitud->idSolicitud }}</td>
+                            <td>{{ $solicitud->idUsuario }}</td>
+                            <td>{{ $solicitud->nombreUsuario }}</td>
+                            <td>
+                                <button class="btn btn-success aceptarSolicitud" data-id="{{ $solicitud->idSolicitud }}"
+                                    data-id-Usuario="{{ $solicitud->idUsuario }}"
+                                    data-id-Academia="{{ $solicitud->idAcademia }}">Aceptar</button>
+                                <button class="btn btn-danger rechazarSolicitud" data-id="{{ $solicitud->idSolicitud }}"
+                                    data-id-Usuario="{{ $solicitud->idUsuario }}"
+                                    data-id-Academia="{{ $solicitud->idAcademia }}">Rechazar</button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
-        <script>
-            $(document).ready(function() {
-                $('#solicitudesTable').DataTable();
+            <script>
+                $(document).ready(function() {
+                    $('#solicitudesTable').DataTable();
 
-                $('.aceptarSolicitud').on('click', function() {
-                    const id = $(this).data('id');
-                    const row = $(this).closest('tr');
-                    const idUsuario = $(this).data('idUsuario');
-                    const idAcademia = $(this).data('idAcademia');
+                    $('.aceptarSolicitud').on('click', function() {
+                        const id = $(this).data('id');
+                        const row = $(this).closest('tr');
+                        const idUsuario = $(this).data('idUsuario');
+                        const idAcademia = $(this).data('idAcademia');
 
-                    Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: "¿Quieres aceptar esta solicitud?",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: 'Cancelar',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: `${RUTA_URL}/solicitudesController/aceptar`,
-                                type: 'POST',
-                                dataType: 'json',
-                                data: {
-                                    id: id,
-                                    idUsuario: idUsuario,
-                                    idAcademia: idAcademia
-                                },
-                                success: function(response) {
-                                    Swal.fire(
-                                        '¡Aceptada!',
-                                        'La solicitud ha sido aceptada.',
-                                        'success'
-                                );
-                                    row.remove();
-                                    setTimeout(function() {
-                                        location.reload();
-                                    }, 2000);
-                                },
-                                error: function() {
-                                    Swal.fire(
-                                        '¡Error!',
-                                        'Hubo un problema al aceptar la solicitud.',
-                                        'error'
-                                );
-                                
-                                }
-                            });
-                        }
+                        Swal.fire({
+                            title: '¿Estás seguro?',
+                            text: "¿Quieres aceptar esta solicitud?",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Aceptar',
+                            cancelButtonText: 'Cancelar',
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: `${RUTA_URL}/solicitudesController/aceptar`,
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: {
+                                        id: id,
+                                        idUsuario: idUsuario,
+                                        idAcademia: idAcademia
+                                    },
+                                    success: function(response) {
+                                        Swal.fire(
+                                            '¡Aceptada!',
+                                            'La solicitud ha sido aceptada.',
+                                            'success'
+                                        );
+                                        row.remove();
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 2000);
+                                    },
+                                    error: function() {
+                                        Swal.fire(
+                                            '¡Error!',
+                                            'Hubo un problema al aceptar la solicitud.',
+                                            'error'
+                                        );
+
+                                    }
+                                });
+                            }
+                        });
+                    });
+
+                    $('.rechazarSolicitud').on('click', function() {
+                        const id = $(this).data('id');
+                        const row = $(this).closest('tr');
+
+
+                        Swal.fire({
+                            title: '¿Estás seguro?',
+                            text: "¿Quieres rechazar esta solicitud?",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Rechazar',
+                            cancelButtonText: 'Cancelar',
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: `${RUTA_URL}/solicitudesController/rechazar`,
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: {
+                                        id: id,
+                                    },
+                                    success: function(response) {
+                                        Swal.fire(
+                                            '¡Rechazada!',
+                                            'La solicitud ha sido rechazada.',
+                                            'success'
+                                        );
+                                        row.remove();
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 2000);
+                                    },
+                                    error: function() {
+                                        Swal.fire(
+                                            '¡Error!',
+                                            'Hubo un problema al rechazar la solicitud.',
+                                            'error'
+                                        );
+
+                                    }
+                                });
+                            }
+                        });
                     });
                 });
-
-                $('.rechazarSolicitud').on('click', function() {
-                    const id = $(this).data('id');
-                    const row = $(this).closest('tr');
+            </script>
 
 
-                    Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: "¿Quieres rechazar esta solicitud?",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Rechazar',
-                        cancelButtonText: 'Cancelar',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: `${RUTA_URL}/solicitudesController/rechazar`,
-                                type: 'POST',
-                                dataType: 'json',
-                                data: {
-                                    id: id,
-                                },
-                                success: function(response) {
-                                    Swal.fire(
-                                        '¡Rechazada!',
-                                        'La solicitud ha sido rechazada.',
-                                        'success'
-                                );
-                                    row.remove();
-                                    setTimeout(function() {
-                                        location.reload();
-                                    }, 2000);
-                                },
-                                error: function() {
-                                    Swal.fire(
-                                        '¡Error!',
-                                        'Hubo un problema al rechazar la solicitud.',
-                                        'error'
-                                );
-
-                                }
-                            });
-                        }
-                    });
-                });
-            });
-        </script>
+            <h3>Alumnos</h3>
 
 
-        <h3>Alumnos</h3>
-
-
-        <table id="alumnosTable" class="display compact">
-            <thead>
-                <tr>
-                    <th>Nombre Usuario</th>
-                    <th>Rol</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($alumnos as $alumno)
+            <table id="alumnosTable" class="display compact">
+                <thead>
                     <tr>
-                        <td>{{ $alumno->nombreUsuario }}</td>
-                        <td>{{ $alumno->rol }}</td>
-                        <td>
-                            <button class="btn btn-danger eliminarAlumno"
-                                data-id-Usuario="{{ $alumno->idUsuario }}">Eliminar</button>
-                            @if ($alumno->rol !== 'Entrenador')
-                                <button class="btn btn-primary hacerEntrenador"
-                                    data-id-Usuario=" {{ $alumno->idUsuario }}  ">Hacer
-                                    entrenador</button>
-                            @endif
-                        </td>
+                        <th>Nombre Usuario</th>
+                        <th>Rol</th>
+                        <th>Eliminar</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($alumnos as $alumno)
+                        <tr>
+                            <td>{{ $alumno->nombreUsuario }}</td>
+                            <td>{{ $alumno->rol }}</td>
+                            <td>
+                                <button class="btn btn-danger eliminarAlumno"
+                                    data-id-Usuario="{{ $alumno->idUsuario }}">Eliminar</button>
+                                @if ($alumno->rol !== 'Entrenador')
+                                    <button class="btn btn-primary hacerEntrenador"
+                                        data-id-Usuario=" {{ $alumno->idUsuario }}  ">Hacer
+                                        entrenador</button>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
-        <script>
-            $(document).ready(function() {
-                $('#alumnosTable').DataTable();
+            <script>
+                $(document).ready(function() {
+                    $('#alumnosTable').DataTable();
 
-                $('.eliminarAlumno').on('click', function() {
-                    const row = $(this).closest('tr');
-                    const idUsuario = $(this).data('idUsuario');
-                    const idAcademia = {{ $academia->idAcademia }};
+                    $('.eliminarAlumno').on('click', function() {
+                        const row = $(this).closest('tr');
+                        const idUsuario = $(this).data('idUsuario');
+                        const idAcademia = {{ $academia->idAcademia }};
 
-                    Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: "¿Quieres eliminar este alumno?",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: 'Cancelar',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: `${RUTA_URL}/solicitudesController/eliminarAlumno`,
-                                type: 'POST',
-                                dataType: 'json',
-                                data: {
-                                    idUsuario: idUsuario,
-                                    idAcademia: idAcademia
-                                },
-                                success: function(response) {
-                                    Swal.fire(
-                                        '¡Aceptada!',
-                                        'El usuario ha sido eliminado.',
-                                        'success'
-                                );
-                                    row.remove();
-                                    setTimeout(function() {
-                                        location.reload();
-                                    }, 2000);
-                                },
-                                error: function() {
-                                    Swal.fire(
-                                        '¡Error!',
-                                        'Hubo un problema al eliminar al usuario.',
-                                        'error'
-                                );
-                                }
-                            });
-                        }
+                        Swal.fire({
+                            title: '¿Estás seguro?',
+                            text: "¿Quieres eliminar este alumno?",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Aceptar',
+                            cancelButtonText: 'Cancelar',
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: `${RUTA_URL}/solicitudesController/eliminarAlumno`,
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: {
+                                        idUsuario: idUsuario,
+                                        idAcademia: idAcademia
+                                    },
+                                    success: function(response) {
+                                        Swal.fire(
+                                            '¡Aceptada!',
+                                            'El usuario ha sido eliminado.',
+                                            'success'
+                                        );
+                                        row.remove();
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 2000);
+                                    },
+                                    error: function() {
+                                        Swal.fire(
+                                            '¡Error!',
+                                            'Hubo un problema al eliminar al usuario.',
+                                            'error'
+                                        );
+                                    }
+                                });
+                            }
+                        });
                     });
-                });
 
-                $('.hacerEntrenador').on('click', function() {
-                    const row = $(this).closest('tr');
-                    const idUsuario = $(this).data('idUsuario');
-                    const idAcademia = {{ $academia->idAcademia }};
+                    $('.hacerEntrenador').on('click', function() {
+                        const row = $(this).closest('tr');
+                        const idUsuario = $(this).data('idUsuario');
+                        const idAcademia = {{ $academia->idAcademia }};
 
-                    Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: "¿Quieres hacer entrenador a este alumno?",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: 'Cancelar',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: `${RUTA_URL}/entrenadorController/hacerEntrenador`,
-                                type: 'POST',
-                                dataType: 'json',
-                                data: {
-                                    idUsuario: idUsuario,
-                                    idAcademia: idAcademia
-                                },
-                                success: function(response) {
-                                    Swal.fire(
-                                        '¡Aceptada!',
-                                        'El usuario es entrenador.',
-                                        'success'
-                                );
-                                    row.remove();
-                                    setTimeout(function() {
-                                        location.reload();
-                                    }, 2000);
-                                },
-                                error: function() {
-                                    Swal.fire(
-                                        '¡Error!',
-                                        'Hubo un problema al hacer entrenador.',
-                                        'error'
-                                );
-                                }
-                            });
-                        }
+                        Swal.fire({
+                            title: '¿Estás seguro?',
+                            text: "¿Quieres hacer entrenador a este alumno?",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Aceptar',
+                            cancelButtonText: 'Cancelar',
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: `${RUTA_URL}/entrenadorController/hacerEntrenador`,
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: {
+                                        idUsuario: idUsuario,
+                                        idAcademia: idAcademia
+                                    },
+                                    success: function(response) {
+                                        Swal.fire(
+                                            '¡Aceptada!',
+                                            'El usuario es entrenador.',
+                                            'success'
+                                        );
+                                        row.remove();
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 2000);
+                                    },
+                                    error: function() {
+                                        Swal.fire(
+                                            '¡Error!',
+                                            'Hubo un problema al hacer entrenador.',
+                                            'error'
+                                        );
+                                    }
+                                });
+                            }
+                        });
                     });
+
                 });
-
-            });
-        </script>
+            </script>
 
 
-        <h3>Entrenadores</h3>
+            <h3>Entrenadores</h3>
 
-        <table id="entrenadoresTable" class="display compact">
-            <thead>
-                <tr>
-                    <th>Nombre entrenador</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($entrenadores as $entrenador)
+            <table id="entrenadoresTable" class="display compact">
+                <thead>
                     <tr>
-                        <td>{{ $entrenador->nombreUsuario }}</td>
-                        <td>
-                            <button class="btn btn-danger eliminarEntrenador"
-                                data-id="{{ $entrenador->idUsuario }}">Eliminar</button>
-                        </td>
+                        <th>Nombre entrenador</th>
+                        <th>Eliminar</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($entrenadores as $entrenador)
+                        <tr>
+                            <td>{{ $entrenador->nombreUsuario }}</td>
+                            <td>
+                                <button class="btn btn-danger eliminarEntrenador"
+                                    data-id="{{ $entrenador->idUsuario }}">Eliminar</button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
 
-        <script>
-            $(document).ready(function() {
-                $('#entrenadoresTable').DataTable();
+            <script>
+                $(document).ready(function() {
+                    $('#entrenadoresTable').DataTable();
 
-                $('.eliminarEntrenador').on('click', function() {
-                    const id = $(this).data('id');
-                    const row = $(this).closest('tr');
-                    const idUsuario = {{ $entrenador->idUsuario }};
-                    const idAcademia = {{ $academia->idAcademia }};
+                    $('.eliminarEntrenador').on('click', function() {
+                        const id = $(this).data('id');
+                        const row = $(this).closest('tr');
+                        const idUsuario = {{ $entrenador->idUsuario }};
+                        const idAcademia = {{ $academia->idAcademia }};
 
-                    Swal.fire({
-                        title: '¿Estás seguro?',
-                        text: "¿Quieres eliminar este entrenador?",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Aceptar',
-                        cancelButtonText: 'Cancelar',
-                        reverseButtons: true
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                url: `${RUTA_URL}/entrenadorController/eliminarEntrenador`,
-                                type: 'POST',
-                                dataType: 'json',
-                                data: {
-                                    id: id,
-                                    idUsuario: idUsuario,
-                                    idAcademia: idAcademia
-                                },
-                                success: function(response) {
-                                    Swal.fire(
-                                        '¡Aceptada!',
-                                        'El entrenador ha sido eliminado.',
-                                        'success'
-                                );
-                                    row.remove();
-                                    setTimeout(function() {
-                                        location.reload();
-                                    }, 2000);
-                                },
-                                error: function() {
-                                    Swal.fire(
-                                        '¡Error!',
-                                        'Hubo un problema al eliminar al usuario.',
-                                        'error'
-                                );
-                                }
-                            });
-                        }
+                        Swal.fire({
+                            title: '¿Estás seguro?',
+                            text: "¿Quieres eliminar este entrenador?",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Aceptar',
+                            cancelButtonText: 'Cancelar',
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: `${RUTA_URL}/entrenadorController/eliminarEntrenador`,
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: {
+                                        id: id,
+                                        idUsuario: idUsuario,
+                                        idAcademia: idAcademia
+                                    },
+                                    success: function(response) {
+                                        Swal.fire(
+                                            '¡Aceptada!',
+                                            'El entrenador ha sido eliminado.',
+                                            'success'
+                                        );
+                                        row.remove();
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 2000);
+                                    },
+                                    error: function() {
+                                        Swal.fire(
+                                            '¡Error!',
+                                            'Hubo un problema al eliminar al usuario.',
+                                            'error'
+                                        );
+                                    }
+                                });
+                            }
+                        });
                     });
-                });
 
-            });
-        </script>
-    </div>
+                });
+            </script>
+        </div>
     @endif
+
+    <!-- Información -->
+    <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
+        <div class="mt-4">
+            <h2>Información de la Academia</h2>
+            <p><strong>Nombre:</strong> {{ $academia->nombreAcademia }}</p>
+            <p><strong>Descripción:</strong> {{ $academia->descripcion ?? 'Sin descripción disponible.' }}</p>
+            <p><strong>Dirección:</strong> {{ $academia->direccion ?? 'No especificada.' }}</p>
+            <p><strong>Teléfono:</strong> {{ $academia->telefono ?? 'No especificado.' }}</p>
+            <p><strong>Email:</strong> {{ $academia->email ?? 'No especificado.' }}</p>
+            <img src="{{ $academia->path_imagen }}" alt="Imagen academia"
+                style="width:120px; height:120px; object-fit:cover; border-radius:50%; margin-top:10px;">
+        </div>
+    </div>
+
+    <!-- Galería -->
+    <div class="tab-pane fade" id="galeria" role="tabpanel" aria-labelledby="galeria-tab">
+        <div class="mt-4">
+            <h2>Galería de la Academia</h2>
+            {{-- Aquí puedes mostrar imágenes de la academia --}}
+            <div class="row">
+                {{-- Ejemplo de imágenes estáticas, reemplaza por un foreach si tienes imágenes en la base de datos --}}
+                <div class="col-md-3 mb-3">
+                    <img src="{{ $academia->path_imagen }}" class="img-fluid rounded" alt="Imagen academia">
+                </div>
+                {{-- Agrega más imágenes aquí --}}
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensajes -->
+    <div class="tab-pane fade" id="mensajes" role="tabpanel" aria-labelledby="mensajes-tab">
+        <div class="mt-4">
+            <h2>Mensajes</h2>
+            {{-- Aquí puedes agregar un sistema de mensajes o chat --}}
+            <div class="alert alert-info">
+                Próximamente: sección de mensajes entre usuarios de la academia.
+            </div>
+        </div>
+    </div>
 </div>
 
 
