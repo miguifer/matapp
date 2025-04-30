@@ -60,7 +60,7 @@
 
 
     {{-- start chatbot --}}
-    <button class="chatbot-toggler">
+    <button class="chatbot-toggler" title="ChatBot" id="chatbot-toggler">
         <span class="material-symbols-outlined">mode_comment</span>
         <span class="material-symbols-outlined">close</span>
     </button>
@@ -73,11 +73,11 @@
         <ul class="chatbox" id="chatbox">
             <li class="chat incoming">
                 <span class="material-symbols-outlined">smart_toy</span>
-                <p>Hola 👋🏻<br />¿Cómo puedo ayudarte hoy?</p>
+                <p>Hola<br />¿Cómo puedo ayudarte hoy?</p>
             </li>
         </ul>
         <div class="chat-input">
-            <textarea placeholder="Ingresa un mensaje..." required id="user-input"></textarea>
+            <textarea placeholder="Ingresa un mensaje..." required id="user-input" title=""></textarea>
             <span id="send-btn" class="material-symbols-outlined">send</span>
         </div>
     </div>
