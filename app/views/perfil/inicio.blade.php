@@ -105,6 +105,8 @@ if ($usuario->rol == 'Administrador') {
                                                 class="fas fa-user me-2"></i>Información personal</a>
                                         <a class="nav-link" href="#" data-section="infoClases"><i
                                                 class="fas fa-calendar-alt me-2"></i>Clases</a>
+                                        <a class="nav-link" href="#" data-section="solicitudes"><i
+                                                class="fas fa-envelope me-2"></i>solicitudes</a>
                                     </div>
                                 </div>
                             </div>
@@ -116,7 +118,7 @@ if ($usuario->rol == 'Administrador') {
                                     <div class="mb-4 content-section" id="infoPersonal">
                                         <h5 class="mb-4">Información personal</h5>
                                         <form id="editForm" action="<?= RUTA_URL ?>/perfil/actualizarPerfil"
-                                            method="POST" >
+                                            method="POST">
                                             <input type="hidden" name="id" value="<?= $usuario->idUsuario ?>">
                                             <div class="row g-3">
                                                 <div class="col-md-6">
@@ -208,11 +210,20 @@ if ($usuario->rol == 'Administrador') {
                                             <div id="calendar"></div>
                                         </div>
                                     </div>
+
+                                    <div class="mb-4 content-section d-none" id="solicitudes">
+                                        <h5 class="mb-4">Tus solicitudes</h5>
+                                        <div>
+                                            <p>No tienes solicitudes pendientes.</p>
+                                        </div>
+                                    </div>
+
+
                                 </div>
                             </div>
 
                             <!-- Calendario de reservas -->
-                            
+
                         </div>
                     </div>
                 </div>
@@ -347,7 +358,8 @@ if ($usuario->rol == 'Administrador') {
         });
 
         // Si quieres que el calendario se muestre la primera vez si el tab está activo:
-        if(document.querySelector('.nav-link.active').getAttribute('data-section') === 'infoClases' && calendar) {
+        if (document.querySelector('.nav-link.active').getAttribute('data-section') === 'infoClases' &&
+            calendar) {
             setTimeout(() => {
                 calendar.render();
             }, 10);

@@ -10,6 +10,31 @@
 ![AMPPS](https://img.shields.io/badge/AMPPS-3.9-brightgreen.svg)
 ![Composer](https://img.shields.io/badge/Composer-2.1.9-yellow.svg)
 ![GitHub](https://img.shields.io/badge/GitHub-Repo-black.svg)
+
+
+## Extras y Utilidades
+
+- Autenticación y gestión de usuarios.
+- Roles y permisos personalizables.
+- Sistema de notificaciones por email.
+- Exportación de datos a Excel y PDF.
+- Soporte multilenguaje (i18n).
+- Integración con API externas.
+- Backups automáticos de la base de datos.
+- Logs de actividad y auditoría.
+- Instalador web sencillo.
+- Documentación integrada para usuarios y desarrolladores.
+- Pruebas automatizadas básicas.
+- Configuración mediante archivos `.env`.
+- Soporte para temas claros y oscuros.
+- Accesibilidad mejorada (a11y).
+- Deploy fácil en servidores compartidos o VPS.
+- Actualizaciones automáticas del sistema.
+- Integración con servicios de envío de emails (SMTP, Resend).
+- Panel de administración intuitivo.
+- Soporte para subida y gestión de archivos.
+- Sistema de comentarios o feedback de usuarios.
+
 # MatApp
 
 Descripción breve del proyecto: qué hace, para qué sirve o qué problema resuelve.
