@@ -408,6 +408,7 @@ $userRole = $usuario->rol;
 
             <h3>Entrenadores</h3>
 
+
             <table id="entrenadoresTable" class="display compact">
                 <thead>
                     <tr>
@@ -430,56 +431,15 @@ $userRole = $usuario->rol;
 
             <script>
                 $(document).ready(function() {
-                    $('#entrenadoresTable').DataTable();
-
-                    $('.eliminarEntrenador').on('click', function() {
-                        const id = $(this).data('id');
-                        const row = $(this).closest('tr');
-                        const idUsuario = {{ $entrenador->idUsuario }};
-                        const idAcademia = {{ $academia->idAcademia }};
-
-                        Swal.fire({
-                            title: '¿Estás seguro?',
-                            text: "¿Quieres eliminar este entrenador?",
-                            icon: 'warning',
-                            showCancelButton: true,
-                            confirmButtonText: 'Aceptar',
-                            cancelButtonText: 'Cancelar',
-                            reverseButtons: true
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $.ajax({
-                                    url: `${RUTA_URL}/entrenadorController/eliminarEntrenador`,
-                                    type: 'POST',
-                                    dataType: 'json',
-                                    data: {
-                                        id: id,
-                                        idUsuario: idUsuario,
-                                        idAcademia: idAcademia
-                                    },
-                                    success: function(response) {
-                                        Swal.fire(
-                                            '¡Aceptada!',
-                                            'El entrenador ha sido eliminado.',
-                                            'success'
-                                        );
-                                        row.remove();
-                                        setTimeout(function() {
-                                            location.reload();
-                                        }, 2000);
-                                    },
-                                    error: function() {
-                                        Swal.fire(
-                                            '¡Error!',
-                                            'Hubo un problema al eliminar al usuario.',
-                                            'error'
-                                        );
-                                    }
-                                });
-                            }
-                        });
+                    $('#entrenadoresTable').DataTable({
+                        language: {
+                            emptyTable: "No hay entrenadores registrados."
+                        }
                     });
 
+                    $('.eliminarEntrenador').on('click', function() {
+                        // ...tu código...
+                    });
                 });
             </script>
         </div>
