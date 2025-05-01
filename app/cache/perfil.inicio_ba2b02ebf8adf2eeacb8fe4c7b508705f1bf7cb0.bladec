@@ -320,7 +320,7 @@ if ($usuario->rol == 'Administrador') {
  eventDidMount: function(info) {
  const eventDate = new Date(info.event.start);
  const today = new Date();
- today.setHours(0, 0, 0, 0); // Comparación sin hora
+ today.setHours(0, 0, 0, 0);
 
  const dot = info.el.querySelector('.fc-daygrid-event-dot');
  if (dot) {
@@ -328,12 +328,22 @@ if ($usuario->rol == 'Administrador') {
  dot.setAttribute('style', `border-color: ${color} !important`);
  }
 
- // Tooltip
+ // Tooltip personalizado
+ const entrenador = info.event.extendedProps.nombreEntrenador || 'Sin asignar';
+ const horario = `${info.event.start.toLocaleString()} - ${info.event.end ? info.event.end.toLocaleString() : ''}`;
+ const apuntados = info.event.extendedProps.apuntados && info.event.extendedProps.apuntados.length
+ ? info.event.extendedProps.apuntados.join(', ')
+ : 'Nadie apuntado aún';
+
  new bootstrap.Tooltip(info.el, {
- title: info.event.title || 'Sin Título',
+ title: `<b>${info.event.title}</b><br>
+ <b>Entrenador:</b> ${entrenador}<br>
+ <b>Horario:</b> ${horario}<br>
+ <b>Apuntados:</b> ${apuntados}`,
  placement: 'top',
  trigger: 'hover',
- container: 'body'
+ container: 'body',
+ html: true
  });
  },
  eventClick: function(info) {

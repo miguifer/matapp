@@ -91,11 +91,22 @@ class calendarioModelo
 
     public function obtenerClasesPorUsuario($idUsuario)
     {
-        $this->db->query("SELECT c.* FROM clases c 
-                          INNER JOIN Reservas r ON c.id = r.idClase 
+        $this->db->query("SELECT c.*, u.nombreUsuario AS nombreEntrenador
+                          FROM clases c
+                          LEFT JOIN Usuarios u ON c.idEntrenador = u.idUsuario
+                          INNER JOIN Reservas r ON c.id = r.idClase
                           WHERE r.idUsuario = :idUsuario");
         $this->db->bind(':idUsuario', $idUsuario);
-        return $this->db->registros(); // Devuelve todos los registros como objetos
+        $clases = $this->db->registros();
+
+        // Para cada clase, añade los usuarios apuntados
+        foreach ($clases as &$clase) {
+            $this->db->query("SELECT u.nombreUsuario FROM Reservas r JOIN Usuarios u ON r.idUsuario = u.idUsuario WHERE r.idClase = :idClase");
+            $this->db->bind(':idClase', $clase->id);
+            $usuarios = $this->db->registros();
+            $clase->apuntados = array_map(function($u) { return $u->nombreUsuario; }, $usuarios);
+        }
+        return $clases;
     }
 
     public function eliminarReserva($idClase, $idUsuario)

@@ -188,10 +188,11 @@ class calendarioController extends Controlador
                     'id' => $clase->id,
                     'title' => $clase->title,
                     'start' => $clase->start,
-                    'end' => $clase->end
+                    'end' => $clase->end,
+                    'nombreEntrenador' => $clase->nombreEntrenador,
+                    'apuntados' => $clase->apuntados
                 ];
             }
-
             echo json_encode($clasesArray);
         } else {
             redireccionar('/');
