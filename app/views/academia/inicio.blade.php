@@ -542,7 +542,7 @@ $userRole = $usuario->rol;
                     <ul class="list-group">
                         @foreach ($mensajes as $msg)
                             <li class="list-group-item">
-                                <strong>
+                                <strong style="color: #007bff;">
                                     {{ $msg->nombreUsuario ?? 'Usuario' }}
                                     @if (isset($msg->nombreRol))
                                         ({{ $msg->nombreRol }})
