@@ -69,8 +69,8 @@ $userRole = $usuario->rol;
  <!-- Calendario -->
  <div class="tab-pane fade show active" id="calendario" role="tabpanel" aria-labelledby="calendario-tab">
  <h1><strong><?php echo \htmlentities($academia->nombreAcademia??'', ENT_QUOTES, 'UTF-8', false); ?></strong></h1>
- <img src="<?php echo \htmlentities($academia->path_imagen??'', ENT_QUOTES, 'UTF-8', false); ?>" alt="Imagen academia"
- style="width:80px; height:80px; object-fit:cover; border-radius:50%; margin-bottom:10px;">
+ <?php /* <img src="<?php echo \htmlentities($academia->path_imagen??'', ENT_QUOTES, 'UTF-8', false); ?>" alt="Imagen academia"
+ style="width:80px; height:80px; object-fit:cover; border-radius:50%; margin-bottom:10px;"> */ ?>
  <?php if($usuario->rol == 'Entrenador'): ?>
  <div class="form-check form-switch mb-3">
  <input class="form-check-input" type="checkbox" id="switchEntrenador" onchange="toggleRoleSwitch()"

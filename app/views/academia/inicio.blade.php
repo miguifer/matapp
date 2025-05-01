@@ -69,8 +69,8 @@ $userRole = $usuario->rol;
     <!-- Calendario -->
     <div class="tab-pane fade show active" id="calendario" role="tabpanel" aria-labelledby="calendario-tab">
         <h1><strong>{{ $academia->nombreAcademia }}</strong></h1>
-        <img src="{{ $academia->path_imagen }}" alt="Imagen academia"
-            style="width:80px; height:80px; object-fit:cover; border-radius:50%; margin-bottom:10px;">
+        {{-- <img src="{{ $academia->path_imagen }}" alt="Imagen academia"
+            style="width:80px; height:80px; object-fit:cover; border-radius:50%; margin-bottom:10px;"> --}}
         @if ($usuario->rol == 'Entrenador')
             <div class="form-check form-switch mb-3">
                 <input class="form-check-input" type="checkbox" id="switchEntrenador" onchange="toggleRoleSwitch()"
