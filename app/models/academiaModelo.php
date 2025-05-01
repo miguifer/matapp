@@ -361,4 +361,17 @@ class academiaModelo
             return false;
         }
     }
+
+    public function getSolicitudesPorIdUsuario($idUsuario)
+    {
+        $this->db->query("
+            SELECT s.*, a.nombreAcademia
+            FROM Solicitudes s
+            INNER JOIN Academias a ON s.idAcademia = a.idAcademia
+            WHERE s.idUsuario = :idUsuario
+            ORDER BY s.fechaSolicitud DESC
+        ");
+        $this->db->bind(':idUsuario', $idUsuario);
+        return $this->db->registros(); // Returns an array of results
+    }
 }

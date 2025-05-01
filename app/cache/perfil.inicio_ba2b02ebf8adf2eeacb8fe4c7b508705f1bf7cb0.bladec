@@ -106,7 +106,7 @@ if ($usuario->rol == 'Administrador') {
  <a class="nav-link" href="#" data-section="infoClases"><i
  class="fas fa-calendar-alt me-2"></i>Clases</a>
  <a class="nav-link" href="#" data-section="solicitudes"><i
- class="fas fa-envelope me-2"></i>solicitudes</a>
+ class="fas fa-envelope me-2"></i>Solicitudes</a>
  </div>
  </div>
  </div>
@@ -213,9 +213,54 @@ if ($usuario->rol == 'Administrador') {
 
  <div class="mb-4 content-section d-none" id="solicitudes">
  <h5 class="mb-4">Tus solicitudes</h5>
- <div>
- <p>No tienes solicitudes pendientes.</p>
+ <div class="table-responsive">
+ <table id="solicitudesTable" class="table table-striped table-bordered">
+ <thead>
+ <tr>
+ <th>Fecha</th>
+ <th>Academia</th>
+ <th>Estado</th>
+ </tr>
+ </thead>
+ <tbody>
+ <?php if(isset($solicitudes) && count($solicitudes) > 0): ?>
+ <?php $__currentLoopData = $solicitudes; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $i => $solicitud): $loop = $this->incrementLoopIndices();  ?>
+ <tr>
+ <td><?php echo \htmlentities($solicitud->fechaSolicitud ?? '-'??'', ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td><?php echo \htmlentities($solicitud->nombreAcademia ?? '-'??'', ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td>
+ <?php if(isset($solicitud->estadoSolicitud)): ?>
+ <?php if($solicitud->estadoSolicitud == 'pendiente'): ?>
+ <span
+ class="badge bg-warning text-dark">Pendiente</span>
+ <?php elseif($solicitud->estadoSolicitud == 'aceptada'): ?>
+ <span
+ class="badge bg-success">Aceptada</span>
+ <?php elseif($solicitud->estadoSolicitud == 'rechazada'): ?>
+ <span
+ class="badge bg-danger">Rechazada</span>
+ <?php else: ?>
+ <?php echo \htmlentities($solicitud->estadoSolicitud??'', ENT_QUOTES, 'UTF-8', false); ?>
+
+ <?php endif; ?>
+ <?php else: ?>
+ -
+ <?php endif; ?>
+ </td>
+ </tr>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ <?php else: ?>
+ <tr>
+ <td colspan="5" class="text-center">No tienes
+ solicitudes registradas.</td>
+ </tr>
+ <?php endif; ?>
+ </tbody>
+ </table>
  </div>
+
+
  </div>
 
 
@@ -231,9 +276,13 @@ if ($usuario->rol == 'Administrador') {
  </div>
  </div>
 
-
 </div>
 
+<script>
+ $(document).ready(function() {
+ $('#solicitudesTable').DataTable();
+ });
+</script>
 
 <script>
  //crear una variable que contenga la ruta de la url en js

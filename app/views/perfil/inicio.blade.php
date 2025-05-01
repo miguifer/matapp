@@ -106,7 +106,7 @@ if ($usuario->rol == 'Administrador') {
                                         <a class="nav-link" href="#" data-section="infoClases"><i
                                                 class="fas fa-calendar-alt me-2"></i>Clases</a>
                                         <a class="nav-link" href="#" data-section="solicitudes"><i
-                                                class="fas fa-envelope me-2"></i>solicitudes</a>
+                                                class="fas fa-envelope me-2"></i>Solicitudes</a>
                                     </div>
                                 </div>
                             </div>
@@ -213,9 +213,52 @@ if ($usuario->rol == 'Administrador') {
 
                                     <div class="mb-4 content-section d-none" id="solicitudes">
                                         <h5 class="mb-4">Tus solicitudes</h5>
-                                        <div>
-                                            <p>No tienes solicitudes pendientes.</p>
+                                        <div class="table-responsive">
+                                            <table id="solicitudesTable" class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Fecha</th>
+                                                        <th>Academia</th>
+                                                        <th>Estado</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (isset($solicitudes) && count($solicitudes) > 0)
+                                                        @foreach ($solicitudes as $i => $solicitud)
+                                                            <tr>
+                                                                <td>{{ $solicitud->fechaSolicitud ?? '-' }}</td>
+                                                                <td>{{ $solicitud->nombreAcademia ?? '-' }}</td>
+                                                                <td>
+                                                                    @if (isset($solicitud->estadoSolicitud))
+                                                                        @if ($solicitud->estadoSolicitud == 'pendiente')
+                                                                            <span
+                                                                                class="badge bg-warning text-dark">Pendiente</span>
+                                                                        @elseif($solicitud->estadoSolicitud == 'aceptada')
+                                                                            <span
+                                                                                class="badge bg-success">Aceptada</span>
+                                                                        @elseif($solicitud->estadoSolicitud == 'rechazada')
+                                                                            <span
+                                                                                class="badge bg-danger">Rechazada</span>
+                                                                        @else
+                                                                            {{ $solicitud->estadoSolicitud }}
+                                                                        @endif
+                                                                    @else
+                                                                        -
+                                                                    @endif
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @else
+                                                        <tr>
+                                                            <td colspan="5" class="text-center">No tienes
+                                                                solicitudes registradas.</td>
+                                                        </tr>
+                                                    @endif
+                                                </tbody>
+                                            </table>
                                         </div>
+
+
                                     </div>
 
 
@@ -231,9 +274,13 @@ if ($usuario->rol == 'Administrador') {
         </div>
     </div>
 
-
 </div>
 
+<script>
+    $(document).ready(function() {
+        $('#solicitudesTable').DataTable();
+    });
+</script>
 
 <script>
     //crear una variable que contenga la ruta de la url en js

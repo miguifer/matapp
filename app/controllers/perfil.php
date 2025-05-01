@@ -23,8 +23,13 @@ class perfil extends Controlador
     {
         if (isset($_SESSION['userLogin'])) {
 
+            $usuario = isset($_SESSION['userLogin']['usuario']) ? json_decode($_SESSION['userLogin']['usuario']) : null;
+            $solicitudes = $this->academiaModelo->getSolicitudesPorIdUsuario($usuario->idUsuario);
+            $datos['solicitudes'] = $solicitudes;
+
+
             $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
-            echo $this->blade->run("perfil.inicio", []);
+            echo $this->blade->run("perfil.inicio", $datos);
         } else {
             redireccionar('/');
         }
