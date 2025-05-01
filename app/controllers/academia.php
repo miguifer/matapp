@@ -46,7 +46,7 @@ class academia extends Controlador
                 $estadisticaAcademia = $this->academiaModelo->obtenerEstadisticaAcademias();
                 $solicitudes = $this->academiaModelo->obtenerSolicitudesAcademia($academia->idAcademia);
                 $alumnos = $this->academiaModelo->obtenerAlumnosAcademia($academia->idAcademia);
-
+                
                 $datos['alumnos'] = $alumnos;
                 $datos['estadisticaAcademia'] = $estadisticaAcademia;
                 $datos['solicitudes'] = $solicitudes;
@@ -96,7 +96,9 @@ class academia extends Controlador
             }
 
             $entrenadores = $this->academiaModelo->obtenerEntrenadoresAcademia($academia->idAcademia) ?? [];
+            $mensajes = $this->academiaModelo->obtenerMensajesAcademia($academia->idAcademia);
             $datos['entrenadores'] = $entrenadores;
+            $datos['mensajes'] = $mensajes;
 
 
             $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);

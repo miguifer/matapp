@@ -378,4 +378,33 @@ class academiaModelo
         $this->db->bind(':idUsuario', $idUsuario);
         return $this->db->registros(); // Returns an array of results
     }
+
+    public function enviarMensaje($mensaje, $datos)
+    {
+        $this->db->query("
+            INSERT INTO muro_mensajes (idUsuario, idAcademia, fecha, mensaje)
+            VALUES (:idUsuario, :idAcademia, :fecha, :mensaje)
+        ");
+        $this->db->bind(':idUsuario', $datos['idUsuario']);
+        $this->db->bind(':idAcademia', $datos['idAcademia']);
+        $this->db->bind(':fecha', $datos['fecha']);
+        $this->db->bind(':mensaje', $mensaje);
+
+        return $this->db->execute(); // Returns true if the query was successful
+    }
+
+    public function obtenerMensajesAcademia($idAcademia)
+    {
+        $this->db->query("
+            SELECT mm.*, u.nombreUsuario, r.nombreRol
+            FROM muro_mensajes mm
+            INNER JOIN Usuarios u ON mm.idUsuario = u.idUsuario
+            LEFT JOIN UsuariosRoles ur ON u.idUsuario = ur.idUsuario
+            LEFT JOIN Roles r ON ur.idRol = r.idRol
+            WHERE mm.idAcademia = :idAcademia
+            ORDER BY mm.fecha DESC
+        ");
+        $this->db->bind(':idAcademia', $idAcademia);
+        return $this->db->registros(); // Returns an array of messages with user role name
+    }
 }
