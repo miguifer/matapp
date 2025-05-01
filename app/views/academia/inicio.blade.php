@@ -438,7 +438,50 @@ $userRole = $usuario->rol;
                     });
 
                     $('.eliminarEntrenador').on('click', function() {
-                        // ...tu código...
+                        const row = $(this).closest('tr');
+                        const idUsuario = $(this).data('id');
+                        const idAcademia = {{ $academia->idAcademia }};
+
+                        Swal.fire({
+                            title: '¿Estás seguro?',
+                            text: "¿Quieres eliminar este entrenador?",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Aceptar',
+                            cancelButtonText: 'Cancelar',
+                            reverseButtons: true
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                $.ajax({
+                                    url: `${RUTA_URL}/entrenadorController/eliminarEntrenador`,
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: {
+                                        idUsuario: idUsuario,
+                                        idAcademia: idAcademia
+                                    },
+                                    success: function(response) {
+                                        Swal.fire(
+                                            '¡Eliminado!',
+                                            response && response.message ? response
+                                            .message : 'El entrenador ha sido eliminado.',
+                                            'success'
+                                        );
+                                        row.remove();
+                                        setTimeout(function() {
+                                            location.reload();
+                                        }, 1500);
+                                    },
+                                    error: function() {
+                                        Swal.fire(
+                                            '¡Error!',
+                                            'Hubo un problema al eliminar al entrenador.',
+                                            'error'
+                                        );
+                                    }
+                                });
+                            }
+                        });
                     });
                 });
             </script>
@@ -476,10 +519,11 @@ $userRole = $usuario->rol;
     <div class="tab-pane fade" id="mensajes" role="tabpanel" aria-labelledby="mensajes-tab">
         <div class="mt-4">
             <h2>Mensajes</h2>
-            
+
             {{-- Solo Gerente, Entrenador o Administrador pueden enviar --}}
             @if ($usuario->rol == 'Entrenador' || $usuario->rol == 'Gerente' || $usuario->rol == 'Administrador')
-                <form id="formEnviarMensaje" action="<?=RUTA_URL?>/mensajesController/enviarMensaje" method="POST" class="mb-3">
+                <form id="formEnviarMensaje" action="<?= RUTA_URL ?>/mensajesController/enviarMensaje" method="POST"
+                    class="mb-3">
                     @csrf
                     <div class="mb-2">
                         <textarea name="mensaje" class="form-control" rows="3" placeholder="Escribe un mensaje..." required></textarea>
@@ -494,13 +538,15 @@ $userRole = $usuario->rol;
 
             {{-- TODOS pueden ver los mensajes --}}
             <div id="listaMensajes">
-                @if(isset($mensajes) && count($mensajes) > 0)
+                @if (isset($mensajes) && count($mensajes) > 0)
                     <ul class="list-group">
-                        @foreach($mensajes as $msg)
+                        @foreach ($mensajes as $msg)
                             <li class="list-group-item">
                                 <strong>
                                     {{ $msg->nombreUsuario ?? 'Usuario' }}
-                                    @if(isset($msg->nombreRol)) ({{ $msg->nombreRol }}) @endif
+                                    @if (isset($msg->nombreRol))
+                                        ({{ $msg->nombreRol }})
+                                    @endif
                                     :
                                 </strong>
                                 <span>{{ $msg->mensaje }}</span>
@@ -571,56 +617,6 @@ $userRole = $usuario->rol;
             }
         });
     }
-
-
-    // function obtenerUsuariosApuntados(idClase) {
-
-    //     $.ajax({
-    //         url: `${RUTA_URL}/calendarioController/usuariosReservados`,
-    //         type: 'POST',
-    //         dataType: 'json',
-    //         data: {
-    //             idClase
-    //         }, // jQuery envía como application/x-www-form-urlencoded
-    //         success: mostrarUsuarios,
-    //         error(xhr, status, error) {
-    //             console.error('Error al obtener usuarios:', error);
-    //             Swal.fire('Error', 'No se pudieron cargar los usuarios.', 'error');
-    //         }
-    //     });
-
-    // }
-
-    // function mostrarUsuarios(usuarios) {
-    //     console.log('Array de usuarios recibido:', usuarios);
-
-    //     const contenedor = document.getElementById('lista-usuarios');
-    //     contenedor.innerHTML = '';
-
-    //     // Validamos que venga un Array
-    //     if (!Array.isArray(usuarios)) {
-    //         contenedor.textContent = 'Error: formato de datos inesperado.';
-    //         return null;
-    //     }
-
-    //     // Si no hay usuarios
-    //     if (usuarios.length === 0) {
-    //         contenedor.textContent = 'No hay usuarios apuntados a esta clase.';
-    //         return usuarios;
-    //     }
-
-    //     // Creamos un <ul> con cada usuario
-    //     const ul = document.createElement('ul');
-    //     usuarios.forEach(u => {
-    //         const li = document.createElement('li');
-    //         // Aquí asumes que el objeto usuario tiene .nombre y .email
-    //         li.textContent = `${u.nombreUsuario ?? 'Nombre desconocido'} (${u.emailUsuario ?? 'Sin email'})`;
-    //         ul.appendChild(li);
-    //     });
-
-    //     contenedor.appendChild(ul);
-    //     return usuarios;
-    // }
 
 
 
@@ -1011,54 +1007,57 @@ $userRole = $usuario->rol;
 
 
 <script>
-$(document).ready(function() {
-    $('#formEnviarMensaje').on('submit', function(e) {
-        e.preventDefault();
-        var form = $(this);
-        var btn = form.find('button[type="submit"]');
-        btn.prop('disabled', true);
+    $(document).ready(function() {
+        $('#formEnviarMensaje').on('submit', function(e) {
+            e.preventDefault();
+            var form = $(this);
+            var btn = form.find('button[type="submit"]');
+            btn.prop('disabled', true);
 
-        $.ajax({
-            url: form.attr('action'),
-            type: 'POST',
-            data: form.serialize(),
-            dataType: 'json',
-            success: function(response) {
-                // Si el backend responde con {success: true, message: "..."}
-                if (response && response.success) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Mensaje enviado',
-                        text: response.message || 'Tu mensaje ha sido enviado correctamente.'
-                    }).then(() => {
-                        location.reload(); // Recarga la página después de cerrar el SweetAlert
-                    });
-                    form[0].reset();
-                } else {
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    // Si el backend responde con {success: true, message: "..."}
+                    if (response && response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Mensaje enviado',
+                            text: response.message ||
+                                'Tu mensaje ha sido enviado correctamente.'
+                        }).then(() => {
+                            location
+                        .reload(); // Recarga la página después de cerrar el SweetAlert
+                        });
+                        form[0].reset();
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: response && response.message ? response.message :
+                                'No se pudo enviar el mensaje.'
+                        });
+                    }
+                },
+                error: function(xhr) {
+                    let msg = 'No se pudo enviar el mensaje.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        msg = xhr.responseJSON.message;
+                    }
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: response && response.message ? response.message : 'No se pudo enviar el mensaje.'
+                        text: msg
                     });
+                },
+                complete: function() {
+                    btn.prop('disabled', false);
                 }
-            },
-            error: function(xhr) {
-                let msg = 'No se pudo enviar el mensaje.';
-                if (xhr.responseJSON && xhr.responseJSON.message) {
-                    msg = xhr.responseJSON.message;
-                }
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: msg
-                });
-            },
-            complete: function() {
-                btn.prop('disabled', false);
-            }
+            });
         });
     });
-});
 </script>
 
 @include('includes.footer')
