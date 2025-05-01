@@ -247,17 +247,17 @@ class academiaModelo
         $this->db->execute();
     }
 
-    public function obtenerUsuariosActivos($minutos = 5)
+    public function obtenerUsuariosActivos($minutos = 30)
     {
         $this->db->query("
-        SELECT COUNT(*) AS totalActivos
-        FROM sesiones_activas
-        WHERE last_activity >= datetime('now', '-' || :minutos || ' minutes')
-    ");
+            SELECT idUsuario
+            FROM sesiones_activas
+            WHERE last_activity >= datetime('now', '-' || :minutos || ' minutes')
+        ");
         $this->db->bind(':minutos', $minutos);
-        $resultado = $this->db->registro();
-        return $resultado ? $resultado->totalActivos : 0;
+        return $this->db->registros(); // Returns an array of user IDs
     }
+
 
     public function eliminarSesionesInactivas()
     {
@@ -406,5 +406,11 @@ class academiaModelo
         ");
         $this->db->bind(':idAcademia', $idAcademia);
         return $this->db->registros(); // Returns an array of messages with user role name
+    }
+
+    public function obtenerUsuarios()
+    {
+        $this->db->query("SELECT * FROM Usuarios");
+        return $this->db->registros(); // Returns an array of all users
     }
 }

@@ -2,6 +2,7 @@
 
 <link href="<?= RUTA_URL ?>/libs/coreui-5.3.1-dist/css/coreui.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="<?= RUTA_URL ?>/public/css/admin.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 @php
 
     $usuario = json_decode($_SESSION['userLogin']['usuario']);
@@ -35,6 +36,13 @@
         </ul>
     </nav>
 
+    @php
+        // Si $_SESSION['activos'] es un array de objetos con propiedad idUsuario
+        $idsActivos = array_map(function ($u) {
+            return is_object($u) ? $u->idUsuario : $u;
+        }, $_SESSION['activos']);
+    @endphp
+
     <!-- Main content -->
     <div class="main">
         <h1>Panel de administrador</h1>
@@ -51,7 +59,7 @@
                         </div>
                     </div> --}}
                     <div class="col-md-6">
-                        <div class="card p-4 text-center">
+                        <div class="card p-4 text-center" id="card-total-usuarios" style="cursor:pointer;">
                             <div class="card-header">Resumen de Usuarios</div>
                             <div class="card-body">
                                 <div class="mb-4">
@@ -59,7 +67,7 @@
                                     <div class="stat-label">Total de Usuarios</div>
                                 </div>
                                 <div>
-                                    <div class="stat-number text-success"><?= $_SESSION['activos'] ?></div>
+                                    <div class="stat-number text-success"><?= count($_SESSION['activos']) ?></div>
                                     <div class="stat-label">Usuarios Activos</div>
                                 </div>
                             </div>
@@ -95,21 +103,52 @@
             <div id="usuarios" class="tab-content">
                 <h2>Datos de Usuarios</h2>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-12">
                         <div class="card p-3">
-                            <div class="card-header">Total de Usuarios</div>
+                            <div class="card-header">Listado de Usuarios</div>
                             <div class="card-body">
-                                <div class="stat-number"><?= $estadisticaUsuarios ?></div>
-                                <div class="stat-label">Usuarios Registrados</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card p-3">
-                            <div class="card-header">Usuarios Activos</div>
-                            <div class="card-body">
-                                <div class="stat-number"><?= $_SESSION['activos'] ?></div>
-                                <div class="stat-label">Usuarios Activos en los últimos 30 minutos</div>
+                                <table id="tablaUsuarios" class="table table-striped" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Login</th>
+                                            <th>Email</th>
+                                            <th>Teléfono</th>
+                                            <th>Nombre</th>
+                                            <th>Apellido 1</th>
+                                            <th>Apellido 2</th>
+                                            <th>Activo</th>
+                                            <th>Online</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($usuarios as $u)
+                                            <tr>
+                                                <td>{{ $u->idUsuario }}</td>
+                                                <td>{{ $u->login }}</td>
+                                                <td>{{ $u->emailUsuario }}</td>
+                                                <td>{{ $u->telefonoUsuario }}</td>
+                                                <td>{{ $u->nombreUsuario }}</td>
+                                                <td>{{ $u->apellido1Usuario }}</td>
+                                                <td>{{ $u->apellido2Usuario }}</td>
+                                                <td>
+                                                    @if ($u->activo)
+                                                        <span class="badge bg-success">Sí</span>
+                                                    @else
+                                                        <span class="badge bg-danger">No</span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if (in_array($u->idUsuario, $idsActivos))
+                                                        <span class="badge bg-success">Online</span>
+                                                    @else
+                                                        <span class="badge bg-secondary">Offline</span>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -144,7 +183,8 @@
     ?>
 
     <script src="<?= RUTA_URL ?>/libs/coreui-5.3.1-dist/js/coreui.bundle.min.js"> </script>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
     <script>
         if (document.querySelector('#navegacion')) {
@@ -205,7 +245,20 @@
         });
     </script>
 
+    <script>
+        $(document).ready(function() {
+            $('#tablaUsuarios').DataTable();
+        });
 
+        // Al hacer clic en la tarjeta, cambia a la pestaña de usuarios
+        document.getElementById('card-total-usuarios').addEventListener('click', function() {
+            document.getElementById('usuarios-tab').click();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    </script>
 
     {{-- Aqui va a ir un calendario con la clases que se ha apuntado el usuario --}}
 
