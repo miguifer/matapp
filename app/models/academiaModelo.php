@@ -11,7 +11,11 @@ class academiaModelo
 
     public function obtenerAcademias()
     {
-        $this->db->query("SELECT * FROM Academias");
+        $this->db->query("
+        SELECT a.*, ta.nombreTipo AS tipoAcademia
+        FROM Academias a
+        INNER JOIN TipoAcademia ta ON a.tipoAcademia = ta.idTipo
+    ");
         return $this->db->registros(); // Assuming registros() returns an array of results
     }
 
