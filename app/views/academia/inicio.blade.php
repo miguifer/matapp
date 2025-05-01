@@ -278,27 +278,33 @@ $userRole = $usuario->rol;
 
             <h3>Alumnos</h3>
 
-
             <table id="alumnosTable" class="display compact">
                 <thead>
                     <tr>
-                        <th>Nombre Usuario</th>
-                        <th>Rol</th>
+                        <th>Login</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Nombre</th>
+                        <th>Primer Apellido</th>
+                        <th>Segundo Apellido</th>
                         <th>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($alumnos as $alumno)
                         <tr>
+                            <td>{{ $alumno->login }}</td>
+                            <td>{{ $alumno->emailUsuario }}</td>
+                            <td>{{ $alumno->telefonoUsuario }}</td>
                             <td>{{ $alumno->nombreUsuario }}</td>
-                            <td>{{ $alumno->rol }}</td>
+                            <td>{{ $alumno->apellido1Usuario }}</td>
+                            <td>{{ $alumno->apellido2Usuario }}</td>
                             <td>
                                 <button class="btn btn-danger eliminarAlumno"
                                     data-id-Usuario="{{ $alumno->idUsuario }}">Eliminar</button>
                                 @if ($alumno->rol !== 'Entrenador')
                                     <button class="btn btn-primary hacerEntrenador"
-                                        data-id-Usuario=" {{ $alumno->idUsuario }}  ">Hacer
-                                        entrenador</button>
+                                        data-id-Usuario="{{ $alumno->idUsuario }}">Hacer entrenador</button>
                                 @endif
                             </td>
                         </tr>
@@ -408,10 +414,10 @@ $userRole = $usuario->rol;
 
             <h3>Entrenadores</h3>
 
-
             <table id="entrenadoresTable" class="display compact">
                 <thead>
                     <tr>
+                        <th>Login</th>
                         <th>Nombre entrenador</th>
                         <th>Eliminar</th>
                     </tr>
@@ -419,6 +425,7 @@ $userRole = $usuario->rol;
                 <tbody>
                     @foreach ($entrenadores as $entrenador)
                         <tr>
+                            <td>{{ $entrenador->login }}</td>
                             <td>{{ $entrenador->nombreUsuario }}</td>
                             <td>
                                 <button class="btn btn-danger eliminarEntrenador"
@@ -471,13 +478,6 @@ $userRole = $usuario->rol;
                                         setTimeout(function() {
                                             location.reload();
                                         }, 1500);
-                                    },
-                                    error: function() {
-                                        Swal.fire(
-                                            '¡Error!',
-                                            'Hubo un problema al eliminar al entrenador.',
-                                            'error'
-                                        );
                                     }
                                 });
                             }
