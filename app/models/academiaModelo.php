@@ -413,4 +413,6 @@ class academiaModelo
         $this->db->query("SELECT * FROM Usuarios");
         return $this->db->registros(); // Returns an array of all users
     }
+
+
 }

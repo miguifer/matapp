@@ -32,6 +32,7 @@
             <li class="nav-item"><a class="nav-link active" id="inicio-tab">Inicio</a></li>
             <li class="nav-item"><a class="nav-link" id="graficos-tab">Gráficos</a></li>
             <li class="nav-item"><a class="nav-link" id="usuarios-tab">Usuarios</a></li>
+            <li class="nav-item"><a class="nav-link" id="academias-tab">Academias</a></li>
             {{-- <li class="nav-item"><a href="#" class="nav-link" id="configuracion-tab">Configuración</a></li> --}}
         </ul>
     </nav>
@@ -50,14 +51,6 @@
             <!-- Inicio -->
             <div id="inicio" class="tab-content active">
                 <div class="row g-4">
-                    {{-- <div class="col-md-6">
-                        <div class="card p-3">
-                            <div class="card-header">Ventas Mensuales</div>
-                            <div class="card-body">
-                                <canvas id="salesChart" height="150"></canvas>
-                            </div>
-                        </div>
-                    </div> --}}
                     <div class="col-md-6">
                         <div class="card p-4 text-center" id="card-total-usuarios" style="cursor:pointer;">
                             <div class="card-header">Resumen de Usuarios</div>
@@ -69,6 +62,17 @@
                                 <div>
                                     <div class="stat-number text-success"><?= count($_SESSION['activos']) ?></div>
                                     <div class="stat-label">Usuarios Activos</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card p-4 text-center" id="card-total-academias" style="cursor:pointer;">
+                            <div class="card-header">Resumen de Academias</div>
+                            <div class="card-body">
+                                <div class="mb-4">
+                                    <div class="stat-number">{{ count($academias) }}</div>
+                                    <div class="stat-label">Total de Academias</div>
                                 </div>
                             </div>
                         </div>
@@ -145,6 +149,44 @@
                                                         <span class="badge bg-secondary">Offline</span>
                                                     @endif
                                                 </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Academias -->
+            <div id="academias" class="tab-content">
+                <h2>Datos de Academias</h2>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card p-3">
+                            <div class="card-header">Listado de Academias</div>
+                            <div class="card-body">
+                                <table id="tablaAcademias" class="table table-striped" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nombre</th>
+                                            <th>Dirección</th>
+                                            <th>Tipo</th>
+                                            <th>ID Usuario gerente</th>
+                                            <!-- Agrega más columnas si tu tabla tiene más campos -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($academias as $a)
+                                            <tr>
+                                                <td>{{ $a->idAcademia }}</td>
+                                                <td>{{ $a->nombreAcademia }}</td>
+                                                <td>{{ $a->ubicacionAcademia }}</td>
+                                                <td>{{ $a->tipoAcademia }}</td>
+                                                <td>{{ $a->idGerente }}</td>
+                                                <!-- Agrega más celdas si tu tabla tiene más campos -->
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -248,11 +290,21 @@
     <script>
         $(document).ready(function() {
             $('#tablaUsuarios').DataTable();
+            $('#tablaAcademias').DataTable();
         });
 
-        // Al hacer clic en la tarjeta, cambia a la pestaña de usuarios
+        // Al hacer clic en la tarjeta de usuarios, cambia a la pestaña de usuarios
         document.getElementById('card-total-usuarios').addEventListener('click', function() {
             document.getElementById('usuarios-tab').click();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Al hacer clic en la tarjeta de academias, cambia a la pestaña de academias
+        document.getElementById('card-total-academias').addEventListener('click', function() {
+            document.getElementById('academias-tab').click();
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
