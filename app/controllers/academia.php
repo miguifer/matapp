@@ -50,6 +50,7 @@ class academia extends Controlador
                 $datos['alumnos'] = $alumnos;
                 $datos['estadisticaAcademia'] = $estadisticaAcademia;
                 $datos['solicitudes'] = $solicitudes;
+                $datos['clases'] = $this->academiaModelo->obtenerClasesAcademia($academia->idAcademia);
 
                 $usuario->rol = 'Administrador';
                 $_SESSION['userLogin'] = [
@@ -63,6 +64,7 @@ class academia extends Controlador
                 $datos['alumnos'] = $alumnos;
                 $datos['estadisticaAcademia'] = $estadisticaAcademia;
                 $datos['solicitudes'] = $solicitudes;
+                $datos['clases'] = $this->academiaModelo->obtenerClasesAcademia($academia->idAcademia);
 
 
                 $usuario->rol = 'Gerente';

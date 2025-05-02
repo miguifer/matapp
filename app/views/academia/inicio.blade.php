@@ -55,6 +55,14 @@ $userRole = $usuario->rol;
             Mensajes
         </button>
     </li>
+    @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Entrenador')
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="clases-tab" data-bs-toggle="tab" data-bs-target="#clases"
+                type="button" role="tab" aria-controls="clases" aria-selected="false">
+                Clases
+            </button>
+        </li>
+    @endif
     @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Administrador')
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="admin-tab" data-bs-toggle="tab" data-bs-target="#admin" type="button"
@@ -93,6 +101,39 @@ $userRole = $usuario->rol;
             <div id="calendar"></div>
         </div>
     </div>
+
+    <!-- Clases -->
+    @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Entrenador')
+        <div class="tab-pane fade" id="clases" role="tabpanel" aria-labelledby="clases-tab">
+            <h2>Clases de la Academia</h2>
+            <table id="tablaClases" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Inicio</th>
+                        <th>Fin</th>
+                        <th>Entrenador</th>
+                        <th>Asistentes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($clases as $clase)
+                        <tr>
+                            <td>{{ $clase->title }}</td>
+                            <td>{{ $clase->start }}</td>
+                            <td>{{ $clase->end }}</td>
+                            <td>{{ $clase->nombreEntrenador ?? 'Sin asignar' }}</td>
+                            <td>
+                                <button class="btn btn-primary btn-sm ver-asistentes" data-id="{{ $clase->id }}">
+                                    Ver y confirmar
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    @endif
 
     <!-- Funciones Administrativas -->
     @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Administrador')
@@ -1065,6 +1106,57 @@ $userRole = $usuario->rol;
             });
         });
     });
+</script>
+
+<script>
+$(document).ready(function() {
+    $('#tablaClases').DataTable();
+
+    $('.ver-asistentes').on('click', function() {
+        const idClase = $(this).data('id');
+        $.ajax({
+            url: `${RUTA_URL}/calendarioController/usuariosReservados`,
+            type: 'POST',
+            dataType: 'json',
+            data: { idClase },
+            success: function(usuarios) {
+                let html = '<form id="formAsistencia">';
+                usuarios.forEach(u => {
+                    html += `
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="asistencia[]" value="${u.idUsuario}" id="asist_${u.idUsuario}" ${u.asistencia ? 'checked' : ''}>
+                            <label class="form-check-label" for="asist_${u.idUsuario}">
+                                ${u.nombreUsuario}
+                            </label>
+                        </div>
+                    `;
+                });
+                html += `<input type="hidden" name="idClase" value="${idClase}"></form>`;
+
+                Swal.fire({
+                    title: 'Confirmar asistencia',
+                    html: html,
+                    showCancelButton: true,
+                    confirmButtonText: 'Guardar asistencia',
+                    preConfirm: () => {
+                        const form = document.getElementById('formAsistencia');
+                        const formData = $(form).serialize();
+                        return $.ajax({
+                            url: `${RUTA_URL}/calendarioController/confirmarAsistencia`,
+                            type: 'POST',
+                            data: formData,
+                            dataType: 'json'
+                        });
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire('¡Guardado!', 'La asistencia ha sido confirmada.', 'success');
+                    }
+                });
+            }
+        });
+    });
+});
 </script>
 
 @include('includes.footer')

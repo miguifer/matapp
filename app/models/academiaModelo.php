@@ -414,5 +414,16 @@ class academiaModelo
         return $this->db->registros(); // Returns an array of all users
     }
 
-
+    public function obtenerClasesAcademia($idAcademia)
+    {
+        $this->db->query("
+            SELECT c.*, u.nombreUsuario AS entrenador
+            FROM Clases c
+            LEFT JOIN Usuarios u ON c.idEntrenador = u.idUsuario
+            WHERE c.idAcademia = :idAcademia
+            ORDER BY c.start DESC
+        ");
+        $this->db->bind(':idAcademia', $idAcademia);
+        return $this->db->registros(); // Returns an array of classes for the academy
+    }
 }
