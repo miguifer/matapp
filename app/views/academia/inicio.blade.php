@@ -57,8 +57,8 @@ $userRole = $usuario->rol;
     </li>
     @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Entrenador')
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="clases-tab" data-bs-toggle="tab" data-bs-target="#clases"
-                type="button" role="tab" aria-controls="clases" aria-selected="false">
+            <button class="nav-link" id="clases-tab" data-bs-toggle="tab" data-bs-target="#clases" type="button"
+                role="tab" aria-controls="clases" aria-selected="false">
                 Clases
             </button>
         </li>
@@ -203,10 +203,12 @@ $userRole = $usuario->rol;
                             <td>{{ $solicitud->idUsuario }}</td>
                             <td>{{ $solicitud->nombreUsuario }}</td>
                             <td>
-                                <button class="btn btn-success aceptarSolicitud" data-id="{{ $solicitud->idSolicitud }}"
+                                <button class="btn btn-success aceptarSolicitud"
+                                    data-id="{{ $solicitud->idSolicitud }}"
                                     data-id-Usuario="{{ $solicitud->idUsuario }}"
                                     data-id-Academia="{{ $solicitud->idAcademia }}">Aceptar</button>
-                                <button class="btn btn-danger rechazarSolicitud" data-id="{{ $solicitud->idSolicitud }}"
+                                <button class="btn btn-danger rechazarSolicitud"
+                                    data-id="{{ $solicitud->idSolicitud }}"
                                     data-id-Usuario="{{ $solicitud->idUsuario }}"
                                     data-id-Academia="{{ $solicitud->idAcademia }}">Rechazar</button>
                             </td>
@@ -716,9 +718,9 @@ $userRole = $usuario->rol;
 
                     // Lógica para editar el evento
                     Swal.fire({
-                        icon: 'warning',
-                        title: 'Editar Clase',
-                        html: `
+                            icon: 'warning',
+                            title: 'Editar Clase',
+                            html: `
                             <input type="text" id="title" class="swal2-input" value="${info.event.title}" placeholder="Título del Evento" required>
                             <input type="text" id="start" class="swal2-input" placeholder="Fecha de inicio" value="${info.event.startStr}" required>
                             <input type="text" id="end" class="swal2-input" placeholder="Fecha de fin" value="${info.event.end ? info.event.endStr : ''}">
@@ -730,122 +732,124 @@ $userRole = $usuario->rol;
                                 @endforeach
                             </select>
                         `,
-                        didOpen: () => {
-                            flatpickr("#start", {
-                                enableTime: true,
-                                dateFormat: "Y-m-d H:i",
-                                time_24hr: true
-                            });
-                            flatpickr("#end", {
-                                enableTime: true,
-                                dateFormat: "Y-m-d H:i",
-                                time_24hr: true
-                            });
-                        },
-                        preConfirm: () => {
-                            const title = Swal.getPopup().querySelector('#title').value;
-                            const start = Swal.getPopup().querySelector('#start').value;
-                            let end = Swal.getPopup().querySelector('#end').value;
-                            const idEntrenador = Swal.getPopup().querySelector('#idEntrenador').value;
+                            didOpen: () => {
+                                flatpickr("#start", {
+                                    enableTime: true,
+                                    dateFormat: "Y-m-d H:i",
+                                    time_24hr: true
+                                });
+                                flatpickr("#end", {
+                                    enableTime: true,
+                                    dateFormat: "Y-m-d H:i",
+                                    time_24hr: true
+                                });
+                            },
+                            preConfirm: () => {
+                                const title = Swal.getPopup().querySelector('#title').value;
+                                const start = Swal.getPopup().querySelector('#start').value;
+                                let end = Swal.getPopup().querySelector('#end').value;
+                                const idEntrenador = Swal.getPopup().querySelector(
+                                    '#idEntrenador').value;
 
-                            if (!title || !start) {
-                                Swal.showValidationMessage('Por favor, completa todos los campos');
-                            }
-                            // Si end está vacío, envía null
-                            end = end.trim() === "" ? null : end;
-
-                            return {
-                                title,
-                                start,
-                                end,
-                                id: info.event.id,
-                                idEntrenador
-                            };
-                        },
-                        showCancelButton: true,
-                        cancelButtonText: 'Cancelar',
-                        confirmButtonText: 'Editar Evento',
-                        cancelButtonColor: '#6c757d',
-                        showDenyButton: true,
-                        denyButtonText: 'Eliminar Evento',
-                        denyButtonColor: '#dc3545'
-                    })
-                    .then((result) => {
-                        const eventData = result.value;
-                        if (result.isConfirmed) {
-                            // Guardar o editar evento
-                            $.ajax({
-                                url: `${RUTA_URL}/calendarioController/update_clase`,
-                                type: 'POST',
-                                dataType: 'json',
-                                data: eventData,
-                                success: function(response) {
-                                    if (response && response.message) {
-                                        Swal.fire({
-                                            title: 'Éxito!',
-                                            text: response.message,
-                                            icon: 'success',
-                                            confirmButtonText: 'Genial'
-                                        });
-                                        calendar.refetchEvents();
-                                    }
-                                },
-                                error: function() {
-                                    Swal.fire({
-                                        title: 'Error',
-                                        text: 'Hubo un problema al guardar el evento.',
-                                        icon: 'error',
-                                        confirmButtonText: 'Cerrar'
-                                    });
+                                if (!title || !start) {
+                                    Swal.showValidationMessage(
+                                        'Por favor, completa todos los campos');
                                 }
-                            });
-                        } else if (result.isDenied) {
-                            // Confirmación para eliminar
-                            Swal.fire({
-                                title: '¿Estás seguro?',
-                                text: "Esta acción eliminará el evento permanentemente.",
-                                icon: 'question',
-                                showCancelButton: true,
-                                confirmButtonText: 'Sí, eliminar',
-                                confirmButtonColor: '#dc3545',
-                                cancelButtonText: 'Cancelar',
-                                reverseButtons: true
-                            }).then((confirmResult) => {
-                                if (confirmResult.isConfirmed) {
-                                    $.ajax({
-                                        url: `${RUTA_URL}/calendarioController/delete_clase`,
-                                        type: 'POST',
-                                        dataType: 'json',
-                                        data: {
-                                            id: info.event.id
-                                        },
-                                        success: function(response) {
-                                            if (response && response
-                                                .message) {
-                                                Swal.fire({
-                                                    title: 'Éxito!',
-                                                    text: response
-                                                        .message,
-                                                    icon: 'success',
-                                                    confirmButtonText: 'Genial'
-                                                });
-                                                calendar
-                                                    .refetchEvents();
-                                            }
-                                        },
-                                        error: function() {
+                                // Si end está vacío, envía null
+                                end = end.trim() === "" ? null : end;
+
+                                return {
+                                    title,
+                                    start,
+                                    end,
+                                    id: info.event.id,
+                                    idEntrenador
+                                };
+                            },
+                            showCancelButton: true,
+                            cancelButtonText: 'Cancelar',
+                            confirmButtonText: 'Editar Evento',
+                            cancelButtonColor: '#6c757d',
+                            showDenyButton: true,
+                            denyButtonText: 'Eliminar Evento',
+                            denyButtonColor: '#dc3545'
+                        })
+                        .then((result) => {
+                            const eventData = result.value;
+                            if (result.isConfirmed) {
+                                // Guardar o editar evento
+                                $.ajax({
+                                    url: `${RUTA_URL}/calendarioController/update_clase`,
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: eventData,
+                                    success: function(response) {
+                                        if (response && response.message) {
                                             Swal.fire({
-                                                title: 'Error',
-                                                text: 'Hubo un problema al eliminar el evento.',
-                                                icon: 'error',
-                                                confirmButtonText: 'Cerrar'
+                                                title: 'Éxito!',
+                                                text: response.message,
+                                                icon: 'success',
+                                                confirmButtonText: 'Genial'
                                             });
+                                            calendar.refetchEvents();
                                         }
-                                    });
-                                }
-                            });
-                        }
-                    });
+                                    },
+                                    error: function() {
+                                        Swal.fire({
+                                            title: 'Error',
+                                            text: 'Hubo un problema al guardar el evento.',
+                                            icon: 'error',
+                                            confirmButtonText: 'Cerrar'
+                                        });
+                                    }
+                                });
+                            } else if (result.isDenied) {
+                                // Confirmación para eliminar
+                                Swal.fire({
+                                    title: '¿Estás seguro?',
+                                    text: "Esta acción eliminará el evento permanentemente.",
+                                    icon: 'question',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Sí, eliminar',
+                                    confirmButtonColor: '#dc3545',
+                                    cancelButtonText: 'Cancelar',
+                                    reverseButtons: true
+                                }).then((confirmResult) => {
+                                    if (confirmResult.isConfirmed) {
+                                        $.ajax({
+                                            url: `${RUTA_URL}/calendarioController/delete_clase`,
+                                            type: 'POST',
+                                            dataType: 'json',
+                                            data: {
+                                                id: info.event.id
+                                            },
+                                            success: function(response) {
+                                                if (response && response
+                                                    .message) {
+                                                    Swal.fire({
+                                                        title: 'Éxito!',
+                                                        text: response
+                                                            .message,
+                                                        icon: 'success',
+                                                        confirmButtonText: 'Genial'
+                                                    });
+                                                    calendar
+                                                        .refetchEvents();
+                                                }
+                                            },
+                                            error: function() {
+                                                Swal.fire({
+                                                    title: 'Error',
+                                                    text: 'Hubo un problema al eliminar el evento.',
+                                                    icon: 'error',
+                                                    confirmButtonText: 'Cerrar'
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
                 } else if (currentRole === 'Alumno') {
 
 
@@ -1077,7 +1081,7 @@ $userRole = $usuario->rol;
                                 'Tu mensaje ha sido enviado correctamente.'
                         }).then(() => {
                             location
-                        .reload(); // Recarga la página después de cerrar el SweetAlert
+                                .reload(); // Recarga la página después de cerrar el SweetAlert
                         });
                         form[0].reset();
                     } else {
@@ -1109,54 +1113,73 @@ $userRole = $usuario->rol;
 </script>
 
 <script>
-$(document).ready(function() {
-    $('#tablaClases').DataTable();
+    $(document).ready(function() {
+        $('#tablaClases').DataTable();
 
-    $('.ver-asistentes').on('click', function() {
-        const idClase = $(this).data('id');
-        $.ajax({
-            url: `${RUTA_URL}/calendarioController/usuariosReservados`,
-            type: 'POST',
-            dataType: 'json',
-            data: { idClase },
-            success: function(usuarios) {
-                let html = '<form id="formAsistencia">';
-                usuarios.forEach(u => {
-                    html += `
+        $('.ver-asistentes').on('click', function() {
+            const idClase = $(this).data('id');
+            $.ajax({
+                url: `${RUTA_URL}/calendarioController/usuariosReservados`,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    idClase
+                },
+                success: function(usuarios) {
+                    console.log(usuarios); // <-- Añade esto para depurar
+                    let html = '<form id="formAsistencia">';
+                    usuarios.forEach(u => {
+                        html += `
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="asistencia[]" value="${u.idUsuario}" id="asist_${u.idUsuario}" ${u.asistencia ? 'checked' : ''}>
+                            <input class="form-check-input" type="checkbox" name="asistencia[]" value="${u.idUsuario}" id="asist_${u.idUsuario}" ${u.asistencia == 1 ? 'checked' : ''}>
                             <label class="form-check-label" for="asist_${u.idUsuario}">
                                 ${u.nombreUsuario}
                             </label>
                         </div>
                     `;
-                });
-                html += `<input type="hidden" name="idClase" value="${idClase}"></form>`;
+                    });
+                    html +=
+                    `<input type="hidden" name="idClase" value="${idClase}"></form>`;
 
-                Swal.fire({
-                    title: 'Confirmar asistencia',
-                    html: html,
-                    showCancelButton: true,
-                    confirmButtonText: 'Guardar asistencia',
-                    preConfirm: () => {
-                        const form = document.getElementById('formAsistencia');
-                        const formData = $(form).serialize();
-                        return $.ajax({
-                            url: `${RUTA_URL}/calendarioController/confirmarAsistencia`,
-                            type: 'POST',
-                            data: formData,
-                            dataType: 'json'
-                        });
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        Swal.fire('¡Guardado!', 'La asistencia ha sido confirmada.', 'success');
-                    }
-                });
-            }
+                    Swal.fire({
+                        title: 'Confirmar asistencia',
+                        html: html,
+                        showCancelButton: true,
+                        confirmButtonText: 'Guardar asistencia',
+                        preConfirm: () => {
+                            const form = document.getElementById('formAsistencia');
+                            let formData = $(form).serialize();
+                            // Si no hay ningún checkbox marcado, agrega asistencia vacía
+                            if (!formData.includes('asistencia%5B%5D')) {
+                                formData += '&asistencia[]=';
+                            }
+                            return new Promise((resolve, reject) => {
+                                $.ajax({
+                                    url: `${RUTA_URL}/calendarioController/confirmarAsistencia`,
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: formData,
+                                    success: function(response) {
+                                        resolve(response);
+                                    },
+                                    error: function(xhr) {
+                                        reject(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Error al guardar asistencia');
+                                    }
+                                });
+                            }).catch(errorMsg => {
+                                Swal.showValidationMessage(errorMsg);
+                            });
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed && result.value) {
+                            Swal.fire('¡Guardado!',
+                                'La asistencia ha sido confirmada.', 'success');
+                        }
+                    });
+                }
+            });
         });
     });
-});
 </script>
 
 @include('includes.footer')

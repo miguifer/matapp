@@ -20,7 +20,7 @@ class calendarioModelo
 
     public function obtenerUsuariosReservados($idClase)
     {
-        $this->db->query("SELECT u.idUsuario, u.nombreUsuario, u.emailUsuario 
+        $this->db->query("SELECT u.idUsuario, u.nombreUsuario, u.emailUsuario , r.asistencia
                       FROM Reservas r
                       JOIN Usuarios u ON r.idUsuario = u.idUsuario
                       WHERE r.idClase = :idClase");
@@ -104,7 +104,9 @@ class calendarioModelo
             $this->db->query("SELECT u.nombreUsuario FROM Reservas r JOIN Usuarios u ON r.idUsuario = u.idUsuario WHERE r.idClase = :idClase");
             $this->db->bind(':idClase', $clase->id);
             $usuarios = $this->db->registros();
-            $clase->apuntados = array_map(function($u) { return $u->nombreUsuario; }, $usuarios);
+            $clase->apuntados = array_map(function ($u) {
+                return $u->nombreUsuario;
+            }, $usuarios);
         }
         return $clases;
     }
@@ -123,7 +125,7 @@ class calendarioModelo
 
     public function obtenerUsuariosApuntados($idClase)
     {
-        $this->db->query("SELECT u.nombreUsuario 
+        $this->db->query("SELECT u.nombreUsuario
                       FROM Reservas r
                       JOIN Usuarios u ON r.idUsuario = u.idUsuario
                       WHERE r.idClase = :idClase");
@@ -131,5 +133,34 @@ class calendarioModelo
         $this->db->bind(':idClase', $idClase);
 
         return $this->db->registros(); // equivalente a fetchAll()
+    }
+
+
+    public function confirmarAsistenciaMultiple($idClase, $asistentes)
+    {
+        try {
+            // Primero, poner asistencia a 0 para todos los usuarios de la clase
+            $this->db->query("UPDATE Reservas SET asistencia = 0 WHERE idClase = :idClase");
+            $this->db->bind(':idClase', $idClase);
+            $this->db->execute();
+
+            // Ahora, poner asistencia a 1 solo para los usuarios seleccionados
+            if (!empty($asistentes)) {
+                // Prepara la consulta para los usuarios seleccionados
+                $placeholders = implode(',', array_fill(0, count($asistentes), '?'));
+                $sql = "UPDATE Reservas SET asistencia = 1 WHERE idClase = ? AND idUsuario IN ($placeholders)";
+                $this->db->query($sql);
+
+                // Bind de los parámetros
+                $params = array_merge([$idClase], $asistentes);
+                foreach ($params as $idx => $val) {
+                    $this->db->bind($idx + 1, $val); // Asumiendo que el método bind soporta índices numéricos
+                }
+                $this->db->execute();
+            }
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }

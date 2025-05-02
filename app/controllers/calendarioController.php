@@ -240,4 +240,23 @@ class calendarioController extends Controlador
             echo json_encode([]);
         }
     }
+
+    public function confirmarAsistencia()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['idClase'], $_POST['asistencia'])) {
+            $idClase = $_POST['idClase'];
+            $asistentes = is_array($_POST['asistencia']) ? $_POST['asistencia'] : [$_POST['asistencia']];
+
+            $resultado = $this->calendarioModelo->confirmarAsistenciaMultiple($idClase, $asistentes);
+
+            header('Content-Type: application/json');
+            if ($resultado) {
+                echo json_encode(['message' => 'Asistencia confirmada con éxito']);
+            } else {
+                echo json_encode(['message' => 'Error al confirmar la asistencia']);
+            }
+        } else {
+            redireccionar('/');
+        }
+    }
 }

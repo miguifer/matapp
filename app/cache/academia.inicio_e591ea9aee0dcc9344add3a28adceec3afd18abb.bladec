@@ -57,8 +57,8 @@ $userRole = $usuario->rol;
  </li>
  <?php if($usuario->rol == 'Gerente' || $usuario->rol == 'Entrenador'): ?>
  <li class="nav-item" role="presentation">
- <button class="nav-link" id="clases-tab" data-bs-toggle="tab" data-bs-target="#clases"
- type="button" role="tab" aria-controls="clases" aria-selected="false">
+ <button class="nav-link" id="clases-tab" data-bs-toggle="tab" data-bs-target="#clases" type="button"
+ role="tab" aria-controls="clases" aria-selected="false">
  Clases
  </button>
  </li>
@@ -205,10 +205,12 @@ $userRole = $usuario->rol;
  <td><?php echo \htmlentities($solicitud->idUsuario??'', ENT_QUOTES, 'UTF-8', false); ?></td>
  <td><?php echo \htmlentities($solicitud->nombreUsuario??'', ENT_QUOTES, 'UTF-8', false); ?></td>
  <td>
- <button class="btn btn-success aceptarSolicitud" data-id="<?php echo \htmlentities($solicitud->idSolicitud??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ <button class="btn btn-success aceptarSolicitud"
+ data-id="<?php echo \htmlentities($solicitud->idSolicitud??'', ENT_QUOTES, 'UTF-8', false); ?>"
  data-id-Usuario="<?php echo \htmlentities($solicitud->idUsuario??'', ENT_QUOTES, 'UTF-8', false); ?>"
  data-id-Academia="<?php echo \htmlentities($solicitud->idAcademia??'', ENT_QUOTES, 'UTF-8', false); ?>">Aceptar</button>
- <button class="btn btn-danger rechazarSolicitud" data-id="<?php echo \htmlentities($solicitud->idSolicitud??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ <button class="btn btn-danger rechazarSolicitud"
+ data-id="<?php echo \htmlentities($solicitud->idSolicitud??'', ENT_QUOTES, 'UTF-8', false); ?>"
  data-id-Usuario="<?php echo \htmlentities($solicitud->idUsuario??'', ENT_QUOTES, 'UTF-8', false); ?>"
  data-id-Academia="<?php echo \htmlentities($solicitud->idAcademia??'', ENT_QUOTES, 'UTF-8', false); ?>">Rechazar</button>
  </td>
@@ -753,10 +755,12 @@ $userRole = $usuario->rol;
  const title = Swal.getPopup().querySelector('#title').value;
  const start = Swal.getPopup().querySelector('#start').value;
  let end = Swal.getPopup().querySelector('#end').value;
- const idEntrenador = Swal.getPopup().querySelector('#idEntrenador').value;
+ const idEntrenador = Swal.getPopup().querySelector(
+ '#idEntrenador').value;
 
  if (!title || !start) {
- Swal.showValidationMessage('Por favor, completa todos los campos');
+ Swal.showValidationMessage(
+ 'Por favor, completa todos los campos');
  }
  // Si end está vacío, envía null
  end = end.trim() === "" ? null : end;
@@ -1117,7 +1121,7 @@ $userRole = $usuario->rol;
 </script>
 
 <script>
-$(document).ready(function() {
+ $(document).ready(function() {
  $('#tablaClases').DataTable();
 
  $('.ver-asistentes').on('click', function() {
@@ -1126,20 +1130,24 @@ $(document).ready(function() {
  url: `${RUTA_URL}/calendarioController/usuariosReservados`,
  type: 'POST',
  dataType: 'json',
- data: { idClase },
+ data: {
+ idClase
+ },
  success: function(usuarios) {
+ console.log(usuarios); // <-- Añade esto para depurar
  let html = '<form id="formAsistencia">';
  usuarios.forEach(u => {
  html += `
  <div class="form-check">
- <input class="form-check-input" type="checkbox" name="asistencia[]" value="${u.idUsuario}" id="asist_${u.idUsuario}" ${u.asistencia ? 'checked' : ''}>
+ <input class="form-check-input" type="checkbox" name="asistencia[]" value="${u.idUsuario}" id="asist_${u.idUsuario}" ${u.asistencia == 1 ? 'checked' : ''}>
  <label class="form-check-label" for="asist_${u.idUsuario}">
  ${u.nombreUsuario}
  </label>
  </div>
  `;
  });
- html += `<input type="hidden" name="idClase" value="${idClase}"></form>`;
+ html +=
+ `<input type="hidden" name="idClase" value="${idClase}"></form>`;
 
  Swal.fire({
  title: 'Confirmar asistencia',
@@ -1148,23 +1156,38 @@ $(document).ready(function() {
  confirmButtonText: 'Guardar asistencia',
  preConfirm: () => {
  const form = document.getElementById('formAsistencia');
- const formData = $(form).serialize();
- return $.ajax({
+ let formData = $(form).serialize();
+ // Si no hay ningún checkbox marcado, agrega asistencia vacía
+ if (!formData.includes('asistencia%5B%5D')) {
+ formData += '&asistencia[]=';
+ }
+ return new Promise((resolve, reject) => {
+ $.ajax({
  url: `${RUTA_URL}/calendarioController/confirmarAsistencia`,
  type: 'POST',
+ dataType: 'json',
  data: formData,
- dataType: 'json'
+ success: function(response) {
+ resolve(response);
+ },
+ error: function(xhr) {
+ reject(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Error al guardar asistencia');
+ }
+ });
+ }).catch(errorMsg => {
+ Swal.showValidationMessage(errorMsg);
  });
  }
  }).then((result) => {
- if (result.isConfirmed) {
- Swal.fire('¡Guardado!', 'La asistencia ha sido confirmada.', 'success');
+ if (result.isConfirmed && result.value) {
+ Swal.fire('¡Guardado!',
+ 'La asistencia ha sido confirmada.', 'success');
  }
  });
  }
  });
  });
-});
+ });
 </script>
 
 <?php echo $this->runChild('includes.footer'); ?>
