@@ -107,6 +107,8 @@ if ($usuario->rol == 'Administrador') {
                                                 class="fas fa-calendar-alt me-2"></i>Clases</a>
                                         <a class="nav-link" href="#" data-section="solicitudes"><i
                                                 class="fas fa-envelope me-2"></i>Solicitudes</a>
+                                        <a class="nav-link" href="#" data-section="asistencia"><i
+                                                class="fas fa-check-circle me-2"></i>Asistencia</a> {{-- Nuevo tab --}}
                                     </div>
                                 </div>
                             </div>
@@ -257,10 +259,39 @@ if ($usuario->rol == 'Administrador') {
                                                 </tbody>
                                             </table>
                                         </div>
-
-
                                     </div>
 
+                                    <div class="mb-4 content-section d-none" id="asistencia">
+                                        <h5 class="mb-4">Clases a las que has asistido</h5>
+                                        <div class="table-responsive">
+                                            <table id="asistenciaTable" class="table table-striped table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Fecha</th>
+                                                        <th>Academia</th>
+                                                        <th>Clase</th>
+                                                        <th>Entrenador</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (isset($asistencias) && count($asistencias) > 0)
+                                                        @foreach ($asistencias as $asistencia)
+                                                            <tr>
+                                                                <td>{{ $asistencia->fecha ?? '-' }}</td>
+                                                                <td>{{ $asistencia->nombreAcademia ?? '-' }}</td>
+                                                                <td>{{ $asistencia->nombreClase ?? '-' }}</td>
+                                                                <td>{{ $asistencia->nombreEntrenador ?? '-' }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @else
+                                                        <tr>
+                                                            <td colspan="4" class="text-center">No tienes asistencias registradas.</td>
+                                                        </tr>
+                                                    @endif
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
 
                                 </div>
                             </div>
@@ -279,6 +310,7 @@ if ($usuario->rol == 'Administrador') {
 <script>
     $(document).ready(function() {
         $('#solicitudesTable').DataTable();
+        $('#asistenciaTable').DataTable(); // Nuevo para asistencia
     });
 </script>
 

@@ -26,7 +26,7 @@ class perfil extends Controlador
             $usuario = isset($_SESSION['userLogin']['usuario']) ? json_decode($_SESSION['userLogin']['usuario']) : null;
             $solicitudes = $this->academiaModelo->getSolicitudesPorIdUsuario($usuario->idUsuario);
             $datos['solicitudes'] = $solicitudes;
-
+            $datos['asistencias'] = $this->academiaModelo->getAsistenciaPorIdUsuario($usuario->idUsuario);
 
             $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
             echo $this->blade->run("perfil.inicio", $datos);
