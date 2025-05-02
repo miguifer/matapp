@@ -71,6 +71,12 @@ $userRole = $usuario->rol;
  </button>
  </li>
  <?php endif; ?>
+ <li class="nav-item" role="presentation">
+ <button class="nav-link" id="ranking-tab" data-bs-toggle="tab" data-bs-target="#ranking"
+ type="button" role="tab" aria-controls="ranking" aria-selected="false">
+ Ranking Asistencia
+ </button>
+ </li>
 </ul>
 
 <div class="tab-content" id="academiaTabsContent">
@@ -609,6 +615,40 @@ $userRole = $usuario->rol;
  <?php endif; ?>
  </div>
  </div>
+ </div>
+
+ <!-- Ranking -->
+ <div class="tab-pane fade" id="ranking" role="tabpanel" aria-labelledby="ranking-tab">
+ <h2>Ranking de Asistencia</h2>
+ <table id="tablaRanking" class="table table-striped">
+ <thead>
+ <tr>
+ <th>Puesto</th>
+ <th>Alumno</th>
+ <th>Asistencias</th>
+ </tr>
+ </thead>
+ <tbody>
+ <?php $__currentLoopData = $ranking; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $i => $alumno): $loop = $this->incrementLoopIndices();  ?>
+ <tr>
+ <td><?php echo \htmlentities($i + 1??'', ENT_QUOTES, 'UTF-8', false); ?></td>
+ <td>
+ <?php echo \htmlentities($alumno->nombreUsuario??'', ENT_QUOTES, 'UTF-8', false); ?>
+
+ <?php if($i == 0): ?>
+ <span title="1er puesto" style="color: gold; font-size: 1.2em;">&#x1F451;</span>
+ <?php elseif($i == 1): ?>
+ <span title="2º puesto" style="color: silver; font-size: 1.2em;">&#x1F948;</span>
+ <?php elseif($i == 2): ?>
+ <span title="3er puesto" style="color: #cd7f32; font-size: 1.2em;">&#x1F949;</span>
+ <?php endif; ?>
+ </td>
+ <td><?php echo \htmlentities($alumno->total_asistencias??'', ENT_QUOTES, 'UTF-8', false); ?></td>
+ </tr>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </tbody>
+ </table>
  </div>
 </div>
 
@@ -1187,6 +1227,12 @@ $userRole = $usuario->rol;
  }
  });
  });
+ });
+</script>
+
+<script>
+ $(document).ready(function() {
+ $('#tablaRanking').DataTable();
  });
 </script>
 

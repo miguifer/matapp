@@ -99,9 +99,11 @@ class academia extends Controlador
 
             $entrenadores = $this->academiaModelo->obtenerEntrenadoresAcademia($academia->idAcademia) ?? [];
             $mensajes = $this->academiaModelo->obtenerMensajesAcademia($academia->idAcademia);
+            $ranking = $this->academiaModelo->getRankingAsistencia($academia->idAcademia);
+
             $datos['entrenadores'] = $entrenadores;
             $datos['mensajes'] = $mensajes;
-
+            $datos['ranking'] = $ranking;
 
             $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
             echo $this->blade->run("academia.inicio", $datos);

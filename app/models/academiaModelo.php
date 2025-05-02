@@ -447,4 +447,19 @@ class academiaModelo
         $this->db->bind(':idUsuario', $idUsuario);
         return $this->db->registros();
     }
+
+    public function getRankingAsistencia($idAcademia)
+    {
+        $this->db->query("
+        SELECT u.nombreUsuario, COUNT(r.asistencia) AS total_asistencias
+        FROM Reservas r
+        INNER JOIN Usuarios u ON r.idUsuario = u.idUsuario
+        INNER JOIN Clases c ON r.idClase = c.id
+        WHERE c.idAcademia = :idAcademia AND r.asistencia = 1
+        GROUP BY u.idUsuario
+        ORDER BY total_asistencias DESC
+    ");
+        $this->db->bind(':idAcademia', $idAcademia);
+        return $this->db->registros();
+    }
 }

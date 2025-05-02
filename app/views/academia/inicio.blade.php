@@ -71,6 +71,12 @@ $userRole = $usuario->rol;
             </button>
         </li>
     @endif
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="ranking-tab" data-bs-toggle="tab" data-bs-target="#ranking"
+            type="button" role="tab" aria-controls="ranking" aria-selected="false">
+            Ranking Asistencia
+        </button>
+    </li>
 </ul>
 
 <div class="tab-content" id="academiaTabsContent">
@@ -603,6 +609,38 @@ $userRole = $usuario->rol;
                 @endif
             </div>
         </div>
+    </div>
+
+    <!-- Ranking -->
+    <div class="tab-pane fade" id="ranking" role="tabpanel" aria-labelledby="ranking-tab">
+        <h2>Ranking de Asistencia</h2>
+        <table id="tablaRanking" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Puesto</th>
+                    <th>Alumno</th>
+                    <th>Asistencias</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($ranking as $i => $alumno)
+                    <tr>
+                        <td>{{ $i + 1 }}</td>
+                        <td>
+                            {{ $alumno->nombreUsuario }}
+                            @if ($i == 0)
+                                <span title="1er puesto" style="color: gold; font-size: 1.2em;">&#x1F451;</span>
+                            @elseif ($i == 1)
+                                <span title="2º puesto" style="color: silver; font-size: 1.2em;">&#x1F948;</span>
+                            @elseif ($i == 2)
+                                <span title="3er puesto" style="color: #cd7f32; font-size: 1.2em;">&#x1F949;</span>
+                            @endif
+                        </td>
+                        <td>{{ $alumno->total_asistencias }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -1179,6 +1217,12 @@ $userRole = $usuario->rol;
                 }
             });
         });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('#tablaRanking').DataTable();
     });
 </script>
 
