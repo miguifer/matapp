@@ -47,14 +47,32 @@
  const defecto = "<?= RUTA_URL ?>/public/img/home/logo.png"; // Logo por defecto si no hay imagen
 
  const gimnasios = [
- <?php foreach ($academias as $academia): ?> {
+ <?php foreach ($academias as $academia): ?>
+ {
+ <?php if ($academia->idAcademia !== null): ?>
  idAcademia: <?= $academia->idAcademia ?>,
+ <?php endif; ?>
+ <?php if ($academia->nombreAcademia !== null): ?>
  nombreAcademia: "<?= $academia->nombreAcademia ?>",
+ <?php endif; ?>
+ <?php if ($academia->ubicacionAcademia !== null): ?>
  ubicacionAcademia: "<?= $academia->ubicacionAcademia ?>",
+ <?php endif; ?>
+ <?php if ($academia->tipoAcademia !== null): ?>
  tipoAcademia: "<?= $academia->tipoAcademia ?>",
+ <?php endif; ?>
+ <?php if ($academia->idGerente !== null): ?>
  idGerente: <?= $academia->idGerente ?>,
- path_imagen: "<?= RUTA_IMG_ACADEMIAS . $academia->path_imagen ?>"
-
+ <?php endif; ?>
+ <?php if ($academia->path_imagen !== null): ?>
+ path_imagen: "<?= RUTA_IMG_ACADEMIAS . $academia->path_imagen ?>",
+ <?php endif; ?>
+ <?php if ($academia->latitud !== null): ?>
+ latitud: <?= $academia->latitud ?>,
+ <?php endif; ?>
+ <?php if ($academia->longitud !== null): ?>
+ longitud: <?= $academia->longitud ?>,
+ <?php endif; ?>
  },
  <?php endforeach; ?>
  ];
