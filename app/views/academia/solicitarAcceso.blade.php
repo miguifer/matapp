@@ -33,7 +33,7 @@ $userRole = $usuario->rol;
             <div class="mt-4">
                 <h2>Información de la Academia</h2>
                 <img src="{{ $academia->path_imagen }}" alt="Imagen academia"
-                    style="width:120px; height:120px; object-fit:cover; border-radius:50%; margin-top:10px;">
+                    style="width:120px; height:120px; object-fit:cover; border-radius:50%; margin-bottom:10px;">
                 <p><strong>Nombre:</strong> {{ $academia->nombreAcademia }}</p>
                 <p><strong>Tipo de academia:</strong> {{ $academia->tipoAcademia ?? 'Sin tipo disponible.' }}</p>
                 <p><strong>Ubicación:</strong> {{ $academia->ubicacionAcademia ?? 'No especificada.' }}</p>

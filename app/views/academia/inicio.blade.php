@@ -542,11 +542,19 @@ $userRole = $usuario->rol;
     <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
         <div class="mt-4">
             <h2>Información de la Academia</h2>
-            <p><strong>Nombre:</strong> {{ $academia->nombreAcademia }}</p>
-            <p><strong>Tipo de academia:</strong> {{ $academia->tipoAcademia ?? 'Sin tipo disponible.' }}</p>
-            <p><strong>Ubicación:</strong> {{ $academia->ubicacionAcademia ?? 'No especificada.' }}</p>
-            <img src="{{ $academia->path_imagen }}" alt="Imagen academia"
-                style="width:120px; height:120px; object-fit:cover; border-radius:50%; margin-top:10px;">
+                <img src="{{ $academia->path_imagen }}" alt="Imagen academia"
+                    style="width:120px; height:120px; object-fit:cover; border-radius:50%; margin-bottom:10px;">
+                <p><strong>Nombre:</strong> {{ $academia->nombreAcademia }}</p>
+                <p><strong>Tipo de academia:</strong> {{ $academia->tipoAcademia ?? 'Sin tipo disponible.' }}</p>
+                <p><strong>Ubicación:</strong> {{ $academia->ubicacionAcademia ?? 'No especificada.' }}</p>
+                @if (isset($academia->latitud, $academia->longitud))
+                    <div class="mt-3">
+                        <iframe width="600px" height="350" frameborder="0" style="border:0"
+                            src="https://www.google.com/maps?q={{ $academia->latitud }},{{ $academia->longitud }}&hl=es&z=16&t=k&output=embed"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                @endif
         </div>
     </div>
 
