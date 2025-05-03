@@ -74,6 +74,7 @@ class academia extends Controlador
             } elseif ($esEntrenador) {
                 $estadisticaAcademia = $this->academiaModelo->obtenerEstadisticaAcademias();
                 $datos['estadisticaAcademia'] = $estadisticaAcademia;
+                $datos['clases'] = $this->academiaModelo->obtenerClasesAcademia($academia->idAcademia);
 
                 $usuario->rol = 'Entrenador';
                 $_SESSION['userLogin'] = [
