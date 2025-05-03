@@ -1,5 +1,7 @@
 @include('includes.header')
 
+<link rel="stylesheet" href="{{ RUTA_URL }}/public/css/academia.css">
+
 <?php
 // Decodificamos la cadena JSON almacenada en la sesión
 $usuario = json_decode($_SESSION['userLogin']['usuario']);
@@ -56,8 +58,8 @@ $userRole = $usuario->rol;
         </button>
     </li>
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="ranking-tab" data-bs-toggle="tab" data-bs-target="#ranking"
-            type="button" role="tab" aria-controls="ranking" aria-selected="false">
+        <button class="nav-link" id="ranking-tab" data-bs-toggle="tab" data-bs-target="#ranking" type="button"
+            role="tab" aria-controls="ranking" aria-selected="false">
             Ranking Asistencia
         </button>
     </li>
@@ -77,7 +79,7 @@ $userRole = $usuario->rol;
             </button>
         </li>
     @endif
-    
+
 </ul>
 
 <div class="tab-content" id="academiaTabsContent">
@@ -542,19 +544,19 @@ $userRole = $usuario->rol;
     <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
         <div class="mt-4">
             <h2>Información de la Academia</h2>
-                <img src="{{ $academia->path_imagen }}" alt="Imagen academia"
-                    style="width:120px; height:120px; object-fit:cover; border-radius:50%; margin-bottom:10px;">
-                <p><strong>Nombre:</strong> {{ $academia->nombreAcademia }}</p>
-                <p><strong>Tipo de academia:</strong> {{ $academia->tipoAcademia ?? 'Sin tipo disponible.' }}</p>
-                <p><strong>Ubicación:</strong> {{ $academia->ubicacionAcademia ?? 'No especificada.' }}</p>
-                @if (isset($academia->latitud, $academia->longitud))
-                    <div class="mt-3">
-                        <iframe width="600px" height="350" frameborder="0" style="border:0"
-                            src="https://www.google.com/maps?q={{ $academia->latitud }},{{ $academia->longitud }}&hl=es&z=16&t=k&output=embed"
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                @endif
+            <img src="{{ $academia->path_imagen }}" alt="Imagen academia"
+                style="width:120px; height:120px; object-fit:cover; border-radius:50%; margin-bottom:10px;">
+            <p><strong>Nombre:</strong> {{ $academia->nombreAcademia }}</p>
+            <p><strong>Tipo de academia:</strong> {{ $academia->tipoAcademia ?? 'Sin tipo disponible.' }}</p>
+            <p><strong>Ubicación:</strong> {{ $academia->ubicacionAcademia ?? 'No especificada.' }}</p>
+            @if (isset($academia->latitud, $academia->longitud))
+                <div class="mt-3">
+                    <iframe width="600px" height="350" frameborder="0" style="border:0"
+                        src="https://www.google.com/maps?q={{ $academia->latitud }},{{ $academia->longitud }}&hl=es&z=16&t=k&output=embed"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            @endif
         </div>
     </div>
 
@@ -563,13 +565,34 @@ $userRole = $usuario->rol;
         <div class="mt-4">
             <h2>Galería de la Academia</h2>
             {{-- Aquí puedes mostrar imágenes de la academia --}}
-            <div class="row">
-                {{-- Ejemplo de imágenes estáticas, reemplaza por un foreach si tienes imágenes en la base de datos --}}
-                <div class="col-md-3 mb-3">
-                    <img src="{{ $academia->path_imagen }}" class="img-fluid rounded" alt="Imagen academia">
-                </div>
-                {{-- Agrega más imágenes aquí --}}
+            @php
+                $galeriaDir =
+                    $_SERVER['DOCUMENT_ROOT'] . "/matapp/public/data/academias-gallery/{$academia->idAcademia}";
+                $galeriaUrl = "/matapp/public/data/academias-gallery/{$academia->idAcademia}";
+                $imagenes = glob($galeriaDir . '/*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+            @endphp
+            {{-- ...galería... --}}
+            
+            <div class="galeria-flex">
+                @if ($imagenes)
+                    @foreach ($imagenes as $img)
+                        <a href="#" data-img="{{ $galeriaUrl }}/{{ basename($img) }}">
+                            <img src="{{ $galeriaUrl }}/{{ basename($img) }}" alt="Foto galería">
+                        </a>
+                    @endforeach
+                @else
+                    <p>No hay imágenes en la galería.</p>
+                @endif
             </div>
+            {{-- ...fin galería... --}}
+
+            @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Entrenador')
+                <form action="{{ RUTA_URL }}/academia/subirFoto" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="idAcademia" value="{{ $academia->idAcademia }}">
+                    <input type="file" name="foto" accept="image/*" required>
+                    <button type="submit">Subir Foto</button>
+                </form>
+            @endif
         </div>
     </div>
 
@@ -1120,6 +1143,7 @@ $userRole = $usuario->rol;
                 dataType: 'json',
                 success: function(response) {
                     // Si el backend responde con {success: true, message: "..."}
+
                     if (response && response.success) {
                         Swal.fire({
                             icon: 'success',
@@ -1186,7 +1210,7 @@ $userRole = $usuario->rol;
                     `;
                     });
                     html +=
-                    `<input type="hidden" name="idClase" value="${idClase}"></form>`;
+                        `<input type="hidden" name="idClase" value="${idClase}"></form>`;
 
                     Swal.fire({
                         title: 'Confirmar asistencia',
@@ -1194,7 +1218,8 @@ $userRole = $usuario->rol;
                         showCancelButton: true,
                         confirmButtonText: 'Guardar asistencia',
                         preConfirm: () => {
-                            const form = document.getElementById('formAsistencia');
+                            const form = document.getElementById(
+                                'formAsistencia');
                             let formData = $(form).serialize();
                             // Si no hay ningún checkbox marcado, agrega asistencia vacía
                             if (!formData.includes('asistencia%5B%5D')) {
@@ -1206,11 +1231,21 @@ $userRole = $usuario->rol;
                                     type: 'POST',
                                     dataType: 'json',
                                     data: formData,
-                                    success: function(response) {
+                                    success: function(
+                                        response) {
                                         resolve(response);
                                     },
                                     error: function(xhr) {
-                                        reject(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Error al guardar asistencia');
+                                        reject(xhr
+                                            .responseJSON &&
+                                            xhr
+                                            .responseJSON
+                                            .message ?
+                                            xhr
+                                            .responseJSON
+                                            .message :
+                                            'Error al guardar asistencia'
+                                        );
                                     }
                                 });
                             }).catch(errorMsg => {

@@ -1,5 +1,7 @@
 <?php echo $this->runChild('includes.header'); ?>
 
+<link rel="stylesheet" href="<?php echo \htmlentities(RUTA_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/public/css/academia.css">
+
 <?php
 // Decodificamos la cadena JSON almacenada en la sesión
 $usuario = json_decode($_SESSION['userLogin']['usuario']);
@@ -56,8 +58,8 @@ $userRole = $usuario->rol;
  </button>
  </li>
  <li class="nav-item" role="presentation">
- <button class="nav-link" id="ranking-tab" data-bs-toggle="tab" data-bs-target="#ranking"
- type="button" role="tab" aria-controls="ranking" aria-selected="false">
+ <button class="nav-link" id="ranking-tab" data-bs-toggle="tab" data-bs-target="#ranking" type="button"
+ role="tab" aria-controls="ranking" aria-selected="false">
  Ranking Asistencia
  </button>
  </li>
@@ -77,7 +79,7 @@ $userRole = $usuario->rol;
  </button>
  </li>
  <?php endif; ?>
- 
+
 </ul>
 
 <div class="tab-content" id="academiaTabsContent">
@@ -567,13 +569,35 @@ $userRole = $usuario->rol;
  <div class="mt-4">
  <h2>Galería de la Academia</h2>
  <?php /* Aquí puedes mostrar imágenes de la academia */ ?>
- <div class="row">
- <?php /* Ejemplo de imágenes estáticas, reemplaza por un foreach si tienes imágenes en la base de datos */ ?>
- <div class="col-md-3 mb-3">
- <img src="<?php echo \htmlentities($academia->path_imagen??'', ENT_QUOTES, 'UTF-8', false); ?>" class="img-fluid rounded" alt="Imagen academia">
+ <?php 
+ $galeriaDir =
+ $_SERVER['DOCUMENT_ROOT'] . "/matapp/public/data/academias-gallery/{$academia->idAcademia}";
+ $galeriaUrl = "/matapp/public/data/academias-gallery/{$academia->idAcademia}";
+ $imagenes = glob($galeriaDir . '/*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+ ?>
+ <?php /* ...galería... */ ?>
+ 
+ <div class="galeria-flex">
+ <?php if($imagenes): ?>
+ <?php $__currentLoopData = $imagenes; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $img): $loop = $this->incrementLoopIndices();  ?>
+ <a href="#" data-img="<?php echo \htmlentities($galeriaUrl??'', ENT_QUOTES, 'UTF-8', false); ?>/<?php echo \htmlentities(basename($img)??'', ENT_QUOTES, 'UTF-8', false); ?>">
+ <img src="<?php echo \htmlentities($galeriaUrl??'', ENT_QUOTES, 'UTF-8', false); ?>/<?php echo \htmlentities(basename($img)??'', ENT_QUOTES, 'UTF-8', false); ?>" alt="Foto galería">
+ </a>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ <?php else: ?>
+ <p>No hay imágenes en la galería.</p>
+ <?php endif; ?>
  </div>
- <?php /* Agrega más imágenes aquí */ ?>
- </div>
+ <?php /* ...fin galería... */ ?>
+
+ <?php if($usuario->rol == 'Gerente' || $usuario->rol == 'Entrenador'): ?>
+ <form action="<?php echo \htmlentities(RUTA_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/academia/subirFoto" method="POST" enctype="multipart/form-data">
+ <input type="hidden" name="idAcademia" value="<?php echo \htmlentities($academia->idAcademia??'', ENT_QUOTES, 'UTF-8', false); ?>">
+ <input type="file" name="foto" accept="image/*" required>
+ <button type="submit">Subir Foto</button>
+ </form>
+ <?php endif; ?>
  </div>
  </div>
 
@@ -1130,6 +1154,7 @@ $userRole = $usuario->rol;
  dataType: 'json',
  success: function(response) {
  // Si el backend responde con {success: true, message: "..."}
+
  if (response && response.success) {
  Swal.fire({
  icon: 'success',
@@ -1204,7 +1229,8 @@ $userRole = $usuario->rol;
  showCancelButton: true,
  confirmButtonText: 'Guardar asistencia',
  preConfirm: () => {
- const form = document.getElementById('formAsistencia');
+ const form = document.getElementById(
+ 'formAsistencia');
  let formData = $(form).serialize();
  // Si no hay ningún checkbox marcado, agrega asistencia vacía
  if (!formData.includes('asistencia%5B%5D')) {
@@ -1216,11 +1242,21 @@ $userRole = $usuario->rol;
  type: 'POST',
  dataType: 'json',
  data: formData,
- success: function(response) {
+ success: function(
+ response) {
  resolve(response);
  },
  error: function(xhr) {
- reject(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Error al guardar asistencia');
+ reject(xhr
+ .responseJSON &&
+ xhr
+ .responseJSON
+ .message ?
+ xhr
+ .responseJSON
+ .message :
+ 'Error al guardar asistencia'
+ );
  }
  });
  }).catch(errorMsg => {

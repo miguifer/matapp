@@ -180,4 +180,26 @@ class academia extends Controlador
             }
         }
     }
+
+    public function subirFoto(){
+        session_start();
+        $usuario = isset($_SESSION['userLogin']['usuario']) ? json_decode($_SESSION['userLogin']['usuario']) : null;
+        if (!$usuario || !isset($_POST['idAcademia'])) {
+            redireccionar('/');
+        }
+
+        $idAcademia = $_POST['idAcademia'];
+
+        if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
+            $dir = __DIR__ . "/../../public/data/academias-gallery/$idAcademia";
+            if (!is_dir($dir)) mkdir($dir, 0777, true);
+
+            $nombreArchivo = uniqid() . '_' . basename($_FILES['foto']['name']);
+            $rutaDestino = $dir . '/' . $nombreArchivo; // Ruta física
+            move_uploaded_file($_FILES['foto']['tmp_name'], $rutaDestino);
+            redireccionar("?toastrErr=Foto subida correctamente");
+        } else {
+            redireccionar("?toastrErr=Error al subir la foto");
+        }
+    }
 }
