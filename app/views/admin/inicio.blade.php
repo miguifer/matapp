@@ -290,31 +290,32 @@
         const labelsModalidad = estadisticaAcademiaModalidad.map(item => item.modalidad);
         const dataModalidad = estadisticaAcademiaModalidad.map(item => item.numAcademias);
 
+        // Paleta de colores bien diferenciados (ColorBrewer Set3)
+        const palette = [
+            '#8dd3c7', '#ffffb3', '#bebada', '#fb8072', '#80b1d3',
+            '#fdb462', '#b3de69', '#fccde5', '#d9d9d9', '#bc80bd',
+            '#ccebc5', '#ffed6f'
+        ];
+        // Si hay más modalidades que colores, repetir la paleta
+        const backgroundColors = labelsModalidad.map((_, i) => palette[i % palette.length]);
+
         const ctxAcademiasModalidad = document.getElementById('graficoAcademias').getContext('2d');
         const graficoAcademiasModalidad = new Chart(ctxAcademiasModalidad, {
-            type: 'bar',
+            type: 'pie',
             data: {
                 labels: labelsModalidad,
                 datasets: [{
                     label: 'Número de academias',
                     data: dataModalidad,
-                    backgroundColor: [
-                        '#fbbf24',
-                        '#60a5fa',
-                        '#34d399',
-                        '#f87171'
-                    ],
+                    backgroundColor: backgroundColors,
                     borderColor: '#111827',
                     borderWidth: 1
                 }]
             },
             options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            precision: 0
-                        }
+                plugins: {
+                    legend: {
+                        display: true
                     }
                 }
             }
