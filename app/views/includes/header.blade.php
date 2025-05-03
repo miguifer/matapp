@@ -60,7 +60,7 @@
 
 
     {{-- start chatbot --}}
-    <button class="chatbot-toggler" title="ChatBot" id="chatbot-toggler">
+    {{-- <button class="chatbot-toggler" title="ChatBot" id="chatbot-toggler">
         <span class="material-symbols-outlined">mode_comment</span>
         <span class="material-symbols-outlined">close</span>
     </button>
@@ -80,7 +80,7 @@
             <textarea placeholder="Ingresa un mensaje..." required id="user-input" title=""></textarea>
             <span id="send-btn" class="material-symbols-outlined">send</span>
         </div>
-    </div>
+    </div> --}}
     {{-- stop chatbot --}}
 
 

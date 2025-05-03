@@ -2,25 +2,19 @@
 
 <link href="<?= RUTA_URL ?>/libs/coreui-5.3.1-dist/css/coreui.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="<?= RUTA_URL ?>/public/css/admin.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+
 @php
 
     $usuario = json_decode($_SESSION['userLogin']['usuario']);
-    $loginUsuario = $usuario->login; // o el campo que uses como nombre
-    $rolUsuario = $usuario->rol; // o el campo que uses como nombre
+    $loginUsuario = $usuario->login;
+    $rolUsuario = $usuario->rol;
     $nombreUsuario = $usuario->nombreUsuario;
 
 @endphp
 
-{{-- <h1><strong>{{ $nombreUsuario }}</strong></h1>
 
-<h1 class="text-center tituloCalendario">Panel de administrador</h1>
-
-<h4>Estadísticas de tipos de Academias</h4> --}}
-{{-- <canvas id="miGrafico"></canvas> --}}
 </div>
 <div class="wrapper">
-    <!-- Sidebar -->
     <nav class="sidebar">
         <div class="sidebar-header">
             <span class="text-white me-auto" onclick="window.location.href='<?= RUTA_URL ?>'">
@@ -33,18 +27,15 @@
             <li class="nav-item"><a class="nav-link" id="graficos-tab">Gráficos</a></li>
             <li class="nav-item"><a class="nav-link" id="usuarios-tab">Usuarios</a></li>
             <li class="nav-item"><a class="nav-link" id="academias-tab">Academias</a></li>
-            {{-- <li class="nav-item"><a href="#" class="nav-link" id="configuracion-tab">Configuración</a></li> --}}
         </ul>
     </nav>
 
     @php
-        // Si $_SESSION['activos'] es un array de objetos con propiedad idUsuario
         $idsActivos = array_map(function ($u) {
             return is_object($u) ? $u->idUsuario : $u;
         }, $_SESSION['activos']);
     @endphp
 
-    <!-- Main content -->
     <div class="main">
         <h1>Panel de administrador</h1>
         <div class="container-fluid">
@@ -92,14 +83,6 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="col-md-6">
-                        <div class="card p-3">
-                            <div class="card-header">Usuarios por Región</div>
-                            <div class="card-body">
-                                <canvas id="barChart" height="150"></canvas>
-                            </div>
-                        </div>
-                    </div> --}}
                 </div>
             </div>
 
@@ -175,7 +158,6 @@
                                             <th>Dirección</th>
                                             <th>Tipo</th>
                                             <th>ID Usuario gerente</th>
-                                            <!-- Agrega más columnas si tu tabla tiene más campos -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -197,36 +179,43 @@
                 </div>
             </div>
 
-            <!-- Configuración -->
-            <div id="configuracion" class="tab-content">
-                <h2>Configuración</h2>
-                <div class="card p-3">
-                    <div class="card-header">Opciones de Configuración</div>
-                    <div class="card-body">
-                        <p>Ejemplo de configuración de la aplicación.</p>
-                        <ul>
-                            <li>Configurar notificaciones</li>
-                            <li>Establecer permisos de usuario</li>
-                            <li>Integración de pagos</li>
-                        </ul>
-                    </div>
-                </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalHistorico" tabindex="-1" aria-labelledby="modalHistoricoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalHistoricoLabel">Histórico de Clases</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered" id="tablaHistorico">
+                    <thead>
+                        <tr>
+                            <th>Inicio</th>
+                            <th>Fin</th>
+                            <th>Nombre Clase</th>
+                            <th>Instructor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 </div>
+
 <div class="container" id="main">
 
 
 
     <?php
-    // Asegúrate de que la variable $estadisticaAcademia tiene los datos correctos
     $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
     ?>
 
-    <script src="<?= RUTA_URL ?>/libs/coreui-5.3.1-dist/js/coreui.bundle.min.js"> </script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
     <script>
         if (document.querySelector('#navegacion')) {
@@ -252,23 +241,20 @@
     <script>
         const ctx = document.getElementById('miGrafico').getContext('2d');
 
-        // Pasamos los datos de PHP a JavaScript sin comillas adicionales
         const estadisticasAcademia = <?= $estadisticaAcademiaJS ?>;
 
-        // Extraemos los nombres de los tipos de academia y los números de alumnos
         const labels = estadisticasAcademia.map(item => item.nombreTipo);
         const data = estadisticasAcademia.map(item => item.numAlumnos);
 
-        // Crear el gráfico con los datos obtenidos
         const miGrafico = new Chart(ctx, {
-            type: 'bar', // tipos: bar, line, pie, doughnut, radar, polarArea...
+            type: 'bar',
             data: {
                 labels: labels,
                 datasets: [{
                     label: 'Número de alumnos',
                     data: data,
                     backgroundColor: [
-                        '#f87171', // Puedes modificar los colores o hacerlos dinámicos
+                        '#f87171',
                         '#60a5fa',
                         '#34d399',
                         '#fbbf24'
@@ -293,7 +279,6 @@
             $('#tablaAcademias').DataTable();
         });
 
-        // Al hacer clic en la tarjeta de usuarios, cambia a la pestaña de usuarios
         document.getElementById('card-total-usuarios').addEventListener('click', function() {
             document.getElementById('usuarios-tab').click();
             window.scrollTo({
@@ -302,7 +287,6 @@
             });
         });
 
-        // Al hacer clic en la tarjeta de academias, cambia a la pestaña de academias
         document.getElementById('card-total-academias').addEventListener('click', function() {
             document.getElementById('academias-tab').click();
             window.scrollTo({
@@ -314,36 +298,10 @@
 
 
 
-    <div class="modal fade" id="modalHistorico" tabindex="-1" aria-labelledby="modalHistoricoLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalHistoricoLabel">Histórico de Clases</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                </div>
-                <div class="modal-body">
-                    <table class="table table-bordered" id="tablaHistorico">
-                        <thead>
-                            <tr>
-                                <th>Inicio</th>
-                                <th>Fin</th> 
-                                <th>Nombre Clase</th>
-                                <th>Instructor</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Aquí se llenarán los datos por JS -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     <script>
         $(document).ready(function() {
-            // Evento al hacer clic en una fila de academia
             $('.fila-academia').on('click', function() {
                 const idAcademia = $(this).data('id');
                 $.ajax({
@@ -386,5 +344,8 @@
             });
         });
     </script>
+
+    <script src="<?= RUTA_URL ?>/libs/coreui-5.3.1-dist/js/coreui.bundle.min.js"> </script>
+
 
     @include('includes.footer')
