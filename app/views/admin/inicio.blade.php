@@ -83,6 +83,14 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="card p-3">
+                            <div class="card-header">Academias por modalidad</div>
+                            <div class="card-body">
+                                <canvas id="graficoAcademias"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -266,7 +274,47 @@
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script>
+        const estadisticaAcademiaModalidad = @json($estadisticaAcademiaModalidad);
+
+        const labelsModalidad = estadisticaAcademiaModalidad.map(item => item.modalidad);
+        const dataModalidad = estadisticaAcademiaModalidad.map(item => item.numAcademias);
+
+        const ctxAcademiasModalidad = document.getElementById('graficoAcademias').getContext('2d');
+        const graficoAcademiasModalidad = new Chart(ctxAcademiasModalidad, {
+            type: 'bar',
+            data: {
+                labels: labelsModalidad,
+                datasets: [{
+                    label: 'Número de academias',
+                    data: dataModalidad,
+                    backgroundColor: [
+                        '#fbbf24',
+                        '#60a5fa',
+                        '#34d399',
+                        '#f87171'
+                    ],
+                    borderColor: '#111827',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
                     }
                 }
             }
@@ -298,7 +346,7 @@
 
 
 
-    
+
 
     <script>
         $(document).ready(function() {

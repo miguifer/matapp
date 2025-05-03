@@ -474,9 +474,19 @@ class academiaModelo
             INNER JOIN Academias a ON c.idAcademia = a.idAcademia
             LEFT JOIN Usuarios u ON c.idEntrenador = u.idUsuario
             WHERE c.idAcademia = :idAcademia
-            ORDER BY c.start DESC
+            ORDER BY c.start ASC
         ");
         $this->db->bind(':idAcademia', $idAcademia);
         return $this->db->registros();
+    }
+    public function obtenerEstadisticaModalidadAcademias()
+    {
+        $this->db->query("
+            SELECT ta.nombreTipo AS modalidad, COUNT(a.idAcademia) AS numAcademias
+            FROM TipoAcademia ta
+            LEFT JOIN Academias a ON a.tipoAcademia = ta.idTipo
+            GROUP BY ta.idTipo
+        ");
+        return $this->db->registros(); // Returns an array with the number of academies per modality
     }
 }
