@@ -55,7 +55,13 @@ $userRole = $usuario->rol;
  Mensajes
  </button>
  </li>
- <?php if($usuario->rol == 'Gerente' || $usuario->rol == 'Entrenador'): ?>
+ <li class="nav-item" role="presentation">
+ <button class="nav-link" id="ranking-tab" data-bs-toggle="tab" data-bs-target="#ranking"
+ type="button" role="tab" aria-controls="ranking" aria-selected="false">
+ Ranking Asistencia
+ </button>
+ </li>
+ <?php if($usuario->rol == 'Gerente' || $usuario->rol == 'Entrenador' || $usuario->rol == 'Administrador'): ?>
  <li class="nav-item" role="presentation">
  <button class="nav-link" id="clases-tab" data-bs-toggle="tab" data-bs-target="#clases" type="button"
  role="tab" aria-controls="clases" aria-selected="false">
@@ -71,12 +77,7 @@ $userRole = $usuario->rol;
  </button>
  </li>
  <?php endif; ?>
- <li class="nav-item" role="presentation">
- <button class="nav-link" id="ranking-tab" data-bs-toggle="tab" data-bs-target="#ranking"
- type="button" role="tab" aria-controls="ranking" aria-selected="false">
- Ranking Asistencia
- </button>
- </li>
+ 
 </ul>
 
 <div class="tab-content" id="academiaTabsContent">

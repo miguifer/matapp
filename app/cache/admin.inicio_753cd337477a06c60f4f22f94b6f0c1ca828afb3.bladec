@@ -182,7 +182,8 @@
  <tbody>
  <?php $__currentLoopData = $academias; $this->addLoop($__currentLoopData);$this->getFirstLoop();
  foreach($__currentLoopData as $a): $loop = $this->incrementLoopIndices();  ?>
- <tr class="fila-academia" data-id="<?php echo \htmlentities($a->idAcademia??'', ENT_QUOTES, 'UTF-8', false); ?>" style="cursor:pointer;">
+ <tr class="fila-academia" data-id="<?php echo \htmlentities($a->idAcademia??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ style="cursor:pointer;">
  <td><?php echo \htmlentities($a->idAcademia??'', ENT_QUOTES, 'UTF-8', false); ?></td>
  <td><?php echo \htmlentities($a->nombreAcademia??'', ENT_QUOTES, 'UTF-8', false); ?></td>
  <td><?php echo \htmlentities($a->ubicacionAcademia??'', ENT_QUOTES, 'UTF-8', false); ?></td>
@@ -315,7 +316,8 @@
 
 
 
-<div class="modal fade" id="modalHistorico" tabindex="-1" aria-labelledby="modalHistoricoLabel" aria-hidden="true">
+ <div class="modal fade" id="modalHistorico" tabindex="-1" aria-labelledby="modalHistoricoLabel"
+ aria-hidden="true">
  <div class="modal-dialog modal-lg">
  <div class="modal-content">
  <div class="modal-header">
@@ -326,10 +328,10 @@
  <table class="table table-bordered" id="tablaHistorico">
  <thead>
  <tr>
- <th>Fecha</th>
+ <th>Inicio</th>
+ <th>Fin</th> 
  <th>Nombre Clase</th>
  <th>Instructor</th>
- <!-- Agrega más columnas si es necesario -->
  </tr>
  </thead>
  <tbody>
@@ -339,10 +341,10 @@
  </div>
  </div>
  </div>
-</div>
+ </div>
 
  <script>
-$(document).ready(function() {
+ $(document).ready(function() {
  // Evento al hacer clic en una fila de academia
  $('.fila-academia').on('click', function() {
  const idAcademia = $(this).data('id');
@@ -361,6 +363,7 @@ $(document).ready(function() {
  clases.forEach(function(clase) {
  html += `<tr>
  <td>${clase.start}</td>
+ <td>${clase.end ? clase.end : ''}</td> 
  <td>${clase.title}</td>
  <td>${clase.entrenador ?? ''}</td>
  </tr>`;
@@ -372,7 +375,8 @@ $(document).ready(function() {
  $('#modalHistorico').modal('show');
  },
  error: function() {
- $('#tablaHistorico tbody').html('<tr><td colspan="4">Error al cargar los datos.</td></tr>');
+ $('#tablaHistorico tbody').html(
+ '<tr><td colspan="4">Error al cargar los datos.</td></tr>');
  $('#modalHistorico').modal('show');
  }
  });
@@ -382,7 +386,7 @@ $(document).ready(function() {
  $('#modalHistorico .btn-close').on('click', function() {
  $('#modalHistorico').modal('hide');
  });
-});
-</script>
+ });
+ </script>
 
  <?php echo $this->runChild('includes.footer'); ?>
