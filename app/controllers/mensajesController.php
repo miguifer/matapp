@@ -48,4 +48,47 @@ class mensajesController extends Controlador
             redireccionar('/');
         }
     }
+
+    public function fijarMensaje()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $idMensaje = $_POST['idMensaje'];
+            $idAcademia = $_POST['idAcademia'];
+
+            // Desfija todos los mensajes de la academia antes de fijar el nuevo
+            $this->academiaModelo->desfijarTodosMensajes($idAcademia);
+
+            // Fija el mensaje seleccionado
+            $resultado = $this->academiaModelo->fijarMensaje($idMensaje);
+
+            header('Content-Type: application/json');
+            if ($resultado) {
+                echo json_encode(['success' => true, 'message' => 'Mensaje fijado correctamente.']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al fijar el mensaje.']);
+            }
+            exit;
+        } else {
+            redireccionar('/');
+        }
+    }
+
+    public function desfijarMensaje()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $idMensaje = $_POST['idMensaje'];
+
+            $resultado = $this->academiaModelo->desfijarMensaje($idMensaje);
+
+            header('Content-Type: application/json');
+            if ($resultado) {
+                echo json_encode(['success' => true, 'message' => 'Mensaje desfijado correctamente.']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al desfijar el mensaje.']);
+            }
+            exit;
+        } else {
+            redireccionar('/');
+        }
+    }
 }

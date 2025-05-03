@@ -572,7 +572,7 @@ $userRole = $usuario->rol;
                 $imagenes = glob($galeriaDir . '/*.{jpg,jpeg,png,gif}', GLOB_BRACE);
             @endphp
             {{-- ...galería... --}}
-            
+
             <div class="galeria-flex">
                 @if ($imagenes)
                     @foreach ($imagenes as $img)
@@ -619,21 +619,60 @@ $userRole = $usuario->rol;
 
             {{-- TODOS pueden ver los mensajes --}}
             <div id="listaMensajes">
+                @php
+                    $mensajeFijado = null;
+                    if (isset($mensajes) && count($mensajes) > 0) {
+                        foreach ($mensajes as $msg) {
+                            if (isset($msg->fijado) && $msg->fijado == 1) {
+                                $mensajeFijado = $msg;
+                                break;
+                            }
+                        }
+                    }
+                @endphp
+
+                @if ($mensajeFijado)
+                    <div class="alert alert-warning mb-3" style="border-left: 5px solid #ffc107;">
+                        <strong style="color: #d48806;">
+                            {{ $mensajeFijado->nombreUsuario ?? 'Usuario' }}
+                            @if (isset($mensajeFijado->nombreRol))
+                                ({{ $mensajeFijado->nombreRol }})
+                            @endif
+                            :
+                        </strong>
+                        <span>{{ $mensajeFijado->mensaje }}</span>
+                        <br>
+                        <small class="text-muted">{{ $mensajeFijado->fecha }} — <span
+                                class="badge bg-warning text-dark">Fijado</span></small>
+                        @if ($usuario->rol == 'Entrenador' || $usuario->rol == 'Gerente' || $usuario->rol == 'Administrador')
+                            <button class="btn btn-sm btn-outline-secondary desfijar-mensaje"
+                                data-id="{{ $mensajeFijado->idMensaje }}">Desfijar</button>
+                        @endif
+                    </div>
+                @endif
+
                 @if (isset($mensajes) && count($mensajes) > 0)
                     <ul class="list-group">
                         @foreach ($mensajes as $msg)
-                            <li class="list-group-item">
-                                <strong style="color: #007bff;">
-                                    {{ $msg->nombreUsuario ?? 'Usuario' }}
-                                    @if (isset($msg->nombreRol))
-                                        ({{ $msg->nombreRol }})
+                            @if (!isset($msg->fijado) || $msg->fijado != 1)
+                                <li class="list-group-item">
+                                    <strong style="color: #007bff;">
+                                        {{ $msg->nombreUsuario ?? 'Usuario' }}
+                                        @if (isset($msg->nombreRol))
+                                            ({{ $msg->nombreRol }})
+                                        @endif
+                                        :
+                                    </strong>
+                                    <span>{{ $msg->mensaje }}</span>
+                                    <br>
+                                    <small class="text-muted">{{ $msg->fecha }}</small>
+                                    @if ($usuario->rol == 'Entrenador' || $usuario->rol == 'Gerente' || $usuario->rol == 'Administrador')
+                                        <button class="btn btn-sm btn-outline-warning fijar-mensaje"
+                                            data-id="{{ $msg->idMensaje }}"><i class="fas fa-thumbtack"></i>
+                                        </button>
                                     @endif
-                                    :
-                                </strong>
-                                <span>{{ $msg->mensaje }}</span>
-                                <br>
-                                <small class="text-muted">{{ $msg->fecha }}</small>
-                            </li>
+                                </li>
+                            @endif
                         @endforeach
                     </ul>
                 @else
@@ -1267,6 +1306,62 @@ $userRole = $usuario->rol;
 <script>
     $(document).ready(function() {
         $('#tablaRanking').DataTable();
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        // Fijar mensaje
+        $(document).on('click', '.fijar-mensaje', function() {
+            const idMensaje = $(this).data('id');
+            $.ajax({
+                url: `${RUTA_URL}/mensajesController/fijarMensaje`,
+                type: 'POST',
+                data: {
+                    idMensaje,
+                    idAcademia: '{{ $academia->idAcademia }}'
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response && response.success) {
+                        Swal.fire('Mensaje fijado', '', 'success').then(() => location
+                            .reload());
+                    } else {
+                        Swal.fire('Error', response.message ||
+                            'No se pudo fijar el mensaje', 'error');
+                    }
+                },
+                error: function() {
+                    Swal.fire('Error', 'No se pudo fijar el mensaje', 'error');
+                }
+            });
+        });
+
+        // Desfijar mensaje
+        $(document).on('click', '.desfijar-mensaje', function() {
+            const idMensaje = $(this).data('id');
+            $.ajax({
+                url: `${RUTA_URL}/mensajesController/desfijarMensaje`,
+                type: 'POST',
+                data: {
+                    idMensaje,
+                    idAcademia: '{{ $academia->idAcademia }}'
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response && response.success) {
+                        Swal.fire('Mensaje desfijado', '', 'success').then(() => location
+                            .reload());
+                    } else {
+                        Swal.fire('Error', response.message ||
+                            'No se pudo desfijar el mensaje', 'error');
+                    }
+                },
+                error: function() {
+                    Swal.fire('Error', 'No se pudo desfijar el mensaje', 'error');
+                }
+            });
+        });
     });
 </script>
 

@@ -489,4 +489,27 @@ class academiaModelo
         ");
         return $this->db->registros(); // Returns an array with the number of academies per modality
     }
+
+    public function fijarMensaje($idMensaje)
+    {
+        $this->db->query("UPDATE muro_mensajes SET fijado = 1 WHERE idMensaje = :idMensaje");
+        $this->db->bind(':idMensaje', $idMensaje);
+        return $this->db->execute();
+    }
+
+    public function desfijarMensaje($idMensaje)
+    {
+        $this->db->query("UPDATE muro_mensajes SET fijado = 0 WHERE idMensaje = :idMensaje");
+        $this->db->bind(':idMensaje', $idMensaje);
+        return $this->db->execute();
+    }
+
+    public function desfijarTodosMensajes($idAcademia)
+    {
+        $this->db->query("UPDATE muro_mensajes SET fijado = 0 WHERE idAcademia = :idAcademia");
+        $this->db->bind(':idAcademia', $idAcademia);
+        return $this->db->execute();
+    }
+
+    
 }
