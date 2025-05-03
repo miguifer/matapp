@@ -5,7 +5,8 @@
 <div class="search-container" style="margin-top: 25vh">
     <h4 class="">Encuentra tu academia</h4>
     <div class="search-bar d-flex">
-        <input class="w-100 p-2" type="text" title="Busca por nombre de academia" id="searchInput" placeholder="Buscar..." autocomplete="off" />
+        <input class="w-100 p-2" type="text" title="Busca por nombre de academia" id="searchInput"
+            placeholder="Buscar..." autocomplete="off" />
         <img src="<?= RUTA_URL ?>/public/img/home/lupita.svg" alt="lupa de buscar" />
     </div>
     <span class="input-subtitle">Empieza a escribir para encontrar tu academia</span><br />
@@ -13,6 +14,10 @@
     <a href="<?= RUTA_URL ?>/crearAcademia" class="small text-decoration-none" id="link-crear-academia">¿No puedes
         encontrar tu
         academia? ¡Crea una!</a>
+    {{-- <iframe src="https://www.google.com/maps?q=42.46273320557275,-2.4449981206704283&hl=es&z=15&output=embed" width="400"
+        height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+    </iframe> --}}
+
 </div>
 </div>
 
@@ -34,14 +39,11 @@
 
 
     toastr.info('<?= $_GET['toastrErr'] ?>');
-
-
 </script>
 
 <?php } ?>
 
 <script>
-
     const defecto = "<?= RUTA_URL ?>/public/img/home/logo.png"; // Logo por defecto si no hay imagen
 
     const gimnasios = [
@@ -51,7 +53,7 @@
             ubicacionAcademia: "<?= $academia->ubicacionAcademia ?>",
             tipoAcademia: "<?= $academia->tipoAcademia ?>",
             idGerente: <?= $academia->idGerente ?>,
-            path_imagen: "<?= RUTA_IMG_ACADEMIAS .  $academia->path_imagen ?>"
+            path_imagen: "<?= RUTA_IMG_ACADEMIAS . $academia->path_imagen ?>"
 
         },
         <?php endforeach; ?>
@@ -83,9 +85,10 @@
                 div.classList.add("p-2");
                 const img = document.createElement("img");
                 img.classList.add("me-2");
-                img.src = (gimnasio.path_imagen && gimnasio.path_imagen.trim() !== "" && gimnasio.path_imagen !== "undefined" && gimnasio.path_imagen !== null)
-                    ? gimnasio.path_imagen
-                    : defecto; // Logo por defecto si no hay imagen, si está vacío, undefined o null
+                img.src = (gimnasio.path_imagen && gimnasio.path_imagen.trim() !== "" && gimnasio
+                        .path_imagen !== "undefined" && gimnasio.path_imagen !== null) ?
+                    gimnasio.path_imagen :
+                    defecto; // Logo por defecto si no hay imagen, si está vacío, undefined o null
                 img.alt = gimnasio.nombreAcademia; // Alt text para la imagen
                 img.style.width = "30px"; // Ancho de la imagen
                 img.style.height = "30px"; // Alto de la imagen

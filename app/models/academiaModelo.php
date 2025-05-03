@@ -462,4 +462,21 @@ class academiaModelo
         $this->db->bind(':idAcademia', $idAcademia);
         return $this->db->registros();
     }
+
+    public function obtenerHistoricoClases($idAcademia)
+    {
+        $this->db->query("
+            SELECT 
+            c.*, 
+            a.nombreAcademia, 
+            u.nombreUsuario AS entrenador
+            FROM Clases c
+            INNER JOIN Academias a ON c.idAcademia = a.idAcademia
+            LEFT JOIN Usuarios u ON c.idEntrenador = u.idUsuario
+            WHERE c.idAcademia = :idAcademia
+            ORDER BY c.start DESC
+        ");
+        $this->db->bind(':idAcademia', $idAcademia);
+        return $this->db->registros();
+    }
 }

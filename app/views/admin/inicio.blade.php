@@ -180,13 +180,12 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($academias as $a)
-                                            <tr>
+                                            <tr class="fila-academia" data-id="{{ $a->idAcademia }}" style="cursor:pointer;">
                                                 <td>{{ $a->idAcademia }}</td>
                                                 <td>{{ $a->nombreAcademia }}</td>
                                                 <td>{{ $a->ubicacionAcademia }}</td>
                                                 <td>{{ $a->tipoAcademia }}</td>
                                                 <td>{{ $a->idGerente }}</td>
-                                                <!-- Agrega más celdas si tu tabla tiene más campos -->
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -312,8 +311,76 @@
         });
     </script>
 
-    {{-- Aqui va a ir un calendario con la clases que se ha apuntado el usuario --}}
 
-    {{-- y le salen las que ha ido y las que va a ir --}}
+
+<div class="modal fade" id="modalHistorico" tabindex="-1" aria-labelledby="modalHistoricoLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalHistoricoLabel">Histórico de Clases</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <table class="table table-bordered" id="tablaHistorico">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Nombre Clase</th>
+              <th>Instructor</th>
+              <!-- Agrega más columnas si es necesario -->
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Aquí se llenarán los datos por JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <script>
+$(document).ready(function() {
+    // Evento al hacer clic en una fila de academia
+    $('.fila-academia').on('click', function() {
+        const idAcademia = $(this).data('id');
+        $.ajax({
+            url: '<?= RUTA_URL ?>/admin/historicoClases/' + idAcademia,
+            method: 'GET',
+            success: function(res) {
+                let clases = [];
+                try {
+                    clases = typeof res === 'string' ? JSON.parse(res) : res;
+                } catch (e) {
+                    clases = [];
+                }
+                let html = '';
+                if (clases.length > 0) {
+                    clases.forEach(function(clase) {
+                        html += `<tr>
+                            <td>${clase.start}</td>
+                            <td>${clase.title}</td>
+                            <td>${clase.entrenador ?? ''}</td>
+                        </tr>`;
+                    });
+                } else {
+                    html = '<tr><td colspan="4">No hay datos de clases.</td></tr>';
+                }
+                $('#tablaHistorico tbody').html(html);
+                $('#modalHistorico').modal('show');
+            },
+            error: function() {
+                $('#tablaHistorico tbody').html('<tr><td colspan="4">Error al cargar los datos.</td></tr>');
+                $('#modalHistorico').modal('show');
+            }
+        });
+    });
+
+    // Cerrar el modal al pulsar la X
+    $('#modalHistorico .btn-close').on('click', function() {
+        $('#modalHistorico').modal('hide');
+    });
+});
+</script>
 
     @include('includes.footer')

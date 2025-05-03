@@ -38,4 +38,17 @@ class admin extends Controlador
             redireccionar('/');
         }
     }
+
+    public function historicoClases($academiaId)
+    {
+        $usuario = json_decode($_SESSION['userLogin']['usuario']);
+
+        if ($usuario->rol == 'Administrador') {
+            $resultado = $this->academiaModelo->obtenerHistoricoClases($academiaId);
+            header('Content-Type: application/json');
+            echo json_encode($resultado);
+        } else {
+            redireccionar('/');
+        }
+    }
 }
