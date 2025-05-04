@@ -28,7 +28,6 @@ $userRole = $usuario->rol;
     </ul>
 
     <div class="tab-content" id="academiaTabsContent">
-        <!-- Información -->
         <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
             <div class="mt-4">
                 <h2>Información de la Academia</h2>
@@ -49,7 +48,6 @@ $userRole = $usuario->rol;
             </div>
         </div>
 
-        <!-- Galería -->
         <div class="tab-pane fade" id="galeria" role="tabpanel" aria-labelledby="galeria-tab">
             <div class="mt-4">
                 <h2>Galería de la Academia</h2>
@@ -59,7 +57,6 @@ $userRole = $usuario->rol;
                     $galeriaUrl = "/matapp/public/data/academias-gallery/{$academia->idAcademia}";
                     $imagenes = glob($galeriaDir . '/*.{jpg,jpeg,png,gif}', GLOB_BRACE);
                 @endphp
-                {{-- ...galería... --}}
 
                 <div class="galeria-flex">
                     @if ($imagenes)
@@ -75,7 +72,6 @@ $userRole = $usuario->rol;
             </div>
         </div>
 
-        <!-- Solicitar Acceso -->
         <div class="tab-pane fade show active" id="solicitud" role="tabpanel" aria-labelledby="solicitud-tab">
             <div class="mt-4">
                 <h2>Solicitud de acceso a la academia</h2>

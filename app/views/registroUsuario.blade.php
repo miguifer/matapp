@@ -187,12 +187,7 @@
 
 <div class="container" id="main">
 
-    <script>
-        if (document.querySelector('#navegacion')) {
-            document.querySelector('#navegacion').style.display = 'none';
-        }
-    </script>
-
+    <script src="<?= RUTA_URL ?>/public/js/navDisplay.js"></script>
 
 
     @include('includes.footer')
