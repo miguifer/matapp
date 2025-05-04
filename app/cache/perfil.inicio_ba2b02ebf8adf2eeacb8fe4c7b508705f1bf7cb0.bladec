@@ -108,8 +108,10 @@ if ($usuario->rol == 'Administrador') {
  class="fas fa-envelope me-2"></i>Solicitudes</a>
  <a class="nav-link" href="#" data-section="asistencia"><i
  class="fas fa-check-circle me-2"></i>Asistencia</a>
- <a class="nav-link" href="#" data-section="objetivos"><i
- class="fas fa-bullseye me-2"></i>Objetivos</a>
+ <a class="nav-link" href="#" data-section="objetivos">
+ <i class="fas fa-bullseye me-2"></i>Objetivos
+ <span class="badge bg-warning ms-2">En desarrollo</span>
+ </a>
  </div>
  </div>
  </div>
@@ -293,8 +295,24 @@ if ($usuario->rol == 'Administrador') {
 
  <div class="mb-4 content-section d-none" id="objetivos">
  <h5 class="mb-4">Tus objetivos</h5>
- <div class="text-center text-muted">
- Aquí podrás ver y gestionar tus objetivos personales próximamente.
+ <form id="objetivoForm" class="mb-3">
+ <div class="row align-items-center">
+ <div class="col-auto">
+ <label for="objetivoClases" class="form-label mb-0">Clases objetivo por semana:</label>
+ </div>
+ <div class="col-auto">
+ <input type="number" min="1" max="14" class="form-control" id="objetivoClases" value="3" style="width:80px;">
+ </div>
+ <div class="col-auto">
+ <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+ </div>
+ </div>
+ </form>
+ <div>
+ <label class="form-label">Progreso semanal:</label>
+ <div class="progress" style="height: 25px;">
+ <div id="progresoBarra" class="progress-bar" role="progressbar" style="width: 0%">0/0</div>
+ </div>
  </div>
  </div>
 
@@ -505,7 +523,32 @@ if ($usuario->rol == 'Administrador') {
  });
 </script>
 
+<script>
+ // Simulación: número de clases asistidas esta semana (reemplaza por datos reales si tienes)
+ let clasesAsistidasSemana = 2;
 
+ // Cargar objetivo guardado (puedes reemplazar localStorage por AJAX si lo guardas en BD)
+ let objetivoClases = localStorage.getItem('objetivoClases') || 3;
+ document.getElementById('objetivoClases').value = objetivoClases;
 
+ function actualizarBarra() {
+ objetivoClases = parseInt(document.getElementById('objetivoClases').value) || 1;
+ let porcentaje = Math.min(100, Math.round((clasesAsistidasSemana / objetivoClases) * 100));
+ let barra = document.getElementById('progresoBarra');
+ barra.style.width = porcentaje + '%';
+ barra.textContent = `${clasesAsistidasSemana}/${objetivoClases}`;
+ barra.className = 'progress-bar' + (porcentaje >= 100 ? ' bg-success' : ' bg-info');
+ }
+
+ document.getElementById('objetivoForm').addEventListener('submit', function(e) {
+ e.preventDefault();
+ objetivoClases = document.getElementById('objetivoClases').value;
+ localStorage.setItem('objetivoClases', objetivoClases);
+ actualizarBarra();
+ });
+
+ // Inicializar barra al cargar
+ actualizarBarra();
+</script>
 
 <?php echo $this->runChild('includes.footer'); ?>
