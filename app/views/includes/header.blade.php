@@ -5,86 +5,29 @@
     <meta charset="UTF-8">
     <title>{{ NOMBRE_SITIO }}</title>
     <link rel="icon" type="image/png" href="{{ RUTA_URL }}/public/img/favicon/favicon-32x32.png">
-    <script src="{{ RUTA_URL }}/public/libs/jquery-3.7.1.min.js"></script> {{-- Carga jQuery  --}}
+    <script src="{{ RUTA_URL }}/public/libs/jquery-3.7.1.min.js"></script>
     <script src="{{ RUTA_URL }}/public/libs/bootstrap-5.3.5-dist/js/bootstrap.bundle.min.js" crossorigin="anonymous">
-    </script> {{-- Carga bootstrap  --}}
-    {{-- Carga bootstrap  --}}
+    </script>
     <link href="{{ RUTA_URL }}/public/libs/bootstrap-5.3.5-dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous">
-    {{-- Carga fontawesome desde CDN --}}
     <link rel="stylesheet" href="{{ RUTA_URL }}/public/libs/fontawesome-free-6.7.2-web/css/all.min.css" />
-    {{-- Carga CSS genérico para el chatBot --}}
-    <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/chatbot.css" /> {{-- Carga css desde archivo local --}}
-    <!-- Fuentes e íconos para chatbot-->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-    {{-- Carga FULLCALENDAR desde su ruta en local --}}
+    <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/chatbot.css" />
     <script src='{{ RUTA_URL }}/public/libs/fullcalendar-scheduler-6.1.17/dist/index.global.min.js'></script>
     <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/fullcalendar.css" />
-    {{-- Carga datatablesJS css desde CDN --}}
-    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"> --}}
     <link rel="stylesheet" href="{{ RUTA_URL }}/public/libs/DataTables/datatables.min.css" />
-    {{-- Carga datatables desde archivo local --}}
-    {{-- Carga flatpickr desde CDN --}}
     <link rel="stylesheet" href="{{ RUTA_URL }}/public/libs/flatpickr.min.css">
     <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/libs/material_green.css">
-    <script src="{{ RUTA_URL }}/public/libs/flatpickr.min.js"></script> {{-- Carga flatpickr desde cdn --}}
-    <script src="{{ RUTA_URL }}/public/libs/chart.umd.js"></script> {{-- Carga ChartJs  --}}
-    {{-- Carga sweetalerts desde archivo CDN --}}
+    <script src="{{ RUTA_URL }}/public/libs/flatpickr.min.js"></script>
+    <script src="{{ RUTA_URL }}/public/libs/chart.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
     <link rel="stylesheet/less" href="<?= RUTA_URL ?>/public/less/navbar.less" type="text/css" />
 
 </head>
 
 <body>
 
-    {{-- google translate --}}
-    {{-- <div id="google_translate_element"></div>
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'es',
-                includedLanguages: 'en,es,fr,de,it,pt', // Lista de idiomas disponibles
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE // Diseño más moderno y compacto
-            }, 'google_translate_element');
-        }
-    </script>
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
-    </script> --}}
-
-    {{-- <div class="container mt-5" id="main">  --}}
-
-
-    {{-- start chatbot --}}
-    {{-- <button class="chatbot-toggler" title="ChatBot" id="chatbot-toggler">
-        <span class="material-symbols-outlined">mode_comment</span>
-        <span class="material-symbols-outlined">close</span>
-    </button>
-
-    <div class="chatbot">
-        <header>
-            <h2>ChatBot - MatApp</h2>
-            <span class="close-btn material-symbols-outlined">close</span>
-        </header>
-        <ul class="chatbox" id="chatbox">
-            <li class="chat incoming">
-                <span class="material-symbols-outlined">smart_toy</span>
-                <p>Hola<br />¿Cómo puedo ayudarte hoy?</p>
-            </li>
-        </ul>
-        <div class="chat-input">
-            <textarea placeholder="Ingresa un mensaje..." required id="user-input" title=""></textarea>
-            <span id="send-btn" class="material-symbols-outlined">send</span>
-        </div>
-    </div> --}}
-    {{-- stop chatbot --}}
-
-
-    {{-- se repitita  --}}
     <div class="container" id="main">
 
         <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/header.css" />
@@ -198,7 +141,6 @@
                                     href="<?= RUTA_URL ?>/perfil"><i class="fa-regular fa-user"></i>&nbsp;&nbsp;Tu
                                     perfil </a>
                             </div>
-                            <!-- Perfil del usuario -->
                             <div class="col-12 mb-1">
                                 <a href="#"
                                     class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
@@ -216,7 +158,6 @@
                     </div>
                 </div>
 
-                <!-- Offcanvas Amigos -->
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAmigos"
                     aria-labelledby="offcanvasAmigosLabel">
                     <div class="offcanvas-header">
@@ -244,19 +185,16 @@
                             </li>
                         </ul>
                         <div class="tab-content mt-3" id="amigosTabsContent">
-                            <!-- Buscar usuarios -->
                             <div class="tab-pane fade show active" id="buscar" role="tabpanel">
                                 <input type="text" class="form-control mb-2" id="buscarUsuarioInput"
                                     placeholder="Buscar usuario...">
                                 <ul class="list-group" id="resultadosBusqueda"></ul>
                             </div>
-                            <!-- Mis amistades -->
                             <div class="tab-pane fade" id="amistades" role="tabpanel">
                                 <ul class="list-group" id="listaAmigos">
                                     <li class="list-group-item text-muted">Cargando...</li>
                                 </ul>
                             </div>
-                            <!-- Solicitudes -->
                             <div class="tab-pane fade" id="solicitudes" role="tabpanel">
                                 <ul class="list-group" id="listaSolicitudes">
                                     <li class="list-group-item text-muted">Cargando...</li>
@@ -265,8 +203,6 @@
                         </div>
                     </div>
                 </div>
-
-
 
 
                 <?php
@@ -278,244 +214,8 @@
         </nav>
 
 
+        <script src="{{ RUTA_URL }}/public/js/header.amigos.js"></script>
 
-
-
-
-        <script>
-            document.getElementById('logo').addEventListener('click', function() {
-                window.location.href = '<?= RUTA_URL ?>'; // Cambia esta URL por la URL de destino
-            });
-        </script>
-
-        <script>
-            $(document).ready(function() {
-                function cargarNotificaciones() {
-                    let $list = $('#notificaciones-list');
-                    $list.find('li:not(.dropdown-header)').remove();
-                    $('#notificaciones-loader').show();
-
-                    $.ajax({
-                        url: '<?= RUTA_URL ?>/mensajesController/mensajesUsuario',
-                        method: 'GET',
-                        dataType: 'json',
-                        success: function(data) {
-                            $('#notificaciones-loader').hide();
-                            let count = 0;
-                            if (data && data.success && Array.isArray(data.mensajes) && data.mensajes
-                                .length > 0) {
-                                data.mensajes.forEach(function(n) {
-                                    count++;
-                                    $list.append(`
-                                        <li>
-                                            <a class="dropdown-item" href="${n.url || '#'}">
-                                                <strong>${n.academia}</strong><br>
-                                                Nuevo mensaje: "${n.mensaje}"<br>
-                                                <small class="text-muted">${n.hace || ''}</small>
-                                            </a>
-                                        </li>
-                                    `);
-                                });
-
-                            } else {
-                                $list.append(
-                                    '<li class="text-center text-muted py-2">Sin notificaciones nuevas</li>'
-                                );
-                            }
-                            $('#notificaciones-count').text(count);
-                        },
-                        error: function() {
-                            $('#notificaciones-loader').hide();
-                            $list.append(
-                                '<li class="text-center text-danger py-2">Error al cargar notificaciones</li>'
-                            );
-                        }
-                    });
-                }
-
-                // Cargar notificaciones al cargar la página
-                cargarNotificaciones();
-
-                // También recargar cuando se hace click en el botón
-                $('#dropdownNotificaciones').on('click', function() {
-                    cargarNotificaciones();
-                });
-            });
-        </script>
-
-        <script>
-            $(function() {
-                // Llama a cargarSolicitudes al cargar la página para actualizar la badge del botón
-                cargarSolicitudes();
-
-                // Buscar usuarios
-                $('#buscarUsuarioInput').on('input', function() {
-                    let query = $(this).val();
-                    if (query.length < 2) {
-                        $('#resultadosBusqueda').empty();
-                        return;
-                    }
-                    $.get('<?= RUTA_URL ?>/amigos/buscar', {
-                        q: query
-                    }, function(res) {
-                        let html = '';
-                        res.forEach(u => {
-                            let btn;
-                            if (u.estado === 'aceptada') {
-                                btn =
-                                    `<button class="btn btn-sm btn-secondary" disabled>Ya es tu amigo</button>`;
-                            } else if (u.estado === 'pendiente') {
-                                btn =
-                                    `<button class="btn btn-sm btn-warning" disabled>Solicitud pendiente</button>`;
-                            } else {
-                                btn =
-                                    `<button class="btn btn-sm btn-primary solicitar-amistad" data-id="${u.idUsuario}">Solicitar amistad</button>`;
-                            }
-                            // Imagen de perfil
-                            let imgSrc = u.imagen ? `data:image/jpeg;base64,${u.imagen}` :
-                                '<?= RUTA_URL ?>/public/img/default_profile.png';
-                            html += `<li class="list-group-item d-flex justify-content-between align-items-center">
-                <span class="d-flex align-items-center">
-                    <img src="${imgSrc}" alt="Perfil" class="rounded-circle me-2" style="width:32px;height:32px;object-fit:cover;">
-                    ${u.login}
-                </span>
-                ${btn}
-            </li>`;
-                        });
-                        $('#resultadosBusqueda').html(html);
-                    }, 'json');
-                });
-
-                // Cargar amigos
-                function cargarAmigos() {
-                    $.get('<?= RUTA_URL ?>/amigos/lista', function(res) {
-                        let html = '';
-                        if (res.length === 0) html = '<li class="list-group-item text-muted">Sin amigos</li>';
-                        res.forEach(a => {
-                            let imgSrc = a.imagen ? `data:image/jpeg;base64,${a.imagen}` :
-                                '<?= RUTA_URL ?>/public/img/default_profile.png';
-                            let onlineBadge = a.online == 1 ?
-                                '<span class="badge bg-success ms-2">Online</span>' :
-                                '<span class="badge bg-secondary ms-2">Offline</span>';
-                            html += `<li class="list-group-item d-flex justify-content-between align-items-center">
-    <span class="d-flex align-items-center">
-        <img src="${imgSrc}" alt="Perfil" class="rounded-circle me-2" style="width:32px;height:32px;object-fit:cover;">
-        ${a.login} ${onlineBadge}
-    </span>
-    <span>
-        <button class="btn btn-info btn-sm ver-perfil-amigo me-2" data-id="${a.idUsuario}">Ver perfil</button>
-        <button class="btn btn-danger btn-sm eliminar-amigo" data-id="${a.idUsuario}">Eliminar</button>
-    </span>
-</li>`;
-                        });
-                        $('#listaAmigos').html(html);
-                    }, 'json');
-                }
-
-                // Cargar solicitudes
-                function cargarSolicitudes() {
-                    $.get('<?= RUTA_URL ?>/amigos/solicitudes', function(res) {
-                        let html = '';
-                        if (res.length === 0) {
-                            html = '<li class="list-group-item text-muted">Sin solicitudes</li>';
-                            $('#badgeSolicitudes').hide();
-                            $('#badgeSolicitudesBtn').hide();
-                        } else {
-                            $('#badgeSolicitudes').text(res.length).show();
-                            $('#badgeSolicitudesBtn').text(res.length).show();
-                        }
-                        res.forEach(s => {
-                            let imgSrc = s.imagen ? `data:image/jpeg;base64,${s.imagen}` :
-                                '<?= RUTA_URL ?>/public/img/default_profile.png';
-                            html += `<li class="list-group-item d-flex justify-content-between align-items-center">
-                <span class="d-flex align-items-center">
-                    <img src="${imgSrc}" alt="Perfil" class="rounded-circle me-2" style="width:32px;height:32px;object-fit:cover;">
-                    ${s.login}
-                </span>
-                <span>
-                    <button class="btn btn-success btn-sm aceptar-solicitud" data-id="${s.id}">Aceptar</button>
-                    <button class="btn btn-danger btn-sm rechazar-solicitud" data-id="${s.id}">Rechazar</button>
-                </span>
-            </li>`;
-                        });
-                        $('#listaSolicitudes').html(html);
-                    }, 'json');
-                }
-
-                // Aceptar/rechazar solicitud
-                $('#listaSolicitudes').on('click', '.aceptar-solicitud', function() {
-                    let id = $(this).data('id');
-                    $.post('<?= RUTA_URL ?>/amigos/aceptar', {
-                        id: id
-                    }, function(res) {
-                        toastr.success(res.message || 'Solicitud aceptada');
-                        cargarSolicitudes();
-                        cargarAmigos();
-                    }, 'json');
-                });
-                $('#listaSolicitudes').on('click', '.rechazar-solicitud', function() {
-                    let id = $(this).data('id');
-                    $.post('<?= RUTA_URL ?>/amigos/rechazar', {
-                        id: id
-                    }, function(res) {
-                        toastr.info(res.message || 'Solicitud rechazada');
-                        cargarSolicitudes();
-                    }, 'json');
-                });
-
-                // Eliminar amigo
-                $('#listaAmigos').on('click', '.eliminar-amigo', function() {
-                    let id = $(this).data('id');
-                    $.post('<?= RUTA_URL ?>/amigos/eliminar', {
-                        id: id
-                    }, function(res) {
-                        toastr.info(res.message || 'Amistad eliminada');
-                        cargarAmigos();
-                    }, 'json');
-                });
-
-                // Solicitar amistad
-                $('#resultadosBusqueda').on('click', '.solicitar-amistad', function() {
-                    let idUsuario2 = $(this).data('id');
-                    $.post('<?= RUTA_URL ?>/amigos/solicitar', {
-                        idUsuario2: idUsuario2
-                    }, function(res) {
-                        toastr.success(res.message || 'Solicitud enviada');
-                        $('#buscarUsuarioInput').trigger('input'); // Refresca la búsqueda
-                        cargarSolicitudes();
-                    }, 'json');
-                });
-
-                // Cargar listas al abrir el offcanvas
-                $('#offcanvasAmigos').on('shown.bs.offcanvas', function() {
-                    cargarAmigos();
-                    cargarSolicitudes();
-                });
-
-                $('#listaAmigos').on('click', '.ver-perfil-amigo', function() {
-                    let id = $(this).data('id');
-                    $.get('<?= RUTA_URL ?>/amigos/perfil', {
-                        id: id
-                    }, function(res) {
-                        let imgSrc = res.imagen ? `data:image/jpeg;base64,${res.imagen}` :
-                            '<?= RUTA_URL ?>/public/img/default_profile.png';
-                        let html = `
-                            <div class="text-center mb-3">
-                                <img src="${imgSrc}" class="rounded-circle" style="width:80px;height:80px;object-fit:cover;">
-                            </div>
-                            <p><strong>Usuario:</strong> ${res.login}</p>
-                            <p><strong>Nombre:</strong> ${res.nombreUsuario || ''}</p>
-                            <p><strong>Email:</strong> ${res.emailUsuario || ''}</p>
-                            <!-- Agrega más campos si lo deseas -->
-                        `;
-                        $('#perfilAmigoContenido').html(html);
-                        $('#modalPerfilAmigo').modal('show');
-                    }, 'json');
-                });
-            });
-        </script>
-
-        <!-- Modal Perfil Amigo -->
         <div class="modal fade" id="modalPerfilAmigo" tabindex="-1" aria-labelledby="modalPerfilAmigoLabel"
             aria-hidden="true">
             <div class="modal-dialog">
@@ -526,11 +226,18 @@
                             aria-label="Cerrar"></button>
                     </div>
                     <div class="modal-body" id="perfilAmigoContenido">
-                        <!-- Aquí se cargará la información del perfil -->
                     </div>
                 </div>
             </div>
         </div>
+
+
+        <script>
+            window.RUTA_URL = '<?= RUTA_URL ?>';
+        </script>
+        <script src="{{ RUTA_URL }}/public/js/header.logo.js"></script>
+        <script src="{{ RUTA_URL }}/public/js/header.notificaciones.js"></script>
+        <script src="{{ RUTA_URL }}/public/js/header.amigos.js"></script>
 
 </body>
 

@@ -14,39 +14,19 @@
     <a href="<?= RUTA_URL ?>/crearAcademia" class="small text-decoration-none" id="link-crear-academia">¿No puedes
         encontrar tu
         academia? ¡Crea una!</a>
-    {{-- <iframe src="https://www.google.com/maps?q=42.46273320557275,-2.4449981206704283&hl=es&z=15&output=embed" width="400"
-        height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-    </iframe> --}}
-
 </div>
 </div>
 
-
-{{-- imagen: "data:image/jpeg;base64, base64_encode($academia->imagen) ?>" // Convertimos la imagen en base64 --}}
-
-
-<?php if (isset($_GET['toastrErr'])) {?>
-
+<?php if (isset($_GET['toastrErr'])): ?>
 <script>
-    toastr.options = {
-        "closeButton": true,
-        "positionClass": "toast-top-right",
-        "timeOut": "10000",
-        "progressBar": true,
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    };
-
-
-    toastr.info('<?= $_GET['toastrErr'] ?>');
+    window.toastrMsg = '<?= $_GET['toastrErr'] ?>';
 </script>
-
-<?php } ?>
+<?php endif; ?>
 
 <script>
-    const defecto = "<?= RUTA_URL ?>/public/img/home/logo.png"; // Logo por defecto si no hay imagen
-
-    const gimnasios = [
+    window.RUTA_LOGO_DEFECTO = "<?= RUTA_URL ?>/public/img/home/logo.png";
+    window.RUTA_ACADEMIA = "<?= RUTA_URL ?>/academia";
+    window.GIMNASIOS_DATA = [
         <?php foreach ($academias as $academia): ?>
         {
             <?php if ($academia->idAcademia !== null): ?>
@@ -76,92 +56,9 @@
         },
         <?php endforeach; ?>
     ];
-
-
-
-    console.log(gimnasios); // Verifica que los gimnasios se carguen correctamente
-
-    const searchInput = document.getElementById("searchInput");
-    const resultadosContainer = document.getElementById("resultados");
-
-    function mostrarResultados() {
-        const query = searchInput.value.toLowerCase();
-        resultadosContainer.innerHTML = "";
-
-        const coincidencias = gimnasios.filter(gimnasio =>
-            gimnasio.nombreAcademia.toLowerCase().includes(query)
-        );
-
-        if (query === "") {
-            return;
-        }
-
-        if (coincidencias.length > 0) {
-            coincidencias.forEach(gimnasio => {
-                const div = document.createElement("div");
-                div.classList.add("resultado");
-                div.classList.add("p-2");
-                const img = document.createElement("img");
-                img.classList.add("me-2");
-                img.src = (gimnasio.path_imagen && gimnasio.path_imagen.trim() !== "" && gimnasio
-                        .path_imagen !== "undefined" && gimnasio.path_imagen !== null) ?
-                    gimnasio.path_imagen :
-                    defecto; // Logo por defecto si no hay imagen, si está vacío, undefined o null
-                img.alt = gimnasio.nombreAcademia; // Alt text para la imagen
-                img.style.width = "30px"; // Ancho de la imagen
-                img.style.height = "30px"; // Alto de la imagen
-                img.classList.add("rounded-5");
-
-                div.appendChild(img);
-
-                div.title = "Ir a " + gimnasio.nombreAcademia;
-
-                const span = document.createElement("span");
-                span.textContent = gimnasio.nombreAcademia;
-                div.appendChild(span);
-
-                div.style.cursor = "pointer";
-
-                div.style.transition = "background-color 150ms"; // Añade una transición suave
-
-                div.addEventListener("mouseover", () => {
-                    div.style.backgroundColor =
-                        "#505050"; // Cambia el color de fondo a un gris más oscuro al pasar el mouse
-                });
-
-                div.addEventListener("mouseout", () => {
-                    div.style.backgroundColor =
-                        ""; // Restaura el color de fondo original al quitar el mouse
-                });
-
-                div.addEventListener("click", () => {
-                    const form = document.createElement("form");
-                    form.method = "POST";
-                    form.action =
-                        "<?= RUTA_URL ?>/academia?academia=" + encodeURIComponent(JSON.stringify(
-                            gimnasio));
-
-                    const input = document.createElement("input");
-                    input.type = "hidden";
-                    input.name = "academia_id";
-                    input.value = gimnasio
-                        .id; // Asegúrate de que el objeto gimnasio tenga una propiedad id
-
-                    form.appendChild(input);
-                    document.body.appendChild(form);
-                    form.submit();
-                });
-
-                resultadosContainer.appendChild(div);
-            });
-        } else {
-            resultadosContainer.innerHTML =
-                "<p class=\"text-danger small\">No se encontraron resultados</p>"; // Mensaje en caso de no encontrar coincidencias
-        }
-    }
-
-    searchInput.addEventListener("input", mostrarResultados);
 </script>
+
+<script src="<?= RUTA_URL ?>/public/js/home.js"></script>
 
 
 @include('includes.footer')
