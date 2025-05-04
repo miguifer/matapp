@@ -532,4 +532,23 @@ class academiaModelo
         $this->db->bind(':claseId', $claseId);
         return $this->db->registros(); // Returns an array of users with their attendance status
     }
+
+    public function obtenerMensajesPorUsuario($idUsuario)
+    {
+        $this->db->query("
+        SELECT 
+            mm.mensaje,
+            mm.fecha,
+            a.nombreAcademia AS academia,
+            mm.idAcademia,
+            mm.idMensaje
+        FROM muro_mensajes mm
+        INNER JOIN Academias a ON mm.idAcademia = a.idAcademia
+        WHERE mm.idUsuario = :idUsuario
+        ORDER BY mm.fecha DESC
+        LIMIT 10
+    ");
+        $this->db->bind(':idUsuario', $idUsuario);
+        return $this->db->registros();
+    }
 }

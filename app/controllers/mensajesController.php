@@ -33,7 +33,7 @@ class mensajesController extends Controlador
                 'fecha' => $fecha,
                 'mensaje' => $mensaje
             ];
-            
+
             $resultado = $this->academiaModelo->enviarMensaje($mensaje, $datos);
 
             header('Content-Type: application/json');
@@ -43,7 +43,6 @@ class mensajesController extends Controlador
                 echo json_encode(['success' => false, 'message' => 'Error al enviar el mensaje.']);
             }
             exit;
-
         } else {
             redireccionar('/');
         }
@@ -86,6 +85,28 @@ class mensajesController extends Controlador
             } else {
                 echo json_encode(['success' => false, 'message' => 'Error al desfijar el mensaje.']);
             }
+            exit;
+        } else {
+            redireccionar('/');
+        }
+    }
+
+    public function mensajesUsuario()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+            $usuario = isset($_SESSION['userLogin']['usuario']) ? json_decode($_SESSION['userLogin']['usuario']) : null;
+            $idUsuario = $usuario->idUsuario ?? null;
+            
+            if (!$idUsuario) {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => false, 'message' => 'ID de usuario no proporcionado.']);
+                exit;
+            }
+
+            $mensajes = $this->academiaModelo->obtenerMensajesPorUsuario($idUsuario);
+
+            header('Content-Type: application/json');
+            echo json_encode(['success' => true, 'mensajes' => $mensajes]);
             exit;
         } else {
             redireccionar('/');

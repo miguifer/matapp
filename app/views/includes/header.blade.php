@@ -128,6 +128,26 @@
                         class="img-fluid" width="40" height="40" id="logo" title="Home" />
                 </span>
 
+                <!-- Notificaciones de mensajes -->
+                <div class="dropdown me-2">
+                    <button class="btn btn-light position-relative" type="button" id="dropdownNotificaciones"
+                        data-bs-toggle="dropdown" aria-expanded="false" title="Notificaciones">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            id="notificaciones-count">
+                            0
+                            <span class="visually-hidden">mensajes nuevos</span>
+                        </span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownNotificaciones"
+                        style="min-width: 300px;" id="notificaciones-list">
+                        <li class="dropdown-header">Mensajes de tus academias</li>
+                        <li class="text-center py-2" id="notificaciones-loader">
+                            <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+                        </li>
+                    </ul>
+                </div>
+
                 <button id="botonPerfil" class="btn rounded-circle p-0" type="button" data-bs-toggle="offcanvas"
                     title="Menú" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                     <?php if (!empty($usuario->imagen)) { ?>
@@ -200,5 +220,59 @@
         <script>
             document.getElementById('logo').addEventListener('click', function() {
                 window.location.href = '<?= RUTA_URL ?>'; // Cambia esta URL por la URL de destino
+            });
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                function cargarNotificaciones() {
+                    let $list = $('#notificaciones-list');
+                    $list.find('li:not(.dropdown-header)').remove();
+                    $('#notificaciones-loader').show();
+
+                    $.ajax({
+                        url: '<?= RUTA_URL ?>/mensajesController/mensajesUsuario',
+                        method: 'GET',
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#notificaciones-loader').hide();
+                            let count = 0;
+                            if (data && data.success && Array.isArray(data.mensajes) && data.mensajes.length > 0) {
+                                data.mensajes.forEach(function(n) {
+                                    count++;
+                                    $list.append(`
+                                        <li>
+                                            <a class="dropdown-item" href="${n.url || '#'}">
+                                                <strong>${n.academia}</strong><br>
+                                                Nuevo mensaje: "${n.mensaje}"<br>
+                                                <small class="text-muted">${n.hace || ''}</small>
+                                            </a>
+                                        </li>
+                                    `);
+                                });
+                               
+                            } else {
+                                $list.append(
+                                    '<li class="text-center text-muted py-2">Sin notificaciones nuevas</li>'
+                                );
+                            }
+                            $('#notificaciones-count').text(count);
+                        },
+                        error: function() {
+                            $('#notificaciones-loader').hide();
+                            $list.append(
+                                '<li class="text-center text-danger py-2">Error al cargar notificaciones</li>'
+                            );
+                        }
+                    });
+                }
+
+                // Cargar notificaciones al cargar la página
+                cargarNotificaciones();
+
+                // También recargar cuando se hace click en el botón
+                $('#dropdownNotificaciones').on('click', function() {
+                    cargarNotificaciones();
+                });
             });
         </script>
