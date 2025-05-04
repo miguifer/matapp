@@ -1356,24 +1356,20 @@ $userRole = $usuario->rol;
                 url: `${RUTA_URL}/calendarioController/usuariosReservados`,
                 type: 'POST',
                 dataType: 'json',
-                data: {
-                    idClase
-                },
+                data: { idClase },
                 success: function(usuarios) {
-                    console.log(usuarios); // <-- Añade esto para depurar
                     let html = '<form id="formAsistencia">';
                     usuarios.forEach(u => {
                         html += `
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="asistencia[]" value="${u.idUsuario}" id="asist_${u.idUsuario}" ${u.asistencia == 1 ? 'checked' : ''}>
-                            <label class="form-check-label" for="asist_${u.idUsuario}">
-                                ${u.nombreUsuario}
-                            </label>
-                        </div>
-                    `;
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="asistencia[]" value="${u.idUsuario}" id="asist_${u.idUsuario}" ${u.asistencia == 1 ? 'checked' : ''}>
+                        <label class="form-check-label" for="asist_${u.idUsuario}">
+                            ${u.nombreUsuario}
+                        </label>
+                    </div>
+                `;
                     });
-                    html +=
-                        `<input type="hidden" name="idClase" value="${idClase}"></form>`;
+                    html += `<input type="hidden" name="idClase" value="${idClase}"></form>`;
 
                     Swal.fire({
                         title: 'Confirmar asistencia',
@@ -1381,10 +1377,8 @@ $userRole = $usuario->rol;
                         showCancelButton: true,
                         confirmButtonText: 'Guardar asistencia',
                         preConfirm: () => {
-                            const form = document.getElementById(
-                                'formAsistencia');
+                            const form = document.getElementById('formAsistencia');
                             let formData = $(form).serialize();
-                            // Si no hay ningún checkbox marcado, agrega asistencia vacía
                             if (!formData.includes('asistencia%5B%5D')) {
                                 formData += '&asistencia[]=';
                             }
@@ -1394,118 +1388,11 @@ $userRole = $usuario->rol;
                                     type: 'POST',
                                     dataType: 'json',
                                     data: formData,
-                                    success: function(
-                                        response) {
+                                    success: function(response) {
                                         resolve(response);
                                     },
                                     error: function(xhr) {
-                                        reject(xhr
-                                            .responseJSON && xhr
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</style>    }        border-top-color: rgba(0, 0, 0, 0.8) !important;    .tooltip-arrow {    }        font-size: 12px;        border-radius: 4px;        background-color: rgba(0, 0, 0, 0.8);        color: #fff;        padding: 8px 12px;        max-width: 200px;    .tooltip-inner {    /* Estilo para el tooltip */    }        border-color: #c82333 !important;        background-color: #dc3545 !important;    .evento-cancelado {    }        border-color: #0069d9 !important;        background-color: #007bff !important;    .evento-pendiente {    }        border-color: #218838 !important;        background-color: #28a745 !important;    .evento-confirmado {    /* Colores personalizados para los eventos según su estado */    }        font-weight: normal;        color: #fff;    .fc-daygrid-event-title {    }        color: #333;        font-weight: bold;    .fc-daygrid-day-number {    }        padding: 10px 15px;        font-size: 14px;    .fc-button {    }        margin-bottom: 20px;    .fc-toolbar {    }        margin-right: 5px;        display: inline-block;        border-radius: 50%;        height: 10px;        width: 10px;    .fc-daygrid-event-dot {    }        margin: 2px 0;        padding: 5px;        border-radius: 5px;    .fc-daygrid-event {    }        font-size: 14px;        font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;    .fc {    }        margin: 0 auto;        max-width: 1100px;    #calendar {    /* Estilos personalizados para el calendario */<style></script>    });        });            });                }                    });                        }                            );                                'success'                                'La asistencia se ha actualizado correctamente.',                                '¡Asistencia guardada!',                            Swal.fire(                        if (result.isConfirmed) {                    }).then((result) => {                        }                            });                                });                                    }                                            'Hubo un problema al guardar la asistencia.');                                            .responseJSON.message :                                            .responseJSON.message ? xhr                                            xhr
-                                            .responseJSON
-                                            .message ?
-                                            xhr
-                                            .responseJSON
-                                            .message :
-                                            'Hubo un problema al guardar la asistencia.'
-                                        );
+                                        reject(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Hubo un problema al guardar la asistencia.');
                                     }
                                 });
                             });
@@ -1533,3 +1420,5 @@ $userRole = $usuario->rol;
         });
     });
 </script>
+
+   
