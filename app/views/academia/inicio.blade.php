@@ -904,12 +904,16 @@ $userRole = $usuario->rol;
                                 flatpickr("#start", {
                                     enableTime: true,
                                     dateFormat: "Y-m-d H:i",
-                                    time_24hr: true
+                                    time_24hr: true,
+                                    minDate: new Date(), // hoy
+                                    maxDate: new Date(new Date().setMonth(new Date().getMonth() + 3)) // hoy + 3 meses
                                 });
                                 flatpickr("#end", {
                                     enableTime: true,
                                     dateFormat: "Y-m-d H:i",
-                                    time_24hr: true
+                                    time_24hr: true,
+                                    minDate: new Date(),
+                                    maxDate: new Date(new Date().setMonth(new Date().getMonth() + 3))
                                 });
                             },
                             preConfirm: () => {
@@ -1163,12 +1167,16 @@ $userRole = $usuario->rol;
                         flatpickr("#start", {
                             enableTime: true,
                             dateFormat: "Y-m-d H:i",
-                            time_24hr: true
+                            time_24hr: true,
+                            minDate: new Date(), // hoy
+                            maxDate: new Date(new Date().setMonth(new Date().getMonth() + 3)) // hoy + 3 meses
                         });
                         flatpickr("#end", {
                             enableTime: true,
                             dateFormat: "Y-m-d H:i",
-                            time_24hr: true
+                            time_24hr: true,
+                            minDate: new Date(),
+                            maxDate: new Date(new Date().setMonth(new Date().getMonth() + 3))
                         });
                     },
 
