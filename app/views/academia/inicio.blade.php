@@ -686,30 +686,36 @@ $userRole = $usuario->rol;
     <div class="tab-pane fade" id="ranking" role="tabpanel" aria-labelledby="ranking-tab">
         <h2>Ranking de Asistencia</h2>
         {{-- Podio de los 3 primeros --}}
-        @if(count($ranking) > 0)
+        @if (count($ranking) > 0)
             <div class="d-flex justify-content-center align-items-end mb-4" style="gap: 40px;">
                 {{-- Segundo puesto --}}
                 <div class="text-center" style="order:1;">
-                    @if(isset($ranking[1]))
+                    @if (isset($ranking[1]))
                         <div style="font-size:2.2em;">&#x1F948;</div>
                         <div style="font-weight:bold;">{{ $ranking[1]->nombreUsuario }}</div>
-                        <div style="background:#c0c0c0;width:60px;height:40px;line-height:40px;margin:auto;border-radius:10px 10px 0 0;">2º</div>
+                        <div
+                            style="background:#c0c0c0;width:60px;height:40px;line-height:40px;margin:auto;border-radius:10px 10px 0 0;">
+                            2º</div>
                     @endif
                 </div>
                 {{-- Primer puesto --}}
                 <div class="text-center" style="order:2;">
-                    @if(isset($ranking[0]))
+                    @if (isset($ranking[0]))
                         <div style="font-size:2.7em;">&#x1F451;</div>
                         <div style="font-weight:bold;">{{ $ranking[0]->nombreUsuario }}</div>
-                        <div style="background:gold;width:70px;height:60px;line-height:60px;margin:auto;border-radius:10px 10px 0 0;">1º</div>
+                        <div
+                            style="background:gold;width:70px;height:60px;line-height:60px;margin:auto;border-radius:10px 10px 0 0;">
+                            1º</div>
                     @endif
                 </div>
                 {{-- Tercer puesto --}}
                 <div class="text-center" style="order:3;">
-                    @if(isset($ranking[2]))
+                    @if (isset($ranking[2]))
                         <div style="font-size:2.2em;">&#x1F949;</div>
                         <div style="font-weight:bold;">{{ $ranking[2]->nombreUsuario }}</div>
-                        <div style="background:#cd7f32;width:60px;height:30px;line-height:30px;margin:auto;border-radius:10px 10px 0 0;">3º</div>
+                        <div
+                            style="background:#cd7f32;width:60px;height:30px;line-height:30px;margin:auto;border-radius:10px 10px 0 0;">
+                            3º</div>
                     @endif
                 </div>
             </div>
@@ -848,11 +854,25 @@ $userRole = $usuario->rol;
                 });
             },
             eventClick: function(info) {
+
+
                 // Si el usuario es Gerente, ya tienes la lógica para editar
                 if ((currentRole == 'Gerente' && ACADEMIA_ID_GERENTE === USUARIO_ID) ||
                     currentRole === 'Entrenador' || currentRole === 'Administrador') {
 
+                    // Solo permitir editar si la clase es de hoy o futura
+                    const eventDate = new Date(info.event.start);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0); // Quitar hora para comparar solo fecha
 
+                    if (eventDate < today) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'No permitido',
+                            text: 'Solo puedes modificar clases de hoy o futuras.'
+                        });
+                        return;
+                    }
 
                     // Lógica para editar el evento
                     Swal.fire({
@@ -990,6 +1010,19 @@ $userRole = $usuario->rol;
                         });
                 } else if (currentRole === 'Alumno') {
 
+                    // Solo permitir apuntarse si la clase es de hoy o futura
+                    const eventDate = new Date(info.event.start);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0); // Quitar hora para comparar solo fecha
+
+                    if (eventDate < today) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'No permitido',
+                            text: 'Solo puedes apuntarte a clases de hoy o futuras.'
+                        });
+                        return;
+                    }
 
                     // Lógica para el cliente, mostrando un mensaje de confirmación de reserva
                     $.ajax({
@@ -1084,17 +1117,26 @@ $userRole = $usuario->rol;
                 }
             },
             dateClick: function(info) {
-                if ((currentRole == 'Gerente' && ACADEMIA_ID_GERENTE === USUARIO_ID) ||
-                    currentRole === 'Entrenador' || currentRole === 'Administrador') {
+                // Solo permitir crear si la fecha es hoy o futura
+                const clickedDate = new Date(info.dateStr);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
 
-
-
-                    // Crear nuevo evento con SweetAlert2
+                if (clickedDate < today) {
                     Swal.fire({
-                        icon: 'info',
-                        title: 'Agregar Clase',
-                        confirmButtonText: 'Agregar',
-                        html: `
+                        icon: 'warning',
+                        title: 'No permitido',
+                        text: 'Solo puedes crear clases para hoy o fechas futuras.'
+                    });
+                    return;
+                }
+
+                // Crear nuevo evento con SweetAlert2
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Agregar Clase',
+                    confirmButtonText: 'Agregar',
+                    html: `
         <input type="text" id="title" class="swal2-input" placeholder="Título de la clase" required>
         <input type="text" id="start" placeholder="Fecha de inicio" class="swal2-input" value="${info.dateStr}" required>
         <input type="text" id="end"  placeholder="Fecha de fin" class="swal2-input">
@@ -1107,72 +1149,71 @@ $userRole = $usuario->rol;
         <input type="hidden" id="idAcademia" value="{{ $academia->idAcademia }}">
 
     `,
-                        didOpen: () => {
-                            flatpickr("#start", {
-                                enableTime: true,
-                                dateFormat: "Y-m-d H:i",
-                                time_24hr: true
-                            });
-                            flatpickr("#end", {
-                                enableTime: true,
-                                dateFormat: "Y-m-d H:i",
-                                time_24hr: true
-                            });
-                        },
+                    didOpen: () => {
+                        flatpickr("#start", {
+                            enableTime: true,
+                            dateFormat: "Y-m-d H:i",
+                            time_24hr: true
+                        });
+                        flatpickr("#end", {
+                            enableTime: true,
+                            dateFormat: "Y-m-d H:i",
+                            time_24hr: true
+                        });
+                    },
 
-                        preConfirm: () => {
-                            const title = Swal.getPopup().querySelector('#title').value;
-                            const start = Swal.getPopup().querySelector('#start').value;
-                            const idAcademia = Swal.getPopup().querySelector(
-                                    '#idAcademia')
-                                .value;
+                    preConfirm: () => {
+                        const title = Swal.getPopup().querySelector('#title').value;
+                        const start = Swal.getPopup().querySelector('#start').value;
+                        const idAcademia = Swal.getPopup().querySelector(
+                                '#idAcademia')
+                            .value;
 
-                            if (!title || !start) {
-                                Swal.showValidationMessage(
-                                    'Titulo y fecha de inicio son requeridos');
-                            }
-                            return {
-                                title,
-                                start,
-                                end: Swal.getPopup().querySelector('#end').value,
-                                idEntrenador: Swal.getPopup().querySelector(
-                                        '#idEntrenador')
-                                    .value,
-                                idAcademia
-                            };
+                        if (!title || !start) {
+                            Swal.showValidationMessage(
+                                'Titulo y fecha de inicio son requeridos');
                         }
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            const eventData = result.value;
-                            $.ajax({
-                                url: `${RUTA_URL}/calendarioController/add_clase`,
-                                type: 'POST',
-                                dataType: 'json',
-                                data: eventData,
-                                success: function(response) {
-                                    if (response && response.message) {
-                                        Swal.fire({
-                                            title: 'Éxito!',
-                                            text: response.message,
-                                            icon: 'success',
-                                            confirmButtonText: 'Genial'
-                                        });
-                                        calendar
-                                            .refetchEvents(); // Recargar eventos
-                                    }
-                                },
-                                error: function() {
+                        return {
+                            title,
+                            start,
+                            end: Swal.getPopup().querySelector('#end').value,
+                            idEntrenador: Swal.getPopup().querySelector(
+                                    '#idEntrenador')
+                                .value,
+                            idAcademia
+                        };
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const eventData = result.value;
+                        $.ajax({
+                            url: `${RUTA_URL}/calendarioController/add_clase`,
+                            type: 'POST',
+                            dataType: 'json',
+                            data: eventData,
+                            success: function(response) {
+                                if (response && response.message) {
                                     Swal.fire({
-                                        title: 'Error',
-                                        text: 'Hubo un problema al guardar el evento.',
-                                        icon: 'error',
-                                        confirmButtonText: 'Cerrar'
+                                        title: 'Éxito!',
+                                        text: response.message,
+                                        icon: 'success',
+                                        confirmButtonText: 'Genial'
                                     });
+                                    calendar
+                                        .refetchEvents(); // Recargar eventos
                                 }
-                            });
-                        }
-                    });
-                }
+                            },
+                            error: function() {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Hubo un problema al guardar el evento.',
+                                    icon: 'error',
+                                    confirmButtonText: 'Cerrar'
+                                });
+                            }
+                        });
+                    }
+                });
             }
         });
 
