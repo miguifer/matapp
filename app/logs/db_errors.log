@@ -27,3 +27,6 @@ SQLSTATE[HY000] [14] unable to open database fileSQLSTATE[HY000] [14] unable to 
 [2025-05-04 16:52:52] SQLSTATE[HY000]: General error: 1 no such column: u.rol
 [2025-05-04 16:52:52] SQLSTATE[HY000]: General error: 1 no such column: u.rol
 [2025-05-04 16:52:52] SQLSTATE[HY000]: General error: 1 no such column: u.rol
+[2025-05-04 17:44:25] SQLSTATE[HY000]: General error: 1 no such column: nombre
+[2025-05-04 17:44:26] SQLSTATE[HY000]: General error: 1 no such column: nombre
+[2025-05-04 17:44:31] SQLSTATE[HY000]: General error: 1 no such column: nombre

@@ -668,4 +668,12 @@ class academiaModelo
         $this->db->bind(':amigoId', $amigoId);
         return $this->db->execute();
     }
+
+    public function obtenerPerfilPorId($id)
+    {
+        $this->db->query("SELECT idUsuario, login, nombreUsuario, emailUsuario, imagen FROM Usuarios WHERE idUsuario = :id");
+        $this->db->bind(':id', $id);
+        return $this->db->registro();
+    }
+
 }

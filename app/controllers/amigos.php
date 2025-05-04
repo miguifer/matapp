@@ -111,4 +111,17 @@ class amigos extends Controlador
         $ok = $this->modelo->eliminarAmistad($usuario->idUsuario, $amigoId);
         echo json_encode(['message' => $ok ? 'Amistad eliminada' : 'Error al eliminar']);
     }
+
+    // AmigosController.php
+    public function perfil()
+    {
+        $id = $_GET['id'];
+        $perfil = $this->modelo->obtenerPerfilPorId($id);
+        if ($perfil && !empty($perfil->imagen)) {
+            $perfil->imagen = base64_encode($perfil->imagen);
+        } else if ($perfil) {
+            $perfil->imagen = null;
+        }
+        echo json_encode($perfil);
+    }
 }

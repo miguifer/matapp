@@ -355,19 +355,25 @@
  $('#resultadosBusqueda').empty();
  return;
  }
- $.get('<?= RUTA_URL ?>/amigos/buscar', { q: query }, function(res) {
+ $.get('<?= RUTA_URL ?>/amigos/buscar', {
+ q: query
+ }, function(res) {
  let html = '';
  res.forEach(u => {
  let btn;
  if (u.estado === 'aceptada') {
- btn = `<button class="btn btn-sm btn-secondary" disabled>Ya es tu amigo</button>`;
+ btn =
+ `<button class="btn btn-sm btn-secondary" disabled>Ya es tu amigo</button>`;
  } else if (u.estado === 'pendiente') {
- btn = `<button class="btn btn-sm btn-warning" disabled>Solicitud pendiente</button>`;
+ btn =
+ `<button class="btn btn-sm btn-warning" disabled>Solicitud pendiente</button>`;
  } else {
- btn = `<button class="btn btn-sm btn-primary solicitar-amistad" data-id="${u.idUsuario}">Solicitar amistad</button>`;
+ btn =
+ `<button class="btn btn-sm btn-primary solicitar-amistad" data-id="${u.idUsuario}">Solicitar amistad</button>`;
  }
  // Imagen de perfil
- let imgSrc = u.imagen ? `data:image/jpeg;base64,${u.imagen}` : '<?= RUTA_URL ?>/public/img/default_profile.png';
+ let imgSrc = u.imagen ? `data:image/jpeg;base64,${u.imagen}` :
+ '<?= RUTA_URL ?>/public/img/default_profile.png';
  html += `<li class="list-group-item d-flex justify-content-between align-items-center">
  <span class="d-flex align-items-center">
  <img src="${imgSrc}" alt="Perfil" class="rounded-circle me-2" style="width:32px;height:32px;object-fit:cover;">
@@ -386,17 +392,21 @@
  let html = '';
  if (res.length === 0) html = '<li class="list-group-item text-muted">Sin amigos</li>';
  res.forEach(a => {
- let imgSrc = a.imagen ? `data:image/jpeg;base64,${a.imagen}` : '<?= RUTA_URL ?>/public/img/default_profile.png';
- let onlineBadge = a.online == 1
- ? '<span class="badge bg-success ms-2">Online</span>'
- : '<span class="badge bg-secondary ms-2">Offline</span>';
+ let imgSrc = a.imagen ? `data:image/jpeg;base64,${a.imagen}` :
+ '<?= RUTA_URL ?>/public/img/default_profile.png';
+ let onlineBadge = a.online == 1 ?
+ '<span class="badge bg-success ms-2">Online</span>' :
+ '<span class="badge bg-secondary ms-2">Offline</span>';
  html += `<li class="list-group-item d-flex justify-content-between align-items-center">
  <span class="d-flex align-items-center">
  <img src="${imgSrc}" alt="Perfil" class="rounded-circle me-2" style="width:32px;height:32px;object-fit:cover;">
  ${a.login} ${onlineBadge}
  </span>
+ <span>
+ <button class="btn btn-info btn-sm ver-perfil-amigo me-2" data-id="${a.idUsuario}">Ver perfil</button>
  <button class="btn btn-danger btn-sm eliminar-amigo" data-id="${a.idUsuario}">Eliminar</button>
- </li>`;
+ </span>
+</li>`;
  });
  $('#listaAmigos').html(html);
  }, 'json');
@@ -415,7 +425,8 @@
  $('#badgeSolicitudesBtn').text(res.length).show();
  }
  res.forEach(s => {
- let imgSrc = s.imagen ? `data:image/jpeg;base64,${s.imagen}` : '<?= RUTA_URL ?>/public/img/default_profile.png';
+ let imgSrc = s.imagen ? `data:image/jpeg;base64,${s.imagen}` :
+ '<?= RUTA_URL ?>/public/img/default_profile.png';
  html += `<li class="list-group-item d-flex justify-content-between align-items-center">
  <span class="d-flex align-items-center">
  <img src="${imgSrc}" alt="Perfil" class="rounded-circle me-2" style="width:32px;height:32px;object-fit:cover;">
@@ -466,7 +477,9 @@
  // Solicitar amistad
  $('#resultadosBusqueda').on('click', '.solicitar-amistad', function() {
  let idUsuario2 = $(this).data('id');
- $.post('<?= RUTA_URL ?>/amigos/solicitar', { idUsuario2: idUsuario2 }, function(res) {
+ $.post('<?= RUTA_URL ?>/amigos/solicitar', {
+ idUsuario2: idUsuario2
+ }, function(res) {
  toastr.success(res.message || 'Solicitud enviada');
  $('#buscarUsuarioInput').trigger('input'); // Refresca la búsqueda
  cargarSolicitudes();
@@ -478,5 +491,47 @@
  cargarAmigos();
  cargarSolicitudes();
  });
- });        </script>
- <!-- ...existing code... -->
+
+ $('#listaAmigos').on('click', '.ver-perfil-amigo', function() {
+ let id = $(this).data('id');
+ $.get('<?= RUTA_URL ?>/amigos/perfil', {
+ id: id
+ }, function(res) {
+ let imgSrc = res.imagen ? `data:image/jpeg;base64,${res.imagen}` :
+ '<?= RUTA_URL ?>/public/img/default_profile.png';
+ let html = `
+ <div class="text-center mb-3">
+ <img src="${imgSrc}" class="rounded-circle" style="width:80px;height:80px;object-fit:cover;">
+ </div>
+ <p><strong>Usuario:</strong> ${res.login}</p>
+ <p><strong>Nombre:</strong> ${res.nombreUsuario || ''}</p>
+ <p><strong>Email:</strong> ${res.emailUsuario || ''}</p>
+ <!-- Agrega más campos si lo deseas -->
+ `;
+ $('#perfilAmigoContenido').html(html);
+ $('#modalPerfilAmigo').modal('show');
+ }, 'json');
+ });
+ });
+ </script>
+
+ <!-- Modal Perfil Amigo -->
+ <div class="modal fade" id="modalPerfilAmigo" tabindex="-1" aria-labelledby="modalPerfilAmigoLabel"
+ aria-hidden="true">
+ <div class="modal-dialog">
+ <div class="modal-content">
+ <div class="modal-header">
+ <h5 class="modal-title" id="modalPerfilAmigoLabel">Perfil del Amigo</h5>
+ <button type="button" class="btn-close" data-bs-dismiss="modal"
+ aria-label="Cerrar"></button>
+ </div>
+ <div class="modal-body" id="perfilAmigoContenido">
+ <!-- Aquí se cargará la información del perfil -->
+ </div>
+ </div>
+ </div>
+ </div>
+
+</body>
+
+</html>
