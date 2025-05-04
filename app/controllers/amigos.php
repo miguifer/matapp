@@ -19,6 +19,16 @@ class amigos extends Controlador
             return;
         }
         $usuarios = $this->modelo->buscarUsuariosParaAmistad($usuario->idUsuario, $q);
+
+        // Convertir imagen a base64
+        foreach ($usuarios as &$u) {
+            if (!empty($u->imagen)) {
+                $u->imagen = base64_encode($u->imagen);
+            } else {
+                $u->imagen = null;
+            }
+        }
+
         echo json_encode($usuarios);
     }
 
@@ -40,6 +50,16 @@ class amigos extends Controlador
         header('Content-Type: application/json');
         $usuario = json_decode($_SESSION['userLogin']['usuario']);
         $amigos = $this->modelo->obtenerAmigos($usuario->idUsuario);
+
+        // Convertir imagen a base64
+        foreach ($amigos as &$a) {
+            if (!empty($a->imagen)) {
+                $a->imagen = base64_encode($a->imagen);
+            } else {
+                $a->imagen = null;
+            }
+        }
+
         echo json_encode($amigos);
     }
 
@@ -48,6 +68,16 @@ class amigos extends Controlador
         header('Content-Type: application/json');
         $usuario = json_decode($_SESSION['userLogin']['usuario']);
         $solicitudes = $this->modelo->obtenerSolicitudesRecibidas($usuario->idUsuario);
+
+        // Convertir imagen a base64
+        foreach ($solicitudes as &$s) {
+            if (!empty($s->imagen)) {
+                $s->imagen = base64_encode($s->imagen);
+            } else {
+                $s->imagen = null;
+            }
+        }
+
         echo json_encode($solicitudes);
     }
 

@@ -573,6 +573,7 @@ class academiaModelo
         SELECT 
             u.idUsuario, 
             u.login,
+            u.imagen,           -- <--- Añade esto
             a.estado
         FROM Usuarios u
         LEFT JOIN Amistades a 
@@ -611,13 +612,13 @@ class academiaModelo
     public function obtenerAmigos($miId)
     {
         $this->db->query("
-        SELECT u.idUsuario, u.login
-        FROM Amistades a
-        JOIN Usuarios u ON (u.idUsuario = a.idUsuario1 OR u.idUsuario = a.idUsuario2)
-        WHERE (a.idUsuario1 = :miId OR a.idUsuario2 = :miId)
-        AND a.estado = 'aceptada'
-        AND u.idUsuario != :miId
-    ");
+    SELECT u.idUsuario, u.login, u.imagen   -- <--- Añade u.imagen
+    FROM Amistades a
+    JOIN Usuarios u ON (u.idUsuario = a.idUsuario1 OR u.idUsuario = a.idUsuario2)
+    WHERE (a.idUsuario1 = :miId OR a.idUsuario2 = :miId)
+    AND a.estado = 'aceptada'
+    AND u.idUsuario != :miId
+");
         $this->db->bind(':miId', $miId);
         return $this->db->registros();
     }
@@ -626,11 +627,11 @@ class academiaModelo
     public function obtenerSolicitudesRecibidas($miId)
     {
         $this->db->query("
-        SELECT a.id, u.login
-        FROM Amistades a
-        JOIN Usuarios u ON u.idUsuario = a.idUsuario1
-        WHERE a.idUsuario2 = :miId AND a.estado = 'pendiente'
-    ");
+    SELECT a.id, u.login, u.imagen   -- <--- Añade u.imagen
+    FROM Amistades a
+    JOIN Usuarios u ON u.idUsuario = a.idUsuario1
+    WHERE a.idUsuario2 = :miId AND a.estado = 'pendiente'
+");
         $this->db->bind(':miId', $miId);
         return $this->db->registros();
     }

@@ -355,38 +355,28 @@
                         $('#resultadosBusqueda').empty();
                         return;
                     }
-                    $.get('<?= RUTA_URL ?>/amigos/buscar', {
-                        q: query
-                    }, function(res) {
+                    $.get('<?= RUTA_URL ?>/amigos/buscar', { q: query }, function(res) {
                         let html = '';
                         res.forEach(u => {
                             let btn;
                             if (u.estado === 'aceptada') {
-                                btn =
-                                    `<button class="btn btn-sm btn-secondary" disabled>Ya es tu amigo</button>`;
+                                btn = `<button class="btn btn-sm btn-secondary" disabled>Ya es tu amigo</button>`;
                             } else if (u.estado === 'pendiente') {
-                                btn =
-                                    `<button class="btn btn-sm btn-warning" disabled>Solicitud pendiente</button>`;
+                                btn = `<button class="btn btn-sm btn-warning" disabled>Solicitud pendiente</button>`;
                             } else {
-                                btn =
-                                    `<button class="btn btn-sm btn-primary solicitar-amistad" data-id="${u.idUsuario}">Solicitar amistad</button>`;
+                                btn = `<button class="btn btn-sm btn-primary solicitar-amistad" data-id="${u.idUsuario}">Solicitar amistad</button>`;
                             }
+                            // Imagen de perfil
+                            let imgSrc = u.imagen ? `data:image/jpeg;base64,${u.imagen}` : '<?= RUTA_URL ?>/public/img/default_profile.png';
                             html += `<li class="list-group-item d-flex justify-content-between align-items-center">
-            ${u.login}
-            ${btn}
-        </li>`;
+                <span class="d-flex align-items-center">
+                    <img src="${imgSrc}" alt="Perfil" class="rounded-circle me-2" style="width:32px;height:32px;object-fit:cover;">
+                    ${u.login}
+                </span>
+                ${btn}
+            </li>`;
                         });
                         $('#resultadosBusqueda').html(html);
-                    }, 'json');
-                });
-
-                // Solicitar amistad
-                $('#resultadosBusqueda').on('click', '.solicitar-amistad', function() {
-                    let id = $(this).data('id');
-                    $.post('<?= RUTA_URL ?>/amigos/solicitar', {
-                        idUsuario2: id
-                    }, function(res) {
-                        toastr.success(res.message || 'Solicitud enviada');
                     }, 'json');
                 });
 
@@ -396,8 +386,12 @@
                         let html = '';
                         if (res.length === 0) html = '<li class="list-group-item text-muted">Sin amigos</li>';
                         res.forEach(a => {
+                            let imgSrc = a.imagen ? `data:image/jpeg;base64,${a.imagen}` : '<?= RUTA_URL ?>/public/img/default_profile.png';
                             html += `<li class="list-group-item d-flex justify-content-between align-items-center">
-                ${a.login}
+                <span class="d-flex align-items-center">
+                    <img src="${imgSrc}" alt="Perfil" class="rounded-circle me-2" style="width:32px;height:32px;object-fit:cover;">
+                    ${a.login}
+                </span>
                 <button class="btn btn-danger btn-sm eliminar-amigo" data-id="${a.idUsuario}">Eliminar</button>
             </li>`;
                         });
@@ -412,15 +406,18 @@
                         if (res.length === 0) {
                             html = '<li class="list-group-item text-muted">Sin solicitudes</li>';
                             $('#badgeSolicitudes').hide();
-                            $('#badgeSolicitudesBtn').hide(); // Oculta la badge del botón
+                            $('#badgeSolicitudesBtn').hide();
                         } else {
                             $('#badgeSolicitudes').text(res.length).show();
-                            $('#badgeSolicitudesBtn').text(res.length)
-                                .show(); // Muestra y actualiza la badge del botón
+                            $('#badgeSolicitudesBtn').text(res.length).show();
                         }
                         res.forEach(s => {
+                            let imgSrc = s.imagen ? `data:image/jpeg;base64,${s.imagen}` : '<?= RUTA_URL ?>/public/img/default_profile.png';
                             html += `<li class="list-group-item d-flex justify-content-between align-items-center">
-                ${s.login}
+                <span class="d-flex align-items-center">
+                    <img src="${imgSrc}" alt="Perfil" class="rounded-circle me-2" style="width:32px;height:32px;object-fit:cover;">
+                    ${s.login}
+                </span>
                 <span>
                     <button class="btn btn-success btn-sm aceptar-solicitud" data-id="${s.id}">Aceptar</button>
                     <button class="btn btn-danger btn-sm rechazar-solicitud" data-id="${s.id}">Rechazar</button>
@@ -468,6 +465,5 @@
                     cargarAmigos();
                     cargarSolicitudes();
                 });
-            });
-        </script>
+            });        </script>
         <!-- ...existing code... -->
