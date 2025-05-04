@@ -53,11 +53,24 @@ $userRole = $usuario->rol;
         <div class="tab-pane fade" id="galeria" role="tabpanel" aria-labelledby="galeria-tab">
             <div class="mt-4">
                 <h2>Galería de la Academia</h2>
-                <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <img src="{{ $academia->path_imagen }}" class="img-fluid rounded" alt="Imagen academia">
-                    </div>
-                    {{-- Puedes agregar más imágenes aquí si tienes --}}
+                @php
+                    $galeriaDir =
+                        $_SERVER['DOCUMENT_ROOT'] . "/matapp/public/data/academias-gallery/{$academia->idAcademia}";
+                    $galeriaUrl = "/matapp/public/data/academias-gallery/{$academia->idAcademia}";
+                    $imagenes = glob($galeriaDir . '/*.{jpg,jpeg,png,gif}', GLOB_BRACE);
+                @endphp
+                {{-- ...galería... --}}
+
+                <div class="galeria-flex">
+                    @if ($imagenes)
+                        @foreach ($imagenes as $img)
+                            <a href="#" data-img="{{ $galeriaUrl }}/{{ basename($img) }}">
+                                <img src="{{ $galeriaUrl }}/{{ basename($img) }}" alt="Foto galería">
+                            </a>
+                        @endforeach
+                    @else
+                        <p>No hay imágenes en la galería.</p>
+                    @endif
                 </div>
             </div>
         </div>
