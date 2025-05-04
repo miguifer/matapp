@@ -545,6 +545,7 @@ class academiaModelo
         FROM muro_mensajes mm
         INNER JOIN Academias a ON mm.idAcademia = a.idAcademia
         WHERE mm.idUsuario = :idUsuario
+          AND mm.fecha >= datetime('now', '-7 days')
         ORDER BY mm.fecha DESC
         LIMIT 10
     ");
