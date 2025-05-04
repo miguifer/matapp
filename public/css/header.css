@@ -39,3 +39,18 @@
   transform: rotate(90deg);
   transition: 200ms linear !important;
 }
+
+#offcanvasAmigos #amigosTabs .nav-link {
+  font-size: 0.95rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  min-width: 0;
+  flex: 1 1 0;
+  text-align: center;
+  white-space: nowrap;
+}
+#offcanvasAmigos #amigosTabs {
+  display: flex;
+  flex-wrap: nowrap;
+}
+

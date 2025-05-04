@@ -570,17 +570,19 @@ class academiaModelo
     public function buscarUsuariosParaAmistad($miId, $q)
     {
         $this->db->query("
-        SELECT idUsuario, login FROM Usuarios
-        WHERE idUsuario != :miId
-        AND login LIKE :q
-        AND idUsuario NOT IN (
-            SELECT CASE
-                WHEN idUsuario1 = :miId THEN idUsuario2
-                ELSE idUsuario1
-            END
-            FROM Amistades
-            WHERE (idUsuario1 = :miId OR idUsuario2 = :miId)
-        )
+        SELECT 
+            u.idUsuario, 
+            u.login,
+            a.estado
+        FROM Usuarios u
+        LEFT JOIN Amistades a 
+            ON (
+                (a.idUsuario1 = :miId AND a.idUsuario2 = u.idUsuario)
+                OR (a.idUsuario2 = :miId AND a.idUsuario1 = u.idUsuario)
+            )
+        WHERE u.idUsuario != :miId
+        AND u.idUsuario != 1 -- No mostrar usuario admin
+        AND u.login LIKE :q
         LIMIT 10
     ");
         $this->db->bind(':miId', $miId);
