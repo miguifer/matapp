@@ -564,7 +564,7 @@ $userRole = $usuario->rol;
  </div>
 
  <?php if($usuario->rol == 'Gerente' || $usuario->rol == 'Administrador'): ?>
- <button id="btnEditarAcademia" class="btn btn-warning mb-3">Editar información</button>
+ <button id="btnEditarAcademia" class="btn btn-secondary mb-3">Editar información</button>
  <?php endif; ?>
 
  <script>
@@ -596,6 +596,9 @@ $userRole = $usuario->rol;
  success: function(response) {
  Swal.fire('¡Actualizado!', response.message ||
  'Información actualizada.', 'success')
+ .then(() => {
+ window.location.href = '<?= RUTA_URL ?>';
+ });
  },
  error: function() {
  Swal.fire('Error',
@@ -1475,3 +1478,16 @@ $userRole = $usuario->rol;
  .responseJSON
  .message :
  'Hubo un problema al guardar la asistencia.'
+ );
+ }
+ });
+ });
+ }
+ });
+ }
+ });
+ });
+ });
+</script>
+
+<?php echo $this->runChild('includes.footer'); ?>
