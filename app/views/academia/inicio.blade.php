@@ -1183,7 +1183,7 @@ $userRole = $usuario->rol;
         <div class="form-check mt-2 mb-2 d-flex justify-content-center" style="text-align:center;">
             <input class="form-check-input" type="checkbox" id="recurrente">
             <label class="form-check-label" for="recurrente">
-            Clase recurrente <span class="text-muted"></span>
+            Clase recurrente <span class="badge bg-warning text-dark ms-2" style="font-size: 0.8em;">En desarrollo</span>
             </label>
         </div>
          @endif

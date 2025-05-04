@@ -150,8 +150,11 @@
 
                 <?php if (isset($usuario->rol) && $usuario->rol == "Administrador") { ?>
                 <!-- Botón Amigos solo para admins -->
-                <a href="<?= RUTA_URL ?>/amigos" class="btn btn-light me-2" title="Amigos">
+                <a href="<?= RUTA_URL ?>/" class="btn btn-light me-2 position-relative" title="Amigos">
                     <i class="fa-solid fa-user-group"></i>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark" style="font-size: 0.6em;">
+                        En desarrollo
+                    </span>
                 </a>
                 <?php } ?>
 
