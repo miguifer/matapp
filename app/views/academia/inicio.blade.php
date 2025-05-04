@@ -899,6 +899,7 @@ $userRole = $usuario->rol;
                                 <option value="{{ $entrenador->idUsuario }}">{{ $entrenador->nombreUsuario }}</option>
                                 @endforeach
                             </select>
+                            
                         `,
                             didOpen: () => {
                                 const today = new Date();
@@ -1178,6 +1179,14 @@ $userRole = $usuario->rol;
             <option value="{{ $entrenador->idUsuario }}">{{ $entrenador->nombreUsuario }}</option>
             @endforeach
         </select>
+        @if ($usuario->rol == 'Administrador')
+        <div class="form-check mt-2 mb-2 d-flex justify-content-center" style="text-align:center;">
+            <input class="form-check-input" type="checkbox" id="recurrente">
+            <label class="form-check-label" for="recurrente">
+            Clase recurrente <span class="text-muted"></span>
+            </label>
+        </div>
+         @endif
         <input type="hidden" id="idAcademia" value="{{ $academia->idAcademia }}">
 
     `,
