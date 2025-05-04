@@ -565,4 +565,99 @@ class academiaModelo
 
         return $this->db->execute(); // Returns true if the update was successful
     }
+
+    // Buscar usuarios que no sean yo ni ya amigos/pendientes
+    public function buscarUsuariosParaAmistad($miId, $q)
+    {
+        $this->db->query("
+        SELECT idUsuario, login FROM Usuarios
+        WHERE idUsuario != :miId
+        AND login LIKE :q
+        AND idUsuario NOT IN (
+            SELECT CASE
+                WHEN idUsuario1 = :miId THEN idUsuario2
+                ELSE idUsuario1
+            END
+            FROM Amistades
+            WHERE (idUsuario1 = :miId OR idUsuario2 = :miId)
+        )
+        LIMIT 10
+    ");
+        $this->db->bind(':miId', $miId);
+        $this->db->bind(':q', "%$q%");
+        return $this->db->registros();
+    }
+
+    // Enviar solicitud de amistad (si no existe)
+    public function enviarSolicitudAmistad($yo, $otro)
+    {
+        // ¿Ya existe?
+        $this->db->query("SELECT * FROM Amistades WHERE 
+        (idUsuario1 = :yo AND idUsuario2 = :otro) OR 
+        (idUsuario1 = :otro AND idUsuario2 = :yo)");
+        $this->db->bind(':yo', $yo);
+        $this->db->bind(':otro', $otro);
+        if ($this->db->registro()) return false;
+
+        $this->db->query("INSERT INTO Amistades (idUsuario1, idUsuario2, estado) VALUES (:yo, :otro, 'pendiente')");
+        $this->db->bind(':yo', $yo);
+        $this->db->bind(':otro', $otro);
+        return $this->db->execute();
+    }
+
+    // Obtener amigos aceptados
+    public function obtenerAmigos($miId)
+    {
+        $this->db->query("
+        SELECT u.idUsuario, u.login
+        FROM Amistades a
+        JOIN Usuarios u ON (u.idUsuario = a.idUsuario1 OR u.idUsuario = a.idUsuario2)
+        WHERE (a.idUsuario1 = :miId OR a.idUsuario2 = :miId)
+        AND a.estado = 'aceptada'
+        AND u.idUsuario != :miId
+    ");
+        $this->db->bind(':miId', $miId);
+        return $this->db->registros();
+    }
+
+    // Obtener solicitudes recibidas (pendientes)
+    public function obtenerSolicitudesRecibidas($miId)
+    {
+        $this->db->query("
+        SELECT a.id, u.login
+        FROM Amistades a
+        JOIN Usuarios u ON u.idUsuario = a.idUsuario1
+        WHERE a.idUsuario2 = :miId AND a.estado = 'pendiente'
+    ");
+        $this->db->bind(':miId', $miId);
+        return $this->db->registros();
+    }
+
+    // Aceptar solicitud
+    public function aceptarSolicitudAmistad($id, $miId)
+    {
+        $this->db->query("UPDATE Amistades SET estado = 'aceptada' WHERE id = :id AND idUsuario2 = :miId");
+        $this->db->bind(':id', $id);
+        $this->db->bind(':miId', $miId);
+        return $this->db->execute();
+    }
+
+    // Rechazar solicitud
+    public function rechazarSolicitudAmistad($id, $miId)
+    {
+        $this->db->query("DELETE FROM Amistades WHERE id = :id AND idUsuario2 = :miId");
+        $this->db->bind(':id', $id);
+        $this->db->bind(':miId', $miId);
+        return $this->db->execute();
+    }
+
+    public function eliminarAmistad($miId, $amigoId)
+    {
+        $this->db->query("DELETE FROM Amistades WHERE 
+            (idUsuario1 = :miId AND idUsuario2 = :amigoId) 
+            OR (idUsuario1 = :amigoId AND idUsuario2 = :miId)");
+        $this->db->bind(':miId', $miId);
+        $this->db->bind(':amigoId', $amigoId);
+        return $this->db->execute();
+    }
 }

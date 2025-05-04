@@ -148,15 +148,11 @@
  </ul>
  </div>
 
- <?php if (isset($usuario->rol) && $usuario->rol == "Administrador") { ?>
  <!-- Botón Amigos solo para admins -->
- <a href="<?= RUTA_URL ?>/" class="btn btn-light me-2 position-relative" title="Amigos">
+ <a href="#" class="btn btn-light me-2" title="Amigos" data-bs-toggle="offcanvas"
+ data-bs-target="#offcanvasAmigos">
  <i class="fa-solid fa-user-group"></i>
- <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark" style="font-size: 0.6em;">
- En desarrollo
- </span>
  </a>
- <?php } ?>
 
  <button id="botonPerfil" class="btn rounded-circle p-0" type="button" data-bs-toggle="offcanvas"
  title="Menú" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
@@ -209,6 +205,52 @@
  </div>
  </div>
 
+ </div>
+ </div>
+
+ <!-- Offcanvas Amigos -->
+ <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAmigos"
+ aria-labelledby="offcanvasAmigosLabel">
+ <div class="offcanvas-header">
+ <h5 class="offcanvas-title" id="offcanvasAmigosLabel">Amigos</h5>
+ <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+ aria-label="Cerrar"></button>
+ </div>
+ <div class="offcanvas-body">
+ <ul class="nav nav-tabs" id="amigosTabs" role="tablist">
+ <li class="nav-item" role="presentation">
+ <button class="nav-link active" id="buscar-tab" data-bs-toggle="tab"
+ data-bs-target="#buscar" type="button" role="tab">Buscar usuarios</button>
+ </li>
+ <li class="nav-item" role="presentation">
+ <button class="nav-link" id="amistades-tab" data-bs-toggle="tab"
+ data-bs-target="#amistades" type="button" role="tab">Mis amistades</button>
+ </li>
+ <li class="nav-item" role="presentation">
+ <button class="nav-link" id="solicitudes-tab" data-bs-toggle="tab"
+ data-bs-target="#solicitudes" type="button" role="tab">Solicitudes</button>
+ </li>
+ </ul>
+ <div class="tab-content mt-3" id="amigosTabsContent">
+ <!-- Buscar usuarios -->
+ <div class="tab-pane fade show active" id="buscar" role="tabpanel">
+ <input type="text" class="form-control mb-2" id="buscarUsuarioInput"
+ placeholder="Buscar usuario...">
+ <ul class="list-group" id="resultadosBusqueda"></ul>
+ </div>
+ <!-- Mis amistades -->
+ <div class="tab-pane fade" id="amistades" role="tabpanel">
+ <ul class="list-group" id="listaAmigos">
+ <li class="list-group-item text-muted">Cargando...</li>
+ </ul>
+ </div>
+ <!-- Solicitudes -->
+ <div class="tab-pane fade" id="solicitudes" role="tabpanel">
+ <ul class="list-group" id="listaSolicitudes">
+ <li class="list-group-item text-muted">Cargando...</li>
+ </ul>
+ </div>
+ </div>
  </div>
  </div>
 
@@ -284,6 +326,111 @@
  // También recargar cuando se hace click en el botón
  $('#dropdownNotificaciones').on('click', function() {
  cargarNotificaciones();
+ });
+ });
+ </script>
+
+ <script>
+ $(function() {
+ // Buscar usuarios
+ $('#buscarUsuarioInput').on('input', function() {
+ let query = $(this).val();
+ if (query.length < 2) {
+ $('#resultadosBusqueda').empty();
+ return;
+ }
+ $.get('<?= RUTA_URL ?>/amigos/buscar', {
+ q: query
+ }, function(res) {
+ let html = '';
+ res.forEach(u => {
+ html += `<li class="list-group-item d-flex justify-content-between align-items-center">
+ ${u.login}
+ <button class="btn btn-sm btn-primary solicitar-amistad" data-id="${u.idUsuario}">Solicitar amistad</button>
+ </li>`;
+ });
+ $('#resultadosBusqueda').html(html);
+ }, 'json');
+ });
+
+ // Solicitar amistad
+ $('#resultadosBusqueda').on('click', '.solicitar-amistad', function() {
+ let id = $(this).data('id');
+ $.post('<?= RUTA_URL ?>/amigos/solicitar', {
+ idUsuario2: id
+ }, function(res) {
+ toastr.success(res.message || 'Solicitud enviada');
+ }, 'json');
+ });
+
+ // Cargar amigos
+ function cargarAmigos() {
+ $.get('<?= RUTA_URL ?>/amigos/lista', function(res) {
+ let html = '';
+ if (res.length === 0) html = '<li class="list-group-item text-muted">Sin amigos</li>';
+ res.forEach(a => {
+ html += `<li class="list-group-item d-flex justify-content-between align-items-center">
+ ${a.login}
+ <button class="btn btn-danger btn-sm eliminar-amigo" data-id="${a.idUsuario}">Eliminar</button>
+ </li>`;
+ });
+ $('#listaAmigos').html(html);
+ }, 'json');
+ }
+
+ // Cargar solicitudes
+ function cargarSolicitudes() {
+ $.get('<?= RUTA_URL ?>/amigos/solicitudes', function(res) {
+ let html = '';
+ if (res.length === 0) html =
+ '<li class="list-group-item text-muted">Sin solicitudes</li>';
+ res.forEach(s => {
+ html += `<li class="list-group-item d-flex justify-content-between align-items-center">
+ ${s.login}
+ <span>
+ <button class="btn btn-success btn-sm aceptar-solicitud" data-id="${s.id}">Aceptar</button>
+ <button class="btn btn-danger btn-sm rechazar-solicitud" data-id="${s.id}">Rechazar</button>
+ </span>
+ </li>`;
+ });
+ $('#listaSolicitudes').html(html);
+ }, 'json');
+ }
+
+ // Aceptar/rechazar solicitud
+ $('#listaSolicitudes').on('click', '.aceptar-solicitud', function() {
+ let id = $(this).data('id');
+ $.post('<?= RUTA_URL ?>/amigos/aceptar', {
+ id: id
+ }, function(res) {
+ toastr.success(res.message || 'Solicitud aceptada');
+ cargarSolicitudes();
+ cargarAmigos();
+ }, 'json');
+ });
+ $('#listaSolicitudes').on('click', '.rechazar-solicitud', function() {
+ let id = $(this).data('id');
+ $.post('<?= RUTA_URL ?>/amigos/rechazar', {
+ id: id
+ }, function(res) {
+ toastr.info(res.message || 'Solicitud rechazada');
+ cargarSolicitudes();
+ }, 'json');
+ });
+
+ // Eliminar amigo
+ $('#listaAmigos').on('click', '.eliminar-amigo', function() {
+ let id = $(this).data('id');
+ $.post('<?= RUTA_URL ?>/amigos/eliminar', { id: id }, function(res) {
+ toastr.info(res.message || 'Amistad eliminada');
+ cargarAmigos();
+ }, 'json');
+ });
+
+ // Cargar listas al abrir el offcanvas
+ $('#offcanvasAmigos').on('shown.bs.offcanvas', function() {
+ cargarAmigos();
+ cargarSolicitudes();
  });
  });
  </script>
