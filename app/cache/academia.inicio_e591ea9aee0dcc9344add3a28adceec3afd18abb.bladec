@@ -1433,4 +1433,4 @@ $userRole = $usuario->rol;
  });
 </script>
 
- 
+<?php echo $this->runChild('includes.footer'); ?>

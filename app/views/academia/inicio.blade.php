@@ -1421,4 +1421,4 @@ $userRole = $usuario->rol;
     });
 </script>
 
-   
+@include('includes.footer')
