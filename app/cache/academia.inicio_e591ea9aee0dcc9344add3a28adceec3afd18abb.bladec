@@ -912,20 +912,38 @@ $userRole = $usuario->rol;
  </select>
  `,
  didOpen: () => {
- flatpickr("#start", {
+ const today = new Date();
+ const maxDate = new Date();
+ maxDate.setMonth(today.getMonth() + 3);
+
+ // Inicializa flatpickr para #start
+ const startPicker = flatpickr("#start", {
  enableTime: true,
  dateFormat: "Y-m-d H:i",
  time_24hr: true,
- minDate: new Date(), // hoy
- maxDate: new Date(new Date().setMonth(new Date().getMonth() + 3)) // hoy + 3 meses
+ minDate: today,
+ maxDate: maxDate,
+ onChange: function(selectedDates) {
+ if (selectedDates.length) {
+ endPicker.set('minDate', selectedDates[0]);
+ }
+ }
  });
- flatpickr("#end", {
+
+ // Inicializa flatpickr para #end
+ const endPicker = flatpickr("#end", {
  enableTime: true,
  dateFormat: "Y-m-d H:i",
  time_24hr: true,
- minDate: new Date(),
- maxDate: new Date(new Date().setMonth(new Date().getMonth() + 3))
+ minDate: today,
+ maxDate: maxDate
  });
+
+ // Si ya hay un valor en #start, ajusta el minDate de #end
+ const startVal = document.getElementById('start').value;
+ if (startVal) {
+ endPicker.set('minDate', startVal);
+ }
  },
  preConfirm: () => {
  const title = Swal.getPopup().querySelector('#title').value;
@@ -1176,20 +1194,38 @@ $userRole = $usuario->rol;
 
  `,
  didOpen: () => {
- flatpickr("#start", {
+ const today = new Date();
+ const maxDate = new Date();
+ maxDate.setMonth(today.getMonth() + 3);
+
+ // Inicializa flatpickr para #start
+ const startPicker = flatpickr("#start", {
  enableTime: true,
  dateFormat: "Y-m-d H:i",
  time_24hr: true,
- minDate: new Date(), // hoy
- maxDate: new Date(new Date().setMonth(new Date().getMonth() + 3)) // hoy + 3 meses
+ minDate: today,
+ maxDate: maxDate,
+ onChange: function(selectedDates) {
+ if (selectedDates.length) {
+ endPicker.set('minDate', selectedDates[0]);
+ }
+ }
  });
- flatpickr("#end", {
+
+ // Inicializa flatpickr para #end
+ const endPicker = flatpickr("#end", {
  enableTime: true,
  dateFormat: "Y-m-d H:i",
  time_24hr: true,
- minDate: new Date(),
- maxDate: new Date(new Date().setMonth(new Date().getMonth() + 3))
+ minDate: today,
+ maxDate: maxDate
  });
+
+ // Si ya hay un valor en #start, ajusta el minDate de #end
+ const startVal = document.getElementById('start').value;
+ if (startVal) {
+ endPicker.set('minDate', startVal);
+ }
  },
 
  preConfirm: () => {
@@ -1376,8 +1412,105 @@ $userRole = $usuario->rol;
  },
  error: function(xhr) {
  reject(xhr
- .responseJSON &&
- xhr
+ .responseJSON && xhr
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</style>    }        border-top-color: rgba(0, 0, 0, 0.8) !important;    .tooltip-arrow {    }        font-size: 12px;        border-radius: 4px;        background-color: rgba(0, 0, 0, 0.8);        color: #fff;        padding: 8px 12px;        max-width: 200px;    .tooltip-inner {    /* Estilo para el tooltip */    }        border-color: #c82333 !important;        background-color: #dc3545 !important;    .evento-cancelado {    }        border-color: #0069d9 !important;        background-color: #007bff !important;    .evento-pendiente {    }        border-color: #218838 !important;        background-color: #28a745 !important;    .evento-confirmado {    /* Colores personalizados para los eventos según su estado */    }        font-weight: normal;        color: #fff;    .fc-daygrid-event-title {    }        color: #333;        font-weight: bold;    .fc-daygrid-day-number {    }        padding: 10px 15px;        font-size: 14px;    .fc-button {    }        margin-bottom: 20px;    .fc-toolbar {    }        margin-right: 5px;        display: inline-block;        border-radius: 50%;        height: 10px;        width: 10px;    .fc-daygrid-event-dot {    }        margin: 2px 0;        padding: 5px;        border-radius: 5px;    .fc-daygrid-event {    }        font-size: 14px;        font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;    .fc {    }        margin: 0 auto;        max-width: 1100px;    #calendar {    /* Estilos personalizados para el calendario */<style></script>    });        });            });                }                    });                        }                            );                                'success'                                'La asistencia se ha actualizado correctamente.',                                '¡Asistencia guardada!',                            Swal.fire(                        if (result.isConfirmed) {                    }).then((result) => {                        }                            });                                });                                    }                                            'Hubo un problema al guardar la asistencia.');                                            .responseJSON.message :                                            .responseJSON.message ? xhr                                            xhr
  .responseJSON
  .message ?
  xhr
