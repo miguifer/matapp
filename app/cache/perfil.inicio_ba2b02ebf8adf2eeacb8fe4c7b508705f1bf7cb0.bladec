@@ -108,6 +108,7 @@ if ($usuario->rol == 'Administrador') {
  class="fas fa-envelope me-2"></i>Solicitudes</a>
  <a class="nav-link" href="#" data-section="asistencia"><i
  class="fas fa-check-circle me-2"></i>Asistencia</a> 
+ <a class="nav-link" href="#" data-section="objetivos"><i class="fas fa-bullseye me-2"></i>Objetivos</a>
  </div>
  </div>
  </div>
@@ -282,6 +283,13 @@ if ($usuario->rol == 'Administrador') {
  <?php else: ?>
  <div class="text-center">No tienes asistencias registradas.</div>
  <?php endif; ?>
+ </div>
+
+ <div class="mb-4 content-section d-none" id="objetivos">
+ <h5 class="mb-4">Tus objetivos</h5>
+ <div class="text-center text-muted">
+ Aquí podrás ver y gestionar tus objetivos personales próximamente.
+ </div>
  </div>
 
  </div>

@@ -32,7 +32,7 @@ if ($usuario->rol == 'Administrador') {
 
     $usuario = json_decode($_SESSION['userLogin']['usuario']);
     $loginUsuario = $usuario->login;
-    $rolUsuario = $usuario->rol; 
+    $rolUsuario = $usuario->rol;
 @endphp
 
 
@@ -107,7 +107,9 @@ if ($usuario->rol == 'Administrador') {
                                         <a class="nav-link" href="#" data-section="solicitudes"><i
                                                 class="fas fa-envelope me-2"></i>Solicitudes</a>
                                         <a class="nav-link" href="#" data-section="asistencia"><i
-                                                class="fas fa-check-circle me-2"></i>Asistencia</a> 
+                                                class="fas fa-check-circle me-2"></i>Asistencia</a>
+                                        <a class="nav-link" href="#" data-section="objetivos"><i
+                                                class="fas fa-bullseye me-2"></i>Objetivos</a>
                                     </div>
                                 </div>
                             </div>
@@ -213,7 +215,8 @@ if ($usuario->rol == 'Administrador') {
                                         <h5 class="mb-4">Tus solicitudes</h5>
                                         @if (isset($solicitudes) && count($solicitudes) > 0)
                                             <div class="table-responsive" id="solicitudesTableWrapper">
-                                                <table id="solicitudesTable" class="table table-striped table-bordered">
+                                                <table id="solicitudesTable"
+                                                    class="table table-striped table-bordered">
                                                     <thead>
                                                         <tr>
                                                             <th>Fecha</th>
@@ -229,11 +232,14 @@ if ($usuario->rol == 'Administrador') {
                                                                 <td>
                                                                     @if (isset($solicitud->estadoSolicitud))
                                                                         @if ($solicitud->estadoSolicitud == 'pendiente')
-                                                                            <span class="badge bg-warning text-dark">Pendiente</span>
+                                                                            <span
+                                                                                class="badge bg-warning text-dark">Pendiente</span>
                                                                         @elseif($solicitud->estadoSolicitud == 'aceptada')
-                                                                            <span class="badge bg-success">Aceptada</span>
+                                                                            <span
+                                                                                class="badge bg-success">Aceptada</span>
                                                                         @elseif($solicitud->estadoSolicitud == 'rechazada')
-                                                                            <span class="badge bg-danger">Rechazada</span>
+                                                                            <span
+                                                                                class="badge bg-danger">Rechazada</span>
                                                                         @else
                                                                             {{ $solicitud->estadoSolicitud }}
                                                                         @endif
@@ -255,7 +261,8 @@ if ($usuario->rol == 'Administrador') {
                                         <h5 class="mb-4">Clases a las que has asistido</h5>
                                         @if (isset($asistencias) && count($asistencias) > 0)
                                             <div class="table-responsive" id="asistenciaTableWrapper">
-                                                <table id="asistenciaTable" class="table table-striped table-bordered">
+                                                <table id="asistenciaTable"
+                                                    class="table table-striped table-bordered">
                                                     <thead>
                                                         <tr>
                                                             <th>Fecha</th>
@@ -281,6 +288,13 @@ if ($usuario->rol == 'Administrador') {
                                         @endif
                                     </div>
 
+                                    <div class="mb-4 content-section d-none" id="objetivos">
+                                        <h5 class="mb-4">Tus objetivos</h5>
+                                        <div class="text-center text-muted">
+                                            Aquí podrás ver y gestionar tus objetivos personales próximamente.
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
 
@@ -296,7 +310,7 @@ if ($usuario->rol == 'Administrador') {
 <script>
     $(document).ready(function() {
         $('#solicitudesTable').DataTable();
-        $('#asistenciaTable').DataTable(); 
+        $('#asistenciaTable').DataTable();
     });
 </script>
 
@@ -343,10 +357,12 @@ if ($usuario->rol == 'Administrador') {
                 }
 
                 const entrenador = info.event.extendedProps.nombreEntrenador || 'Sin asignar';
-                const horario = `${info.event.start.toLocaleString()} - ${info.event.end ? info.event.end.toLocaleString() : ''}`;
-                const apuntados = info.event.extendedProps.apuntados && info.event.extendedProps.apuntados.length
-                    ? info.event.extendedProps.apuntados.join(', ')
-                    : 'Nadie apuntado aún';
+                const horario =
+                    `${info.event.start.toLocaleString()} - ${info.event.end ? info.event.end.toLocaleString() : ''}`;
+                const apuntados = info.event.extendedProps.apuntados && info.event.extendedProps
+                    .apuntados.length ?
+                    info.event.extendedProps.apuntados.join(', ') :
+                    'Nadie apuntado aún';
 
                 new bootstrap.Tooltip(info.el, {
                     title: `<b>${info.event.title}</b><br>
@@ -433,7 +449,7 @@ if ($usuario->rol == 'Administrador') {
                 if (sectionId === "infoClases" && calendar) {
                     setTimeout(() => {
                         calendar.render();
-                    }, 10); 
+                    }, 10);
                 }
             });
         });
