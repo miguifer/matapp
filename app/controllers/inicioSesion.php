@@ -110,21 +110,18 @@ class inicioSesion extends Controlador
                             //usuarios base no estan en roles, asi que si no eisten en la tabla dará null
                             $usuario->rol = $this->academiaModelo->obtenerRolDeUsuario($usuario->idUsuario) ?? 'Cliente';
 
-
                             $this->academiaModelo->actualizarActividad($usuario->idUsuario);
 
-
-            
-                            //aqui se guarda el usuario en la sesiiony puedo añadir mas cosas
                             if (isset($usuario->imagen)) {
                                 $usuario->imagen = base64_encode($usuario->imagen);
                             }
-                            
-                            // Ahora sí puedes codificar todo
+
                             $_SESSION['userLogin'] = [
                                 'usuario' => json_encode($usuario),
                             ];
-                            
+
+                            // Solo aquí loguea el inicio exitoso
+                            $this->logSession($login, true, 'Login correcto');
 
                             if (isset($_GET['academia'])) {
                                 redireccionar('/academia?academia=' . urlencode($_GET['academia']));
@@ -132,6 +129,7 @@ class inicioSesion extends Controlador
                                 redireccionar('/');
                             }
                         } else {
+                            $this->logSession($login, false, 'Credenciales incorrectas');
                             $datos = [
                                 'login' => $login,
                                 'password' => $password,
@@ -143,6 +141,7 @@ class inicioSesion extends Controlador
                                 (isset($_GET['academia']) ? "&academia=" . urlencode($_GET['academia']) : ""));
                         }
                     } else {
+                        $this->logSession($login, false, 'Cuenta inactiva');
                         $datos = [
                             'login' => $login,
                             'password' => $password,
@@ -154,6 +153,7 @@ class inicioSesion extends Controlador
                             (isset($_GET['academia']) ? "&academia=" . urlencode($_GET['academia']) : ""));
                     }
                 } else {
+                    $this->logSession($login ?? '', false, 'Usuario no encontrado');
                     $datos = [
                         'login' => "",
                         'password' => "",
@@ -165,6 +165,7 @@ class inicioSesion extends Controlador
                         (isset($_GET['academia']) ? "&academia=" . urlencode($_GET['academia']) : ""));
                 }
             } else {
+                $this->logSession($login ?? '', false, 'Campos obligatorios vacíos');
                 $datos = [
                     'login' => "",
                     'password' => "",
@@ -185,7 +186,26 @@ class inicioSesion extends Controlador
 
     public function cerrarSesion()
     {
+        $login = '';
+        if (isset($_SESSION['userLogin']['usuario'])) {
+            $usuario = json_decode($_SESSION['userLogin']['usuario']);
+            $login = $usuario->login ?? '';
+        }
+        $this->logSession($login, true, 'Cierre de sesión');
         unset($_SESSION['userLogin']);
         redireccionar('/');
+    }
+
+    private function logSession($login, $success, $reason = '')
+    {
+        $file = __DIR__ . '/../logs/sessions.log'; // Cambiado para que esté dentro de /app/logs
+        if (!file_exists(dirname($file))) {
+            mkdir(dirname($file), 0777, true);
+        }
+        $date = date('Y-m-d H:i:s');
+        $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+        $status = $success ? 'SUCCESS' : 'FAIL';
+        $entry = "[$date][$ip][$login][$status] $reason" . PHP_EOL;
+        file_put_contents($file, $entry, FILE_APPEND);
     }
 }
