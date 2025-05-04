@@ -30,53 +30,92 @@ class DataBase
 
     public function query($sql)
     {
-        if ($this->dbh) {
-            $this->stmt = $this->dbh->prepare($sql);
-        } else {
-            die("Error de conexión a la base de datos.");
+        try {
+            if ($this->dbh) {
+                $this->stmt = $this->dbh->prepare($sql);
+            } else {
+                throw new Exception("Error de conexión a la base de datos.");
+            }
+        } catch (Exception $e) {
+            $this->logError($e->getMessage());
+            die("Error de base de datos. Consulta el log.");
         }
     }
 
     public function bind($parametro, $valor, $tipo = null)
     {
-        if (is_null($tipo)) {
-            switch (true) {
-                case is_int($valor):
-                    $tipo = PDO::PARAM_INT;
-                    break;
-                case is_bool($valor):
-                    $tipo = PDO::PARAM_BOOL;
-                    break;
-                case is_null($valor):
-                    $tipo = PDO::PARAM_NULL;
-                    break;
-                default:
-                    $tipo = PDO::PARAM_STR;
+        try {
+            if (is_null($tipo)) {
+                switch (true) {
+                    case is_int($valor):
+                        $tipo = PDO::PARAM_INT;
+                        break;
+                    case is_bool($valor):
+                        $tipo = PDO::PARAM_BOOL;
+                        break;
+                    case is_null($valor):
+                        $tipo = PDO::PARAM_NULL;
+                        break;
+                    default:
+                        $tipo = PDO::PARAM_STR;
+                }
             }
+            $this->stmt->bindValue($parametro, $valor, $tipo);
+        } catch (Exception $e) {
+            $this->logError($e->getMessage());
+            die("Error de base de datos. Consulta el log.");
         }
-        $this->stmt->bindValue($parametro, $valor, $tipo);
     }
 
     public function execute()
     {
-        return $this->stmt->execute();
+        try {
+            return $this->stmt->execute();
+        } catch (Exception $e) {
+            $this->logError($e->getMessage());
+            die("Error de base de datos. Consulta el log.");
+        }
     }
 
     public function registros()
     {
-        $this->execute();
-        return $this->stmt->fetchAll();
+        try {
+            $this->execute();
+            return $this->stmt->fetchAll();
+        } catch (Exception $e) {
+            $this->logError($e->getMessage());
+            die("Error de base de datos. Consulta el log.");
+        }
     }
 
     public function registro()
     {
-        $this->execute();
-        return $this->stmt->fetch();
+        try {
+            $this->execute();
+            return $this->stmt->fetch();
+        } catch (Exception $e) {
+            $this->logError($e->getMessage());
+            die("Error de base de datos. Consulta el log.");
+        }
     }
 
     public function rowCount()
     {
-        return $this->stmt->rowCount();
+        try {
+            return $this->stmt->rowCount();
+        } catch (Exception $e) {
+            $this->logError($e->getMessage());
+            die("Error de base de datos. Consulta el log.");
+        }
+    }
+
+    private function logError($mensaje)
+    {
+        $logPath = dirname(__FILE__) . '/../logs/db_errors.log';
+        if (!is_dir(dirname($logPath))) {
+            mkdir(dirname($logPath), 0777, true);
+        }
+        error_log(date('[Y-m-d H:i:s] ') . $mensaje . PHP_EOL, 3, $logPath);
     }
 
     public function close()
