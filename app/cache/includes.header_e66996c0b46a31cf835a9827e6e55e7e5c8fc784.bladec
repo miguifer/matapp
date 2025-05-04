@@ -152,7 +152,9 @@
  <a href="#" class="btn btn-light me-2 position-relative" title="Amigos" data-bs-toggle="offcanvas"
  data-bs-target="#offcanvasAmigos">
  <i class="fa-solid fa-user-group"></i>
- <span id="badgeSolicitudesBtn" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display:none;">0</span>
+ <span id="badgeSolicitudesBtn"
+ class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+ style="display:none;">0</span>
  </a>
 
  <button id="botonPerfil" class="btn rounded-circle p-0" type="button" data-bs-toggle="offcanvas"
@@ -193,12 +195,19 @@
  de administración</a>
  </div>
  <?php } ?>
- <div class="col-12 mb-1">
+ <div class="col-12 mb-2">
  <a class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
  href="<?= RUTA_URL ?>/perfil"><i class="fa-regular fa-user"></i>&nbsp;&nbsp;Tu
  perfil </a>
  </div>
- <?php ?>
+ <!-- Perfil del usuario -->
+ <div class="col-12 mb-1">
+ <a href="#"
+ class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
+ data-bs-toggle="offcanvas" data-bs-target="#offcanvasAmigos">
+ <i class="fa-solid fa-user-group"></i>&nbsp;&nbsp;Tus amigos
+ </a>
+ </div>
  <div class="col-12 mt-2 border-top border-dark-subtle">
  <a class=" link link-danger d-flex align-items-center text-decoration-none ms-2 mt-3"
  href="<?= RUTA_URL ?>/inicioSesion/cerrarSesion"><i
@@ -259,8 +268,8 @@
  </div>
  </div>
 
- 
- 
+
+
 
  <?php
  }
@@ -408,7 +417,8 @@
  $('#badgeSolicitudesBtn').hide(); // Oculta la badge del botón
  } else {
  $('#badgeSolicitudes').text(res.length).show();
- $('#badgeSolicitudesBtn').text(res.length).show(); // Muestra y actualiza la badge del botón
+ $('#badgeSolicitudesBtn').text(res.length)
+ .show(); // Muestra y actualiza la badge del botón
  }
  res.forEach(s => {
  html += `<li class="list-group-item d-flex justify-content-between align-items-center">
@@ -460,7 +470,6 @@
  cargarAmigos();
  cargarSolicitudes();
  });
-});
+ });
  </script>
  <!-- ...existing code... -->
-

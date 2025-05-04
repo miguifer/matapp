@@ -152,7 +152,9 @@
                 <a href="#" class="btn btn-light me-2 position-relative" title="Amigos" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasAmigos">
                     <i class="fa-solid fa-user-group"></i>
-                    <span id="badgeSolicitudesBtn" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display:none;">0</span>
+                    <span id="badgeSolicitudesBtn"
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        style="display:none;">0</span>
                 </a>
 
                 <button id="botonPerfil" class="btn rounded-circle p-0" type="button" data-bs-toggle="offcanvas"
@@ -193,12 +195,19 @@
                                     de administración</a>
                             </div>
                             <?php } ?>
-                            <div class="col-12 mb-1">
+                            <div class="col-12 mb-2">
                                 <a class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
                                     href="<?= RUTA_URL ?>/perfil"><i class="fa-regular fa-user"></i>&nbsp;&nbsp;Tu
                                     perfil </a>
                             </div>
-                            <?php ?>
+                            <!-- Perfil del usuario -->
+                            <div class="col-12 mb-1">
+                                <a href="#"
+                                    class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
+                                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasAmigos">
+                                    <i class="fa-solid fa-user-group"></i>&nbsp;&nbsp;Tus amigos
+                                </a>
+                            </div>
                             <div class="col-12 mt-2 border-top border-dark-subtle">
                                 <a class=" link link-danger d-flex align-items-center text-decoration-none ms-2 mt-3"
                                     href="<?= RUTA_URL ?>/inicioSesion/cerrarSesion"><i
@@ -259,8 +268,8 @@
                     </div>
                 </div>
 
-               
-              
+
+
 
                 <?php
                 }
@@ -338,129 +347,129 @@
 
         <script>
             $(function() {
-    // Llama a cargarSolicitudes al cargar la página para actualizar la badge del botón
-    cargarSolicitudes();
+                // Llama a cargarSolicitudes al cargar la página para actualizar la badge del botón
+                cargarSolicitudes();
 
-    // Buscar usuarios
-    $('#buscarUsuarioInput').on('input', function() {
-        let query = $(this).val();
-        if (query.length < 2) {
-            $('#resultadosBusqueda').empty();
-            return;
-        }
-        $.get('<?= RUTA_URL ?>/amigos/buscar', {
-            q: query
-        }, function(res) {
-            let html = '';
-            res.forEach(u => {
-                let btn;
-                if (u.estado === 'aceptada') {
-                    btn =
-                        `<button class="btn btn-sm btn-secondary" disabled>Ya es tu amigo</button>`;
-                } else if (u.estado === 'pendiente') {
-                    btn =
-                        `<button class="btn btn-sm btn-warning" disabled>Solicitud pendiente</button>`;
-                } else {
-                    btn =
-                        `<button class="btn btn-sm btn-primary solicitar-amistad" data-id="${u.idUsuario}">Solicitar amistad</button>`;
-                }
-                html += `<li class="list-group-item d-flex justify-content-between align-items-center">
+                // Buscar usuarios
+                $('#buscarUsuarioInput').on('input', function() {
+                    let query = $(this).val();
+                    if (query.length < 2) {
+                        $('#resultadosBusqueda').empty();
+                        return;
+                    }
+                    $.get('<?= RUTA_URL ?>/amigos/buscar', {
+                        q: query
+                    }, function(res) {
+                        let html = '';
+                        res.forEach(u => {
+                            let btn;
+                            if (u.estado === 'aceptada') {
+                                btn =
+                                    `<button class="btn btn-sm btn-secondary" disabled>Ya es tu amigo</button>`;
+                            } else if (u.estado === 'pendiente') {
+                                btn =
+                                    `<button class="btn btn-sm btn-warning" disabled>Solicitud pendiente</button>`;
+                            } else {
+                                btn =
+                                    `<button class="btn btn-sm btn-primary solicitar-amistad" data-id="${u.idUsuario}">Solicitar amistad</button>`;
+                            }
+                            html += `<li class="list-group-item d-flex justify-content-between align-items-center">
             ${u.login}
             ${btn}
         </li>`;
-            });
-            $('#resultadosBusqueda').html(html);
-        }, 'json');
-    });
+                        });
+                        $('#resultadosBusqueda').html(html);
+                    }, 'json');
+                });
 
-    // Solicitar amistad
-    $('#resultadosBusqueda').on('click', '.solicitar-amistad', function() {
-        let id = $(this).data('id');
-        $.post('<?= RUTA_URL ?>/amigos/solicitar', {
-            idUsuario2: id
-        }, function(res) {
-            toastr.success(res.message || 'Solicitud enviada');
-        }, 'json');
-    });
+                // Solicitar amistad
+                $('#resultadosBusqueda').on('click', '.solicitar-amistad', function() {
+                    let id = $(this).data('id');
+                    $.post('<?= RUTA_URL ?>/amigos/solicitar', {
+                        idUsuario2: id
+                    }, function(res) {
+                        toastr.success(res.message || 'Solicitud enviada');
+                    }, 'json');
+                });
 
-    // Cargar amigos
-    function cargarAmigos() {
-        $.get('<?= RUTA_URL ?>/amigos/lista', function(res) {
-            let html = '';
-            if (res.length === 0) html = '<li class="list-group-item text-muted">Sin amigos</li>';
-            res.forEach(a => {
-                html += `<li class="list-group-item d-flex justify-content-between align-items-center">
+                // Cargar amigos
+                function cargarAmigos() {
+                    $.get('<?= RUTA_URL ?>/amigos/lista', function(res) {
+                        let html = '';
+                        if (res.length === 0) html = '<li class="list-group-item text-muted">Sin amigos</li>';
+                        res.forEach(a => {
+                            html += `<li class="list-group-item d-flex justify-content-between align-items-center">
                 ${a.login}
                 <button class="btn btn-danger btn-sm eliminar-amigo" data-id="${a.idUsuario}">Eliminar</button>
             </li>`;
-            });
-            $('#listaAmigos').html(html);
-        }, 'json');
-    }
+                        });
+                        $('#listaAmigos').html(html);
+                    }, 'json');
+                }
 
-    // Cargar solicitudes
-    function cargarSolicitudes() {
-        $.get('<?= RUTA_URL ?>/amigos/solicitudes', function(res) {
-            let html = '';
-            if (res.length === 0) {
-                html = '<li class="list-group-item text-muted">Sin solicitudes</li>';
-                $('#badgeSolicitudes').hide();
-                $('#badgeSolicitudesBtn').hide(); // Oculta la badge del botón
-            } else {
-                $('#badgeSolicitudes').text(res.length).show();
-                $('#badgeSolicitudesBtn').text(res.length).show(); // Muestra y actualiza la badge del botón
-            }
-            res.forEach(s => {
-                html += `<li class="list-group-item d-flex justify-content-between align-items-center">
+                // Cargar solicitudes
+                function cargarSolicitudes() {
+                    $.get('<?= RUTA_URL ?>/amigos/solicitudes', function(res) {
+                        let html = '';
+                        if (res.length === 0) {
+                            html = '<li class="list-group-item text-muted">Sin solicitudes</li>';
+                            $('#badgeSolicitudes').hide();
+                            $('#badgeSolicitudesBtn').hide(); // Oculta la badge del botón
+                        } else {
+                            $('#badgeSolicitudes').text(res.length).show();
+                            $('#badgeSolicitudesBtn').text(res.length)
+                                .show(); // Muestra y actualiza la badge del botón
+                        }
+                        res.forEach(s => {
+                            html += `<li class="list-group-item d-flex justify-content-between align-items-center">
                 ${s.login}
                 <span>
                     <button class="btn btn-success btn-sm aceptar-solicitud" data-id="${s.id}">Aceptar</button>
                     <button class="btn btn-danger btn-sm rechazar-solicitud" data-id="${s.id}">Rechazar</button>
                 </span>
             </li>`;
+                        });
+                        $('#listaSolicitudes').html(html);
+                    }, 'json');
+                }
+
+                // Aceptar/rechazar solicitud
+                $('#listaSolicitudes').on('click', '.aceptar-solicitud', function() {
+                    let id = $(this).data('id');
+                    $.post('<?= RUTA_URL ?>/amigos/aceptar', {
+                        id: id
+                    }, function(res) {
+                        toastr.success(res.message || 'Solicitud aceptada');
+                        cargarSolicitudes();
+                        cargarAmigos();
+                    }, 'json');
+                });
+                $('#listaSolicitudes').on('click', '.rechazar-solicitud', function() {
+                    let id = $(this).data('id');
+                    $.post('<?= RUTA_URL ?>/amigos/rechazar', {
+                        id: id
+                    }, function(res) {
+                        toastr.info(res.message || 'Solicitud rechazada');
+                        cargarSolicitudes();
+                    }, 'json');
+                });
+
+                // Eliminar amigo
+                $('#listaAmigos').on('click', '.eliminar-amigo', function() {
+                    let id = $(this).data('id');
+                    $.post('<?= RUTA_URL ?>/amigos/eliminar', {
+                        id: id
+                    }, function(res) {
+                        toastr.info(res.message || 'Amistad eliminada');
+                        cargarAmigos();
+                    }, 'json');
+                });
+
+                // Cargar listas al abrir el offcanvas
+                $('#offcanvasAmigos').on('shown.bs.offcanvas', function() {
+                    cargarAmigos();
+                    cargarSolicitudes();
+                });
             });
-            $('#listaSolicitudes').html(html);
-        }, 'json');
-    }
-
-    // Aceptar/rechazar solicitud
-    $('#listaSolicitudes').on('click', '.aceptar-solicitud', function() {
-        let id = $(this).data('id');
-        $.post('<?= RUTA_URL ?>/amigos/aceptar', {
-            id: id
-        }, function(res) {
-            toastr.success(res.message || 'Solicitud aceptada');
-            cargarSolicitudes();
-            cargarAmigos();
-        }, 'json');
-    });
-    $('#listaSolicitudes').on('click', '.rechazar-solicitud', function() {
-        let id = $(this).data('id');
-        $.post('<?= RUTA_URL ?>/amigos/rechazar', {
-            id: id
-        }, function(res) {
-            toastr.info(res.message || 'Solicitud rechazada');
-            cargarSolicitudes();
-        }, 'json');
-    });
-
-    // Eliminar amigo
-    $('#listaAmigos').on('click', '.eliminar-amigo', function() {
-        let id = $(this).data('id');
-        $.post('<?= RUTA_URL ?>/amigos/eliminar', {
-            id: id
-        }, function(res) {
-            toastr.info(res.message || 'Amistad eliminada');
-            cargarAmigos();
-        }, 'json');
-    });
-
-    // Cargar listas al abrir el offcanvas
-    $('#offcanvasAmigos').on('shown.bs.offcanvas', function() {
-        cargarAmigos();
-        cargarSolicitudes();
-    });
-});
         </script>
         <!-- ...existing code... -->
-
