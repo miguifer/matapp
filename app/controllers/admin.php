@@ -52,4 +52,16 @@ class admin extends Controlador
             redireccionar('/');
         }
     }
+    public function participantesClase($claseId)
+    {
+        $usuario = json_decode($_SESSION['userLogin']['usuario']);
+
+        if ($usuario->rol == 'Administrador') {
+            $participantes = $this->academiaModelo->obtenerParticipantesClase($claseId);
+            header('Content-Type: application/json');
+            echo json_encode($participantes);
+        } else {
+            redireccionar('/');
+        }
+    }
 }

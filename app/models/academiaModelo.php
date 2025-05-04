@@ -511,5 +511,25 @@ class academiaModelo
         return $this->db->execute();
     }
 
-    
+    public function obtenerParticipantesClase($claseId)
+    {
+        $this->db->query("
+        SELECT 
+            u.idUsuario,
+            u.login,
+            u.emailUsuario,
+            u.activo,
+            u.token,
+            u.nombreUsuario,
+            u.apellido1Usuario,
+            u.apellido2Usuario,
+            u.telefonoUsuario,
+            r.asistencia
+        FROM Reservas r
+        INNER JOIN Usuarios u ON r.idUsuario = u.idUsuario
+        WHERE r.idClase = :claseId
+    ");
+        $this->db->bind(':claseId', $claseId);
+        return $this->db->registros(); // Returns an array of users with their attendance status
+    }
 }

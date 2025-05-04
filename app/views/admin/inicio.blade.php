@@ -206,6 +206,31 @@
                             <th>Fin</th>
                             <th>Nombre Clase</th>
                             <th>Instructor</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalParticipantes" tabindex="-1" aria-labelledby="modalParticipantesLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalParticipantesLabel">Participantes de la clase</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered" id="tablaParticipantes">
+                    <thead>
+                        <tr>
+                            <th>Login</th>
+                            <th>Nombre</th>
+                            <th>Asistencia</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -367,14 +392,19 @@
                         if (clases.length > 0) {
                             clases.forEach(function(clase) {
                                 html += `<tr>
-                            <td>${clase.start}</td>
-                            <td>${clase.end ? clase.end : ''}</td> 
-                            <td>${clase.title}</td>
-                            <td>${clase.entrenador ?? ''}</td>
-                        </tr>`;
+    <td>${clase.start}</td>
+    <td>${clase.end ? clase.end : ''}</td> 
+    <td>${clase.title}</td>
+    <td>${clase.entrenador ?? ''}</td>
+    <td>
+        <button class="btn btn-outline-primary btn-sm ver-participantes" data-id="${clase.id}">
+            <i class="bi bi-people"></i> Ver participantes
+        </button>
+    </td>
+</tr>`;
                             });
                         } else {
-                            html = '<tr><td colspan="4">No hay datos de clases.</td></tr>';
+                            html = '<tr><td colspan="5">No hay datos de clases.</td></tr>';
                         }
                         $('#tablaHistorico tbody').html(html);
                         $('#modalHistorico').modal('show');
@@ -390,6 +420,50 @@
             // Cerrar el modal al pulsar la X
             $('#modalHistorico .btn-close').on('click', function() {
                 $('#modalHistorico').modal('hide');
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            // Al hacer clic en el botón "Ver participantes"
+            $(document).on('click', '.ver-participantes', function() {
+                const idClase = $(this).data('id');
+                $.ajax({
+                    url: '<?= RUTA_URL ?>/admin/participantesClase/' + idClase,
+                    method: 'GET',
+                    success: function(res) {
+                        let participantes = [];
+                        try {
+                            participantes = typeof res === 'string' ? JSON.parse(res) : res;
+                        } catch (e) {
+                            participantes = [];
+                        }
+                        let html = '';
+                        if (participantes.length > 0) {
+                            participantes.forEach(function(p) {
+                                html += `<tr>
+                <td>${p.login ?? ''}</td>
+                <td>${p.nombreUsuario ?? p.nombre ?? ''}</td>
+                <td>${p.asistencia ? 'Sí' : 'No'}</td>
+            </tr>`;
+                            });
+                        } else {
+                            html = '<tr><td colspan="3">No hay participantes.</td></tr>';
+                        }
+                        $('#tablaParticipantes tbody').html(html);
+                        $('#modalParticipantes').modal('show');
+                    },
+                    error: function() {
+                        $('#tablaParticipantes tbody').html('<tr><td colspan="3">Error al cargar los participantes.</td></tr>');
+                        $('#modalParticipantes').modal('show');
+                    }
+                });
+            });
+
+            // Cerrar el modal al pulsar la X
+            $('#modalParticipantes .btn-close').on('click', function() {
+                $('#modalParticipantes').modal('hide');
             });
         });
     </script>

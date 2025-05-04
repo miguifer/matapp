@@ -1,1 +1,4 @@
-SQLSTATE[HY000] [14] unable to open database fileSQLSTATE[HY000] [14] unable to open database fileSQLSTATE[HY000] [14] unable to open database fileSQLSTATE[HY000] [14] unable to open database fileSQLSTATE[HY000] [14] unable to open database fileSQLSTATE[HY000] [14] unable to open database file
+SQLSTATE[HY000] [14] unable to open database fileSQLSTATE[HY000] [14] unable to open database fileSQLSTATE[HY000] [14] unable to open database fileSQLSTATE[HY000] [14] unable to open database fileSQLSTATE[HY000] [14] unable to open database fileSQLSTATE[HY000] [14] unable to open database file[2025-05-04 10:56:31] SQLSTATE[HY000]: General error: 1 no such column: r.id
+[2025-05-04 10:56:33] SQLSTATE[HY000]: General error: 1 no such column: r.id
+[2025-05-04 10:56:35] SQLSTATE[HY000]: General error: 1 no such column: r.id
+[2025-05-04 10:56:48] SQLSTATE[HY000]: General error: 1 no such column: r.id
