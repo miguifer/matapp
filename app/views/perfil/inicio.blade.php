@@ -87,7 +87,7 @@
                                                 class="fas fa-user me-2"></i>Información personal</a>
                                         <a class="nav-link" href="#" data-section="infoClases"><i
                                                 class="fas fa-calendar-alt me-2"></i>Clases</a>
-                                        <a class="nav-link" href="#" data-section="solicitudes"><i
+                                        <a class="nav-link" href="#" data-section="solicitudesS"><i
                                                 class="fas fa-envelope me-2"></i>Solicitudes</a>
                                         <a class="nav-link" href="#" data-section="asistencia"><i
                                                 class="fas fa-check-circle me-2"></i>Asistencia</a>
@@ -97,7 +97,7 @@
                                                 <span class="badge bg-warning ms-2">En desarrollo</span>
                                             </a>
                                         @endif
-                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -198,9 +198,9 @@
                                         </div>
                                     </div>
 
-                                    <div class="mb-4 content-section d-none" id="solicitudes">
+                                    <div class="mb-4 content-section d-none" id="solicitudesS">
                                         <h5 class="mb-4">Tus solicitudes</h5>
-                                        @if (isset($solicitudes) && count($solicitudes) > 0)
+                                        @if (isset($solicitudesS) && count($solicitudesS) > 0)
                                             <div class="table-responsive" id="solicitudesTableWrapper">
                                                 <table id="solicitudesTable"
                                                     class="table table-striped table-bordered">
@@ -212,7 +212,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach ($solicitudes as $i => $solicitud)
+                                                        @foreach ($solicitudesS as $i => $solicitud)
                                                             <tr>
                                                                 <td>{{ $solicitud->fechaSolicitud ?? '-' }}</td>
                                                                 <td>{{ $solicitud->nombreAcademia ?? '-' }}</td>
@@ -280,26 +280,32 @@
                                         <form id="objetivoForm" class="mb-3">
                                             <div class="row align-items-center">
                                                 <div class="col-auto">
-                                                    <label for="objetivoClases" class="form-label mb-0">Clases objetivo por semana:</label>
+                                                    <label for="objetivoClases" class="form-label mb-0">Clases
+                                                        objetivo por semana:</label>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <input type="number" min="1" max="14" class="form-control" id="objetivoClases" value="3" style="width:80px;">
+                                                    <input type="number" min="1" max="14"
+                                                        class="form-control" id="objetivoClases" value="3"
+                                                        style="width:80px;">
                                                 </div>
                                                 <div class="col-auto">
-                                                    <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                                                    <button type="submit"
+                                                        class="btn btn-primary btn-sm">Guardar</button>
                                                 </div>
                                             </div>
                                         </form>
                                         <div>
                                             <label class="form-label">Progreso semanal:</label>
                                             <div class="progress" style="height: 25px;">
-                                                <div id="progresoBarra" class="progress-bar" role="progressbar" style="width: 0%">0/0</div>
+                                                <div id="progresoBarra" class="progress-bar" role="progressbar"
+                                                    style="width: 0%">0/0</div>
                                             </div>
                                         </div>
                                         <!-- Apartado para reclamar recompensas -->
                                         <div class="mt-4" id="recompensas">
                                             <h6>Reclamar recompensas</h6>
-                                            <div class="alert alert-info mb-2" id="mensajeRecompensa" style="display:none;"></div>
+                                            <div class="alert alert-info mb-2" id="mensajeRecompensa"
+                                                style="display:none;"></div>
                                             <button class="btn btn-success" id="btnReclamarRecompensa">
                                                 <i class="fas fa-gift me-1"></i> Reclamar recompensa semanal
                                             </button>
@@ -322,7 +328,7 @@
 <script>
     window.toastrMsg = <?= isset($_GET['toastrMsg']) ? json_encode($_GET['toastrMsg']) : 'null' ?>;
 </script>
-<script src="<?= RUTA_URL ?>/public/js/perfil.inicio.js"></script>
 
+<script src="<?= RUTA_URL ?>/public/js/perfil.inicio.js"></script>
 
 @include('includes.footer')

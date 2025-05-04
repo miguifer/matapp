@@ -229,3 +229,4 @@ document.getElementById('btnReclamarRecompensa').addEventListener('click', funct
         document.getElementById('mensajeRecompensa').textContent = 'Aún no has alcanzado tu objetivo semanal.';
     }
 });
+

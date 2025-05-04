@@ -22,7 +22,7 @@
  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
- <link rel="stylesheet/less" href="<?= RUTA_URL ?>/public/less/navbar.less" type="text/css" />
+ <link rel="stylesheet/less" href="<?= RUTA_URL ?>/public/css/navbar.less" type="text/css" />
 
 </head>
 
