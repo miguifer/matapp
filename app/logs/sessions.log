@@ -8,3 +8,10 @@
 [2025-05-04 13:35:57][::1][gerente1][SUCCESS] Login correcto
 [2025-05-04 13:38:24][::1][gerente1][SUCCESS] Cierre de sesión
 [2025-05-04 13:38:31][::1][miguifer][SUCCESS] Login correcto
+[2025-05-04 13:46:53][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-05-04 13:46:58][::1][admin][SUCCESS] Login correcto
+[2025-05-04 13:48:54][::1][admin][SUCCESS] Cierre de sesión
+[2025-05-04 13:49:00][::1][miguifer][FAIL] Credenciales incorrectas
+[2025-05-04 13:49:04][::1][miguifer][SUCCESS] Login correcto
+[2025-05-04 13:49:16][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-05-04 13:49:22][::1][admin][SUCCESS] Login correcto

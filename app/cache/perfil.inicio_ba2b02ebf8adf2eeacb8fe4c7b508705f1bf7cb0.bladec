@@ -23,9 +23,9 @@
 <?php
 $usuario = json_decode($_SESSION['userLogin']['usuario']);
 
-if ($usuario->rol == 'Administrador') {
- redireccionar('/admin');
-}
+// if ($usuario->rol == 'Administrador') {
+//     redireccionar('/admin');
+// }
 
 ?>
 <?php 
@@ -89,10 +89,12 @@ if ($usuario->rol == 'Administrador') {
  ?>
  <h3 class="mt-3 mb-1">
  <span class="fs-6 opacity-50">@</span><?= $usuario->login ?>
+ <?php if($rolUsuario == 'Administrador'): ?>
  <span class="badge bg-warning ms-2" title="Tus monedas/puntos">
  <i class="fas fa-coins me-1"></i>
  <?= isset($usuario->monedas) ? $usuario->monedas : 0 ?>
  </span>
+ <?php endif; ?>
  </h3>
 
  </div>
@@ -114,10 +116,12 @@ if ($usuario->rol == 'Administrador') {
  class="fas fa-envelope me-2"></i>Solicitudes</a>
  <a class="nav-link" href="#" data-section="asistencia"><i
  class="fas fa-check-circle me-2"></i>Asistencia</a>
+ <?php if($rolUsuario == 'Administrador'): ?>
  <a class="nav-link" href="#" data-section="objetivos">
  <i class="fas fa-bullseye me-2"></i>Objetivos
  <span class="badge bg-warning ms-2">En desarrollo</span>
  </a>
+ <?php endif; ?>
  </div>
  </div>
  </div>

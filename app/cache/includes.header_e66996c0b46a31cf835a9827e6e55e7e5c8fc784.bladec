@@ -148,6 +148,13 @@
  </ul>
  </div>
 
+ <?php if (isset($usuario->rol) && $usuario->rol == "Administrador") { ?>
+ <!-- Botón Amigos solo para admins -->
+ <a href="<?= RUTA_URL ?>/amigos" class="btn btn-light me-2" title="Amigos">
+ <i class="fa-solid fa-user-group"></i>
+ </a>
+ <?php } ?>
+
  <button id="botonPerfil" class="btn rounded-circle p-0" type="button" data-bs-toggle="offcanvas"
  title="Menú" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
  <?php if (!empty($usuario->imagen)) { ?>
@@ -185,13 +192,13 @@
  href="<?= RUTA_URL ?>/admin"><i class="fa-solid fa-lock"></i>&nbsp;&nbsp;Panel
  de administración</a>
  </div>
- <?php }else{ ?>
+ <?php } ?>
  <div class="col-12 mb-1">
  <a class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
  href="<?= RUTA_URL ?>/perfil"><i class="fa-regular fa-user"></i>&nbsp;&nbsp;Tu
  perfil </a>
  </div>
- <?php } ?>
+ <?php ?>
  <div class="col-12 mt-2 border-top border-dark-subtle">
  <a class=" link link-danger d-flex align-items-center text-decoration-none ms-2 mt-3"
  href="<?= RUTA_URL ?>/inicioSesion/cerrarSesion"><i
@@ -237,7 +244,8 @@
  success: function(data) {
  $('#notificaciones-loader').hide();
  let count = 0;
- if (data && data.success && Array.isArray(data.mensajes) && data.mensajes.length > 0) {
+ if (data && data.success && Array.isArray(data.mensajes) && data.mensajes
+ .length > 0) {
  data.mensajes.forEach(function(n) {
  count++;
  $list.append(`
@@ -250,7 +258,7 @@
  </li>
  `);
  });
- 
+
  } else {
  $list.append(
  '<li class="text-center text-muted py-2">Sin notificaciones nuevas</li>'
