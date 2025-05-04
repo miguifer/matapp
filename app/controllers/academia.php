@@ -46,7 +46,7 @@ class academia extends Controlador
                 $estadisticaAcademia = $this->academiaModelo->obtenerEstadisticaAcademias();
                 $solicitudes = $this->academiaModelo->obtenerSolicitudesAcademia($academia->idAcademia);
                 $alumnos = $this->academiaModelo->obtenerAlumnosAcademia($academia->idAcademia);
-                
+
                 $datos['alumnos'] = $alumnos;
                 $datos['estadisticaAcademia'] = $estadisticaAcademia;
                 $datos['solicitudes'] = $solicitudes;
@@ -131,7 +131,7 @@ class academia extends Controlador
 
         if ($solicitudEnCurso) {
 
-            redireccionar( '?toastrErr=Ya tienes una solicitud en curso para esta academia');
+            redireccionar('?toastrErr=Ya tienes una solicitud en curso para esta academia');
         }
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -181,7 +181,8 @@ class academia extends Controlador
         }
     }
 
-    public function subirFoto(){
+    public function subirFoto()
+    {
         session_start();
         $usuario = isset($_SESSION['userLogin']['usuario']) ? json_decode($_SESSION['userLogin']['usuario']) : null;
         if (!$usuario || !isset($_POST['idAcademia'])) {
@@ -200,6 +201,29 @@ class academia extends Controlador
             redireccionar("?toastrErr=Foto subida correctamente");
         } else {
             redireccionar("?toastrErr=Error al subir la foto");
+        }
+    }
+
+    public function editarInfo()
+    {
+        header('Content-Type: application/json');
+        $usuario = isset($_SESSION['userLogin']['usuario']) ? json_decode($_SESSION['userLogin']['usuario']) : null;
+        if (!$usuario || !isset($_POST['idAcademia'])) {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'Usuario no autenticado o academia no especificada']);
+            exit;
+        }
+
+        $idAcademia = $_POST['idAcademia'];
+        $nombreAcademia = isset($_POST['nombre']) ? trim($_POST['nombre']) : null;
+        $ubicacionAcademia = isset($_POST['ubicacion']) ? trim($_POST['ubicacion']) : null;
+
+        if ($nombreAcademia && $ubicacionAcademia) {
+            $this->academiaModelo->actualizarInfoAcademia($idAcademia, $nombreAcademia, $ubicacionAcademia);
+            echo json_encode(['success' => true, 'message' => 'Información actualizada correctamente']);
+        } else {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'message' => 'Faltan datos para actualizar la información']);
         }
     }
 }

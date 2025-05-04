@@ -558,6 +558,52 @@ $userRole = $usuario->rol;
                 </div>
             @endif
         </div>
+
+        @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Administrador')
+            <button id="btnEditarAcademia" class="btn btn-warning mb-3">Editar información</button>
+        @endif
+
+        <script>
+            $(document).ready(function() {
+                $('#btnEditarAcademia').on('click', function() {
+                    Swal.fire({
+                        title: 'Editar información de la academia',
+                        html: `
+                            <input id="nombreAcademia" class="swal2-input" placeholder="Nombre" value="{{ $academia->nombreAcademia }}">
+                            <input id="ubicacionAcademia" class="swal2-input" placeholder="Ubicación" value="{{ $academia->ubicacionAcademia ?? '' }}">
+                        `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Guardar',
+                        cancelButtonText: 'Cancelar',
+                        preConfirm: () => {
+                            return {
+                                nombre: $('#nombreAcademia').val(),
+                                ubicacion: $('#ubicacionAcademia').val(),
+                                idAcademia: '{{ $academia->idAcademia }}'
+                            }
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: `${RUTA_URL}/academia/editarInfo`,
+                                type: 'POST',
+                                dataType: 'json',
+                                data: result.value,
+                                success: function(response) {
+                                    Swal.fire('¡Actualizado!', response.message ||
+                                        'Información actualizada.', 'success')
+                                },
+                                error: function() {
+                                    Swal.fire('Error',
+                                        'No se pudo actualizar la información.', 'error'
+                                    );
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+        </script>
     </div>
 
     <!-- Galería -->
@@ -754,15 +800,15 @@ $userRole = $usuario->rol;
 <script>
     function toggleRoleSwitch() {
         // Entrenador <-> Alumno
-        if (currentRole === "Alumno") {
-            currentRole = "Entrenador";
-            document.getElementById("labelEntrenador").innerText = "Entrenador";
-            document.getElementById("switchEntrenador").checked = true;
-        } else {
-            currentRole = "Alumno";
-            document.getElementById("labelEntrenador").innerText = "Alumno";
-            document.getElementById("switchEntrenador").checked = false;
-        }
+        if
+        currentRole = "Entrenador";
+        document.getElementById("labelEntrenador").innerText = "Entrenador";
+        document.getElementById("switchEntrenador").checked = true;
+    } else {
+        currentRole = "Alumno";
+        document.getElementById("labelEntrenador").innerText = "Alumno";
+        document.getElementById("switchEntrenador").checked = false;
+    }
     }
 
     function toggleRoleSwitch2() {
@@ -915,7 +961,8 @@ $userRole = $usuario->rol;
                                     maxDate: maxDate,
                                     onChange: function(selectedDates) {
                                         if (selectedDates.length) {
-                                            endPicker.set('minDate', selectedDates[0]);
+                                            endPicker.set('minDate',
+                                                selectedDates[0]);
                                         }
                                     }
                                 });
@@ -1204,7 +1251,8 @@ $userRole = $usuario->rol;
                             maxDate: maxDate,
                             onChange: function(selectedDates) {
                                 if (selectedDates.length) {
-                                    endPicker.set('minDate', selectedDates[0]);
+                                    endPicker.set('minDate', selectedDates[
+                                        0]);
                                 }
                             }
                         });
@@ -1357,19 +1405,21 @@ $userRole = $usuario->rol;
 
 <script>
     $(document).ready(function() {
-        $('#tablaClases').DataTable();
+                $('#tablaClases').DataTable();
 
-        $('.ver-asistentes').on('click', function() {
-            const idClase = $(this).data('id');
-            $.ajax({
-                url: `${RUTA_URL}/calendarioController/usuariosReservados`,
-                type: 'POST',
-                dataType: 'json',
-                data: { idClase },
-                success: function(usuarios) {
-                    let html = '<form id="formAsistencia">';
-                    usuarios.forEach(u => {
-                        html += `
+                $('.ver-asistentes').on('click', function() {
+                            const idClase = $(this).data('id');
+                            $.ajax({
+                                        url: `${RUTA_URL}/calendarioController/usuariosReservados`,
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        data: {
+                                            idClase
+                                        },
+                                        success: function(usuarios) {
+                                                let html = '<form id="formAsistencia">';
+                                                usuarios.forEach(u => {
+                                                    html += `
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="asistencia[]" value="${u.idUsuario}" id="asist_${u.idUsuario}" ${u.asistencia == 1 ? 'checked' : ''}>
                         <label class="form-check-label" for="asist_${u.idUsuario}">
@@ -1377,57 +1427,39 @@ $userRole = $usuario->rol;
                         </label>
                     </div>
                 `;
-                    });
-                    html += `<input type="hidden" name="idClase" value="${idClase}"></form>`;
+                                                });
+                                                html +=
+                                                    `<input type="hidden" name="idClase" value="${idClase}"></form>`;
 
-                    Swal.fire({
-                        title: 'Confirmar asistencia',
-                        html: html,
-                        showCancelButton: true,
-                        confirmButtonText: 'Guardar asistencia',
-                        preConfirm: () => {
-                            const form = document.getElementById('formAsistencia');
-                            let formData = $(form).serialize();
-                            if (!formData.includes('asistencia%5B%5D')) {
-                                formData += '&asistencia[]=';
-                            }
-                            return new Promise((resolve, reject) => {
-                                $.ajax({
-                                    url: `${RUTA_URL}/calendarioController/confirmarAsistencia`,
-                                    type: 'POST',
-                                    dataType: 'json',
-                                    data: formData,
-                                    success: function(response) {
-                                        resolve(response);
-                                    },
-                                    error: function(xhr) {
-                                        reject(xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : 'Hubo un problema al guardar la asistencia.');
-                                    }
-                                });
-                            });
-                        }
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            const response = result.value;
-                            if (response && response.success) {
-                                Swal.fire(
-                                    '¡Asistencia guardada!',
-                                    response.message,
-                                    'success'
-                                );
-                            } else {
-                                Swal.fire(
-                                    '¡Error!',
-                                    response && response.message ? response.message : 'Hubo un problema.',
-                                    'error'
-                                );
-                            }
-                        }
-                    });
-                }
-            });
-        });
-    });
-</script>
-
-@include('includes.footer')
+                                                Swal.fire({
+                                                            title: 'Confirmar asistencia',
+                                                            html: html,
+                                                            showCancelButton: true,
+                                                            confirmButtonText: 'Guardar asistencia',
+                                                            preConfirm: () => {
+                                                                    const form = document.getElementById(
+                                                                        'formAsistencia');
+                                                                    let formData = $(form).serialize();
+                                                                    if (!formData.includes('asistencia%5B%5D')) {
+                                                                        formData += '&asistencia[]=';
+                                                                    }
+                                                                    return new Promise((resolve, reject) => {
+                                                                                $.ajax({
+                                                                                            url: `${RUTA_URL}/calendarioController/confirmarAsistencia`,
+                                                                                            type: 'POST',
+                                                                                            dataType: 'json',
+                                                                                            data: formData,
+                                                                                            success: function(
+                                                                                                response) {
+                                                                                                resolve(response);
+                                                                                            },
+                                                                                            error: function(xhr) {
+                                                                                                    reject(xhr
+                                                                                                            .responseJSON &&
+                                                                                                            xhr
+                                                                                                            .responseJSON
+                                                                                                            .message ?
+                                                                                                            xhr
+                                                                                                            .responseJSON
+                                                                                                            .message :
+                                                                                                            'Hubo un problema al guardar la asistencia.'

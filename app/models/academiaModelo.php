@@ -552,4 +552,17 @@ class academiaModelo
         $this->db->bind(':idUsuario', $idUsuario);
         return $this->db->registros();
     }
+    public function actualizarInfoAcademia($idAcademia, $nombre, $ubicacion)
+    {
+        $this->db->query("
+            UPDATE Academias
+            SET nombreAcademia = :nombre, ubicacionAcademia = :ubicacion
+            WHERE idAcademia = :idAcademia
+        ");
+        $this->db->bind(':nombre', $nombre);
+        $this->db->bind(':ubicacion', $ubicacion);
+        $this->db->bind(':idAcademia', $idAcademia);
+
+        return $this->db->execute(); // Returns true if the update was successful
+    }
 }
