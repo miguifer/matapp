@@ -810,6 +810,12 @@ $userRole = $usuario->rol;
 
     document.addEventListener("DOMContentLoaded", function() {
         const calendarEl = document.getElementById('calendar');
+        const today = new Date();
+        const startDate = new Date(today);
+        startDate.setMonth(today.getMonth() - 3);
+        const endDate = new Date(today);
+        endDate.setMonth(today.getMonth() + 3);
+
         const calendar = new FullCalendar.Calendar(calendarEl, {
             schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
             locale: 'es',
@@ -834,6 +840,10 @@ $userRole = $usuario->rol;
             },
             editable: false, // Permitir editar eventos
             droppable: false, // No permitir dropear eventos
+            validRange: {
+                start: startDate.toISOString().split('T')[0],
+                end: endDate.toISOString().split('T')[0]
+            },
             eventDidMount: function(info) {
                 const eventDate = new Date(info.event.start);
                 const today = new Date();
@@ -1353,18 +1363,28 @@ $userRole = $usuario->rol;
                                             xhr
                                             .responseJSON
                                             .message :
-                                            'Error al guardar asistencia'
+                                            'Hubo un problema al guardar la asistencia.'
                                         );
                                     }
                                 });
-                            }).catch(errorMsg => {
-                                Swal.showValidationMessage(errorMsg);
                             });
                         }
                     }).then((result) => {
-                        if (result.isConfirmed && result.value) {
-                            Swal.fire('¡Guardado!',
-                                'La asistencia ha sido confirmada.', 'success');
+                        if (result.isConfirmed) {
+                            const response = result.value;
+                            if (response && response.success) {
+                                Swal.fire(
+                                    '¡Asistencia guardada!',
+                                    response.message,
+                                    'success'
+                                );
+                            } else {
+                                Swal.fire(
+                                    '¡Error!',
+                                    response && response.message ? response.message : 'Hubo un problema.',
+                                    'error'
+                                );
+                            }
                         }
                     });
                 }
@@ -1372,67 +1392,3 @@ $userRole = $usuario->rol;
         });
     });
 </script>
-
-<script>
-    $(document).ready(function() {
-        $('#tablaRanking').DataTable();
-    });
-</script>
-
-<script>
-    $(document).ready(function() {
-        // Fijar mensaje
-        $(document).on('click', '.fijar-mensaje', function() {
-            const idMensaje = $(this).data('id');
-            $.ajax({
-                url: `${RUTA_URL}/mensajesController/fijarMensaje`,
-                type: 'POST',
-                data: {
-                    idMensaje,
-                    idAcademia: '{{ $academia->idAcademia }}'
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response && response.success) {
-                        Swal.fire('Mensaje fijado', '', 'success').then(() => location
-                            .reload());
-                    } else {
-                        Swal.fire('Error', response.message ||
-                            'No se pudo fijar el mensaje', 'error');
-                    }
-                },
-                error: function() {
-                    Swal.fire('Error', 'No se pudo fijar el mensaje', 'error');
-                }
-            });
-        });
-
-        // Desfijar mensaje
-        $(document).on('click', '.desfijar-mensaje', function() {
-            const idMensaje = $(this).data('id');
-            $.ajax({
-                url: `${RUTA_URL}/mensajesController/desfijarMensaje`,
-                type: 'POST',
-                data: {
-                    idMensaje,
-                    idAcademia: '{{ $academia->idAcademia }}'
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response && response.success) {
-                        Swal.fire('Mensaje desfijado', '', 'success').then(() => location
-                            .reload());
-                    } else {
-                        Swal.fire('Error', response.message ||
-                            'No se pudo desfijar el mensaje', 'error');
-                    }
-                },
-                error: function() {
-                    Swal.fire('Error', 'No se pudo desfijar el mensaje', 'error');
-                }
-            });
-        });
-    });
-</script>
-
-@include('includes.footer')

@@ -345,6 +345,16 @@ if ($usuario->rol == 'Administrador') {
             },
             editable: false,
             droppable: false,
+            validRange: function(nowDate) {
+                const start = new Date(nowDate);
+                start.setMonth(start.getMonth() - 3);
+                const end = new Date(nowDate);
+                end.setMonth(end.getMonth() + 3);
+                return {
+                    start: start,
+                    end: end
+                };
+            },
             eventDidMount: function(info) {
                 const eventDate = new Date(info.event.start);
                 const today = new Date();
