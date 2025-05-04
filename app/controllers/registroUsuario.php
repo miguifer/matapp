@@ -196,7 +196,6 @@ class registroUsuario extends Controlador
 
 
             if (empty($errores)) {
-                //creación del token
                 $datos['token'] = bin2hex(random_bytes(16));
                 if ($this->academiaModelo->registro($datos)) {
                     $datos = [
@@ -204,7 +203,6 @@ class registroUsuario extends Controlador
                         'password' => "",
                         'email' => ""
                     ];
-                    //envio de correo de confirmación
                     if ($this->enviarCorreo($email, $login)) {
                         $datos['success'] = "Se ha enviado un email a " . $email . " para confirmar la cuenta.";
                         header("Location: " . RUTA_URL . "/registroUsuario?errores=" . urlencode(json_encode($datos['errores'])) . "&login=" . urlencode($datos['login']) . "&email=" . urlencode($datos['email']) . "&success=" . urlencode($datos['success']) . "&registro_error=" . urlencode($datos['registro_error']));

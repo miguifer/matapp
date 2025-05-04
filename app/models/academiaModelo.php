@@ -16,7 +16,7 @@ class academiaModelo
         FROM Academias a
         INNER JOIN TipoAcademia ta ON a.tipoAcademia = ta.idTipo
     ");
-        return $this->db->registros(); // Assuming registros() returns an array of results
+        return $this->db->registros();
     }
 
     public function obtenerRolDeUsuario($idUsuario)
@@ -45,20 +45,15 @@ class academiaModelo
 
     public function obtenerEstadisticaAcademias()
     {
-        // Consulta SQL para obtener el número de alumnos por tipo de academia
         $this->db->query("
         SELECT ta.nombreTipo, COUNT(au.idUsuario) AS numAlumnos
         FROM TipoAcademia ta
-        INNER JOIN Academias a ON a.tipoAcademia = ta.idTipo  -- Cambié idTipo por tipoAcademia
+        INNER JOIN Academias a ON a.tipoAcademia = ta.idTipo
         LEFT JOIN AcademiaUsuarios au ON au.idAcademia = a.idAcademia
         GROUP BY ta.idTipo;
-
     ");
-
-        // Ejecutamos la consulta
-        $result = $this->db->registros(); // Usamos 'registros' si queremos obtener todos los resultados
-
-        return $result; // Devolvemos los resultados de la consulta
+        $result = $this->db->registros();
+        return $result;
     }
 
     public function crearSolicitud($idUsuario, $idAcademia)
@@ -70,8 +65,7 @@ class academiaModelo
         $this->db->bind(':idUsuario', $idUsuario);
         $this->db->bind(':idAcademia', $idAcademia);
         $this->db->bind(':fechaSolicitud', date('Y-m-d H:i:s'));
-
-        return $this->db->execute(); // Returns true if the query was successful
+        return $this->db->execute();
     }
 
     public function obtenerSolicitudEnCurso($idUsuario, $idAcademia)
@@ -82,7 +76,7 @@ class academiaModelo
         ");
         $this->db->bind(':idUsuario', $idUsuario);
         $this->db->bind(':idAcademia', $idAcademia);
-        return $this->db->registro(); // Returns the single record if found, null otherwise
+        return $this->db->registro();
     }
 
     public function obtenerSolicitudesAcademia($idAcademia)
@@ -94,7 +88,7 @@ class academiaModelo
             WHERE s.idAcademia = :idAcademia AND s.estadoSolicitud = 'pendiente'
         ");
         $this->db->bind(':idAcademia', $idAcademia);
-        return $this->db->registros(); // Returns an array of results
+        return $this->db->registros();
     }
 
     public function aceptarSolicitud($idSolicitud)
@@ -105,8 +99,7 @@ class academiaModelo
             WHERE idSolicitud = :idSolicitud
         ");
         $this->db->bind(':idSolicitud', $idSolicitud);
-
-        return $this->db->execute(); // Returns true if the query was successful
+        return $this->db->execute();
     }
 
     public function rechazarSolicitud($idSolicitud)
@@ -117,8 +110,7 @@ class academiaModelo
             WHERE idSolicitud = :idSolicitud
         ");
         $this->db->bind(':idSolicitud', $idSolicitud);
-
-        return $this->db->execute(); // Returns true if the query was successful
+        return $this->db->execute();
     }
 
     public function añadirAlumno($idUsuario, $idAcademia)
@@ -129,8 +121,7 @@ class academiaModelo
         ");
         $this->db->bind(':idUsuario', $idUsuario);
         $this->db->bind(':idAcademia', $idAcademia);
-
-        return $this->db->execute(); // Returns true if the query was successful
+        return $this->db->execute();
     }
 
     public function obtenerAlumnosAcademia($idAcademia)
@@ -138,9 +129,6 @@ class academiaModelo
         $this->db->query("
             SELECT 
             u.*,
-            -- Si el usuario tiene un rol explícito, lo usamos;
-            -- si no, comprobamos si es entrenador en esta academia;
-            -- en caso contrario, es Cliente
             COALESCE(r.nombreRol,
                 CASE 
                     WHEN ae.idAcademiaEntrenador IS NOT NULL THEN 'Entrenador'
@@ -154,15 +142,13 @@ class academiaModelo
             ON ur.idUsuario = u.idUsuario
         LEFT JOIN Roles r 
             ON r.idRol = ur.idRol
-        -- Unimos también con la tabla de entrenadores, 
-        -- pero solo en esta misma academia
         LEFT JOIN AcademiasEntrenadores ae 
             ON ae.idUsuario    = u.idUsuario
            AND ae.idACademia  = au.idAcademia
         WHERE au.idAcademia = :idAcademia
         ");
         $this->db->bind(':idAcademia', $idAcademia);
-        return $this->db->registros(); // Returns an array of results
+        return $this->db->registros();
     }
 
     public function eliminarAlumno($idUsuario, $idAcademia)
@@ -173,8 +159,7 @@ class academiaModelo
         ");
         $this->db->bind(':idUsuario', $idUsuario);
         $this->db->bind(':idAcademia', $idAcademia);
-
-        return $this->db->execute(); // Returns true if the query was successful
+        return $this->db->execute();
     }
 
     public function obtenerEntrenadoresAcademia($idAcademia)
@@ -184,8 +169,7 @@ class academiaModelo
             INNER JOIN AcademiasEntrenadores ae ON u.idUsuario = ae.idUsuario
             WHERE ae.idAcademia = :idAcademia");
         $this->db->bind(':idAcademia', $idAcademia);
-        return $this->db->registros();  // Returns true if the query was successful
-
+        return $this->db->registros();
     }
 
     public function eliminarEntrenador($idUsuario, $idAcademia)
@@ -196,8 +180,7 @@ class academiaModelo
         ");
         $this->db->bind(':idUsuario', $idUsuario);
         $this->db->bind(':idAcademia', $idAcademia);
-
-        return $this->db->execute(); // Returns true if the query was successful
+        return $this->db->execute();
     }
 
     public function hacerEntrenador($idUsuario, $idAcademia)
@@ -208,8 +191,7 @@ class academiaModelo
         ");
         $this->db->bind(':idUsuario', $idUsuario);
         $this->db->bind(':idAcademia', $idAcademia);
-
-        return $this->db->execute(); // Returns true if the query was successful
+        return $this->db->execute();
     }
 
     public function esEntrenador($idAcademia, $idUsuario)
@@ -231,12 +213,10 @@ class academiaModelo
             SELECT COUNT(*) AS totalUsuarios
             FROM Usuarios
         ");
-
-        $result = $this->db->registro(); // Assuming registro() fetches a single record
-        return $result ? $result->totalUsuarios : 0; // Returns the total count of users
+        $result = $this->db->registro();
+        return $result ? $result->totalUsuarios : 0;
     }
 
-    //SESIONES ACTIVAS
     public function actualizarActividad($userId)
     {
         $this->db->query("
@@ -255,9 +235,8 @@ class academiaModelo
             WHERE last_activity >= datetime('now', '-' || :minutos || ' minutes')
         ");
         $this->db->bind(':minutos', $minutos);
-        return $this->db->registros(); // Returns an array of user IDs
+        return $this->db->registros();
     }
-
 
     public function eliminarSesionesInactivas()
     {
@@ -272,14 +251,14 @@ class academiaModelo
     {
         $this->db->query("SELECT * FROM Usuarios WHERE login = :login");
         $this->db->bind(':login', $login);
-        return $this->db->registro(); // Assuming this returns a single record
+        return $this->db->registro();
     }
 
     public function getUsuarioPorEmail($emailUsuario)
     {
         $this->db->query("SELECT * FROM Usuarios WHERE emailUsuario = :email");
         $this->db->bind(':email', $emailUsuario);
-        return $this->db->registro(); // Assuming this returns a single record
+        return $this->db->registro();
     }
 
     public function registro($datos)
@@ -289,8 +268,6 @@ class academiaModelo
         $this->db->bind(":password", $datos['password']);
         $this->db->bind(":email", $datos['email']);
         $this->db->bind(":token", $datos['token']);
-
-
         if ($this->db->execute()) {
             return true;
         } else {
@@ -303,7 +280,6 @@ class academiaModelo
         $this->db->query("UPDATE usuarios SET activo = 1 WHERE idUsuario = :id AND token = :token");
         $this->db->bind(":id", $id);
         $this->db->bind(":token", $token);
-
         if ($this->db->execute()) {
             return true;
         } else {
@@ -315,15 +291,14 @@ class academiaModelo
     {
         $this->db->query("DELETE FROM Usuarios WHERE idUsuario = :idUsuario");
         $this->db->bind(':idUsuario', $idUsuario);
-
-        return $this->db->execute(); // Returns true if the query was successful
+        return $this->db->execute();
     }
 
     public function getUsuarioPorId($idUsuario)
     {
         $this->db->query("SELECT * FROM Usuarios WHERE idUsuario = :idUsuario");
         $this->db->bind(':idUsuario', $idUsuario);
-        return $this->db->registro(); // Returns the user record or null if not found
+        return $this->db->registro();
     }
 
     public function modificarUsuario($id, $datos)
@@ -358,7 +333,6 @@ class academiaModelo
         $this->db->query("UPDATE usuarios SET imagen = :imagen WHERE idUsuario = :id");
         $this->db->bind(":id", $id);
         $this->db->bind(":imagen", $datos['imagen'], PDO::PARAM_LOB);
-
         if ($this->db->execute()) {
             return true;
         } else {
@@ -376,7 +350,7 @@ class academiaModelo
             ORDER BY s.fechaSolicitud DESC
         ");
         $this->db->bind(':idUsuario', $idUsuario);
-        return $this->db->registros(); // Returns an array of results
+        return $this->db->registros();
     }
 
     public function enviarMensaje($mensaje, $datos)
@@ -389,8 +363,7 @@ class academiaModelo
         $this->db->bind(':idAcademia', $datos['idAcademia']);
         $this->db->bind(':fecha', $datos['fecha']);
         $this->db->bind(':mensaje', $mensaje);
-
-        return $this->db->execute(); // Returns true if the query was successful
+        return $this->db->execute();
     }
 
     public function obtenerMensajesAcademia($idAcademia)
@@ -405,13 +378,13 @@ class academiaModelo
             ORDER BY mm.fecha DESC
         ");
         $this->db->bind(':idAcademia', $idAcademia);
-        return $this->db->registros(); // Returns an array of messages with user role name
+        return $this->db->registros();
     }
 
     public function obtenerUsuarios()
     {
         $this->db->query("SELECT * FROM Usuarios");
-        return $this->db->registros(); // Returns an array of all users
+        return $this->db->registros();
     }
 
     public function obtenerClasesAcademia($idAcademia)
@@ -424,7 +397,7 @@ class academiaModelo
             ORDER BY c.start DESC
         ");
         $this->db->bind(':idAcademia', $idAcademia);
-        return $this->db->registros(); // Returns an array of classes for the academy
+        return $this->db->registros();
     }
 
     public function getAsistenciaPorIdUsuario($idUsuario)
@@ -487,7 +460,7 @@ class academiaModelo
             LEFT JOIN Academias a ON a.tipoAcademia = ta.idTipo
             GROUP BY ta.idTipo
         ");
-        return $this->db->registros(); // Returns an array with the number of academies per modality
+        return $this->db->registros();
     }
 
     public function fijarMensaje($idMensaje)
@@ -530,7 +503,7 @@ class academiaModelo
         WHERE r.idClase = :claseId
     ");
         $this->db->bind(':claseId', $claseId);
-        return $this->db->registros(); // Returns an array of users with their attendance status
+        return $this->db->registros();
     }
 
     public function obtenerMensajesPorUsuario($idUsuario)
@@ -562,18 +535,16 @@ class academiaModelo
         $this->db->bind(':nombre', $nombre);
         $this->db->bind(':ubicacion', $ubicacion);
         $this->db->bind(':idAcademia', $idAcademia);
-
-        return $this->db->execute(); // Returns true if the update was successful
+        return $this->db->execute();
     }
 
-    // Buscar usuarios que no sean yo ni ya amigos/pendientes
     public function buscarUsuariosParaAmistad($miId, $q)
     {
         $this->db->query("
         SELECT 
             u.idUsuario, 
             u.login,
-            u.imagen,           -- <--- Añade esto
+            u.imagen,
             a.estado
         FROM Usuarios u
         LEFT JOIN Amistades a 
@@ -582,7 +553,7 @@ class academiaModelo
                 OR (a.idUsuario2 = :miId AND a.idUsuario1 = u.idUsuario)
             )
         WHERE u.idUsuario != :miId
-        AND u.idUsuario != 1 -- No mostrar usuario admin
+        AND u.idUsuario != 1
         AND u.login LIKE :q
         LIMIT 10
     ");
@@ -591,24 +562,20 @@ class academiaModelo
         return $this->db->registros();
     }
 
-    // Enviar solicitud de amistad (si no existe)
     public function enviarSolicitudAmistad($yo, $otro)
     {
-        // ¿Ya existe?
         $this->db->query("SELECT * FROM Amistades WHERE 
         (idUsuario1 = :yo AND idUsuario2 = :otro) OR 
         (idUsuario1 = :otro AND idUsuario2 = :yo)");
         $this->db->bind(':yo', $yo);
         $this->db->bind(':otro', $otro);
         if ($this->db->registro()) return false;
-
         $this->db->query("INSERT INTO Amistades (idUsuario1, idUsuario2, estado) VALUES (:yo, :otro, 'pendiente')");
         $this->db->bind(':yo', $yo);
         $this->db->bind(':otro', $otro);
         return $this->db->execute();
     }
 
-    // Obtener amigos aceptados
     public function obtenerAmigos($miId)
     {
         $this->db->query("
@@ -628,11 +595,10 @@ class academiaModelo
         return $this->db->registros();
     }
 
-    // Obtener solicitudes recibidas (pendientes)
     public function obtenerSolicitudesRecibidas($miId)
     {
         $this->db->query("
-    SELECT a.id, u.login, u.imagen   -- <--- Añade u.imagen
+    SELECT a.id, u.login, u.imagen
     FROM Amistades a
     JOIN Usuarios u ON u.idUsuario = a.idUsuario1
     WHERE a.idUsuario2 = :miId AND a.estado = 'pendiente'
@@ -641,7 +607,6 @@ class academiaModelo
         return $this->db->registros();
     }
 
-    // Aceptar solicitud
     public function aceptarSolicitudAmistad($id, $miId)
     {
         $this->db->query("UPDATE Amistades SET estado = 'aceptada' WHERE id = :id AND idUsuario2 = :miId");
@@ -650,7 +615,6 @@ class academiaModelo
         return $this->db->execute();
     }
 
-    // Rechazar solicitud
     public function rechazarSolicitudAmistad($id, $miId)
     {
         $this->db->query("DELETE FROM Amistades WHERE id = :id AND idUsuario2 = :miId");
@@ -675,5 +639,4 @@ class academiaModelo
         $this->db->bind(':id', $id);
         return $this->db->registro();
     }
-
 }

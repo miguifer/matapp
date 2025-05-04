@@ -17,6 +17,10 @@ class ComposerStaticInitb7a7cb69e04350e3eda8f612c81b8ebc
     );
 
     public static $prefixLengthsPsr4 = array (
+        'm' => 
+        array (
+            'miguifer\\matapp\\' => 16,
+        ),
         'e' => 
         array (
             'eftec\\bladeone\\' => 15,
@@ -38,10 +42,6 @@ class ComposerStaticInitb7a7cb69e04350e3eda8f612c81b8ebc
             'PhpOption\\' => 10,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
-        'M' => 
-        array (
-            'Mfern\\Matapp\\' => 13,
-        ),
         'G' => 
         array (
             'GuzzleHttp\\Psr7\\' => 16,
@@ -56,6 +56,10 @@ class ComposerStaticInitb7a7cb69e04350e3eda8f612c81b8ebc
     );
 
     public static $prefixDirsPsr4 = array (
+        'miguifer\\matapp\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
+        ),
         'eftec\\bladeone\\' => 
         array (
             0 => __DIR__ . '/..' . '/eftec/bladeone/lib',
@@ -92,10 +96,6 @@ class ComposerStaticInitb7a7cb69e04350e3eda8f612c81b8ebc
         'PHPMailer\\PHPMailer\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
-        ),
-        'Mfern\\Matapp\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (

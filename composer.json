@@ -1,14 +1,14 @@
 {
-    "name": "mfern/matapp",
+    "name": "miguifer/matapp",
     "autoload": {
         "psr-4": {
-            "Mfern\\Matapp\\": "src/"
+            "miguifer\\matapp\\": "src/"
         }
     },
     "authors": [
         {
             "name": "miguifer",
-            "email": "miguifer03@gmail.com"
+            "email": "mfernandezfie@gmail.com"
         }
     ],
     "require": {

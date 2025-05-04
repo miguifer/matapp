@@ -54,10 +54,8 @@ class mensajesController extends Controlador
             $idMensaje = $_POST['idMensaje'];
             $idAcademia = $_POST['idAcademia'];
 
-            // Desfija todos los mensajes de la academia antes de fijar el nuevo
             $this->academiaModelo->desfijarTodosMensajes($idAcademia);
 
-            // Fija el mensaje seleccionado
             $resultado = $this->academiaModelo->fijarMensaje($idMensaje);
 
             header('Content-Type: application/json');

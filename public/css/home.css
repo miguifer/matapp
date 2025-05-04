@@ -11,17 +11,6 @@
 
 }
 
-body {
-  /* background-color: var(--fondo); */
-}
-
-/* #registrarse:hover {
-  color: var(--gris-claro);
-  background-color: var(--fondo);
-  border: 1px solid var(--gris-claro);
-  transition: all 100ms linear;
-} */
-
 #searchInput {
   background: none;
   border: none;
@@ -50,13 +39,6 @@ body {
   text-decoration: underline !important;
 }
 
-/* #iniciar-sesion:hover span {
-  color: var(--gris-claro);
-}
-
-#iniciar-sesion:hover svg path {
-  fill: var(--gris-claro);
-} */
 
 .resultado {
   color: black;
@@ -88,5 +70,4 @@ body {
 
 h4 {
   font-size: 40px;
-  /* color: var(--azul); */
 }

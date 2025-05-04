@@ -15,7 +15,7 @@ class calendarioModelo
                           LEFT JOIN Usuarios u ON c.idEntrenador = u.idUsuario
                           WHERE c.idAcademia = :idAcademia");
         $this->db->bind(':idAcademia', $idAcademia);
-        return $this->db->registros(); // Devuelve todos los registros como objetos
+        return $this->db->registros();
     }
 
     public function obtenerUsuariosReservados($idClase)
@@ -25,7 +25,7 @@ class calendarioModelo
                       JOIN Usuarios u ON r.idUsuario = u.idUsuario
                       WHERE r.idClase = :idClase");
         $this->db->bind(':idClase', $idClase);
-        return $this->db->registros(); // Devuelve todos los registros como objetos
+        return $this->db->registros();
     }
 
     public function agregarClase($datos)
@@ -86,7 +86,7 @@ class calendarioModelo
         $this->db->query("SELECT * FROM Reservas WHERE idClase = :idClase AND idUsuario = :idUsuario");
         $this->db->bind(':idClase', $idClase);
         $this->db->bind(':idUsuario', $idUsuario);
-        return $this->db->registro(); // Devuelve un único registro como objeto o false si no existe
+        return $this->db->registro();
     }
 
     public function obtenerClasesPorUsuario($idUsuario)
@@ -99,7 +99,6 @@ class calendarioModelo
         $this->db->bind(':idUsuario', $idUsuario);
         $clases = $this->db->registros();
 
-        // Para cada clase, añade los usuarios apuntados
         foreach ($clases as &$clase) {
             $this->db->query("SELECT u.nombreUsuario FROM Reservas r JOIN Usuarios u ON r.idUsuario = u.idUsuario WHERE r.idClase = :idClase");
             $this->db->bind(':idClase', $clase->id);
@@ -132,29 +131,24 @@ class calendarioModelo
 
         $this->db->bind(':idClase', $idClase);
 
-        return $this->db->registros(); // equivalente a fetchAll()
+        return $this->db->registros();
     }
-
 
     public function confirmarAsistenciaMultiple($idClase, $asistentes)
     {
         try {
-            // Primero, poner asistencia a 0 para todos los usuarios de la clase
             $this->db->query("UPDATE Reservas SET asistencia = 0 WHERE idClase = :idClase");
             $this->db->bind(':idClase', $idClase);
             $this->db->execute();
 
-            // Ahora, poner asistencia a 1 solo para los usuarios seleccionados
             if (!empty($asistentes)) {
-                // Prepara la consulta para los usuarios seleccionados
                 $placeholders = implode(',', array_fill(0, count($asistentes), '?'));
                 $sql = "UPDATE Reservas SET asistencia = 1 WHERE idClase = ? AND idUsuario IN ($placeholders)";
                 $this->db->query($sql);
 
-                // Bind de los parámetros
                 $params = array_merge([$idClase], $asistentes);
                 foreach ($params as $idx => $val) {
-                    $this->db->bind($idx + 1, $val); // Asumiendo que el método bind soporta índices numéricos
+                    $this->db->bind($idx + 1, $val);
                 }
                 $this->db->execute();
             }

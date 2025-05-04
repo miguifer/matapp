@@ -2,105 +2,93 @@
   max-width: 700px;
   margin: 0 auto;
 }
-/* Estilo del contenedor del calendario (FullCalendar) */
+
 .fc {
-  font-family: "Poppins", sans-serif; /* Fuente moderna */
-  background-color: #f8f9fa; /* Fondo claro */
-  border-radius: 8px; /* Bordes redondeados */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  font-family: "Poppins", sans-serif; 
+  background-color: #f8f9fa; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
 }
 
-/* Estilo de la barra de encabezado */
 .fc-header-toolbar {
-  background-color: white; /* Azul, similar al botón de SweetAlert2 */
+  background-color: white; 
   color: white;
   padding: 10px 15px;
-  border-radius: 8px 8px 0 0; /* Bordes redondeados solo en la parte superior */
+  border-radius: 8px 8px 0 0; 
 }
 
-/* Estilo de los botones en la barra de herramientas */
 .fc-button {
-  background-color: #2150c7; /* Azul */
+  background-color: #2150c7;
   color: white;
   border: none;
-  border-radius: 25px; /* Botones con bordes redondeados */
+  border-radius: 25px; 
   padding: 8px 20px;
   font-size: 14px;
   text-transform: uppercase;
   cursor: pointer;
 }
 .fc-button:hover {
-  background-color: #2150c7; /* Azul más oscuro */
+  background-color: #2150c7; 
 }
 .fc-button:focus {
   outline: none;
 }
 
-/* Estilo de los días del calendario */
 .fc-day {
   background-color: white;
-  color: #495057; /* Color de texto sutil */
+  color: #495057; 
   border-radius: 5px;
   transition: background-color 0.3s ease;
 }
 
-/* Efecto hover sobre los días */
 .fc-day:hover {
-  background-color: #f1f3f5; /* Color suave al pasar el ratón */
+  background-color: #f1f3f5; 
 }
 
-/* Estilo del número del día */
 .fc-day-number {
   font-size: 16px;
   font-weight: bold;
-  color: #495057; /* Color de texto de los días */
+  color: #495057; 
 }
 
-/* Estilo para los eventos */
 .fc-event {
-  background-color: #2150c7; /* Azul para los eventos */
+  background-color: #2150c7; 
   color: white;
   border-radius: 5px;
   font-size: 12px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  border: none !important; /* Sin borde */
+  border: none !important; 
   text-align: center;
   font-family: sans-serif;
 }
 
-/* Efecto hover sobre los eventos */
 .fc-event:hover {
-  background-color: #1c3d73; /* Azul más oscuro */
+  background-color: #1c3d73; 
 }
 
-/* Estilo para eventos de todo el día */
 .fc-day-grid-event.fc-event {
-  background-color: #00bfae; /* Verde turquesa */
+  background-color: #00bfae;
   color: white;
 }
 
-/* Personalización de los eventos de diferentes colores */
 .fc-event.custom-color {
-  background-color: #e74a3b; /* Rojo */
+  background-color: #e74a3b; 
 }
 
 .fc-event.custom-color:hover {
-  background-color: #c0392b; /* Rojo más oscuro */
+  background-color: #c0392b; 
 }
 
-/* Estilo para la vista de mes */
 .fc-month-view {
   font-family: "Poppins", sans-serif;
 }
 
-/* Cambiar el color de fondo del evento cuando está seleccionado */
 .fc-event.fc-event-selected {
   background-color: #2150c7;
   border: none;
 }
 
-/* Estilo de los botones de navegación */
 .fc-prev-button,
 .fc-next-button {
   background-color: #2150c7;
@@ -147,20 +135,18 @@
 }
 
 #calendar a {
-  text-decoration: none !important; /* Eliminar subrayado de enlaces */
+  text-decoration: none !important; 
 }
 
-/* Estilo del día actual */
 #calendar .fc-day-today {
-  background-color: #a5dd8725 !important; /* Fondo más claro para el día de hoy */
-  border: 2px solid #46bc62 !important; /* Borde azul alrededor del día de hoy */
-  color: #46bc62 !important; /* Color del texto */
-  font-weight: bold; /* Negrita para el día de hoy */
+  background-color: #a5dd8725 !important; 
+  border: 2px solid #46bc62 !important; 
+  color: #46bc62 !important; 
+  font-weight: bold; 
 }
 
-/* Cambiar el color de fondo y bordes cuando el día actual es hover */
 #calendar .fc-day-today:hover {
-  background-color: #a5dd8756 !important; /* Fondo más claro al hacer hover */
+  background-color: #a5dd8756 !important; 
 }
 
 #calendar .fc-header-toolbar {
@@ -178,8 +164,8 @@
   font-family: "Jost";
   font-size: 1.5em;
   font-weight: 600;
-  color: #2150c7; /* Color del texto del título */
-  text-transform: capitalize; /* Primera letra en mayúscula */
+  color: #2150c7; 
+  text-transform: capitalize;
 }
 
 .tituloCalendario {
@@ -203,8 +189,6 @@
   color: black;
 }
 
-/* #46bc62
-#ff870c */
 
 .fc-today-button {
   background-color: #2150c7 !important;

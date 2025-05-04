@@ -20,7 +20,6 @@ class amigos extends Controlador
         }
         $usuarios = $this->modelo->buscarUsuariosParaAmistad($usuario->idUsuario, $q);
 
-        // Convertir imagen a base64
         foreach ($usuarios as &$u) {
             if (!empty($u->imagen)) {
                 $u->imagen = base64_encode($u->imagen);
@@ -51,7 +50,6 @@ class amigos extends Controlador
         $usuario = json_decode($_SESSION['userLogin']['usuario']);
         $amigos = $this->modelo->obtenerAmigos($usuario->idUsuario);
 
-        // Convertir imagen a base64
         foreach ($amigos as &$a) {
             if (!empty($a->imagen)) {
                 $a->imagen = base64_encode($a->imagen);
@@ -69,7 +67,6 @@ class amigos extends Controlador
         $usuario = json_decode($_SESSION['userLogin']['usuario']);
         $solicitudes = $this->modelo->obtenerSolicitudesRecibidas($usuario->idUsuario);
 
-        // Convertir imagen a base64
         foreach ($solicitudes as &$s) {
             if (!empty($s->imagen)) {
                 $s->imagen = base64_encode($s->imagen);
@@ -112,7 +109,6 @@ class amigos extends Controlador
         echo json_encode(['message' => $ok ? 'Amistad eliminada' : 'Error al eliminar']);
     }
 
-    // AmigosController.php
     public function perfil()
     {
         $id = $_GET['id'];

@@ -3,8 +3,8 @@ class DataBase
 {
     private $rutaBD = 'C:/Program Files/Ampps/www/matapp/app/db/matapp.db';
 
-    private $dbh;   // Database handler
-    private $stmt;  // Statement para ejecutar consultas
+    private $dbh;
+    private $stmt;
     private $error;
 
     public function __construct()
@@ -19,7 +19,6 @@ class DataBase
             $this->dbh = new PDO($dsn, null, null, $opciones);
         } catch (PDOException $e) {
             $this->error = $e->getMessage();
-            // Verificar si la carpeta logs existe antes de escribir
             $logPath = dirname(__FILE__) . '/../logs/db_errors.log';
             if (!is_dir(dirname($logPath))) {
                 mkdir(dirname($logPath), 0777, true);

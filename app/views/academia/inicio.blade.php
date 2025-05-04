@@ -3,7 +3,6 @@
 <link rel="stylesheet" href="{{ RUTA_URL }}/public/css/academia.css">
 
 <?php
-// Decodificamos la cadena JSON almacenada en la sesión
 $usuario = json_decode($_SESSION['userLogin']['usuario']);
 $userRole = $usuario->rol;
 
@@ -11,25 +10,24 @@ $userRole = $usuario->rol;
 
 <?php if ($usuario->rol == 'Entrenador') { ?>
 <script>
-    currentRole = "Entrenador"; // Valor inicial
+    currentRole = "Entrenador"; 
 </script>
 <?php } else if ($usuario->rol == 'Alumno') { ?>
 <script>
-    currentRole = "Alumno"; // Valor inicial
+    currentRole = "Alumno"; 
 </script>
 <?php } else if ($usuario->rol == 'Gerente') { ?>
 <script>
-    currentRole = "Gerente"; // Valor inicial
+    currentRole = "Gerente"; 
 </script>
 <?php } else if ($usuario->rol == 'Administrador') { ?>
 <script>
-    currentRole = "Administrador"; // Valor inicial
+    currentRole = "Administrador"; 
 </script>
 <?php }else{
     redireccionar('/academia/solicitarAcceso?academia=' . urlencode(json_encode($academia)));
 } ?>
 
-<!-- Agrega los tabs de Bootstrap antes del contenido principal -->
 <ul class="nav nav-tabs mb-3" id="academiaTabs" role="tablist">
 
     <li class="nav-item" role="presentation">
@@ -83,11 +81,8 @@ $userRole = $usuario->rol;
 </ul>
 
 <div class="tab-content" id="academiaTabsContent">
-    <!-- Calendario -->
     <div class="tab-pane fade show active" id="calendario" role="tabpanel" aria-labelledby="calendario-tab">
         <h1><strong>{{ $academia->nombreAcademia }}</strong></h1>
-        {{-- <img src="{{ $academia->path_imagen }}" alt="Imagen academia"
-            style="width:80px; height:80px; object-fit:cover; border-radius:50%; margin-bottom:10px;"> --}}
         @if ($usuario->rol == 'Entrenador')
             <div class="form-check form-switch mb-3">
                 <input class="form-check-input" type="checkbox" id="switchEntrenador" onchange="toggleRoleSwitch()"
@@ -111,7 +106,6 @@ $userRole = $usuario->rol;
         </div>
     </div>
 
-    <!-- Clases -->
     @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Entrenador')
         <div class="tab-pane fade" id="clases" role="tabpanel" aria-labelledby="clases-tab">
             <h2>Clases de la Academia</h2>
@@ -144,38 +138,29 @@ $userRole = $usuario->rol;
         </div>
     @endif
 
-    <!-- Funciones Administrativas -->
     @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Administrador')
         <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="admin-tab">
-            {{-- Aquí va TODO el contenido administrativo: estadísticas, tablas, scripts, etc. --}}
-            <!-- ...pega aquí el contenido administrativo existente... -->
-            <!-- Desde <h4>Estadísticas de tipos de Academias</h4> hasta el final de la sección admin -->
-            <!-- Puedes mover todo el bloque PHP y HTML de funciones administrativas aquí -->
-            {{-- ...contenido administrativo existente... --}}
+            
             <?php
-            // Asegúrate de que la variable $estadisticaAcademia tiene los datos correctos
             $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
             ?>
             <script>
                 const ctx = document.getElementById('miGrafico').getContext('2d');
 
-                // Pasamos los datos de PHP a JavaScript sin comillas adicionales
                 const estadisticasAcademia = <?= $estadisticaAcademiaJS ?>;
 
-                // Extraemos los nombres de los tipos de academia y los números de alumnos
                 const labels = estadisticasAcademia.map(item => item.nombreTipo);
                 const data = estadisticasAcademia.map(item => item.numAlumnos);
 
-                // Crear el gráfico con los datos obtenidos
                 const miGrafico = new Chart(ctx, {
-                    type: 'bar', // tipos: bar, line, pie, doughnut, radar, polarArea...
+                    type: 'bar', 
                     data: {
                         labels: labels,
                         datasets: [{
                             label: 'Número de alumnos',
                             data: data,
                             backgroundColor: [
-                                '#f87171', // Puedes modificar los colores o hacerlos dinámicos
+                                '#f87171', 
                                 '#60a5fa',
                                 '#34d399',
                                 '#fbbf24'
@@ -295,7 +280,6 @@ $userRole = $usuario->rol;
         </div>
     @endif
 
-    <!-- Información -->
     <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
         <div class="mt-4">
             <h2>Información de la Academia</h2>
@@ -321,18 +305,15 @@ $userRole = $usuario->rol;
 
     </div>
 
-    <!-- Galería -->
     <div class="tab-pane fade" id="galeria" role="tabpanel" aria-labelledby="galeria-tab">
         <div class="mt-4">
             <h2>Galería de la Academia</h2>
-            {{-- Aquí puedes mostrar imágenes de la academia --}}
             @php
                 $galeriaDir =
                     $_SERVER['DOCUMENT_ROOT'] . "/matapp/public/data/academias-gallery/{$academia->idAcademia}";
                 $galeriaUrl = "/matapp/public/data/academias-gallery/{$academia->idAcademia}";
                 $imagenes = glob($galeriaDir . '/*.{jpg,jpeg,png,gif}', GLOB_BRACE);
             @endphp
-            {{-- ...galería... --}}
 
             <div class="galeria-flex">
                 @if ($imagenes)
@@ -345,7 +326,6 @@ $userRole = $usuario->rol;
                     <p>No hay imágenes en la galería.</p>
                 @endif
             </div>
-            {{-- ...fin galería... --}}
 
             @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Entrenador')
                 <form action="{{ RUTA_URL }}/academia/subirFoto" method="POST" enctype="multipart/form-data">
@@ -357,12 +337,10 @@ $userRole = $usuario->rol;
         </div>
     </div>
 
-    <!-- Mensajes -->
     <div class="tab-pane fade" id="mensajes" role="tabpanel" aria-labelledby="mensajes-tab">
         <div class="mt-4">
             <h2>Mensajes</h2>
 
-            {{-- Solo Gerente, Entrenador o Administrador pueden enviar --}}
             @if ($usuario->rol == 'Entrenador' || $usuario->rol == 'Gerente' || $usuario->rol == 'Administrador')
                 <form id="formEnviarMensaje" action="<?= RUTA_URL ?>/mensajesController/enviarMensaje" method="POST"
                     class="mb-3">
@@ -378,7 +356,6 @@ $userRole = $usuario->rol;
                 <div id="mensajeEnviadoAlert"></div>
             @endif
 
-            {{-- TODOS pueden ver los mensajes --}}
             <div id="listaMensajes">
                 @php
                     $mensajeFijado = null;
@@ -445,10 +422,8 @@ $userRole = $usuario->rol;
 
     <div class="tab-pane fade" id="ranking" role="tabpanel" aria-labelledby="ranking-tab">
         <h2>Ranking de Asistencia</h2>
-        {{-- Podio de los 3 primeros --}}
         @if (count($ranking) > 0)
             <div class="d-flex justify-content-center align-items-end mb-4" style="gap: 40px;">
-                {{-- Segundo puesto --}}
                 <div class="text-center" style="order:1;">
                     @if (isset($ranking[1]))
                         <div style="font-size:2.2em;">&#x1F948;</div>
@@ -458,7 +433,6 @@ $userRole = $usuario->rol;
                             2º</div>
                     @endif
                 </div>
-                {{-- Primer puesto --}}
                 <div class="text-center" style="order:2;">
                     @if (isset($ranking[0]))
                         <div style="font-size:2.7em;">&#x1F451;</div>
@@ -468,7 +442,6 @@ $userRole = $usuario->rol;
                             1º</div>
                     @endif
                 </div>
-                {{-- Tercer puesto --}}
                 <div class="text-center" style="order:3;">
                     @if (isset($ranking[2]))
                         <div style="font-size:2.2em;">&#x1F949;</div>

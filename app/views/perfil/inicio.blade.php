@@ -3,15 +3,6 @@
 
 <link rel="stylesheet" type="text/css" href="<?= RUTA_URL ?>/public/css/perfil.css">
 
-
-<?php
-$usuario = json_decode($_SESSION['userLogin']['usuario']);
-
-// if ($usuario->rol == 'Administrador') {
-//     redireccionar('/admin');
-// }
-
-?>
 @php
 
     $usuario = json_decode($_SESSION['userLogin']['usuario']);
@@ -332,4 +323,6 @@ $usuario = json_decode($_SESSION['userLogin']['usuario']);
     window.toastrMsg = <?= isset($_GET['toastrMsg']) ? json_encode($_GET['toastrMsg']) : 'null' ?>;
 </script>
 <script src="<?= RUTA_URL ?>/public/js/perfil.inicio.js"></script>
+
+
 @include('includes.footer')

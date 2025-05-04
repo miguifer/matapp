@@ -1,6 +1,5 @@
 <?php
 
-
 use eftec\bladeone\BladeOne;
 use Dotenv\Dotenv;
 
@@ -37,10 +36,7 @@ class perfil extends Controlador
 
     public function actualizarPerfil()
     {
-
-
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
 
             $errores = [];
 
@@ -82,7 +78,6 @@ class perfil extends Controlador
                 $datos['login'] = "";
             }
 
-
             if (isset($_POST["email"])) {
                 if (!empty($_POST['email'])) {
 
@@ -120,7 +115,6 @@ class perfil extends Controlador
 
             if (isset($_POST["nombreUsuario"])) {
                 $nombreUsuario = test_input($_POST['nombreUsuario']);
-                // No es obligatorio ni único, pero controlar longitud
                 if (strlen($nombreUsuario) <= 50) {
                     $datos['nombreUsuario'] = $nombreUsuario;
                 } else {
@@ -157,7 +151,6 @@ class perfil extends Controlador
 
             if (isset($_POST["telefonoUsuario"])) {
                 $telefonoUsuario = test_input($_POST['telefonoUsuario']);
-                // Validar el teléfono solo si no está vacío
                 if (!empty($telefonoUsuario)) {
                     if (validar_telefono($telefonoUsuario)) {
                         $datos['telefonoUsuario'] = $telefonoUsuario;
@@ -166,11 +159,9 @@ class perfil extends Controlador
                         $datos['telefonoUsuario'] = "";
                     }
                 } else {
-                    // Puede estar vacío, no es obligatorio
                     $datos['telefonoUsuario'] = "";
                 }
             } else {
-                // Si no se envía, guardar como cadena vacía
                 $datos['telefonoUsuario'] = "";
             }
 
@@ -180,17 +171,13 @@ class perfil extends Controlador
                     $errores['password_error'] = "La contraseña debe tener al menos 6 caracteres.";
                     $datos['password'] = "";
                 } else {
-                    // Hashea la contraseña antes de guardar
                     $datos['password'] = password_hash($password, PASSWORD_DEFAULT);
                 }
             } else {
-                // No se cambia la contraseña si el campo está vacío
                 $datos['password'] = null;
             }
 
-
             if (empty($errores)) {
-                // Elimina el campo password si es null para no actualizarlo
                 if ($datos['password'] === null) {
                     unset($datos['password']);
                 }
@@ -198,19 +185,15 @@ class perfil extends Controlador
 
                     unset($_SESSION['userLogin']);
 
-                    //tocho usuarios
                     $usuario = $this->academiaModelo->getUsuarioPorId($id);
 
                     $usuario->imagen = base64_encode($usuario->imagen);
 
                     $usuario->rol = $this->academiaModelo->obtenerRolDeUsuario($usuario->idUsuario) ?? 'Cliente';
 
-                    // Ahora sí puedes codificar todo
                     $_SESSION['userLogin'] = [
                         'usuario' => json_encode($usuario),
                     ];
-
-                    // tocho usuarios
 
                     redireccionar('/perfil?toastrMsg=Perfil actualizado correctamente');
                 } else {
@@ -231,7 +214,6 @@ class perfil extends Controlador
         }
     }
 
-
     public function actualizarImagen()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -239,10 +221,9 @@ class perfil extends Controlador
             $id = test_input($_POST['id']);
             $usuario = $this->academiaModelo->getUsuarioPorId($id);
 
-            // Verificar si se sube una imagen
             if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] == 0) {
                 $permitidos = ['image/jpeg', 'image/png', 'image/gif'];
-                $max_tamano = 2 * 1024 * 1024; // 2MB
+                $max_tamano = 2 * 1024 * 1024;
 
                 $tipo = mime_content_type($_FILES["imagen"]["tmp_name"]);
                 $tamano = $_FILES["imagen"]["size"];
@@ -254,51 +235,40 @@ class perfil extends Controlador
                     $errores['imagen_error'] = "La imagen es demasiado grande. Máximo 2MB.";
                     $datos['imagen'] = $usuario->imagen;
                 } else {
-                    // Obtener los datos binarios de la imagen
                     $imagen = file_get_contents($_FILES["imagen"]["tmp_name"]);
                     $datos['imagen'] = $imagen;
                 }
             } else {
                 $errores['imagen_error'] = "Error al subir la imagen.";
-                $datos['imagen'] = $usuario->imagen; // Mantener la imagen actual si hay un error
+                $datos['imagen'] = $usuario->imagen;
             }
 
-            // Si no hay errores, actualizar la imagen en la base de datos
             if (empty($errores)) {
                 if ($this->academiaModelo->modificarImagen($id, $datos)) {
-                    // Actualizar la imagen en la sesión
 
-                    //tocho usuarios
                     $usuario = $this->academiaModelo->getUsuarioPorId($id);
 
                     $usuario->imagen = base64_encode($usuario->imagen);
 
                     $usuario->rol = $this->academiaModelo->obtenerRolDeUsuario($usuario->idUsuario) ?? 'Cliente';
 
-                    // Ahora sí puedes codificar todo
                     $_SESSION['userLogin'] = [
                         'usuario' => json_encode($usuario),
                     ];
 
-                    // tocho usuarios
-
-                    // Redirigir a la página del perfil
                     redireccionar('/perfil?toastrMsg=Imagen de perfil actualizada correctamente');
                 } else {
-                    // En caso de error al modificar la imagen
                     $datos['error_modificacion'] = "Hubo un error al modificar la imagen.";
 
                     $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
                     echo $this->blade->run("perfil.inicio", $datos);
                 }
             } else {
-                // Si hay errores, mostrar el formulario de perfil con los errores
                 $datos['errores'] = $errores;
                 $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
                 echo $this->blade->run("perfil.inicio", $datos);
             }
         } else {
-            // Si no es un POST, redirigir a la página del perfil
             redireccionar('/');
         }
     }
