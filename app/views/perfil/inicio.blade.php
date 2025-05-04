@@ -360,7 +360,19 @@ if ($usuario->rol == 'Administrador') {
                 });
             },
             eventClick: function(info) {
-                const idClase = info.event.id; 
+                const idClase = info.event.id;
+                const eventDate = new Date(info.event.start);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                if (eventDate < today) {
+                    Swal.fire(
+                        'No permitido',
+                        'Solo puedes desapuntarte de clases de hoy o futuras.',
+                        'info'
+                    );
+                    return;
+                }
 
                 Swal.fire({
                     title: '¿Quieres desapuntarte?',
@@ -386,8 +398,7 @@ if ($usuario->rol == 'Administrador') {
                                     'Te has desapuntado de la clase.',
                                     'success'
                                 );
-                                info.event
-                                    .remove(); 
+                                info.event.remove();
                             },
                             error: function() {
                                 Swal.fire(
