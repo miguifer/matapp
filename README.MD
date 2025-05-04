@@ -20,19 +20,19 @@
 
 ## Descripción
 
-**MatApp** es una aplicación web moderna y modular diseñada específicamente para la gestión integral de gimnasios de artes marciales. Permite administrar recursos, usuarios, clases, horarios y actividades, facilitando la organización diaria, la programación de entrenamientos y la comunicación entre instructores y alumnos, todo desde una interfaz intuitiva y accesible.
+**MatApp** es una aplicación web moderna y modular diseñada específicamente para la gestión integral de gimnasios de artes marciales. Permite administrar usuarios, clases, horarios, actividades, etc. Facilitando la organización diaria, la programación de entrenamientos y la comunicación entre instructores y alumnos, todo desde una interfaz intuitiva y accesible.
 
 ---
 
 ## Características Principales
 
-- Arquitectura MVC con PHP para un desarrollo estructurado y mantenible.
-- Sistema de plantillas con Blade para vistas dinámicas y reutilizables.
-- Soporte para bases de datos Sqlite y MySQL.
+- Arquitectura modelo -> vista -> controlador con PHP para un desarrollo estructurado y mantenible.
+- Sistema de plantillas con Blade para vistas dinámicas.
+- Soporte para bases de datos Sqlite.
 - Interfaz responsive basada en Bootstrap.
-- Interacción dinámica con jQuery y JavaScript.
-- Calendario interactivo con FullCalendar para gestión de eventos y recursos.
-- Tablas avanzadas con DataTables.js (búsqueda, filtros, exportación).
+- Interacción dinámica con datos a través de peticiones ajax con jQuery / JavaScript.
+- Calendario interactivo con FullCalendar para gestión de eventos.
+- Tablas avanzadas con DataTables.js (búsqueda, filtros, etc.)
 - Gráficos visuales con Chart.js para análisis de datos.
 - Selector de fechas optimizado con Flatpickr.
 - Envío de correos con PHPMailer.
