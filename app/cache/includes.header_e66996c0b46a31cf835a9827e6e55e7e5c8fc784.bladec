@@ -387,10 +387,13 @@
  if (res.length === 0) html = '<li class="list-group-item text-muted">Sin amigos</li>';
  res.forEach(a => {
  let imgSrc = a.imagen ? `data:image/jpeg;base64,${a.imagen}` : '<?= RUTA_URL ?>/public/img/default_profile.png';
+ let onlineBadge = a.online == 1
+ ? '<span class="badge bg-success ms-2">Online</span>'
+ : '<span class="badge bg-secondary ms-2">Offline</span>';
  html += `<li class="list-group-item d-flex justify-content-between align-items-center">
  <span class="d-flex align-items-center">
  <img src="${imgSrc}" alt="Perfil" class="rounded-circle me-2" style="width:32px;height:32px;object-fit:cover;">
- ${a.login}
+ ${a.login} ${onlineBadge}
  </span>
  <button class="btn btn-danger btn-sm eliminar-amigo" data-id="${a.idUsuario}">Eliminar</button>
  </li>`;

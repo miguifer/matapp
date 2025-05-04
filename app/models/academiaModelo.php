@@ -612,13 +612,18 @@ class academiaModelo
     public function obtenerAmigos($miId)
     {
         $this->db->query("
-    SELECT u.idUsuario, u.login, u.imagen   -- <--- Añade u.imagen
-    FROM Amistades a
-    JOIN Usuarios u ON (u.idUsuario = a.idUsuario1 OR u.idUsuario = a.idUsuario2)
-    WHERE (a.idUsuario1 = :miId OR a.idUsuario2 = :miId)
-    AND a.estado = 'aceptada'
-    AND u.idUsuario != :miId
-");
+        SELECT 
+            u.idUsuario, 
+            u.login, 
+            u.imagen,
+            CASE WHEN sa.idUsuario IS NOT NULL THEN 1 ELSE 0 END AS online
+        FROM Amistades a
+        JOIN Usuarios u ON (u.idUsuario = a.idUsuario1 OR u.idUsuario = a.idUsuario2)
+        LEFT JOIN sesiones_activas sa ON sa.idUsuario = u.idUsuario
+        WHERE (a.idUsuario1 = :miId OR a.idUsuario2 = :miId)
+        AND a.estado = 'aceptada'
+        AND u.idUsuario != :miId
+    ");
         $this->db->bind(':miId', $miId);
         return $this->db->registros();
     }
