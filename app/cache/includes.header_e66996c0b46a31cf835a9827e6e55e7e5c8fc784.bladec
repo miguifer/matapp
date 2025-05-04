@@ -128,8 +128,7 @@
  class="img-fluid" width="40" height="40" id="logo" title="Home" />
  </span>
 
- <!-- Notificaciones de mensajes -->
- <div class="dropdown me-2">
+ <div class="dropdown me-3">
  <button class="btn btn-light position-relative" type="button" id="dropdownNotificaciones"
  data-bs-toggle="dropdown" aria-expanded="false" title="Notificaciones">
  <i class="fa-regular fa-bell"></i>
@@ -148,8 +147,7 @@
  </ul>
  </div>
 
- <!-- Botón Amigos solo para admins -->
- <a href="#" class="btn btn-light me-2 position-relative" title="Amigos" data-bs-toggle="offcanvas"
+ <a href="#" class="btn btn-light me-3 position-relative" title="Amigos" data-bs-toggle="offcanvas"
  data-bs-target="#offcanvasAmigos">
  <i class="fa-solid fa-user-group"></i>
  <span id="badgeSolicitudesBtn"
