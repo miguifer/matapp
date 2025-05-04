@@ -460,6 +460,16 @@
                     }, 'json');
                 });
 
+                // Solicitar amistad
+                $('#resultadosBusqueda').on('click', '.solicitar-amistad', function() {
+                    let idUsuario2 = $(this).data('id');
+                    $.post('<?= RUTA_URL ?>/amigos/solicitar', { idUsuario2: idUsuario2 }, function(res) {
+                        toastr.success(res.message || 'Solicitud enviada');
+                        $('#buscarUsuarioInput').trigger('input'); // Refresca la búsqueda
+                        cargarSolicitudes();
+                    }, 'json');
+                });
+
                 // Cargar listas al abrir el offcanvas
                 $('#offcanvasAmigos').on('shown.bs.offcanvas', function() {
                     cargarAmigos();
