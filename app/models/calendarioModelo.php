@@ -10,13 +10,14 @@ class calendarioModelo
     }
     public function obtenerClases($idAcademia)
     {
-        $this->db->query("SELECT c.*, u.nombreUsuario AS nombreEntrenador, u.imagen AS imagenEntrenador
+        $this->db->query("SELECT c.*, u.nombreUsuario AS nombreEntrenador, u.imagen AS imagenEntrenador, u.login AS loginEntrenador
                           FROM clases c
                           LEFT JOIN Usuarios u ON c.idEntrenador = u.idUsuario
                           WHERE c.idAcademia = :idAcademia");
         $this->db->bind(':idAcademia', $idAcademia);
         return $this->db->registros();
     }
+
 
     public function obtenerUsuariosReservados($idClase)
     {

@@ -262,7 +262,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                     ? `<img src="${info.event.extendedProps.imagenEntrenador}" alt="Entrenador" style="width:32px;height:32px;border-radius:50%;margin-right:8px;vertical-align:middle;">`
                                     : `<span class="fa fa-user-circle" style="font-size:32px;color:#ccc;margin-right:8px;vertical-align:middle;"></span>`
                                 }
-                                    ${info.event.extendedProps.nombreEntrenador || 'Entrenador no asignado'}
+                                    ${info.event.extendedProps.nombreEntrenador && info.event.extendedProps.nombreEntrenador.trim() !== ''
+                                    ? info.event.extendedProps.nombreEntrenador
+                                    : (info.event.extendedProps.loginEntrenador || 'Entrenador no asignado')
+                                }
                                 </p>
                                 <p><strong>Asistentes(${usuarios.length})</strong></p>
                                 <div id="usuarios-reservados" style="margin-top: 10px;">
