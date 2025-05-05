@@ -145,6 +145,11 @@ class academia extends Controlador
             }
             $datos['entrenadores'] = $entrenadores;
             $datos['mensajes'] = $mensajes;
+            foreach ($ranking as &$usuarioRanking) {
+                if (isset($usuarioRanking->imagen) && !empty($usuarioRanking->imagen)) {
+                    $usuarioRanking->imagen = 'data:image/jpeg;base64,' . base64_encode($usuarioRanking->imagen);
+                }
+            }
             $datos['ranking'] = $ranking;
 
             $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);

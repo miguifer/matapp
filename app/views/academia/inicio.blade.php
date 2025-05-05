@@ -474,7 +474,14 @@ $userRole = $usuario->rol;
                 <div class="text-center" style="order:1;">
                     @if (isset($ranking[1]))
                         <div style="font-size:2.2em;">&#x1F948;</div>
-                        <div style="font-weight:bold;">{{ $ranking[1]->nombreUsuario }}</div>
+                        @if (!empty($ranking[1]->imagen))
+                            <img src="{{ $ranking[1]->imagen }}" alt="Imagen alumno"
+                                style="width:48px; height:48px; object-fit:cover; border-radius:50%; margin-bottom:4px;">
+                        @else
+                            <span class="fa fa-user-circle"
+                                style="font-size:40px;color:#ccc;margin-bottom:4px;vertical-align:middle;"></span>
+                        @endif
+                        <div style="font-weight:bold;">{{ $ranking[1]->nombreUsuario ?? $ranking[1]->login }}</div>
                         <div
                             style="background:#c0c0c0;width:60px;height:40px;line-height:40px;margin:auto;border-radius:10px 10px 0 0;">
                             2º</div>
@@ -483,7 +490,14 @@ $userRole = $usuario->rol;
                 <div class="text-center" style="order:2;">
                     @if (isset($ranking[0]))
                         <div style="font-size:2.7em;">&#x1F451;</div>
-                        <div style="font-weight:bold;">{{ $ranking[0]->nombreUsuario }}</div>
+                        @if (!empty($ranking[0]->imagen))
+                            <img src="{{ $ranking[0]->imagen }}" alt="Imagen alumno"
+                                style="width:56px; height:56px; object-fit:cover; border-radius:50%; margin-bottom:4px;">
+                        @else
+                            <span class="fa fa-user-circle"
+                                style="font-size:48px;color:#ccc;margin-bottom:4px;vertical-align:middle;"></span>
+                        @endif
+                        <div style="font-weight:bold;">{{ $ranking[0]->nombreUsuario ?? $ranking[0]->login }}</div>
                         <div
                             style="background:gold;width:70px;height:60px;line-height:60px;margin:auto;border-radius:10px 10px 0 0;">
                             1º</div>
@@ -492,42 +506,58 @@ $userRole = $usuario->rol;
                 <div class="text-center" style="order:3;">
                     @if (isset($ranking[2]))
                         <div style="font-size:2.2em;">&#x1F949;</div>
-                        <div style="font-weight:bold;">{{ $ranking[2]->nombreUsuario }}</div>
+                        @if (!empty($ranking[2]->imagen))
+                            <img src="{{ $ranking[2]->imagen }}" alt="Imagen alumno"
+                                style="width:48px; height:48px; object-fit:cover; border-radius:50%; margin-bottom:4px;">
+                        @else
+                            <span class="fa fa-user-circle"
+                                style="font-size:40px;color:#ccc;margin-bottom:4px;vertical-align:middle;"></span>
+                        @endif
+                        <div style="font-weight:bold;">{{ $ranking[2]->nombreUsuario ?? $ranking[2]->login }}</div>
                         <div
                             style="background:#cd7f32;width:60px;height:30px;line-height:30px;margin:auto;border-radius:10px 10px 0 0;">
                             3º</div>
                     @endif
                 </div>
             </div>
-        @endif
-        <table id="tablaRanking" class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Puesto</th>
-                    <th>Alumno</th>
-                    <th>Asistencias</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($ranking as $i => $alumno)
-                    <tr>
-                        <td>{{ $i + 1 }}</td>
-                        <td>
-                            {{ $alumno->nombreUsuario }}
-                            @if ($i == 0)
-                                <span title="1er puesto" style="color: gold; font-size: 1.2em;">&#x1F451;</span>
-                            @elseif ($i == 1)
-                                <span title="2º puesto" style="color: silver; font-size: 1.2em;">&#x1F948;</span>
-                            @elseif ($i == 2)
-                                <span title="3er puesto" style="color: #cd7f32; font-size: 1.2em;">&#x1F949;</span>
-                            @endif
-                        </td>
-                        <td>{{ $alumno->total_asistencias }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
     </div>
+</div>
+@endif
+<table id="tablaRanking" class="table table-striped">
+    <thead>
+        <tr>
+            <th>Puesto</th>
+            <th>Alumno</th>
+            <th>Asistencias</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($ranking as $i => $alumno)
+            <tr>
+                <td>{{ $i + 1 }}</td>
+                <td>
+                    @if (!empty($alumno->imagen))
+                        <img src="{{ $alumno->imagen }}" alt="Imagen alumno"
+                            style="width:32px; height:32px; object-fit:cover; border-radius:50%; margin-right:6px; vertical-align:middle;">
+                    @else
+                        <span class="fa fa-user-circle"
+                            style="font-size:28px;color:#ccc;margin-right:6px;vertical-align:middle;"></span>
+                    @endif
+                    {{ $alumno->nombreUsuario ?? $alumno->login }}
+                    @if ($i == 0)
+                        <span title="1er puesto" style="color: gold; font-size: 1.2em;">&#x1F451;</span>
+                    @elseif ($i == 1)
+                        <span title="2º puesto" style="color: silver; font-size: 1.2em;">&#x1F948;</span>
+                    @elseif ($i == 2)
+                        <span title="3er puesto" style="color: #cd7f32; font-size: 1.2em;">&#x1F949;</span>
+                    @endif
+                </td>
+                <td>{{ $alumno->total_asistencias }}</td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
+</div>
 </div>
 
 <script>

@@ -424,7 +424,7 @@ class academiaModelo
     public function getRankingAsistencia($idAcademia)
     {
         $this->db->query("
-        SELECT u.nombreUsuario, COUNT(r.asistencia) AS total_asistencias
+        SELECT u.nombreUsuario, u.login, u.imagen, COUNT(r.asistencia) AS total_asistencias
         FROM Reservas r
         INNER JOIN Usuarios u ON r.idUsuario = u.idUsuario
         INNER JOIN Clases c ON r.idClase = c.id
