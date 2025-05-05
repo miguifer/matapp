@@ -115,6 +115,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         });
                         const startVal = document.getElementById('start').value;
                         if (startVal) endPicker.set('minDate', startVal);
+
+                        const startInput = document.getElementById('start');
+                        if (startInput.value) {
+                            const date = startPicker.parseDate(startInput.value, "Y-m-d H:i") || new Date(startInput.value);
+                            if (date) {
+                                startInput.value = startPicker.formatDate(date, "Y-m-d H:i");
+                            }
+                        }
                     },
                     preConfirm: () => {
                         const title = Swal.getPopup().querySelector('#title').value;
