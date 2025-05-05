@@ -215,7 +215,18 @@
                                                         @foreach ($solicitudesS as $i => $solicitud)
                                                             <tr>
                                                                 <td>{{ $solicitud->fechaSolicitud ?? '-' }}</td>
-                                                                <td>{{ $solicitud->nombreAcademia ?? '-' }}</td>
+                                                                <td>
+                                                                    @if (!empty($solicitud->path_imagen))
+                                                                        <img src="{{ RUTA_IMG_ACADEMIAS . $solicitud->path_imagen }}"
+                                                                            alt="Academia"
+                                                                            style="width:24px;height:24px;object-fit:cover;border-radius:50%;margin-right:6px;">
+                                                                    @else
+                                                                        <img src="{{ RUTA_URL }}/public/img/favicon/favicon-32x32.png"
+                                                                            alt="Academia"
+                                                                            style="width:24px;height:24px;object-fit:cover;border-radius:50%;margin-right:6px;">
+                                                                    @endif
+                                                                    {{ $solicitud->nombreAcademia ?? '-' }}
+                                                                </td>
                                                                 <td>
                                                                     @if (isset($solicitud->estadoSolicitud))
                                                                         @if ($solicitud->estadoSolicitud == 'pendiente')
@@ -255,16 +266,25 @@
                                                             <th>Fecha</th>
                                                             <th>Academia</th>
                                                             <th>Clase</th>
-                                                            <th>Entrenador</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @foreach ($asistencias as $asistencia)
                                                             <tr>
                                                                 <td>{{ $asistencia->fecha ?? '-' }}</td>
-                                                                <td>{{ $asistencia->nombreAcademia ?? '-' }}</td>
+                                                                <td>
+                                                                    @if (!empty($asistencia->path_imagen))
+                                                                        <img src="{{ RUTA_IMG_ACADEMIAS . $asistencia->path_imagen }}"
+                                                                            alt="Academia"
+                                                                            style="width:24px;height:24px;object-fit:cover;border-radius:50%;margin-right:6px;">
+                                                                    @else
+                                                                        <img src="{{ RUTA_URL }}/public/img/favicon/favicon-32x32.png"
+                                                                            alt="Academia"
+                                                                            style="width:24px;height:24px;object-fit:cover;border-radius:50%;margin-right:6px;">
+                                                                    @endif
+                                                                    {{ $asistencia->nombreAcademia ?? '-' }}
+                                                                </td>
                                                                 <td>{{ $asistencia->nombreClase ?? '-' }}</td>
-                                                                <td>{{ $asistencia->nombreEntrenador ?? '-' }}</td>
                                                             </tr>
                                                         @endforeach
                                                     </tbody>

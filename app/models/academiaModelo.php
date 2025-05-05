@@ -343,7 +343,7 @@ class academiaModelo
     public function getSolicitudesPorIdUsuario($idUsuario)
     {
         $this->db->query("
-            SELECT s.*, a.nombreAcademia
+            SELECT s.*, a.nombreAcademia, a.path_imagen
             FROM Solicitudes s
             INNER JOIN Academias a ON s.idAcademia = a.idAcademia
             WHERE s.idUsuario = :idUsuario
@@ -408,6 +408,7 @@ class academiaModelo
             c.title AS nombreClase, 
             c.start AS fecha, 
             a.nombreAcademia, 
+            a.path_imagen,
             u.nombreUsuario AS nombreEntrenador
         FROM Reservas r
         INNER JOIN Clases c ON r.idClase = c.id

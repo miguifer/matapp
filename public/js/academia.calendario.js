@@ -328,24 +328,27 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         },
         dateClick: function (info) {
-            const clickedDate = new Date(info.dateStr);
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
 
-            if (clickedDate < today) {
+            if ((currentRole == 'Gerente' && ACADEMIA_ID_GERENTE === USUARIO_ID) ||
+                currentRole === 'Entrenador' || currentRole === 'Administrador') {
+                const clickedDate = new Date(info.dateStr);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+
+                if (clickedDate < today) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'No permitido',
+                        text: 'Solo puedes crear clases para hoy o fechas futuras.'
+                    });
+                    return;
+                }
+
                 Swal.fire({
-                    icon: 'warning',
-                    title: 'No permitido',
-                    text: 'Solo puedes crear clases para hoy o fechas futuras.'
-                });
-                return;
-            }
-
-            Swal.fire({
-                icon: 'info',
-                title: 'Agregar Clase',
-                confirmButtonText: 'Agregar',
-                html: `
+                    icon: 'info',
+                    title: 'Agregar Clase',
+                    confirmButtonText: 'Agregar',
+                    html: `
                     <input type="text" id="title" class="swal2-input" placeholder="Título de la clase" required>
                     <input type="text" id="start" placeholder="Fecha de inicio" class="swal2-input" value="${info.dateStr}" required>
                     <input type="text" id="end" placeholder="Fecha de fin" class="swal2-input">
@@ -354,88 +357,89 @@ document.addEventListener("DOMContentLoaded", function () {
                     </select>
                     <input type="hidden" id="idAcademia" value="${ACADEMIA_ID}">
                 `,
-                didOpen: () => {
-                    // Rellenar select de entrenadores si tienes la lista en JS
-                    if (typeof ENTRENADORES !== 'undefined') {
-                        const select = document.getElementById('idEntrenador');
-                        ENTRENADORES.forEach(e => {
-                            const opt = document.createElement('option');
-                            opt.value = e.idUsuario;
-                            opt.textContent = e.nombreUsuario;
-                            select.appendChild(opt);
-                        });
-                    }
-                    const today = new Date();
-                    const maxDate = new Date();
-                    maxDate.setMonth(today.getMonth() + 3);
-
-                    const startPicker = flatpickr("#start", {
-                        enableTime: true,
-                        dateFormat: "Y-m-d H:i",
-                        time_24hr: true,
-                        minDate: today,
-                        maxDate: maxDate,
-                        onChange: function (selectedDates) {
-                            if (selectedDates.length) {
-                                endPicker.set('minDate', selectedDates[0]);
-                            }
-                        }
-                    });
-                    const endPicker = flatpickr("#end", {
-                        enableTime: true,
-                        dateFormat: "Y-m-d H:i",
-                        time_24hr: true,
-                        minDate: today,
-                        maxDate: maxDate
-                    });
-                    const startVal = document.getElementById('start').value;
-                    if (startVal) endPicker.set('minDate', startVal);
-                },
-                preConfirm: () => {
-                    const title = Swal.getPopup().querySelector('#title').value;
-                    const start = Swal.getPopup().querySelector('#start').value;
-                    const idAcademia = Swal.getPopup().querySelector('#idAcademia').value;
-                    if (!title || !start) {
-                        Swal.showValidationMessage('Titulo y fecha de inicio son requeridos');
-                    }
-                    return {
-                        title,
-                        start,
-                        end: Swal.getPopup().querySelector('#end').value,
-                        idEntrenador: Swal.getPopup().querySelector('#idEntrenador').value,
-                        idAcademia
-                    };
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const eventData = result.value;
-                    $.ajax({
-                        url: `${RUTA_URL}/calendarioController/add_clase`,
-                        type: 'POST',
-                        dataType: 'json',
-                        data: eventData,
-                        success: function (response) {
-                            if (response && response.message) {
-                                Swal.fire({
-                                    title: 'Éxito!',
-                                    text: response.message,
-                                    icon: 'success',
-                                    confirmButtonText: 'Genial'
-                                });
-                                calendar.refetchEvents();
-                            }
-                        },
-                        error: function () {
-                            Swal.fire({
-                                title: 'Error',
-                                text: 'Hubo un problema al guardar el evento.',
-                                icon: 'error',
-                                confirmButtonText: 'Cerrar'
+                    didOpen: () => {
+                        // Rellenar select de entrenadores si tienes la lista en JS
+                        if (typeof ENTRENADORES !== 'undefined') {
+                            const select = document.getElementById('idEntrenador');
+                            ENTRENADORES.forEach(e => {
+                                const opt = document.createElement('option');
+                                opt.value = e.idUsuario;
+                                opt.textContent = e.nombreUsuario;
+                                select.appendChild(opt);
                             });
                         }
-                    });
-                }
-            });
+                        const today = new Date();
+                        const maxDate = new Date();
+                        maxDate.setMonth(today.getMonth() + 3);
+
+                        const startPicker = flatpickr("#start", {
+                            enableTime: true,
+                            dateFormat: "Y-m-d H:i",
+                            time_24hr: true,
+                            minDate: today,
+                            maxDate: maxDate,
+                            onChange: function (selectedDates) {
+                                if (selectedDates.length) {
+                                    endPicker.set('minDate', selectedDates[0]);
+                                }
+                            }
+                        });
+                        const endPicker = flatpickr("#end", {
+                            enableTime: true,
+                            dateFormat: "Y-m-d H:i",
+                            time_24hr: true,
+                            minDate: today,
+                            maxDate: maxDate
+                        });
+                        const startVal = document.getElementById('start').value;
+                        if (startVal) endPicker.set('minDate', startVal);
+                    },
+                    preConfirm: () => {
+                        const title = Swal.getPopup().querySelector('#title').value;
+                        const start = Swal.getPopup().querySelector('#start').value;
+                        const idAcademia = Swal.getPopup().querySelector('#idAcademia').value;
+                        if (!title || !start) {
+                            Swal.showValidationMessage('Titulo y fecha de inicio son requeridos');
+                        }
+                        return {
+                            title,
+                            start,
+                            end: Swal.getPopup().querySelector('#end').value,
+                            idEntrenador: Swal.getPopup().querySelector('#idEntrenador').value,
+                            idAcademia
+                        };
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const eventData = result.value;
+                        $.ajax({
+                            url: `${RUTA_URL}/calendarioController/add_clase`,
+                            type: 'POST',
+                            dataType: 'json',
+                            data: eventData,
+                            success: function (response) {
+                                if (response && response.message) {
+                                    Swal.fire({
+                                        title: 'Éxito!',
+                                        text: response.message,
+                                        icon: 'success',
+                                        confirmButtonText: 'Genial'
+                                    });
+                                    calendar.refetchEvents();
+                                }
+                            },
+                            error: function () {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Hubo un problema al guardar el evento.',
+                                    icon: 'error',
+                                    confirmButtonText: 'Cerrar'
+                                });
+                            }
+                        });
+                    }
+                });
+            }
         }
     });
 
