@@ -235,7 +235,13 @@ document.addEventListener("DOMContentLoaded", function () {
                         } else {
                             usuariosHtml = '<ul>';
                             usuarios.forEach(u => {
-                                usuariosHtml += `<li>${u.nombreUsuario ?? 'Nombre desconocido'}</li>`;
+                                usuariosHtml += `<li>
+                                    ${u.imagen
+                                        ? `<img src="${u.imagen}" alt="Imagen" style="width:24px;height:24px;border-radius:50%;margin-right:8px;vertical-align:middle;">`
+                                        : `<span class="fa fa-user-circle" style="font-size:24px;color:#ccc;margin-right:2px;vertical-align:middle;"></span>`
+                                    }
+                                    ${u.nombreUsuario && u.nombreUsuario.trim() !== '' ? u.nombreUsuario : u.login}
+                                </li>`;
                             });
                             usuariosHtml += '</ul>';
                         }
@@ -250,6 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                         : info.event.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }))
                                     : 'Sin fecha de fin'
                                 }</p>
+                                <p><strong>Entrenador:</strong></p>
                                 <p>${info.event.extendedProps.nombreEntrenador || 'Entrenador no asignado'}</p>
                                 <p><strong>Asistentes(${usuarios.length})</strong></p>
                                 <div id="usuarios-reservados" style="margin-top: 10px;">
@@ -449,8 +456,12 @@ $(document).ready(function () {
                     html += `
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="asistencia[]" value="${u.idUsuario}" id="asist_${u.idUsuario}" ${u.asistencia == 1 ? 'checked' : ''}>
+                        ${u.imagen
+                            ? `<img src="${u.imagen}" alt="Imagen" style="width:32px;height:32px;border-radius:50%;margin-right:8px;vertical-align:middle;">`
+                            : `<span class="fa fa-user-circle" style="font-size:32px;color:#ccc;margin-right:8px;vertical-align:middle;"></span>`
+                        }
                             <label class="form-check-label" for="asist_${u.idUsuario}">
-                                ${u.nombreUsuario}
+                                ${(u.nombreUsuario && u.nombreUsuario.trim() !== '') ? u.nombreUsuario : u.login}
                             </label>
                         </div>
                     `;

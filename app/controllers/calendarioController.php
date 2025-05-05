@@ -43,6 +43,11 @@ class calendarioController extends Controlador
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['idClase'])) {
             $idClase = $_POST['idClase'];
             $usuariosReservados = $this->calendarioModelo->obtenerUsuariosReservados($idClase);
+            foreach ($usuariosReservados as &$usuario) {
+                if (isset($usuario->imagen) && !empty($usuario->imagen)) {
+                    $usuario->imagen = 'data:image/jpeg;base64,' . base64_encode($usuario->imagen);
+                }
+            }
             header('Content-Type: application/json');
             echo json_encode($usuariosReservados);
             return;

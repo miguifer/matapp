@@ -64,12 +64,12 @@
                     ?>
                     <h3 class="mt-3 mb-1">
                         <span class="fs-6 opacity-50">@</span><?= $usuario->login ?>
-                        @if ($rolUsuario == 'Administrador')
+                        {{-- @if ($rolUsuario == 'Administrador')
                             <span class="badge bg-warning ms-2" title="Tus monedas/puntos">
                                 <i class="fas fa-coins me-1"></i>
-                                <?= isset($usuario->monedas) ? $usuario->monedas : 0 ?>
+                                 isset($usuario->monedas) ? $usuario->monedas : 0 ?>
                             </span>
-                        @endif
+                        @endif --}}
                     </h3>
 
                 </div>
@@ -91,12 +91,12 @@
                                                 class="fas fa-envelope me-2"></i>Solicitudes</a>
                                         <a class="nav-link" href="#" data-section="asistencia"><i
                                                 class="fas fa-check-circle me-2"></i>Asistencia</a>
-                                        @if ($rolUsuario == 'Administrador')
+                                        {{-- @if ($rolUsuario == 'Administrador')
                                             <a class="nav-link" href="#" data-section="objetivos">
                                                 <i class="fas fa-bullseye me-2"></i>Objetivos
                                                 <span class="badge bg-warning ms-2">En desarrollo</span>
                                             </a>
-                                        @endif
+                                        @endif --}}
                                     </div>
                                 </div>
                             </div>

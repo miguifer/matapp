@@ -20,7 +20,7 @@ class calendarioModelo
 
     public function obtenerUsuariosReservados($idClase)
     {
-        $this->db->query("SELECT u.idUsuario, u.nombreUsuario, u.emailUsuario , r.asistencia
+        $this->db->query("SELECT u.idUsuario, u.nombreUsuario, u.login, u.imagen, u.emailUsuario , r.asistencia
                       FROM Reservas r
                       JOIN Usuarios u ON r.idUsuario = u.idUsuario
                       WHERE r.idClase = :idClase");
