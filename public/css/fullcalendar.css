@@ -4,31 +4,31 @@
 }
 
 .fc {
-  font-family: "Poppins", sans-serif; 
-  background-color: #f8f9fa; 
-  border-radius: 8px; 
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  font-family: "Poppins", sans-serif;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .fc-header-toolbar {
-  background-color: white; 
+  background-color: white;
   color: white;
   padding: 10px 15px;
-  border-radius: 8px 8px 0 0; 
+  border-radius: 8px 8px 0 0;
 }
 
 .fc-button {
   background-color: #2150c7;
   color: white;
   border: none;
-  border-radius: 25px; 
+  border-radius: 25px;
   padding: 8px 20px;
   font-size: 14px;
   text-transform: uppercase;
   cursor: pointer;
 }
 .fc-button:hover {
-  background-color: #2150c7; 
+  background-color: #2150c7;
 }
 .fc-button:focus {
   outline: none;
@@ -36,35 +36,35 @@
 
 .fc-day {
   background-color: white;
-  color: #495057; 
+  color: #495057;
   border-radius: 5px;
   transition: background-color 0.3s ease;
 }
 
 .fc-day:hover {
-  background-color: #f1f3f5; 
+  background-color: #f1f3f5;
 }
 
 .fc-day-number {
   font-size: 16px;
   font-weight: bold;
-  color: #495057; 
+  color: #495057;
 }
 
 .fc-event {
-  background-color: #2150c7; 
+  background-color: #2150c7;
   color: white;
   border-radius: 5px;
   font-size: 12px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  border: none !important; 
+  border: none !important;
   text-align: center;
   font-family: sans-serif;
 }
 
 .fc-event:hover {
-  background-color: #1c3d73; 
+  background-color: #1c3d73;
 }
 
 .fc-day-grid-event.fc-event {
@@ -73,11 +73,11 @@
 }
 
 .fc-event.custom-color {
-  background-color: #e74a3b; 
+  background-color: #e74a3b;
 }
 
 .fc-event.custom-color:hover {
-  background-color: #c0392b; 
+  background-color: #c0392b;
 }
 
 .fc-month-view {
@@ -135,18 +135,18 @@
 }
 
 #calendar a {
-  text-decoration: none !important; 
+  text-decoration: none !important;
 }
 
 #calendar .fc-day-today {
-  background-color: #a5dd8725 !important; 
-  border: 2px solid #46bc62 !important; 
-  color: #46bc62 !important; 
-  font-weight: bold; 
+  background-color: #a5dd8725 !important;
+  border: 2px solid #46bc62 !important;
+  color: #46bc62 !important;
+  font-weight: bold;
 }
 
 #calendar .fc-day-today:hover {
-  background-color: #a5dd8756 !important; 
+  background-color: #a5dd8756 !important;
 }
 
 #calendar .fc-header-toolbar {
@@ -164,7 +164,7 @@
   font-family: "Jost";
   font-size: 1.5em;
   font-weight: 600;
-  color: #2150c7; 
+  color: #2150c7;
   text-transform: capitalize;
 }
 
@@ -188,7 +188,6 @@
 .fc-col-header-cell-cushion {
   color: black;
 }
-
 
 .fc-today-button {
   background-color: #2150c7 !important;
@@ -324,4 +323,9 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-deny) {
   background-color: #c2040b !important;
 }
 
-
+#idEntrenador {
+  border-radius: 5px !important;
+  max-width: 267px !important;
+  border: 1px solid #80808069 !important;
+  cursor: pointer !important;
+}

@@ -329,6 +329,11 @@
     window.toastrMsg = <?= isset($_GET['toastrMsg']) ? json_encode($_GET['toastrMsg']) : 'null' ?>;
 </script>
 
+<script>
+    window.RUTA_URL = "{{ RUTA_URL }}";
+    window.USUARIO_ID = <?= json_encode($usuario->idUsuario) ?>;
+</script>
+
 <script src="<?= RUTA_URL ?>/public/js/perfil.inicio.js"></script>
 
 @include('includes.footer')
