@@ -125,7 +125,20 @@ $userRole = $usuario->rol;
                             <td>{{ $clase->title }}</td>
                             <td>{{ $clase->start }}</td>
                             <td>{{ $clase->end }}</td>
-                            <td>{{ $clase->nombreEntrenador ?? 'Sin asignar' }}</td>
+                            <td>
+                                @if (!empty($clase->nombreEntrenador) || !empty($clase->loginEntrenador))
+                                    @if (!empty($clase->imagen))
+                                        <img src="{{ $clase->imagen }}" alt="Imagen entrenador"
+                                            style="width:32px; height:32px; object-fit:cover; border-radius:50%; margin-right:6px; vertical-align:middle;">
+                                    @else
+                                        <span class="fa fa-user-circle"
+                                            style="font-size:28px;color:#ccc;margin-right:6px;vertical-align:middle;"></span>
+                                    @endif
+                                    {{ $clase->nombreEntrenador ?? $clase->loginEntrenador }}
+                                @else
+                                    Sin asignar
+                                @endif
+                            </td>
                             <td>
                                 <button class="btn btn-primary btn-sm ver-asistentes" data-id="{{ $clase->id }}">
                                     Ver y confirmar

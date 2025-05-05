@@ -58,7 +58,13 @@ class academia extends Controlador
                     }
                 }
                 $datos['solicitudes'] = $solicitudes;
-                $datos['clases'] = $this->academiaModelo->obtenerClasesAcademia($academia->idAcademia);
+                $clases = $this->academiaModelo->obtenerClasesAcademia($academia->idAcademia);
+                foreach ($clases as &$clase) {
+                    if (isset($clase->imagen) && !empty($clase->imagen)) {
+                        $clase->imagen = 'data:image/jpeg;base64,' . base64_encode($clase->imagen);
+                    }
+                }
+                $datos['clases'] = $clases;
 
                 $usuario->rol = 'Administrador';
                 $_SESSION['userLogin'] = [
@@ -82,7 +88,13 @@ class academia extends Controlador
                     }
                 }
                 $datos['solicitudes'] = $solicitudes;
-                $datos['clases'] = $this->academiaModelo->obtenerClasesAcademia($academia->idAcademia);
+                $clases = $this->academiaModelo->obtenerClasesAcademia($academia->idAcademia);
+                foreach ($clases as &$clase) {
+                    if (isset($clase->imagen) && !empty($clase->imagen)) {
+                        $clase->imagen = 'data:image/jpeg;base64,' . base64_encode($clase->imagen);
+                    }
+                }
+                $datos['clases'] = $clases;
 
 
                 $usuario->rol = 'Gerente';
@@ -92,8 +104,13 @@ class academia extends Controlador
             } elseif ($esEntrenador) {
                 $estadisticaAcademia = $this->academiaModelo->obtenerEstadisticaAcademias();
                 $datos['estadisticaAcademia'] = $estadisticaAcademia;
-                $datos['clases'] = $this->academiaModelo->obtenerClasesAcademia($academia->idAcademia);
-
+                $clases = $this->academiaModelo->obtenerClasesAcademia($academia->idAcademia);
+                foreach ($clases as &$clase) {
+                    if (isset($clase->imagen) && !empty($clase->imagen)) {
+                        $clase->imagen = 'data:image/jpeg;base64,' . base64_encode($clase->imagen);
+                    }
+                }
+                $datos['clases'] = $clases;
                 $usuario->rol = 'Entrenador';
                 $_SESSION['userLogin'] = [
                     'usuario' => json_encode($usuario),

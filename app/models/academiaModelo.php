@@ -390,7 +390,7 @@ class academiaModelo
     public function obtenerClasesAcademia($idAcademia)
     {
         $this->db->query("
-            SELECT c.*, u.nombreUsuario AS entrenador
+            SELECT c.*, u.nombreUsuario AS nombreEntrenador, u.login AS loginEntrenador, u.imagen
             FROM Clases c
             LEFT JOIN Usuarios u ON c.idEntrenador = u.idUsuario
             WHERE c.idAcademia = :idAcademia
