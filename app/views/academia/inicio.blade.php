@@ -418,8 +418,15 @@ $userRole = $usuario->rol;
 
                 @if ($mensajeFijado)
                     <div class="alert alert-warning mb-3" style="border-left: 5px solid #ffc107;">
+                        @if (!empty($mensajeFijado->imagen))
+                            <img src="{{ $mensajeFijado->imagen }}" alt="Imagen usuario"
+                                style="width:32px; height:32px; object-fit:cover; border-radius:50%; margin-right:8px; vertical-align:middle;">
+                        @else
+                            <span class="fa fa-user-circle"
+                                style="font-size:28px;color:#ccc;margin-right:8px;vertical-align:middle;"></span>
+                        @endif
                         <strong style="color: #d48806;">
-                            {{ $mensajeFijado->nombreUsuario ?? 'Usuario' }}
+                            {{ $mensajeFijado->nombreUsuario ?? ($mensajeFijado->login ?? 'Usuario') }}
                             @if (isset($mensajeFijado->nombreRol))
                                 ({{ $mensajeFijado->nombreRol }})
                             @endif
@@ -441,8 +448,15 @@ $userRole = $usuario->rol;
                         @foreach ($mensajes as $msg)
                             @if (!isset($msg->fijado) || $msg->fijado != 1)
                                 <li class="list-group-item">
+                                    @if (!empty($msg->imagen))
+                                        <img src="{{ $msg->imagen }}" alt="Imagen usuario"
+                                            style="width:32px; height:32px; object-fit:cover; border-radius:50%; margin-right:8px; vertical-align:middle;">
+                                    @else
+                                        <span class="fa fa-user-circle"
+                                            style="font-size:28px;color:#ccc;margin-right:8px;vertical-align:middle;"></span>
+                                    @endif
                                     <strong style="color: #007bff;">
-                                        {{ $msg->nombreUsuario ?? 'Usuario' }}
+                                        {{ $msg->nombreUsuario ?? ($msg->login ?? 'Usuario') }}
                                         @if (isset($msg->nombreRol))
                                             ({{ $msg->nombreRol }})
                                         @endif

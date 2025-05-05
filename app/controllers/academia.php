@@ -144,6 +144,11 @@ class academia extends Controlador
                 }
             }
             $datos['entrenadores'] = $entrenadores;
+            foreach ($mensajes as &$mensaje) {
+                if (isset($mensaje->imagen) && !empty($mensaje->imagen)) {
+                    $mensaje->imagen = 'data:image/jpeg;base64,' . base64_encode($mensaje->imagen);
+                }
+            }
             $datos['mensajes'] = $mensajes;
             foreach ($ranking as &$usuarioRanking) {
                 if (isset($usuarioRanking->imagen) && !empty($usuarioRanking->imagen)) {

@@ -369,7 +369,7 @@ class academiaModelo
     public function obtenerMensajesAcademia($idAcademia)
     {
         $this->db->query("
-            SELECT mm.*, u.nombreUsuario, r.nombreRol
+            SELECT mm.*, u.nombreUsuario, u.login, u.imagen, r.nombreRol
             FROM muro_mensajes mm
             INNER JOIN Usuarios u ON mm.idUsuario = u.idUsuario
             LEFT JOIN UsuariosRoles ur ON u.idUsuario = ur.idUsuario
