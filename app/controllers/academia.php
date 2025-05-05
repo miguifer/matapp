@@ -46,7 +46,11 @@ class academia extends Controlador
                 $solicitudes = $this->academiaModelo->obtenerSolicitudesAcademia($academia->idAcademia);
                 $alumnos = $this->academiaModelo->obtenerAlumnosAcademia($academia->idAcademia);
 
-                $datos['alumnos'] = $alumnos;
+                foreach ($alumnos as &$alumno) {
+                    if (isset($alumno->imagen) && !empty($alumno->imagen)) {
+                        $alumno->imagen = 'data:image/jpeg;base64,' . base64_encode($alumno->imagen);
+                    }
+                }
                 $datos['estadisticaAcademia'] = $estadisticaAcademia;
                 $datos['solicitudes'] = $solicitudes;
                 $datos['clases'] = $this->academiaModelo->obtenerClasesAcademia($academia->idAcademia);
@@ -60,6 +64,11 @@ class academia extends Controlador
                 $solicitudes = $this->academiaModelo->obtenerSolicitudesAcademia($academia->idAcademia);
                 $alumnos = $this->academiaModelo->obtenerAlumnosAcademia($academia->idAcademia);
 
+                foreach ($alumnos as &$alumno) {
+                    if (isset($alumno->imagen) && !empty($alumno->imagen)) {
+                        $alumno->imagen = 'data:image/jpeg;base64,' . base64_encode($alumno->imagen);
+                    }
+                }
                 $datos['alumnos'] = $alumnos;
                 $datos['estadisticaAcademia'] = $estadisticaAcademia;
                 $datos['solicitudes'] = $solicitudes;
@@ -101,6 +110,12 @@ class academia extends Controlador
             $mensajes = $this->academiaModelo->obtenerMensajesAcademia($academia->idAcademia);
             $ranking = $this->academiaModelo->getRankingAsistencia($academia->idAcademia);
 
+            // Convertir imagen blob a base64 para cada entrenador
+            foreach ($entrenadores as &$entrenador) {
+                if (isset($entrenador->imagen) && !empty($entrenador->imagen)) {
+                    $entrenador->imagen = 'data:image/jpeg;base64,' . base64_encode($entrenador->imagen);
+                }
+            }
             $datos['entrenadores'] = $entrenadores;
             $datos['mensajes'] = $mensajes;
             $datos['ranking'] = $ranking;

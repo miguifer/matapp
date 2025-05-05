@@ -145,7 +145,7 @@ $(document).ready(function () {
 
     $('.hacerEntrenador').on('click', function () {
         const row = $(this).closest('tr');
-        const idUsuario = $(this).data('idusuario');
+        const idUsuario = $(this).data('idUsuario');
         const idAcademia = ACADEMIA_ID;
 
         Swal.fire({

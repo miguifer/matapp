@@ -10,19 +10,19 @@ $userRole = $usuario->rol;
 
 <?php if ($usuario->rol == 'Entrenador') { ?>
 <script>
-    currentRole = "Entrenador"; 
+    currentRole = "Entrenador";
 </script>
 <?php } else if ($usuario->rol == 'Alumno') { ?>
 <script>
-    currentRole = "Alumno"; 
+    currentRole = "Alumno";
 </script>
 <?php } else if ($usuario->rol == 'Gerente') { ?>
 <script>
-    currentRole = "Gerente"; 
+    currentRole = "Gerente";
 </script>
 <?php } else if ($usuario->rol == 'Administrador') { ?>
 <script>
-    currentRole = "Administrador"; 
+    currentRole = "Administrador";
 </script>
 <?php }else{
     redireccionar('/academia/solicitarAcceso?academia=' . urlencode(json_encode($academia)));
@@ -140,7 +140,7 @@ $userRole = $usuario->rol;
 
     @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Administrador')
         <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="admin-tab">
-            
+
             <?php
             $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
             ?>
@@ -153,14 +153,14 @@ $userRole = $usuario->rol;
                 const data = estadisticasAcademia.map(item => item.numAlumnos);
 
                 const miGrafico = new Chart(ctx, {
-                    type: 'bar', 
+                    type: 'bar',
                     data: {
                         labels: labels,
                         datasets: [{
                             label: 'Número de alumnos',
                             data: data,
                             backgroundColor: [
-                                '#f87171', 
+                                '#f87171',
                                 '#60a5fa',
                                 '#34d399',
                                 '#fbbf24'
@@ -219,6 +219,7 @@ $userRole = $usuario->rol;
             <table id="alumnosTable" class="display compact">
                 <thead>
                     <tr>
+                        <th>Imagen</th>
                         <th>Login</th>
                         <th>Email</th>
                         <th>Teléfono</th>
@@ -231,6 +232,15 @@ $userRole = $usuario->rol;
                 <tbody>
                     @foreach ($alumnos as $alumno)
                         <tr>
+                            <td>
+                                @if (!empty($alumno->imagen))
+                                    <img src="{{ $alumno->imagen }}" alt="Imagen alumno"
+                                        style="width:40px; height:40px; object-fit:cover; border-radius:50%;">
+                                @else
+                                    <span class="fa fa-user-circle"
+                                        style="font-size:32px;color:#ccc;margin-right:8px;vertical-align:middle;"></span>
+                                @endif
+                            </td>
                             <td>{{ $alumno->login }}</td>
                             <td>{{ $alumno->emailUsuario }}</td>
                             <td>{{ $alumno->telefonoUsuario }}</td>
@@ -242,7 +252,7 @@ $userRole = $usuario->rol;
                                     data-id-Usuario="{{ $alumno->idUsuario }}">Eliminar</button>
                                 @if ($alumno->rol !== 'Entrenador')
                                     <button class="btn btn-primary hacerEntrenador"
-                                        data-id-Usuario="{{ $alumno->idUsuario }}">Hacer entrenador</button>
+                                        data-idUsuario="{{ $alumno->idUsuario }}">Hacer entrenador</button>
                                 @endif
                             </td>
                         </tr>
@@ -257,6 +267,7 @@ $userRole = $usuario->rol;
             <table id="entrenadoresTable" class="display compact">
                 <thead>
                     <tr>
+                        <th>Imagen</th>
                         <th>Login</th>
                         <th>Nombre entrenador</th>
                         <th>Eliminar</th>
@@ -265,6 +276,15 @@ $userRole = $usuario->rol;
                 <tbody>
                     @foreach ($entrenadores as $entrenador)
                         <tr>
+                            <td>
+                                @if (!empty($entrenador->imagen))
+                                    <img src="{{ $entrenador->imagen }}" alt="Imagen entrenador"
+                                        style="width:40px; height:40px; object-fit:cover; border-radius:50%;">
+                                @else
+                                    <span class="fa fa-user-circle"
+                                        style="font-size:32px;color:#ccc;margin-right:8px;vertical-align:middle;"></span>
+                                @endif
+                            </td>
                             <td>{{ $entrenador->login }}</td>
                             <td>{{ $entrenador->nombreUsuario }}</td>
                             <td>
@@ -491,6 +511,7 @@ $userRole = $usuario->rol;
     let currentRole = "<?= $usuario->rol ?>";
     const ACADEMIA_NOMBRE = '<?= addslashes($academia->nombreAcademia) ?>';
     const ACADEMIA_UBICACION = '<?= addslashes($academia->ubicacionAcademia ?? '') ?>';
+    const ENTRENADORES = @json($entrenadores);
 </script>
 
 
