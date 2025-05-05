@@ -82,7 +82,7 @@ class academiaModelo
     public function obtenerSolicitudesAcademia($idAcademia)
     {
         $this->db->query("
-            SELECT s.*, u.nombreUsuario 
+            SELECT s.*, u.nombreUsuario, u.login, u.emailUsuario, u.imagen
             FROM Solicitudes s
             INNER JOIN Usuarios u ON s.idUsuario = u.idUsuario
             WHERE s.idAcademia = :idAcademia AND s.estadoSolicitud = 'pendiente'

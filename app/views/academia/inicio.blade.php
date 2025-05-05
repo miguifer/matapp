@@ -184,8 +184,11 @@ $userRole = $usuario->rol;
             <table id="solicitudesTable" class="display compact">
                 <thead>
                     <tr>
+                        <th>Imagen</th>
                         <th>idSolicitud</th>
                         <th>idUsuario</th>
+                        <th>Login</th>
+                        <th>Email</th>
                         <th>Nombre Usuario</th>
                         <th>Acciones</th>
                     </tr>
@@ -193,18 +196,29 @@ $userRole = $usuario->rol;
                 <tbody>
                     @foreach ($solicitudes as $solicitud)
                         <tr>
+                            <td>
+                                @if (!empty($solicitud->imagen))
+                                    <img src="{{ $solicitud->imagen }}" alt="Imagen usuario"
+                                        style="width:40px; height:40px; object-fit:cover; border-radius:50%;">
+                                @else
+                                    <span class="fa fa-user-circle"
+                                        style="font-size:32px;color:#ccc;margin-right:8px;vertical-align:middle;"></span>
+                                @endif
+                            </td>
                             <td>{{ $solicitud->idSolicitud }}</td>
                             <td>{{ $solicitud->idUsuario }}</td>
+                            <td>{{ $solicitud->login }}</td>
+                            <td>{{ $solicitud->emailUsuario }}</td>
                             <td>{{ $solicitud->nombreUsuario }}</td>
                             <td>
                                 <button class="btn btn-success aceptarSolicitud"
                                     data-id="{{ $solicitud->idSolicitud }}"
-                                    data-id-Usuario="{{ $solicitud->idUsuario }}"
-                                    data-id-Academia="{{ $solicitud->idAcademia }}">Aceptar</button>
+                                    data-idUsuario="{{ $solicitud->idUsuario }}"
+                                    data-idAcademia="{{ $solicitud->idAcademia }}">Aceptar</button>
                                 <button class="btn btn-danger rechazarSolicitud"
                                     data-id="{{ $solicitud->idSolicitud }}"
-                                    data-id-Usuario="{{ $solicitud->idUsuario }}"
-                                    data-id-Academia="{{ $solicitud->idAcademia }}">Rechazar</button>
+                                    data-idUsuario="{{ $solicitud->idUsuario }}"
+                                    data-idAcademia="{{ $solicitud->idAcademia }}">Rechazar</button>
                             </td>
                         </tr>
                     @endforeach
@@ -249,7 +263,7 @@ $userRole = $usuario->rol;
                             <td>{{ $alumno->apellido2Usuario }}</td>
                             <td>
                                 <button class="btn btn-danger eliminarAlumno"
-                                    data-id-Usuario="{{ $alumno->idUsuario }}">Eliminar</button>
+                                    data-idUsuario="{{ $alumno->idUsuario }}">Eliminar</button>
                                 @if ($alumno->rol !== 'Entrenador')
                                     <button class="btn btn-primary hacerEntrenador"
                                         data-idUsuario="{{ $alumno->idUsuario }}">Hacer entrenador</button>

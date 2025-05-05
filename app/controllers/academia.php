@@ -52,6 +52,11 @@ class academia extends Controlador
                     }
                 }
                 $datos['estadisticaAcademia'] = $estadisticaAcademia;
+                foreach ($solicitudes as &$solicitud) {
+                    if (isset($solicitud->imagen) && !empty($solicitud->imagen)) {
+                        $solicitud->imagen = 'data:image/jpeg;base64,' . base64_encode($solicitud->imagen);
+                    }
+                }
                 $datos['solicitudes'] = $solicitudes;
                 $datos['clases'] = $this->academiaModelo->obtenerClasesAcademia($academia->idAcademia);
 
@@ -71,6 +76,11 @@ class academia extends Controlador
                 }
                 $datos['alumnos'] = $alumnos;
                 $datos['estadisticaAcademia'] = $estadisticaAcademia;
+                foreach ($solicitudes as &$solicitud) {
+                    if (isset($solicitud->imagen) && !empty($solicitud->imagen)) {
+                        $solicitud->imagen = 'data:image/jpeg;base64,' . base64_encode($solicitud->imagen);
+                    }
+                }
                 $datos['solicitudes'] = $solicitudes;
                 $datos['clases'] = $this->academiaModelo->obtenerClasesAcademia($academia->idAcademia);
 
