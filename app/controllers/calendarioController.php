@@ -33,6 +33,9 @@ class calendarioController extends Controlador
                 'end' => $clase->end,
                 'idEntrenador' => $clase->idEntrenador,
                 'nombreEntrenador' => $clase->nombreEntrenador,
+                'imagenEntrenador' => isset($clase->imagenEntrenador) && !empty($clase->imagenEntrenador)
+                    ? 'data:image/jpeg;base64,' . base64_encode($clase->imagenEntrenador)
+                    : null,
             ];
         }
         echo json_encode($clasesArray);

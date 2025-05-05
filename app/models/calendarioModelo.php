@@ -10,7 +10,7 @@ class calendarioModelo
     }
     public function obtenerClases($idAcademia)
     {
-        $this->db->query("SELECT c.*, u.nombreUsuario AS nombreEntrenador 
+        $this->db->query("SELECT c.*, u.nombreUsuario AS nombreEntrenador, u.imagen AS imagenEntrenador
                           FROM clases c
                           LEFT JOIN Usuarios u ON c.idEntrenador = u.idUsuario
                           WHERE c.idAcademia = :idAcademia");

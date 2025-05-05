@@ -257,7 +257,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                     : 'Sin fecha de fin'
                                 }</p>
                                 <p><strong>Entrenador:</strong></p>
-                                <p>${info.event.extendedProps.nombreEntrenador || 'Entrenador no asignado'}</p>
+                                <p>
+                                    ${info.event.extendedProps.imagenEntrenador
+                                    ? `<img src="${info.event.extendedProps.imagenEntrenador}" alt="Entrenador" style="width:32px;height:32px;border-radius:50%;margin-right:8px;vertical-align:middle;">`
+                                    : `<span class="fa fa-user-circle" style="font-size:32px;color:#ccc;margin-right:8px;vertical-align:middle;"></span>`
+                                }
+                                    ${info.event.extendedProps.nombreEntrenador || 'Entrenador no asignado'}
+                                </p>
                                 <p><strong>Asistentes(${usuarios.length})</strong></p>
                                 <div id="usuarios-reservados" style="margin-top: 10px;">
                                     ${usuariosHtml}
