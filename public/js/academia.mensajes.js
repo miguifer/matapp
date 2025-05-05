@@ -49,4 +49,79 @@ $(document).ready(function () {
             }
         });
     });
+
+    $('#listaMensajes').on('click', '.fijar-mensaje', function () {
+        const idMensaje = $(this).data('id');
+        const idAcademia = $('input[name="idAcademia"]').val();
+        $.ajax({
+            url: window.RUTA_URL + '/mensajesController/fijarMensaje',
+            type: 'POST',
+            data: {
+                idMensaje: idMensaje,
+                idAcademia: idAcademia
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response && response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Mensaje fijado',
+                        text: response.message || 'El mensaje ha sido fijado correctamente.'
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response && response.message ? response.message : 'No se pudo fijar el mensaje.'
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'No se pudo fijar el mensaje.'
+                });
+            }
+        });
+    });
+
+    $('#listaMensajes').on('click', '.desfijar-mensaje', function () {
+        const idMensaje = $(this).data('id');
+        $.ajax({
+            url: window.RUTA_URL + '/mensajesController/desfijarMensaje',
+            type: 'POST',
+            data: {
+                idMensaje: idMensaje
+            },
+            dataType: 'json',
+            success: function (response) {
+                if (response && response.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Mensaje desfijado',
+                        text: response.message || 'El mensaje ha sido desfijado correctamente.'
+                    }).then(() => {
+                        location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: response && response.message ? response.message : 'No se pudo desfijar el mensaje.'
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'No se pudo desfijar el mensaje.'
+                });
+            }
+        });
+    });
 });
+

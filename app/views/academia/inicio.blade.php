@@ -467,6 +467,7 @@ $userRole = $usuario->rol;
         </div>
     </div>
 
+
     <div class="tab-pane fade" id="ranking" role="tabpanel" aria-labelledby="ranking-tab">
         <h2>Ranking de Asistencia</h2>
         @if (count($ranking) > 0)
@@ -520,44 +521,45 @@ $userRole = $usuario->rol;
                     @endif
                 </div>
             </div>
+
+        @endif
+
+
+        <table id="tablaRanking" class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Puesto</th>
+                    <th>Alumno</th>
+                    <th>Asistencias</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($ranking as $i => $alumno)
+                    <tr>
+                        <td>{{ $i + 1 }}</td>
+                        <td>
+                            @if (!empty($alumno->imagen))
+                                <img src="{{ $alumno->imagen }}" alt="Imagen alumno"
+                                    style="width:32px; height:32px; object-fit:cover; border-radius:50%; margin-right:6px; vertical-align:middle;">
+                            @else
+                                <span class="fa fa-user-circle"
+                                    style="font-size:28px;color:#ccc;margin-right:6px;vertical-align:middle;"></span>
+                            @endif
+                            {{ $alumno->nombreUsuario ?? $alumno->login }}
+                            @if ($i == 0)
+                                <span title="1er puesto" style="color: gold; font-size: 1.2em;">&#x1F451;</span>
+                            @elseif ($i == 1)
+                                <span title="2º puesto" style="color: silver; font-size: 1.2em;">&#x1F948;</span>
+                            @elseif ($i == 2)
+                                <span title="3er puesto" style="color: #cd7f32; font-size: 1.2em;">&#x1F949;</span>
+                            @endif
+                        </td>
+                        <td>{{ $alumno->total_asistencias }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
-</div>
-@endif
-<table id="tablaRanking" class="table table-striped">
-    <thead>
-        <tr>
-            <th>Puesto</th>
-            <th>Alumno</th>
-            <th>Asistencias</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($ranking as $i => $alumno)
-            <tr>
-                <td>{{ $i + 1 }}</td>
-                <td>
-                    @if (!empty($alumno->imagen))
-                        <img src="{{ $alumno->imagen }}" alt="Imagen alumno"
-                            style="width:32px; height:32px; object-fit:cover; border-radius:50%; margin-right:6px; vertical-align:middle;">
-                    @else
-                        <span class="fa fa-user-circle"
-                            style="font-size:28px;color:#ccc;margin-right:6px;vertical-align:middle;"></span>
-                    @endif
-                    {{ $alumno->nombreUsuario ?? $alumno->login }}
-                    @if ($i == 0)
-                        <span title="1er puesto" style="color: gold; font-size: 1.2em;">&#x1F451;</span>
-                    @elseif ($i == 1)
-                        <span title="2º puesto" style="color: silver; font-size: 1.2em;">&#x1F948;</span>
-                    @elseif ($i == 2)
-                        <span title="3er puesto" style="color: #cd7f32; font-size: 1.2em;">&#x1F949;</span>
-                    @endif
-                </td>
-                <td>{{ $alumno->total_asistencias }}</td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
-</div>
 </div>
 
 <script>
@@ -576,6 +578,9 @@ $userRole = $usuario->rol;
 <script src="{{ RUTA_URL }}/public/js/academia.js"></script>
 <script src="{{ RUTA_URL }}/public/js/academia.calendario.js"></script>
 <script src="{{ RUTA_URL }}/public/js/academia.admin.js"></script>
-<script src="{{ RUTA_URL }}/public/js/academia.mensajes.js"></script>
+<script>
+    window.RUTA_URL = "{{ RUTA_URL }}";
+</script>
+<script src="{{ RUTA_URL }}/js/academia.mensajes.js"></script>
 
 @include('includes.footer')
