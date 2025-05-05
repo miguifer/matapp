@@ -408,7 +408,6 @@ class academiaModelo
             c.title AS nombreClase, 
             c.start AS fecha, 
             a.nombreAcademia, 
-            a.path_imagen,
             u.nombreUsuario AS nombreEntrenador
         FROM Reservas r
         INNER JOIN Clases c ON r.idClase = c.id
@@ -639,5 +638,17 @@ class academiaModelo
         $this->db->query("SELECT idUsuario, login, nombreUsuario, emailUsuario, imagen FROM Usuarios WHERE idUsuario = :id");
         $this->db->bind(':id', $id);
         return $this->db->registro();
+    }
+
+    public function getAcademiasPorIdUsuario($idUsuario)
+    {
+        $this->db->query("
+            SELECT a.*
+            FROM AcademiaUsuarios au
+            INNER JOIN Academias a ON au.idAcademia = a.idAcademia
+            WHERE au.idUsuario = :idUsuario
+        ");
+        $this->db->bind(':idUsuario', $idUsuario);
+        return $this->db->registros();
     }
 }

@@ -51,6 +51,7 @@ class academia extends Controlador
                         $alumno->imagen = 'data:image/jpeg;base64,' . base64_encode($alumno->imagen);
                     }
                 }
+                $datos['alumnos'] = $alumnos;
                 $datos['estadisticaAcademia'] = $estadisticaAcademia;
                 foreach ($solicitudes as &$solicitud) {
                     if (isset($solicitud->imagen) && !empty($solicitud->imagen)) {

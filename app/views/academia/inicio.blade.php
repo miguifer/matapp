@@ -226,12 +226,12 @@ $userRole = $usuario->rol;
                             <td>
                                 <button class="btn btn-success aceptarSolicitud"
                                     data-id="{{ $solicitud->idSolicitud }}"
-                                    data-idUsuario="{{ $solicitud->idUsuario }}"
-                                    data-idAcademia="{{ $solicitud->idAcademia }}">Aceptar</button>
+                                    data-idusuario="{{ $solicitud->idUsuario }}"
+                                    data-idacademia="{{ $solicitud->idAcademia }}">Aceptar</button>
                                 <button class="btn btn-danger rechazarSolicitud"
                                     data-id="{{ $solicitud->idSolicitud }}"
-                                    data-idUsuario="{{ $solicitud->idUsuario }}"
-                                    data-idAcademia="{{ $solicitud->idAcademia }}">Rechazar</button>
+                                    data-idusuario="{{ $solicitud->idUsuario }}"
+                                    data-idacademia="{{ $solicitud->idAcademia }}">Rechazar</button>
                             </td>
                         </tr>
                     @endforeach
@@ -276,10 +276,10 @@ $userRole = $usuario->rol;
                             <td>{{ $alumno->apellido2Usuario }}</td>
                             <td>
                                 <button class="btn btn-danger eliminarAlumno"
-                                    data-idUsuario="{{ $alumno->idUsuario }}">Eliminar</button>
+                                    data-idusuario="{{ $alumno->idUsuario }}">Eliminar</button>
                                 @if ($alumno->rol !== 'Entrenador')
                                     <button class="btn btn-primary hacerEntrenador"
-                                        data-idUsuario="{{ $alumno->idUsuario }}">Hacer entrenador</button>
+                                        data-idusuario="{{ $alumno->idUsuario }}">Hacer entrenador</button>
                                 @endif
                             </td>
                         </tr>
@@ -589,12 +589,14 @@ $userRole = $usuario->rol;
 
 
 
+
+<script>
+    window.RUTA_URL = "{{ RUTA_URL }}";
+    window.USUARIO_ID = <?= json_encode($usuario->idUsuario) ?>;
+</script>
+<script src="{{ RUTA_URL }}/js/academia.mensajes.js"></script>
 <script src="{{ RUTA_URL }}/public/js/academia.js"></script>
 <script src="{{ RUTA_URL }}/public/js/academia.calendario.js"></script>
 <script src="{{ RUTA_URL }}/public/js/academia.admin.js"></script>
-<script>
-    window.RUTA_URL = "{{ RUTA_URL }}";
-</script>
-<script src="{{ RUTA_URL }}/js/academia.mensajes.js"></script>
 
 @include('includes.footer')

@@ -5,8 +5,8 @@ $(document).ready(function () {
     $('.aceptarSolicitud').on('click', function () {
         const id = $(this).data('id');
         const row = $(this).closest('tr');
-        const idUsuario = $(this).data('idUsuario');
-        const idAcademia = $(this).data('idAcademia');
+        const idUsuario = $(this).data('idusuario');
+        const idAcademia = $(this).data('idacademia');
 
         Swal.fire({
             title: '¿Estás seguro?',
@@ -99,7 +99,7 @@ $(document).ready(function () {
 
     $('.eliminarAlumno').on('click', function () {
         const row = $(this).closest('tr');
-        const idUsuario = $(this).data('idUsuario');
+        const idUsuario = $(this).data('idusuario');
         const idAcademia = ACADEMIA_ID;
 
         Swal.fire({
@@ -145,7 +145,7 @@ $(document).ready(function () {
 
     $('.hacerEntrenador').on('click', function () {
         const row = $(this).closest('tr');
-        const idUsuario = $(this).data('idUsuario');
+        const idUsuario = $(this).data('idusuario');
         const idAcademia = ACADEMIA_ID;
 
         Swal.fire({

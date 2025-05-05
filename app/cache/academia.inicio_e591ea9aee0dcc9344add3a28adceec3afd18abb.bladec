@@ -229,12 +229,12 @@ $userRole = $usuario->rol;
  <td>
  <button class="btn btn-success aceptarSolicitud"
  data-id="<?php echo \htmlentities($solicitud->idSolicitud??'', ENT_QUOTES, 'UTF-8', false); ?>"
- data-idUsuario="<?php echo \htmlentities($solicitud->idUsuario??'', ENT_QUOTES, 'UTF-8', false); ?>"
- data-idAcademia="<?php echo \htmlentities($solicitud->idAcademia??'', ENT_QUOTES, 'UTF-8', false); ?>">Aceptar</button>
+ data-idusuario="<?php echo \htmlentities($solicitud->idUsuario??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ data-idacademia="<?php echo \htmlentities($solicitud->idAcademia??'', ENT_QUOTES, 'UTF-8', false); ?>">Aceptar</button>
  <button class="btn btn-danger rechazarSolicitud"
  data-id="<?php echo \htmlentities($solicitud->idSolicitud??'', ENT_QUOTES, 'UTF-8', false); ?>"
- data-idUsuario="<?php echo \htmlentities($solicitud->idUsuario??'', ENT_QUOTES, 'UTF-8', false); ?>"
- data-idAcademia="<?php echo \htmlentities($solicitud->idAcademia??'', ENT_QUOTES, 'UTF-8', false); ?>">Rechazar</button>
+ data-idusuario="<?php echo \htmlentities($solicitud->idUsuario??'', ENT_QUOTES, 'UTF-8', false); ?>"
+ data-idacademia="<?php echo \htmlentities($solicitud->idAcademia??'', ENT_QUOTES, 'UTF-8', false); ?>">Rechazar</button>
  </td>
  </tr>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
@@ -280,10 +280,10 @@ $userRole = $usuario->rol;
  <td><?php echo \htmlentities($alumno->apellido2Usuario??'', ENT_QUOTES, 'UTF-8', false); ?></td>
  <td>
  <button class="btn btn-danger eliminarAlumno"
- data-idUsuario="<?php echo \htmlentities($alumno->idUsuario??'', ENT_QUOTES, 'UTF-8', false); ?>">Eliminar</button>
+ data-idusuario="<?php echo \htmlentities($alumno->idUsuario??'', ENT_QUOTES, 'UTF-8', false); ?>">Eliminar</button>
  <?php if($alumno->rol !== 'Entrenador'): ?>
  <button class="btn btn-primary hacerEntrenador"
- data-idUsuario="<?php echo \htmlentities($alumno->idUsuario??'', ENT_QUOTES, 'UTF-8', false); ?>">Hacer entrenador</button>
+ data-idusuario="<?php echo \htmlentities($alumno->idUsuario??'', ENT_QUOTES, 'UTF-8', false); ?>">Hacer entrenador</button>
  <?php endif; ?>
  </td>
  </tr>
@@ -600,12 +600,14 @@ $userRole = $usuario->rol;
 
 
 
+
+<script>
+ window.RUTA_URL = "<?php echo \htmlentities(RUTA_URL??'', ENT_QUOTES, 'UTF-8', false); ?>";
+ window.USUARIO_ID = <?= json_encode($usuario->idUsuario) ?>;
+</script>
+<script src="<?php echo \htmlentities(RUTA_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/js/academia.mensajes.js"></script>
 <script src="<?php echo \htmlentities(RUTA_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/public/js/academia.js"></script>
 <script src="<?php echo \htmlentities(RUTA_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/public/js/academia.calendario.js"></script>
 <script src="<?php echo \htmlentities(RUTA_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/public/js/academia.admin.js"></script>
-<script>
- window.RUTA_URL = "<?php echo \htmlentities(RUTA_URL??'', ENT_QUOTES, 'UTF-8', false); ?>";
-</script>
-<script src="<?php echo \htmlentities(RUTA_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/js/academia.mensajes.js"></script>
 
 <?php echo $this->runChild('includes.footer'); ?>
