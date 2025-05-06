@@ -157,17 +157,23 @@ $userRole = $usuario->rol;
             <!-- Sub-tabs nav como tabs -->
             <ul class="nav nav-tabs mb-3" id="adminSubTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="admin-solicitudes-tab" data-bs-toggle="tab" data-bs-target="#admin-solicitudes" type="button" role="tab" aria-controls="admin-solicitudes" aria-selected="true">
+                    <button class="nav-link active" id="admin-solicitudes-tab" data-bs-toggle="tab"
+                        data-bs-target="#admin-solicitudes" type="button" role="tab"
+                        aria-controls="admin-solicitudes" aria-selected="true">
                         Solicitudes
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="admin-alumnos-tab" data-bs-toggle="tab" data-bs-target="#admin-alumnos" type="button" role="tab" aria-controls="admin-alumnos" aria-selected="false">
+                    <button class="nav-link" id="admin-alumnos-tab" data-bs-toggle="tab"
+                        data-bs-target="#admin-alumnos" type="button" role="tab" aria-controls="admin-alumnos"
+                        aria-selected="false">
                         Alumnos
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="admin-entrenadores-tab" data-bs-toggle="tab" data-bs-target="#admin-entrenadores" type="button" role="tab" aria-controls="admin-entrenadores" aria-selected="false">
+                    <button class="nav-link" id="admin-entrenadores-tab" data-bs-toggle="tab"
+                        data-bs-target="#admin-entrenadores" type="button" role="tab"
+                        aria-controls="admin-entrenadores" aria-selected="false">
                         Entrenadores
                     </button>
                 </li>
@@ -175,7 +181,8 @@ $userRole = $usuario->rol;
 
             <!-- Sub-tabs content -->
             <div class="tab-content" id="adminSubTabsContent">
-                <div class="tab-pane fade show active" id="admin-solicitudes" role="tabpanel" aria-labelledby="admin-solicitudes-tab">
+                <div class="tab-pane fade show active" id="admin-solicitudes" role="tabpanel"
+                    aria-labelledby="admin-solicitudes-tab">
                     {{-- Aquí va la tabla de solicitudes --}}
                     <h2>Solicitudes de Academias</h2>
                     <table id="solicitudesTable" class="display compact">
@@ -269,7 +276,8 @@ $userRole = $usuario->rol;
                         </tbody>
                     </table>
                 </div>
-                <div class="tab-pane fade" id="admin-entrenadores" role="tabpanel" aria-labelledby="admin-entrenadores-tab">
+                <div class="tab-pane fade" id="admin-entrenadores" role="tabpanel"
+                    aria-labelledby="admin-entrenadores-tab">
                     {{-- Aquí va la tabla de entrenadores --}}
                     <h3>Entrenadores</h3>
                     <table id="entrenadoresTable" class="display compact">
