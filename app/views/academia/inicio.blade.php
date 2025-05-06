@@ -154,176 +154,157 @@ $userRole = $usuario->rol;
     @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Administrador')
         <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="admin-tab">
 
-            <?php
-            $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
-            ?>
-            <script>
-                const ctx = document.getElementById('miGrafico').getContext('2d');
+            <!-- Sub-tabs nav como tabs -->
+            <ul class="nav nav-tabs mb-3" id="adminSubTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="admin-solicitudes-tab" data-bs-toggle="tab" data-bs-target="#admin-solicitudes" type="button" role="tab" aria-controls="admin-solicitudes" aria-selected="true">
+                        Solicitudes
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="admin-alumnos-tab" data-bs-toggle="tab" data-bs-target="#admin-alumnos" type="button" role="tab" aria-controls="admin-alumnos" aria-selected="false">
+                        Alumnos
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="admin-entrenadores-tab" data-bs-toggle="tab" data-bs-target="#admin-entrenadores" type="button" role="tab" aria-controls="admin-entrenadores" aria-selected="false">
+                        Entrenadores
+                    </button>
+                </li>
+            </ul>
 
-                const estadisticasAcademia = <?= $estadisticaAcademiaJS ?>;
-
-                const labels = estadisticasAcademia.map(item => item.nombreTipo);
-                const data = estadisticasAcademia.map(item => item.numAlumnos);
-
-                const miGrafico = new Chart(ctx, {
-                    type: 'bar',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Número de alumnos',
-                            data: data,
-                            backgroundColor: [
-                                '#f87171',
-                                '#60a5fa',
-                                '#34d399',
-                                '#fbbf24'
-                            ],
-                            borderColor: '#111827',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-            </script>
-
-            <h2>Solicitudes de Academias</h2>
-
-            <table id="solicitudesTable" class="display compact">
-                <thead>
-                    <tr>
-                        <th>Imagen</th>
-                        <th>idSolicitud</th>
-                        <th>idUsuario</th>
-                        <th>Login</th>
-                        <th>Email</th>
-                        <th>Nombre Usuario</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($solicitudes as $solicitud)
-                        <tr>
-                            <td>
-                                @if (!empty($solicitud->imagen))
-                                    <img src="{{ $solicitud->imagen }}" alt="Imagen usuario"
-                                        style="width:40px; height:40px; object-fit:cover; border-radius:50%;">
-                                @else
-                                    <span class="fa fa-user-circle"
-                                        style="font-size:32px;color:#ccc;margin-right:8px;vertical-align:middle;"></span>
-                                @endif
-                            </td>
-                            <td>{{ $solicitud->idSolicitud }}</td>
-                            <td>{{ $solicitud->idUsuario }}</td>
-                            <td>{{ $solicitud->login }}</td>
-                            <td>{{ $solicitud->emailUsuario }}</td>
-                            <td>{{ $solicitud->nombreUsuario }}</td>
-                            <td>
-                                <button class="btn btn-success aceptarSolicitud"
-                                    data-id="{{ $solicitud->idSolicitud }}"
-                                    data-idusuario="{{ $solicitud->idUsuario }}"
-                                    data-idacademia="{{ $solicitud->idAcademia }}">Aceptar</button>
-                                <button class="btn btn-danger rechazarSolicitud"
-                                    data-id="{{ $solicitud->idSolicitud }}"
-                                    data-idusuario="{{ $solicitud->idUsuario }}"
-                                    data-idacademia="{{ $solicitud->idAcademia }}">Rechazar</button>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-
-
-
-            <h3>Alumnos</h3>
-
-            <table id="alumnosTable" class="display compact">
-                <thead>
-                    <tr>
-                        <th>Imagen</th>
-                        <th>Login</th>
-                        <th>Email</th>
-                        <th>Teléfono</th>
-                        <th>Nombre</th>
-                        <th>Primer Apellido</th>
-                        <th>Segundo Apellido</th>
-                        <th>Eliminar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($alumnos as $alumno)
-                        <tr>
-                            <td>
-                                @if (!empty($alumno->imagen))
-                                    <img src="{{ $alumno->imagen }}" alt="Imagen alumno"
-                                        style="width:40px; height:40px; object-fit:cover; border-radius:50%;">
-                                @else
-                                    <span class="fa fa-user-circle"
-                                        style="font-size:32px;color:#ccc;margin-right:8px;vertical-align:middle;"></span>
-                                @endif
-                            </td>
-                            <td>{{ $alumno->login }}</td>
-                            <td>{{ $alumno->emailUsuario }}</td>
-                            <td>{{ $alumno->telefonoUsuario }}</td>
-                            <td>{{ $alumno->nombreUsuario }}</td>
-                            <td>{{ $alumno->apellido1Usuario }}</td>
-                            <td>{{ $alumno->apellido2Usuario }}</td>
-                            <td>
-                                <button class="btn btn-danger eliminarAlumno"
-                                    data-idusuario="{{ $alumno->idUsuario }}">Eliminar</button>
-                                @if ($alumno->rol !== 'Entrenador')
-                                    <button class="btn btn-primary hacerEntrenador"
-                                        data-idusuario="{{ $alumno->idUsuario }}">Hacer entrenador</button>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-
-
-            <h3>Entrenadores</h3>
-
-            <table id="entrenadoresTable" class="display compact">
-                <thead>
-                    <tr>
-                        <th>Imagen</th>
-                        <th>Login</th>
-                        <th>Nombre entrenador</th>
-                        <th>Eliminar</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($entrenadores as $entrenador)
-                        <tr>
-                            <td>
-                                @if (!empty($entrenador->imagen))
-                                    <img src="{{ $entrenador->imagen }}" alt="Imagen entrenador"
-                                        style="width:40px; height:40px; object-fit:cover; border-radius:50%;">
-                                @else
-                                    <span class="fa fa-user-circle"
-                                        style="font-size:32px;color:#ccc;margin-right:8px;vertical-align:middle;"></span>
-                                @endif
-                            </td>
-                            <td>{{ $entrenador->login }}</td>
-                            <td>{{ $entrenador->nombreUsuario }}</td>
-                            <td>
-                                <button class="btn btn-danger eliminarEntrenador"
-                                    data-id="{{ $entrenador->idUsuario }}">Eliminar</button>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-
+            <!-- Sub-tabs content -->
+            <div class="tab-content" id="adminSubTabsContent">
+                <div class="tab-pane fade show active" id="admin-solicitudes" role="tabpanel" aria-labelledby="admin-solicitudes-tab">
+                    {{-- Aquí va la tabla de solicitudes --}}
+                    <h2>Solicitudes de Academias</h2>
+                    <table id="solicitudesTable" class="display compact">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>idSolicitud</th>
+                                <th>idUsuario</th>
+                                <th>Login</th>
+                                <th>Email</th>
+                                <th>Nombre Usuario</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($solicitudes as $solicitud)
+                                <tr>
+                                    <td>
+                                        @if (!empty($solicitud->imagen))
+                                            <img src="{{ $solicitud->imagen }}" alt="Imagen usuario"
+                                                style="width:40px; height:40px; object-fit:cover; border-radius:50%;">
+                                        @else
+                                            <span class="fa fa-user-circle"
+                                                style="font-size:32px;color:#ccc;margin-right:8px;vertical-align:middle;"></span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $solicitud->idSolicitud }}</td>
+                                    <td>{{ $solicitud->idUsuario }}</td>
+                                    <td>{{ $solicitud->login }}</td>
+                                    <td>{{ $solicitud->emailUsuario }}</td>
+                                    <td>{{ $solicitud->nombreUsuario }}</td>
+                                    <td>
+                                        <button class="btn btn-success aceptarSolicitud"
+                                            data-id="{{ $solicitud->idSolicitud }}"
+                                            data-idusuario="{{ $solicitud->idUsuario }}"
+                                            data-idacademia="{{ $solicitud->idAcademia }}">Aceptar</button>
+                                        <button class="btn btn-danger rechazarSolicitud"
+                                            data-id="{{ $solicitud->idSolicitud }}"
+                                            data-idusuario="{{ $solicitud->idUsuario }}"
+                                            data-idacademia="{{ $solicitud->idAcademia }}">Rechazar</button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="admin-alumnos" role="tabpanel" aria-labelledby="admin-alumnos-tab">
+                    {{-- Aquí va la tabla de alumnos --}}
+                    <h3>Alumnos</h3>
+                    <table id="alumnosTable" class="display compact">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Login</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Nombre</th>
+                                <th>Primer Apellido</th>
+                                <th>Segundo Apellido</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($alumnos as $alumno)
+                                <tr>
+                                    <td>
+                                        @if (!empty($alumno->imagen))
+                                            <img src="{{ $alumno->imagen }}" alt="Imagen alumno"
+                                                style="width:40px; height:40px; object-fit:cover; border-radius:50%;">
+                                        @else
+                                            <span class="fa fa-user-circle"
+                                                style="font-size:32px;color:#ccc;margin-right:8px;vertical-align:middle;"></span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $alumno->login }}</td>
+                                    <td>{{ $alumno->emailUsuario }}</td>
+                                    <td>{{ $alumno->telefonoUsuario }}</td>
+                                    <td>{{ $alumno->nombreUsuario }}</td>
+                                    <td>{{ $alumno->apellido1Usuario }}</td>
+                                    <td>{{ $alumno->apellido2Usuario }}</td>
+                                    <td>
+                                        <button class="btn btn-danger eliminarAlumno"
+                                            data-idusuario="{{ $alumno->idUsuario }}">Eliminar</button>
+                                        @if ($alumno->rol !== 'Entrenador')
+                                            <button class="btn btn-primary hacerEntrenador"
+                                                data-idusuario="{{ $alumno->idUsuario }}">Hacer entrenador</button>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="admin-entrenadores" role="tabpanel" aria-labelledby="admin-entrenadores-tab">
+                    {{-- Aquí va la tabla de entrenadores --}}
+                    <h3>Entrenadores</h3>
+                    <table id="entrenadoresTable" class="display compact">
+                        <thead>
+                            <tr>
+                                <th>Imagen</th>
+                                <th>Login</th>
+                                <th>Nombre entrenador</th>
+                                <th>Eliminar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($entrenadores as $entrenador)
+                                <tr>
+                                    <td>
+                                        @if (!empty($entrenador->imagen))
+                                            <img src="{{ $entrenador->imagen }}" alt="Imagen entrenador"
+                                                style="width:40px; height:40px; object-fit:cover; border-radius:50%;">
+                                        @else
+                                            <span class="fa fa-user-circle"
+                                                style="font-size:32px;color:#ccc;margin-right:8px;vertical-align:middle;"></span>
+                                        @endif
+                                    </td>
+                                    <td>{{ $entrenador->login }}</td>
+                                    <td>{{ $entrenador->nombreUsuario }}</td>
+                                    <td>
+                                        <button class="btn btn-danger eliminarEntrenador"
+                                            data-id="{{ $entrenador->idUsuario }}">Eliminar</button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     @endif
 

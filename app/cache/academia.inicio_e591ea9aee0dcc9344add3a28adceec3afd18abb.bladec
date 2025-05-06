@@ -156,46 +156,30 @@ $userRole = $usuario->rol;
  <?php if($usuario->rol == 'Gerente' || $usuario->rol == 'Administrador'): ?>
  <div class="tab-pane fade" id="admin" role="tabpanel" aria-labelledby="admin-tab">
 
- <?php
- $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
- ?>
- <script>
- const ctx = document.getElementById('miGrafico').getContext('2d');
+ <!-- Sub-tabs nav como tabs -->
+ <ul class="nav nav-tabs mb-3" id="adminSubTabs" role="tablist">
+ <li class="nav-item" role="presentation">
+ <button class="nav-link active" id="admin-solicitudes-tab" data-bs-toggle="tab" data-bs-target="#admin-solicitudes" type="button" role="tab" aria-controls="admin-solicitudes" aria-selected="true">
+ Solicitudes
+ </button>
+ </li>
+ <li class="nav-item" role="presentation">
+ <button class="nav-link" id="admin-alumnos-tab" data-bs-toggle="tab" data-bs-target="#admin-alumnos" type="button" role="tab" aria-controls="admin-alumnos" aria-selected="false">
+ Alumnos
+ </button>
+ </li>
+ <li class="nav-item" role="presentation">
+ <button class="nav-link" id="admin-entrenadores-tab" data-bs-toggle="tab" data-bs-target="#admin-entrenadores" type="button" role="tab" aria-controls="admin-entrenadores" aria-selected="false">
+ Entrenadores
+ </button>
+ </li>
+ </ul>
 
- const estadisticasAcademia = <?= $estadisticaAcademiaJS ?>;
-
- const labels = estadisticasAcademia.map(item => item.nombreTipo);
- const data = estadisticasAcademia.map(item => item.numAlumnos);
-
- const miGrafico = new Chart(ctx, {
- type: 'bar',
- data: {
- labels: labels,
- datasets: [{
- label: 'Número de alumnos',
- data: data,
- backgroundColor: [
- '#f87171',
- '#60a5fa',
- '#34d399',
- '#fbbf24'
- ],
- borderColor: '#111827',
- borderWidth: 1
- }]
- },
- options: {
- scales: {
- y: {
- beginAtZero: true
- }
- }
- }
- });
- </script>
-
+ <!-- Sub-tabs content -->
+ <div class="tab-content" id="adminSubTabsContent">
+ <div class="tab-pane fade show active" id="admin-solicitudes" role="tabpanel" aria-labelledby="admin-solicitudes-tab">
+ <?php /* Aquí va la tabla de solicitudes */ ?>
  <h2>Solicitudes de Academias</h2>
-
  <table id="solicitudesTable" class="display compact">
  <thead>
  <tr>
@@ -240,12 +224,10 @@ $userRole = $usuario->rol;
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </tbody>
  </table>
-
-
-
-
+ </div>
+ <div class="tab-pane fade" id="admin-alumnos" role="tabpanel" aria-labelledby="admin-alumnos-tab">
+ <?php /* Aquí va la tabla de alumnos */ ?>
  <h3>Alumnos</h3>
-
  <table id="alumnosTable" class="display compact">
  <thead>
  <tr>
@@ -290,11 +272,10 @@ $userRole = $usuario->rol;
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </tbody>
  </table>
-
-
-
+ </div>
+ <div class="tab-pane fade" id="admin-entrenadores" role="tabpanel" aria-labelledby="admin-entrenadores-tab">
+ <?php /* Aquí va la tabla de entrenadores */ ?>
  <h3>Entrenadores</h3>
-
  <table id="entrenadoresTable" class="display compact">
  <thead>
  <tr>
@@ -327,8 +308,8 @@ $userRole = $usuario->rol;
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
  </tbody>
  </table>
-
-
+ </div>
+ </div>
  </div>
  <?php endif; ?>
 
