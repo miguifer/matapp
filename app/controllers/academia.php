@@ -179,12 +179,7 @@ class academia extends Controlador
             redireccionar('/');
         }
 
-        $solicitudEnCurso = $this->academiaModelo->obtenerSolicitudEnCurso($usuario->idUsuario, $academia->idAcademia) ? true : false;
 
-        if ($solicitudEnCurso) {
-
-            redireccionar('?toastrErr=Ya tienes una solicitud en curso para esta academia');
-        }
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
@@ -197,8 +192,15 @@ class academia extends Controlador
         } else {
             if (isset($_POST['idAcademia']) && isset($_POST['idUsuario'])) {
 
-                $this->academiaModelo->crearSolicitud($_POST['idUsuario'], $_POST['idAcademia']);
-                redireccionar('?toastrErr=Solicitud enviada correctamente, espera la respuesta del administrador de la academia');
+                $solicitudEnCurso = $this->academiaModelo->obtenerSolicitudEnCurso($_POST['idUsuario'], $_POST['idAcademia']) ? true : false;
+                if ($solicitudEnCurso) {
+
+                    redireccionar('?toastrErr=Ya tienes una solicitud en curso para esta academia');
+                } else {
+
+                    $this->academiaModelo->crearSolicitud($_POST['idUsuario'], $_POST['idAcademia']);
+                    redireccionar('?toastrErr=Solicitud enviada correctamente, espera la respuesta del administrador de la academia');
+                }
             } else {
                 redireccionar('/');
             }

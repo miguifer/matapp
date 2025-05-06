@@ -3,31 +3,6 @@
 
 <link rel="stylesheet" type="text/css" href="<?= RUTA_URL ?>/public/css/perfil.css">
 
-
-<?php 
- // Lista de colores para academias (puedes ampliarla)
- $coloresAcademias = [
- '#4e73df', // azul
- '#1cc88a', // verde
- '#f6c23e', // amarillo
- '#e74a3b', // rojo
- '#36b9cc', // celeste
- '#858796', // gris
- '#fd7e14', // naranja
- '#6f42c1', // morado
- ];
- $leyendaAcademias = [];
- if (isset($academias)) {
- $i = 0;
- foreach ($academias as $academia) {
- if (!isset($leyendaAcademias[$academia->nombreAcademia])) {
- $leyendaAcademias[$academia->nombreAcademia] = $coloresAcademias[$i % count($coloresAcademias)];
- $i++;
- }
- }
- }
- ?>
-
 <?php 
 
  $usuario = json_decode($_SESSION['userLogin']['usuario']);
@@ -219,17 +194,6 @@
  <div class="mb-4 content-section d-none" id="infoClases">
  <h5 class="mb-4">Tus clases</h5>
  <div id="calendar-container" style="min-height: 500px;">
- <?php if(count($leyendaAcademias) > 0): ?>
- <div class="mb-3">
- <strong>Leyenda de academias:</strong>
- <?php $__currentLoopData = $leyendaAcademias; $this->addLoop($__currentLoopData);$this->getFirstLoop();
- foreach($__currentLoopData as $nombre => $color): $loop = $this->incrementLoopIndices();  ?>
- <span
- style="display:inline-block;width:18px;height:18px;background:<?php echo \htmlentities($color??'', ENT_QUOTES, 'UTF-8', false); ?>;border-radius:4px;margin-right:6px;vertical-align:middle;"></span>
- <span style="margin-right:16px;"><?php echo \htmlentities($nombre??'', ENT_QUOTES, 'UTF-8', false); ?></span>
- <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
- </div>
- <?php endif; ?>
  <div id="calendar"></div>
  </div>
  </div>
@@ -386,8 +350,6 @@
 </div>
 
 
-
-
 <script>
  window.toastrMsg = <?= isset($_GET['toastrMsg']) ? json_encode($_GET['toastrMsg']) : 'null' ?>;
 </script>
@@ -395,8 +357,6 @@
 <script>
  window.RUTA_URL = "<?php echo \htmlentities(RUTA_URL??'', ENT_QUOTES, 'UTF-8', false); ?>";
  window.USUARIO_ID = <?= json_encode($usuario->idUsuario) ?>;
- window.academiaColors = <?php echo json_encode($leyendaAcademias, 15, 512); ?>;
-
 </script>
 
 <script src="<?= RUTA_URL ?>/public/js/perfil.inicio.js"></script>

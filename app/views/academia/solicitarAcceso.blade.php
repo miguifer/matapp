@@ -1,4 +1,5 @@
 @include('includes.header')
+<link rel="stylesheet" href="{{ RUTA_URL }}/public/css/academia.css">
 
 <?php
 $usuario = json_decode($_SESSION['userLogin']['usuario']);
