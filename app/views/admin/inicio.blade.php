@@ -1,6 +1,8 @@
 @include('includes.header')
 
 <link href="<?= RUTA_URL ?>/libs/coreui-5.3.1-dist/css/coreui.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ RUTA_URL }}/public/libs/DataTables/datatables.min.css" />
+<script src="{{ RUTA_URL }}/public/libs/chart.umd.js"></script>
 <link rel="stylesheet" type="text/css" href="<?= RUTA_URL ?>/public/css/admin.css">
 
 
@@ -255,6 +257,7 @@
     </script>
     <script src="<?= RUTA_URL ?>/public/js/admin.js"></script>
     <script src="<?= RUTA_URL ?>/libs/coreui-5.3.1-dist/js/coreui.bundle.min.js"> </script>
+    <script src="{{ RUTA_URL }}/public/libs/DataTables/datatables.min.js"></script> 
 
 
     @include('includes.footer')

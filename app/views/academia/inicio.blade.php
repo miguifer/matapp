@@ -1,6 +1,13 @@
 @include('includes.header')
 
+<script src='{{ RUTA_URL }}/public/libs/fullcalendar-scheduler-6.1.17/dist/index.global.min.js'></script>
+<link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/fullcalendar.css" />
+<link rel="stylesheet" href="{{ RUTA_URL }}/public/libs/DataTables/datatables.min.css" />
+<link rel="stylesheet" href="{{ RUTA_URL }}/public/libs/flatpickr.min.css">
+<link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/libs/material_green.css">
+<script src="{{ RUTA_URL }}/public/libs/flatpickr.min.js"></script>
 <link rel="stylesheet" href="{{ RUTA_URL }}/public/css/academia.css">
+
 
 <?php
 $usuario = json_decode($_SESSION['userLogin']['usuario']);
@@ -587,5 +594,6 @@ $userRole = $usuario->rol;
 <script src="{{ RUTA_URL }}/public/js/academia.js"></script>
 <script src="{{ RUTA_URL }}/public/js/academia.calendario.js"></script>
 <script src="{{ RUTA_URL }}/public/js/academia.admin.js"></script>
+<script src="{{ RUTA_URL }}/public/libs/DataTables/datatables.min.js"></script> 
 
 @include('includes.footer')

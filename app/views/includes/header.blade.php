@@ -11,14 +11,6 @@
     <link href="{{ RUTA_URL }}/public/libs/bootstrap-5.3.5-dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous">
     <link rel="stylesheet" href="{{ RUTA_URL }}/public/libs/fontawesome-free-6.7.2-web/css/all.min.css" />
-    <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/chatbot.css" />
-    <script src='{{ RUTA_URL }}/public/libs/fullcalendar-scheduler-6.1.17/dist/index.global.min.js'></script>
-    <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/fullcalendar.css" />
-    <link rel="stylesheet" href="{{ RUTA_URL }}/public/libs/DataTables/datatables.min.css" />
-    <link rel="stylesheet" href="{{ RUTA_URL }}/public/libs/flatpickr.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/libs/material_green.css">
-    <script src="{{ RUTA_URL }}/public/libs/flatpickr.min.js"></script>
-    <script src="{{ RUTA_URL }}/public/libs/chart.umd.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
