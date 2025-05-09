@@ -15,7 +15,8 @@
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
  <link rel="stylesheet/less" href="<?= RUTA_URL ?>/public/css/navbar.less" type="text/css" />
-
+ <link rel="stylesheet/less" href="<?php echo \htmlentities(RUTA_URL??'', ENT_QUOTES, 'UTF-8', false); ?>/public/css/styles/matapp.less" type="text/css" />
+ <link rel="stylesheet" href="https://use.typekit.net/nxn8pcg.css">
 </head>
 
 <body>

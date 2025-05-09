@@ -2,6 +2,7 @@
 
 <link rel="stylesheet" href="<?= RUTA_URL ?>/public/css/home.css" type="text/css" />
 
+
 <div class="search-container" style="margin-top: 25vh">
     <h4 class="">Encuentra tu academia</h4>
     <div class="search-bar d-flex">

@@ -1,0 +1,27 @@
+/* Funciones útiles en LESS */
+
+/* Función para convertir px a rem */
+.px-to-rem(@px, @base: 16) {
+    @rem: (@px / @base);
+    font-size:~"@{rem}rem";
+}
+
+/* Función para establecer un color con opacidad */
+.opacity-color(@color, @alpha: 0.5) {
+    @rgba: fade(@color, (@alpha * 100%));
+    color: @rgba;
+}
+
+/* Función para crear un cuadrado */
+.square(@size) {
+    width: @size;
+    height: @size;
+}
+
+/* Ejemplo de uso:
+.my-class {
+    .px-to-rem(24);
+    .opacity-color(#3498db, 0.7);
+    .square(50px);
+}
+*/
