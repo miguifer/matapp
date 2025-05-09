@@ -214,7 +214,6 @@
         </nav>
 
 
-        <script src="{{ RUTA_URL }}/public/js/header.amigos.js"></script>
 
         <div class="modal fade" id="modalPerfilAmigo" tabindex="-1" aria-labelledby="modalPerfilAmigoLabel"
             aria-hidden="true">
