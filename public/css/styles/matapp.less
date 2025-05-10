@@ -1,22 +1,313 @@
 @import "variables.less";
 @import "funciones.less";
 
+#navegacion {
+    #registrarse {
+        --min: 15;
+        --max: 15;
+        --mintrans: 1000;
+        --maxtrans: 1920;
+        font-size: ~"clamp(var(--min) * 1px, calc((var(--max) - var(--min)) * ((100vw - var(--mintrans) * 1px) / (var(--maxtrans) - var(--mintrans))) + var(--min) * 1px), var(--max) * 1px)" !important;
 
-h4 {
-    --min: 40;
-    --max: 40;
-    --mintrans: 1000;
-    --maxtrans: 1920;
-    font-size: ~"clamp(var(--min) * 1px, calc((var(--max) - var(--min)) * ((100vw - var(--mintrans) * 1px) / (var(--maxtrans) - var(--mintrans))) + var(--min) * 1px), var(--max) * 1px)" !important;
+        font-family: @acumin;
+        color: @white;
+        font-weight: 800;
+        background-color: @azul-oscuro;
+        letter-spacing: 1px;
+        border-radius: 50px;
+        padding-inline: 25px;
+        padding-block: 10px;
+        text-transform: uppercase;
+        transition: all 0.3s ease-in-out;
 
-    font-family: @acumin;
-    color: @azul-oscuro;
-    font-weight: 800;
-}
+        &:hover {
+            transform: scale(1.01);
+            transition: all 0.3s ease-in-out;
+            opacity: 0.9;
+        }
+    }
 
-@font-face {
-    font-family: 'Acumin';
-    src: url('../../fonts/Acumin-BdItPro.woff') format('woff2');
-    font-weight: normal;
-    font-style: normal;
+    #iniciar-sesion {
+        position: relative;
+        top: 5px;
+
+        span.small {
+            --min: 17;
+            --max: 17;
+            --mintrans: 1000;
+            --maxtrans: 1920;
+            font-size: ~"clamp(var(--min) * 1px, calc((var(--max) - var(--min)) * ((100vw - var(--mintrans) * 1px) / (var(--maxtrans) - var(--mintrans))) + var(--min) * 1px), var(--max) * 1px)" !important;
+            font-family: @acumin;
+            font-weight: 800;
+            color: @black;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        span.small::after {
+            content: "";
+            display: block;
+            height: 3px;
+            width: 0;
+            background: @black;
+            transition: width 0.3s ease, background 0.3s ease;
+            margin-top: 4px;
+            border-radius: 2px;
+        }
+
+        &:hover span.small {
+            color: @azul-claro;
+            transition: color 0.3s ease;
+        }
+
+        &:hover span.small::after {
+            width: 100%;
+            background: @azul-claro;
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+    }
+
+    #logo {
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+
+        &:hover {
+            transform: scale(1.03);
+            transition: all 0.2s ease-in-out;
+            opacity: 0.9;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+    }
+
+    #dropdownNotificaciones {
+        border-radius: 20px;
+        background-color: @gray-50;
+
+        #notificaciones-count {
+            background-color: @verde-claro  !important;
+        }
+
+
+    }
+
+    ul#notificaciones-list {
+        background-color: @azul-oscuro  !important;
+        border-radius: 10px;
+
+        li,
+        a {
+            color: @white;
+            font-family: @acumin;
+            font-weight: 400;
+        }
+
+        li.text-center {
+            color: @white  !important;
+        }
+
+        a:hover {
+            background-color: @azul-claro;
+        }
+
+        li:first-child {
+            --min: 20;
+            --max: 20;
+            --mintrans: 1000;
+            --maxtrans: 1920;
+            font-size: ~"clamp(var(--min) * 1px, calc((var(--max) - var(--min)) * ((100vw - var(--mintrans) * 1px) / (var(--maxtrans) - var(--mintrans))) + var(--min) * 1px), var(--max) * 1px)" !important;
+
+            color: @azul-oscuro;
+            background-color: @white;
+            margin-inline: 10px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+    }
+
+    #amigos {
+        border-radius: 25px;
+        padding-block: 8px;
+        background-color: @azul-oscuro;
+
+        &:hover {
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+    }
+
+    #offcanvasAmigos {
+
+
+        background-color: @azul-oscuro;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        border: none;
+
+        .offcanvas-header {
+            color: @white;
+            margin-top: 10px;
+
+
+            .btn-close {
+                transition: 150ms linear !important;
+                border-radius: 20px;
+                background-color: @white;
+                opacity: 1;
+                padding: 11px;
+
+            }
+
+            .btn-close:hover {
+                transform: rotate(90deg);
+                transition: 200ms linear !important;
+                opacity: 0.9;
+            }
+
+        }
+
+        .offcanvas-body {
+
+            overflow: hidden !important;
+
+
+            padding: 10px !important;
+
+
+            #amigosTabs {
+                display: flex;
+                flex-wrap: nowrap;
+                gap: 5px;
+                border-bottom: none;
+
+                .nav-link {
+                    font-size: 0.95rem;
+                    padding-left: 0.60rem;
+                    padding-right: 0.60rem;
+                    min-width: 0;
+                    flex: 1 1 0;
+                    text-align: center;
+                    white-space: nowrap;
+                    background-color: @white;
+                    color: @azul-oscuro;
+                    font-family: @acumin;
+                    font-weight: 700;
+                    border: 2px solid @white;
+
+                    #badgeSolicitudes {
+                        background-color: @verde-claro  !important;
+                        color: @white;
+                        font-family: @acumin;
+                        font-weight: 400;
+                    }
+                }
+
+                .active {
+                    background-color: @azul-oscuro;
+                    color: @white;
+                }
+            }
+
+            input#buscarUsuarioInput {
+                border: 2px solid @white;
+                background-color: @azul-oscuro-50;
+                color: @white;
+                font-family: @acumin;
+                font-weight: 400;
+
+                &::placeholder {
+                    color: @white;
+                    font-family: @acumin;
+                    font-weight: 400;
+                }
+            }
+
+            ul#resultadosBusqueda {
+
+                .btn {
+                    opacity: 1;
+                    min-width: 150px;
+                    color: @white;
+                    font-family: @acumin;
+                    font-weight: 400;
+                }
+
+                .btn-warning {
+                    background-color: @naranja-claro  !important;
+                    opacity: 0.9;
+                }
+
+                .btn-secondary {
+                    background-color: @black  !important;
+                    opacity: 0.9;
+                }
+
+                .btn-primary {
+                    background-color: @azul-oscuro  !important;
+
+                    &:hover {
+                        background-color: @azul-oscuro-50  !important;
+                    }
+                }
+
+
+            }
+
+            ul#listaAmigos {
+                li {
+                    button.ver-perfil-amigo {
+                        background-color: @azul-claro  !important;
+                        color: @white;
+                        border: none;
+
+                        &:hover {
+                            opacity: 0.9;
+                        }
+                    }
+
+                    button.eliminar-amigo {
+                        background-color: @rojo-claro  !important;
+                        color: @white;
+                        border: none;
+
+                        &:hover {
+                            opacity: 0.9;
+                        }
+                    }
+
+                    .bg-success {
+                        background-color: @verde-claro  !important;
+                        color: @white;
+                        font-family: @acumin;
+                        font-weight: 400;
+                    }
+                }
+            }
+
+            ul#listaSolicitudes {
+                li {
+                    button.aceptar-solicitud {
+                        background-color: @verde-claro  !important;
+                        color: @white;
+                        border: none;
+
+                        &:hover {
+                            opacity: 0.9;
+                        }
+                    }
+
+                    button.rechazar-solicitud {
+                        background-color: @rojo-claro  !important;
+                        color: @white;
+                        border: none;
+
+                        &:hover {
+                            opacity: 0.9;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

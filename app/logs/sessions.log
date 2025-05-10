@@ -149,3 +149,15 @@
 [2025-05-07 20:36:53][::1][miguifer][SUCCESS] Cierre de sesión
 [2025-05-07 20:36:58][::1][gerente1][SUCCESS] Login correcto
 [2025-05-09 18:49:34][::1][miguifer][SUCCESS] Login correcto
+[2025-05-10 12:30:14][::1][miguifer][FAIL] Credenciales incorrectas
+[2025-05-10 12:30:22][::1][miguifer][SUCCESS] Login correcto
+[2025-05-10 13:24:56][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-05-10 13:25:02][::1][gerente6][SUCCESS] Login correcto
+[2025-05-10 13:26:39][::1][gerente6][SUCCESS] Cierre de sesión
+[2025-05-10 13:26:44][::1][miguifer][SUCCESS] Login correcto
+[2025-05-10 13:26:48][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-05-10 13:26:54][::1][gerente6][SUCCESS] Login correcto
+[2025-05-10 13:33:52][::1][gerente6][SUCCESS] Cierre de sesión
+[2025-05-10 13:33:57][::1][gerente1][SUCCESS] Login correcto
+[2025-05-10 13:34:08][::1][gerente1][SUCCESS] Cierre de sesión
+[2025-05-10 13:34:13][::1][gerente6][SUCCESS] Login correcto

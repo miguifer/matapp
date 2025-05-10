@@ -42,10 +42,10 @@
                 <a class="navbar-brand text-black me-0 d-flex align-items-center" id="iniciar-sesion"
                     href="<?= RUTA_URL ?>/inicioSesion">
                     <!-- Esta el svg dentro del codigo para poder hacerle el fill -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    {{-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill="currentColor"
                             d="M12 3.75a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5m-4 9.5A3.75 3.75 0 0 0 4.25 17v1.188c0 .754.546 1.396 1.29 1.517c4.278.699 8.642.699 12.92 0a1.54 1.54 0 0 0 1.29-1.517V17A3.75 3.75 0 0 0 16 13.25h-.34q-.28.001-.544.086l-.866.283a7.25 7.25 0 0 1-4.5 0l-.866-.283a1.8 1.8 0 0 0-.543-.086z" />
-                    </svg>
+                    </svg> --}}
                     <span class="small">Iniciar Sesion</span>
                 </a>
                 <a id="registrarse" class="btn btn-dark ms-3" type="submit" href="<?= RUTA_URL ?>/registroUsuario">
@@ -67,7 +67,7 @@
                 <div class="dropdown me-3">
                     <button class="btn btn-light position-relative" type="button" id="dropdownNotificaciones"
                         data-bs-toggle="dropdown" aria-expanded="false" title="Notificaciones">
-                        <i class="fa-regular fa-bell"></i>
+                        <i class="fa fa-bell"></i>
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                             id="notificaciones-count">
                             0
@@ -76,16 +76,16 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownNotificaciones"
                         style="min-width: 300px;" id="notificaciones-list">
-                        <li class="dropdown-header">Mensajes de tus academias</li>
+                        <li class="dropdown-header">Notificaciones</li>
                         <li class="text-center py-2" id="notificaciones-loader">
                             <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
                         </li>
                     </ul>
                 </div>
 
-                <a href="#" class="btn btn-light me-3 position-relative" title="Amigos" data-bs-toggle="offcanvas"
+                <a href="#" id="amigos" class="btn btn-light me-3 position-relative" title="Amigos" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasAmigos">
-                    <i class="fa-solid fa-user-group"></i>
+                    <i class="fa-solid fa-user-group text-white"></i>
                     <span id="badgeSolicitudesBtn"
                         class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
                         style="display:none;">0</span>
