@@ -1,5 +1,5 @@
 </div>
-<script src="https://cdn.jsdelivr.net/npm/less"></script>
+<script src="{{ RUTA_URL }}/public/libs/less.js"></script>
 
 
 </body>
