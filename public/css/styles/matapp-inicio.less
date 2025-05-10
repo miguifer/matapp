@@ -1,0 +1,86 @@
+@import "variables.less";
+@import "funciones.less";
+
+:root {
+    --fondo: #161d22;
+    --blanco: white;
+    --blanco-secundario: rgb(228, 224, 224);
+    --azul: @azul-oscuro;
+    --gris-claro: @gray-50;
+    --verde: #228637;
+    --azul-claro: #3d68cc33;
+}
+
+h4 {
+    --min: 40;
+    --max: 40;
+    --mintrans: 1000;
+    --maxtrans: 1920;
+    font-size: ~"clamp(var(--min) * 1px, calc((var(--max) - var(--min)) * ((100vw - var(--mintrans) * 1px) / (var(--maxtrans) - var(--mintrans))) + var(--min) * 1px), var(--max) * 1px)" !important;
+
+    color: @azul-oscuro;
+    font-family: @acumin;
+    font-weight: 850;
+}
+
+
+#searchInput {
+    background: none;
+    border: none;
+    outline: none;
+    color: black;
+
+    &::placeholder {
+        color: black;
+    }
+}
+
+.input-subtitle {
+    color: black;
+    font-size: 15px;
+}
+
+.search-bar {
+    border-bottom: 1px solid @azul-oscuro;
+}
+
+#link-crear-academia {
+    color: var(--azul) !important;
+    font-size: 15px;
+
+    &:hover {
+        text-decoration: underline !important;
+    }
+}
+
+.resultado {
+    color: black;
+    border-bottom: 1px solid var(--gris-claro);
+
+    &:hover {
+        background-color: var(--azul-claro) !important;
+        transition: all 100ms linear;
+    }
+}
+
+#resultados {
+    max-height: 15rem;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+        width: 0.3rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--azul);
+        border-radius: 10px;
+
+        &:hover {
+            opacity: 0.6;
+        }
+    }
+}
+
+h4 {
+    font-size: 40px;
+}

@@ -79,6 +79,13 @@
         }
     }
 
+    #botonPerfil {
+        &:hover {
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+    }
+
     #dropdownNotificaciones {
         border-radius: 20px;
         background-color: @gray-50;
@@ -310,4 +317,73 @@
             }
         }
     }
+
+    #offcanvasRight {
+        background-color: @azul-oscuro;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        border: none;
+
+        .offcanvas-header {
+            color: @white;
+            margin-top: 10px;
+
+            h5 {
+                color: @white !important;
+                font-family: @acumin;
+                font-weight: 700;
+            }
+
+            .btn-close {
+                transition: 150ms linear !important;
+                border-radius: 20px;
+                background-color: @white;
+                opacity: 1;
+                padding: 11px;
+
+            }
+
+            .btn-close:hover {
+                transform: rotate(90deg);
+                transition: 200ms linear !important;
+                opacity: 0.9;
+            }
+
+        }
+
+        .offcanvas-body {
+
+            .menu-item {
+                color: @azul-oscuro !important;
+                font-family: @acumin;
+                font-weight: 700;
+
+            }
+
+            .border-top {
+                border-top: 2px solid @white !important;
+            }
+
+            .link-danger {
+                color: @white !important;
+                font-family: @acumin;
+                font-weight: 700;
+
+                &:hover {
+                    color: @rojo-claro !important;
+                    transition: all 0.3s ease-in-out;
+                    opacity: 0.9;
+
+                    i {
+                        rotate: 180deg;
+                        transition: all 0.3s ease-in-out;
+                    }
+
+                }
+              
+            }
+        }
+    }
+
+
 }

@@ -1,7 +1,7 @@
 <?php echo $this->runChild('includes.header'); ?>
 
 <link rel="stylesheet" href="<?= RUTA_URL ?>/public/css/home.css" type="text/css" />
-
+<link rel="stylesheet/less" type="text/css" href="<?= RUTA_URL ?>/public/css/styles/matapp-inicio.less" />
 
 <div class="search-container" style="margin-top: 25vh">
  <h4 class="">Encuentra tu academia</h4>

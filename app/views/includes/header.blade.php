@@ -14,7 +14,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <link rel="stylesheet/less" href="<?= RUTA_URL ?>/public/css/navbar.less" type="text/css" />
     <link rel="stylesheet/less" href="{{ RUTA_URL }}/public/css/styles/matapp.less" type="text/css" />
     <link rel="stylesheet" href="https://use.typekit.net/nxn8pcg.css">
 </head>
@@ -23,7 +22,6 @@
 
     <div class="container" id="main">
 
-        <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/header.css" />
 
         <nav id="navegacion" class="navbar mb-3 mt-3">
             <div class="container-fluid d-flex justify-content-end">
@@ -131,7 +129,7 @@
                             <?php } ?>
                             <div class="col-12 mb-2">
                                 <a class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
-                                    href="<?= RUTA_URL ?>/perfil"><i class="fa-regular fa-user"></i>&nbsp;&nbsp;Tu
+                                    href="<?= RUTA_URL ?>/perfil"><i class="fa fa-user"></i>&nbsp;&nbsp;Tu
                                     perfil </a>
                             </div>
                             <div class="col-12 mb-1">
