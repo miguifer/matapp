@@ -12,9 +12,8 @@
     <link href="{{ RUTA_URL }}/public/libs/bootstrap-5.3.5-dist/css/bootstrap.min.css" rel="stylesheet"
         crossorigin="anonymous">
     <link rel="stylesheet" href="{{ RUTA_URL }}/public/libs/fontawesome-free-6.7.2-web/css/all.min.css" />
-    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="{{ RUTA_URL }}/public/libs/toastr.min.css">
+    <script src="{{ RUTA_URL }}/public/libs/toastr.min.js"></script>
     <link rel="stylesheet/less" href="{{ RUTA_URL }}/public/css/styles/matapp.less" type="text/css" />
     <link rel="stylesheet" href="https://use.typekit.net/nxn8pcg.css">
 </head>
