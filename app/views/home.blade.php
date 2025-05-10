@@ -18,6 +18,12 @@
 </div>
 </div>
 
+<footer class="footer-home text-center py-2 mt-5" style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100;">
+    <div class="container">
+        <span class="text-muted">&copy; {{ date('Y') }} {{ NOMBRE_SITIO }}. Todos los derechos reservados.</span>
+    </div>
+</footer>
+
 <?php if (isset($_GET['toastrErr'])): ?>
 <script>
     window.toastrMsg = '<?= $_GET['toastrErr'] ?>';
