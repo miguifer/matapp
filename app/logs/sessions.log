@@ -173,3 +173,10 @@
 [2025-05-10 17:01:57][::1][miguifer][SUCCESS] Cierre de sesión
 [2025-05-10 17:01:59][::1][][FAIL] Campos obligatorios vacíos
 [2025-05-10 17:38:33][::1][miguifer][SUCCESS] Login correcto
+[2025-05-10 17:44:10][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-05-10 19:48:35][::1][][FAIL] Campos obligatorios vacíos
+[2025-05-10 20:05:03][::1][miguifer][SUCCESS] Login correcto
+[2025-05-10 20:15:28][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-05-10 20:15:34][::1][gerente1][SUCCESS] Login correcto
+[2025-05-10 20:15:46][::1][gerente1][SUCCESS] Cierre de sesión
+[2025-05-10 20:15:52][::1][miguifer][SUCCESS] Login correcto

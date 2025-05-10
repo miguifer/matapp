@@ -94,7 +94,6 @@
             background-color: @verde-claro  !important;
         }
 
-
     }
 
     ul#notificaciones-list {
@@ -329,7 +328,7 @@
             margin-top: 10px;
 
             h5 {
-                color: @white !important;
+                color: @white  !important;
                 font-family: @acumin;
                 font-weight: 700;
             }
@@ -354,23 +353,23 @@
         .offcanvas-body {
 
             .menu-item {
-                color: @azul-oscuro !important;
+                color: @azul-oscuro  !important;
                 font-family: @acumin;
                 font-weight: 700;
 
             }
 
             .border-top {
-                border-top: 2px solid @white !important;
+                border-top: 2px solid @white  !important;
             }
 
             .link-danger {
-                color: @white !important;
+                color: @white  !important;
                 font-family: @acumin;
                 font-weight: 700;
 
                 &:hover {
-                    color: @rojo-claro !important;
+                    color: @rojo-claro  !important;
                     transition: all 0.3s ease-in-out;
                     opacity: 0.9;
 
@@ -380,10 +379,43 @@
                     }
 
                 }
-              
+
             }
         }
     }
 
 
+}
+
+#modalPerfilAmigo {
+    .modal-content {
+        background-color: @azul-oscuro;
+
+        h5 {
+            color: @white;
+        }
+
+        img {
+            border: 2px solid @white;
+        }
+
+        .btn-close {
+            transition: 150ms linear !important;
+            border-radius: 20px;
+            background-color: @white;
+            opacity: 1;
+            padding: 11px;
+
+        }
+
+        .btn-close:hover {
+            transform: rotate(90deg);
+            transition: 200ms linear !important;
+            opacity: 0.9;
+        }
+
+        p {
+            color: @white;
+        }
+    }
 }

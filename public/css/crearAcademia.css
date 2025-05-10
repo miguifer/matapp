@@ -4,7 +4,10 @@ html {
 }
 
 .hero-image {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+  background-image: linear-gradient(
+    rgba(197, 255, 183, 0.5),
+    rgba(255, 220, 105, 0.5)
+  );
 
   height: 50%;
 
@@ -23,17 +26,30 @@ html {
   color: white;
 }
 
-input, select, option, .arroba {
+input,
+select,
+option,
+.arroba {
   border: 1px solid black !important;
 }
 
-#logo {
-  cursor: pointer;
-  transition: transform 150ms ease-in-out;
-
+#logoIS {
+  transition: all 0.3s ease-in-out;
 }
 
-#logo:hover {
-  transform: scale(1.1);
-  transition: transform 150ms ease-in-out;
+#logoIS:hover {
+  transform: scale(1.02);
+  transition: all 0.3s ease-in-out;
+}
+
+button[type="submit"] {
+  background-color: #4caf50 !important ;
+  border: none !important;
+  font-family: 'acumin-variable';
+  font-weight: 850;
+  letter-spacing: 0.5px;
+}
+
+button[type="submit"]:hover {
+  background-color: #5380E9 !important;
 }

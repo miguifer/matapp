@@ -1,0 +1,96 @@
+@import "variables.less";
+@import "funciones.less";
+
+@fondo: #161d22;
+@blanco: white;
+@blanco-secundario: rgb(228, 224, 224);
+@azul: rgb(109, 175, 219);
+@gris-claro: rgb(201, 201, 201);
+@fondo-secundario: #1e262c;
+@borde-fondo: #2f3b44;
+@verde: #228637;
+@verde-claro: #348d46;
+@error: rgb(134, 21, 21);
+@error-fondo: rgba(124, 19, 19, 0.26);
+
+:root {
+    --fondo: @fondo;
+    --blanco: @blanco;
+    --blanco-secundario: @blanco-secundario;
+    --azul: @azul;
+    --gris-claro: @gris-claro;
+    --fondo-secundario: @fondo-secundario;
+    --borde-fondo: @borde-fondo;
+    --verde: @verde;
+    --verde-claro: @verde-claro;
+    --error: @error;
+    --error-fondo: @error-fondo;
+}
+
+#link-iniciar-sesion {
+    color: @naranja-claro  !important;
+
+    &:hover {
+        text-decoration: underline !important;
+        font-size: 17px;
+    }
+}
+
+
+input:focus {
+    border: 1px solid @azul  !important;
+    box-shadow: none !important;
+}
+
+#carouselExampleAutoplaying {
+    height: 100vh;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-inner,
+.carousel-item {
+    height: 100%;
+}
+
+.carousel-item {
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+#izquierda {
+    padding: 0;
+    margin: 0;
+    height: 100vh;
+}
+
+
+input {
+    border-radius: 25px !important;
+}
+
+button[type="submit"] {
+    background-color: #2051c7;
+    font-family: @acumin;
+    font-weight: 850;
+    letter-spacing: 0.5px;
+    border-radius: 25px;
+
+    &:hover {
+        background-color: @verde-claro;
+    }
+}
+
+#logoIS {
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+
+        transform: scale(1.02);
+        transition: all 0.3s ease-in-out;
+
+    }
+}

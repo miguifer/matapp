@@ -1,7 +1,7 @@
 <?php echo $this->runChild('includes.header'); ?>
 
 
-<link rel="stylesheet" type="text/css" href="<?= RUTA_URL ?>/public/css/registroUsuario.css">
+<link rel="stylesheet/less" type="text/css" href="<?= RUTA_URL ?>/public/css/styles/matapp-registroUsuario.less">
 
 </div>
 
@@ -46,8 +46,10 @@
  style="min-width: 70%;">
 
  <div class="d-flex justify-content-center mb-4">
+ <a href="<?= RUTA_URL ?>/">
  <img src="<?= RUTA_URL ?>/public/img/favicon/android-chrome-512x512.png" alt="Logo"
  class="img-fluid" width="50" height="50" id="logoIS" title="Home" />
+ </a>
  </div>
 
  <h4>Registrate en MatApp</h4>

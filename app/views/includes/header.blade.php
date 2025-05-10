@@ -37,7 +37,7 @@
                 </span>
 
 
-                <a class="navbar-brand text-black me-0 d-flex align-items-center" id="iniciar-sesion"
+                <a class="navbar-brand text-black me-0 d-flex align-items-center" id="iniciar-sesion" title="Iniciar Sesion"
                     href="<?= RUTA_URL ?>/inicioSesion">
                     <!-- Esta el svg dentro del codigo para poder hacerle el fill -->
                     {{-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -46,7 +46,7 @@
                     </svg> --}}
                     <span class="small">Iniciar Sesion</span>
                 </a>
-                <a id="registrarse" class="btn btn-dark ms-3" type="submit" href="<?= RUTA_URL ?>/registroUsuario">
+                <a id="registrarse" title="Registrarse" class="btn btn-dark ms-3" type="submit" href="<?= RUTA_URL ?>/registroUsuario">
                     Registrarse
                 </a>
 
