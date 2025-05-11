@@ -180,3 +180,34 @@
 [2025-05-10 20:15:34][::1][gerente1][SUCCESS] Login correcto
 [2025-05-10 20:15:46][::1][gerente1][SUCCESS] Cierre de sesión
 [2025-05-10 20:15:52][::1][miguifer][SUCCESS] Login correcto
+[2025-05-10 20:19:38][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-05-10 20:19:44][::1][miguifer][SUCCESS] Login correcto
+[2025-05-10 20:19:48][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-05-10 20:19:54][::1][admin][SUCCESS] Login correcto
+[2025-05-10 20:20:21][::1][admin][SUCCESS] Cierre de sesión
+[2025-05-10 20:20:29][::1][admin][SUCCESS] Login correcto
+[2025-05-10 20:20:32][::1][admin][SUCCESS] Cierre de sesión
+[2025-05-10 20:20:38][::1][miguifer][SUCCESS] Login correcto
+[2025-05-10 20:23:17][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-05-10 20:23:22][::1][gerente1][SUCCESS] Login correcto
+[2025-05-11 00:02:09][::1][gerente1][SUCCESS] Cierre de sesión
+[2025-05-11 00:02:39][::1][miguifer][SUCCESS] Login correcto
+[2025-05-11 17:59:45][::1][gerente1][SUCCESS] Login correcto
+[2025-05-11 18:05:13][::1][gerente1][SUCCESS] Cierre de sesión
+[2025-05-11 18:05:22][::1][miguifer][SUCCESS] Login correcto
+[2025-05-11 18:05:43][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-05-11 18:05:56][::1][gerente1][SUCCESS] Login correcto
+[2025-05-11 18:06:38][::1][gerente1][SUCCESS] Cierre de sesión
+[2025-05-11 18:06:38][::1][][SUCCESS] Cierre de sesión
+[2025-05-11 18:07:17][::1][miguifer][SUCCESS] Login correcto
+[2025-05-11 18:09:52][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-05-11 18:09:57][::1][gerente1][FAIL] Credenciales incorrectas
+[2025-05-11 18:10:20][::1][miguifer][FAIL] Credenciales incorrectas
+[2025-05-11 18:10:25][::1][miguifer][SUCCESS] Login correcto
+[2025-05-11 18:30:56][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-05-11 18:31:01][::1][admin][SUCCESS] Login correcto
+[2025-05-11 18:35:13][::1][admin][SUCCESS] Cierre de sesión
+[2025-05-11 18:35:18][::1][miguifer][SUCCESS] Login correcto
+[2025-05-11 18:35:22][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-05-11 18:35:27][::1][admin][FAIL] Credenciales incorrectas
+[2025-05-11 18:35:32][::1][admin][SUCCESS] Login correcto

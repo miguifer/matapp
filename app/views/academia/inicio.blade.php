@@ -113,7 +113,7 @@ $userRole = $usuario->rol;
         </div>
     </div>
 
-    @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Entrenador')
+    @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Entrenador' || $usuario->rol == 'Administrador')
         <div class="tab-pane fade" id="clases" role="tabpanel" aria-labelledby="clases-tab">
             <h2>Clases de la Academia</h2>
             <table id="tablaClases" class="table table-striped">
@@ -370,7 +370,7 @@ $userRole = $usuario->rol;
                 @endif
             </div>
 
-            @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Entrenador')
+            @if ($usuario->rol == 'Gerente' || $usuario->rol == 'Entrenador' || $usuario->rol == 'Administrador')
                 <form action="{{ RUTA_URL }}/academia/subirFoto" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="idAcademia" value="{{ $academia->idAcademia }}">
                     <input type="file" name="foto" accept="image/*" required>

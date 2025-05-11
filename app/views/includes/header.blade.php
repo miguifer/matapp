@@ -37,8 +37,8 @@
                 </span>
 
 
-                <a class="navbar-brand text-black me-0 d-flex align-items-center" id="iniciar-sesion" title="Iniciar Sesion"
-                    href="<?= RUTA_URL ?>/inicioSesion">
+                <a class="navbar-brand text-black me-0 d-flex align-items-center" id="iniciar-sesion"
+                    title="Iniciar Sesion" href="<?= RUTA_URL ?>/inicioSesion">
                     <!-- Esta el svg dentro del codigo para poder hacerle el fill -->
                     {{-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill="currentColor"
@@ -46,7 +46,8 @@
                     </svg> --}}
                     <span class="small">Iniciar Sesion</span>
                 </a>
-                <a id="registrarse" title="Registrarse" class="btn btn-dark ms-3" type="submit" href="<?= RUTA_URL ?>/registroUsuario">
+                <a id="registrarse" title="Registrarse" class="btn btn-dark ms-3" type="submit"
+                    href="<?= RUTA_URL ?>/registroUsuario">
                     Registrarse
                 </a>
 
@@ -60,7 +61,13 @@
                 <span class="text-white me-auto">
                     <img src="<?= RUTA_URL ?>/public/img/favicon/android-chrome-512x512.png" alt="Logo"
                         class="img-fluid" width="40" height="40" id="logo" title="Home" />
+                    <?php if (isset($usuario->rol) && $usuario->rol == "Administrador") { ?>
+                    <span class="text-danger small p-1">
+                        <i class="fa-solid fa-lock me-1"></i>Administrador
+                    </span>
+                    <?php } ?>
                 </span>
+
 
                 <div class="dropdown me-3">
                     <button class="btn btn-light position-relative" type="button" id="dropdownNotificaciones"

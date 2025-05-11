@@ -99,3 +99,8 @@ h1 {
 .tab-content.active {
   display: block;
 }
+
+#logo:hover {
+  cursor: pointer;
+  scale: 1.05;
+}
