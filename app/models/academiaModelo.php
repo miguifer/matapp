@@ -517,10 +517,12 @@ class academiaModelo
             mm.idMensaje
         FROM muro_mensajes mm
         INNER JOIN Academias a ON mm.idAcademia = a.idAcademia
-        WHERE mm.idUsuario = :idUsuario
-          AND mm.fecha >= datetime('now', '-7 days')
+        INNER JOIN AcademiaUsuarios au ON mm.idAcademia = au.idAcademia
+        WHERE au.idUsuario = :idUsuario
+        AND mm.fecha >= datetime('now', '-7 days')
         ORDER BY mm.fecha DESC
-        LIMIT 10
+        LIMIT 10;
+
     ");
         $this->db->bind(':idUsuario', $idUsuario);
         return $this->db->registros();
