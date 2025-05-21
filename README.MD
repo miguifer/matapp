@@ -18,8 +18,6 @@
 
 # MatApp
 
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/github/miguifer/matapp/master?import=true&workspaceId=ws_7mbdc4FJEFzPa8Dyga5B4Z)
-
 ## Descripción
 
 **MatApp** es una aplicación web moderna y modular diseñada específicamente para la gestión integral de gimnasios de artes marciales. Permite administrar usuarios, clases, horarios, actividades, etc. Facilitando la organización diaria, la programación de entrenamientos y la comunicación entre instructores y alumnos, todo desde una interfaz intuitiva y accesible.
