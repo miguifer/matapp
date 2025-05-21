@@ -45,3 +45,4 @@
    ```bash
    git clone https://github.com/tuusuario/matapp.git
    ```
+⚠️ Si descargas el proyecto como archivo .zip, asegúrate de eliminar el sufijo -master en la carpeta descomprimida para que la aplicación funcione correctamente.
