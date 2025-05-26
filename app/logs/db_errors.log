@@ -39,3 +39,4 @@ SQLSTATE[HY000] [14] unable to open database fileSQLSTATE[HY000] [14] unable to 
 [2025-05-05 19:10:13] SQLSTATE[23000]: Integrity constraint violation: 19 NOT NULL constraint failed: AcademiaUsuarios.idUsuario
 [2025-05-05 19:10:45] SQLSTATE[23000]: Integrity constraint violation: 19 NOT NULL constraint failed: AcademiaUsuarios.idUsuario
 [2025-05-05 19:11:43] SQLSTATE[23000]: Integrity constraint violation: 19 NOT NULL constraint failed: AcademiaUsuarios.idUsuario
+SQLSTATE[HY000] [14] unable to open database file[2025-05-21 19:51:45] Error de conexión a la base de datos.
