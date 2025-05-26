@@ -302,3 +302,10 @@
 [2025-05-26 18:11:31][::1][gerente2][SUCCESS] Login correcto
 [2025-05-26 18:36:51][::1][gerente1][SUCCESS] Cierre de sesión
 [2025-05-26 18:36:57][::1][admin][SUCCESS] Login correcto
+[2025-05-26 18:45:56][::1][mfernandez2003][SUCCESS] Cierre de sesión
+[2025-05-26 18:51:44][::1][miguifer][FAIL] Cuenta inactiva
+[2025-05-26 18:52:28][::1][miguifer][FAIL] Credenciales incorrectas
+[2025-05-26 18:52:47][::1][miguifer][FAIL] Campos obligatorios vacíos
+[2025-05-26 18:54:13][::1][miguifer][SUCCESS] Login correcto
+[2025-05-26 19:05:11][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-05-26 19:05:20][::1][gerente1][SUCCESS] Login correcto
