@@ -18,7 +18,7 @@ $(document).ready(function() {
                             <li>
                                 <a class="dropdown-item" href="${n.url || '#'}">
                                     <strong>${n.academia}</strong><br>
-                                    Nuevo mensaje: "${n.mensaje}"<br>
+                                    "${n.mensaje}"<br>
                                     <small class="text-muted">${n.hace || ''}</small>
                                 </a>
                             </li>

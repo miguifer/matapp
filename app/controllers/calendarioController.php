@@ -217,4 +217,25 @@ class calendarioController extends Controlador
             redireccionar('/');
         }
     }
+
+    public function valorar_clase()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['idClase'], $_POST['idUsuario'], $_POST['valoracion'])) {
+            $idClase = $_POST['idClase'];
+            $idUsuario = $_POST['idUsuario'];
+            $valoracion = $_POST['valoracion'];
+
+            $resultado = $this->calendarioModelo->valorarClase($idClase, $idUsuario, $valoracion);
+
+            header('Content-Type: application/json');
+            if ($resultado) {
+                echo json_encode(['message' => 'Clase valorada con éxito']);
+            } else {
+                echo json_encode(['message' => 'Error al valorar la clase']);
+            }
+        } else {
+            header('Content-Type: application/json', true, 400);
+            echo json_encode(['error' => 'Solicitud inválida: se esperaba POST con idClase, idUsuario y valoracion']);
+        }
+    }
 }

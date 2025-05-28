@@ -158,4 +158,13 @@ class calendarioModelo
             return false;
         }
     }
+
+    public function valorarClase($idClase, $idUsuario, $valoracion)
+    {
+        $this->db->query("UPDATE Reservas SET valoracion = :valoracion WHERE idClase = :idClase AND idUsuario = :idUsuario");
+        $this->db->bind(':valoracion', $valoracion);
+        $this->db->bind(':idClase', $idClase);
+        $this->db->bind(':idUsuario', $idUsuario);
+        return $this->db->execute();
+    }
 }

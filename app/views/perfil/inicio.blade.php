@@ -275,6 +275,7 @@
                                                             <th>Fecha</th>
                                                             <th>Academia</th>
                                                             <th>Clase</th>
+                                                            <th>Valorar</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -294,6 +295,21 @@
                                                                     {{ $asistencia->nombreAcademia ?? '-' }}
                                                                 </td>
                                                                 <td>{{ $asistencia->nombreClase ?? '-' }}</td>
+                                                                <td>
+                                                                    @if ($asistencia->valoracion !== null)
+                                                                        @for ($i = 1; $i <= 5; $i++)
+                                                                            @if ($i <= $asistencia->valoracion)
+                                                                                <i class="fas fa-star text-warning"></i>
+                                                                            @else
+                                                                                <i class="far fa-star text-warning"></i>
+                                                                            @endif
+                                                                        @endfor
+                                                                    @else
+                                                                        <button class="btn btn-outline-primary btn-sm" onclick="valorar('{{ $asistencia->idClase }}', false)">
+                                                                            Valorar
+                                                                        </button>
+                                                                    @endif
+                                                                </td>
                                                             </tr>
                                                         @endforeach
                                                     </tbody>

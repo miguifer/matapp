@@ -193,40 +193,81 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// Objetivos y barra de progreso
-let clasesAsistidasSemana = 2;
-let objetivoClases = localStorage.getItem('objetivoClases') || 3;
-document.getElementById('objetivoClases').value = objetivoClases;
 
-function actualizarBarra() {
-    objetivoClases = parseInt(document.getElementById('objetivoClases').value) || 1;
-    let porcentaje = Math.min(100, Math.round((clasesAsistidasSemana / objetivoClases) * 100));
-    let barra = document.getElementById('progresoBarra');
-    barra.style.width = porcentaje + '%';
-    barra.textContent = `${clasesAsistidasSemana}/${objetivoClases}`;
-    barra.className = 'progress-bar' + (porcentaje >= 100 ? ' bg-success' : ' bg-info');
-}
-
-document.getElementById('objetivoForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    objetivoClases = document.getElementById('objetivoClases').value;
-    localStorage.setItem('objetivoClases', objetivoClases);
-    actualizarBarra();
-});
-actualizarBarra();
-
-// Lógica para reclamar recompensa (simulada)
-document.getElementById('btnReclamarRecompensa').addEventListener('click', function () {
-    let objetivo = parseInt(document.getElementById('objetivoClases').value) || 1;
-    if (clasesAsistidasSemana >= objetivo) {
-        document.getElementById('mensajeRecompensa').style.display = 'block';
-        document.getElementById('mensajeRecompensa').className = 'alert alert-success mb-2';
-        document.getElementById('mensajeRecompensa').textContent = '¡Felicidades! Has reclamado tu recompensa semanal.';
-        // Aquí puedes hacer una petición AJAX para sumar monedas/puntos reales
-    } else {
-        document.getElementById('mensajeRecompensa').style.display = 'block';
-        document.getElementById('mensajeRecompensa').className = 'alert alert-warning mb-2';
-        document.getElementById('mensajeRecompensa').textContent = 'Aún no has alcanzado tu objetivo semanal.';
+function valorar(idClase, yaValorada) {
+    if (yaValorada) {
+        Swal.fire('Ya valorada', 'Ya has valorado esta clase.', 'info');
+        return;
     }
-});
-
+    Swal.fire({
+        title: 'Valora la clase',
+        html: `
+            <div id="star-rating" style="font-size:2rem;">
+                <i class="fa fa-star" data-value="1" data-selected="0" style="color: #ccc;"></i>
+                <i class="fa fa-star" data-value="2" data-selected="0" style="color: #ccc;"></i>
+                <i class="fa fa-star" data-value="3" data-selected="0" style="color: #ccc;"></i>
+                <i class="fa fa-star" data-value="4" data-selected="0" style="color: #ccc;"></i>
+                <i class="fa fa-star" data-value="5" data-selected="0" style="color: #ccc;"></i>
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Enviar',
+        cancelButtonText: 'Cancelar',
+        preConfirm: () => {
+            const selected = document.querySelectorAll('#star-rating .fa-star[data-selected="1"]').length;
+            if (!selected) {
+                Swal.showValidationMessage('Selecciona una puntuación');
+            }
+            return selected;
+        },
+        didOpen: () => {
+            const stars = document.querySelectorAll('#star-rating .fa-star');
+            let current = 0;
+            stars.forEach((star, idx) => {
+                star.addEventListener('mouseenter', function () {
+                    stars.forEach((s, i) => {
+                        s.style.color = i <= idx ? '#ffc107' : '#ccc';
+                    });
+                });
+                star.addEventListener('mouseleave', function () {
+                    stars.forEach((s, i) => {
+                        s.style.color = i < current ? '#ffc107' : '#ccc';
+                    });
+                });
+                star.addEventListener('click', function () {
+                    current = idx + 1;
+                    stars.forEach((s, i) => {
+                        s.setAttribute('data-selected', i < current ? '1' : '0');
+                        s.style.color = i < current ? '#ffc107' : '#ccc';
+                    });
+                });
+            });
+            document.getElementById('star-rating').addEventListener('mouseleave', function () {
+                stars.forEach((s, i) => {
+                    s.style.color = i < current ? '#ffc107' : '#ccc';
+                });
+            });
+        }
+    }).then(result => {
+        if (result.isConfirmed && result.value) {
+            const puntuacion = result.value;
+            $.ajax({
+                url: `${RUTA_URL}/calendarioController/valorar_clase`,
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    idClase: idClase,
+                    valoracion: puntuacion, // Cambiado de 'puntuacion' a 'valoracion'
+                    idUsuario: USUARIO_ID
+                },
+                success: function () {
+                    Swal.fire('¡Gracias!', 'Tu valoración ha sido registrada.', 'success');
+                    setTimeout(() => location.reload(), 1000);
+                },
+                error: function () {
+                    Swal.fire('Error', 'No se pudo registrar la valoración.', 'error');
+                }
+            });
+        }
+    });
+}
