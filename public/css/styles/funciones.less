@@ -1,0 +1,10 @@
+@gradient-from: #9890e3;
+@gradient-to: #b1f4cf;
+
+.gradient-text(@from: @gradient-from, @to: @gradient-to) {
+    background-image: linear-gradient(to top, @from 0%, @to 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}

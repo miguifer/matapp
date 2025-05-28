@@ -12,13 +12,17 @@
 }
 
 h4 {
-    --min: 40;
-    --max: 40;
+    --min: 50;
+    --max: 50;
     --mintrans: 1000;
     --maxtrans: 1920;
     font-size: ~"clamp(var(--min) * 1px, calc((var(--max) - var(--min)) * ((100vw - var(--mintrans) * 1px) / (var(--maxtrans) - var(--mintrans))) + var(--min) * 1px), var(--max) * 1px)" !important;
 
-    color: @azul-oscuro;
+    background-image: linear-gradient(to right, @azul-oscuro 0%,@white 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
     font-family: @acumin;
     font-weight: 850;
 }
@@ -45,7 +49,7 @@ h4 {
 }
 
 #link-crear-academia {
-    color: @naranja-claro !important;
+    color: @naranja-claro  !important;
     font-size: 15px;
 
     &:hover {

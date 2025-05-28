@@ -8,7 +8,7 @@
  <div class="search-bar d-flex">
  <input class="w-100 p-2" type="text" title="Busca por nombre de academia" id="searchInput"
  placeholder="Buscar..." autocomplete="off" />
- <img src="<?= RUTA_URL ?>/public/img/home/lupita.svg" alt="lupa de buscar" />
+ <img src="<?= RUTA_URL ?>/public/img/home/lupita.svg" id="lupita" alt="lupa de buscar" />
  </div>
  <span class="input-subtitle">Empieza a escribir para encontrar tu academia</span><br />
  <div id="resultados"></div>

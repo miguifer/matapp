@@ -1,6 +1,7 @@
 @import "variables.less";
 @import "funciones.less";
 
+
 #navegacion {
     #registrarse {
         --min: 15;
@@ -94,6 +95,23 @@
             background-color: @verde-claro  !important;
         }
 
+
+    }
+
+    @keyframes dropdownFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .dropdown-menu.show {
+        animation: dropdownFadeIn 0.5s ease;
     }
 
     ul#notificaciones-list {
@@ -419,3 +437,4 @@
         }
     }
 }
+

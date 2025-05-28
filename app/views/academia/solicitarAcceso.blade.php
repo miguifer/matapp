@@ -80,7 +80,8 @@ $userRole = $usuario->rol;
                     @csrf
                     <input type="hidden" name="idAcademia" value="{{ $academia->idAcademia }}">
                     <input type="hidden" name="idUsuario" value="{{ $usuario->idUsuario }}">
-                    <button type="submit" class="btn btn-primary">Crear Solicitud</button>
+                    <button type="submit" class="btn btn-primary" id="solicitar-acceso" >Crear Solicitud</button>
+                    <p class="mt-3 text-muted" style="font-size: 0.rem;">Si quiere formar parte de esta academia, haga clic en "Crear Solicitud".</p>
                 </form>
             </div>
         </div>

@@ -87,6 +87,7 @@
                         </li>
                     </ul>
                 </div>
+            
 
                 <a href="#" id="amigos" class="btn btn-light me-3 position-relative" title="Amigos"
                     data-bs-toggle="offcanvas" data-bs-target="#offcanvasAmigos">

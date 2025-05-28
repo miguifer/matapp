@@ -21,3 +21,19 @@
   object-fit: cover;
   border-radius: 8px;
 }
+
+#solicitar-acceso {
+  background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+  color: #471edb;
+  font-weight: 600;
+  border: 1px solid #471edb !important;
+  margin-top: 20px;
+
+  transition: background-position 0.4s;
+  background-size: 200% 100%;
+  background-position: left;
+}
+#solicitar-acceso:hover {
+  background-position: right;
+}
+
