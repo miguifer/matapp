@@ -24,8 +24,10 @@ class home extends Controlador
 
 
         $academias = $this->academiaModelo->obtenerAcademias();
+        $mejoresEntrenadores = $this->academiaModelo->obtenerMejoresEntrenadores(5);
         $datos = [
             'academias' => $academias,
+            'mejoresEntrenadores' => $mejoresEntrenadores,
         ];
 
         $_SESSION['activos'] = $this->academiaModelo->obtenerUsuariosActivos();
@@ -35,6 +37,4 @@ class home extends Controlador
         $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
         echo $this->blade->run("home", $datos);
     }
-
-
 }

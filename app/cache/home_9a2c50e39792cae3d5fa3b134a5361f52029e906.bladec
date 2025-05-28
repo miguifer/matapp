@@ -16,6 +16,46 @@
  encontrar tu
  academia? ¡Crea una!</a>
 </div>
+
+<?php if(isset($mejoresEntrenadores) && count($mejoresEntrenadores) > 0): ?>
+<div class="ranking-entrenadores mt-5">
+ <h5 class="mb-3">Entrenadores MatApp</h5>
+ <ol class="list-group list-group-numbered">
+ <?php $__currentLoopData = $mejoresEntrenadores; $this->addLoop($__currentLoopData);$this->getFirstLoop();
+ foreach($__currentLoopData as $i => $entrenador): $loop = $this->incrementLoopIndices();  ?>
+ <li class="list-group-item d-flex justify-content-between align-items-center">
+ <span class="d-flex align-items-center" style="gap: 0.5em;">
+ <?php 
+ $medalla = '';
+ if ($i === 0) $medalla = '🥇';
+ elseif ($i === 1) $medalla = '🥈';
+ elseif ($i === 2) $medalla = '🥉';
+ ?>
+ <?php if($medalla): ?>
+ <span style="font-size: 1.3em;"><?php echo \htmlentities($medalla??'', ENT_QUOTES, 'UTF-8', false); ?></span>
+ <?php endif; ?>
+ <?php echo \htmlentities($entrenador->nombre ?? 'Sin nombre'??'', ENT_QUOTES, 'UTF-8', false); ?>
+
+ <?php if(!empty($entrenador->especialidad)): ?>
+ <small class="text-muted">(<?php echo \htmlentities($entrenador->especialidad??'', ENT_QUOTES, 'UTF-8', false); ?>)</small>
+ <?php endif; ?>
+ <?php if(!empty($entrenador->nombreAcademia)): ?>
+ <small class="text-muted ms-2">- <?php echo \htmlentities($entrenador->nombreAcademia??'', ENT_QUOTES, 'UTF-8', false); ?></small>
+ <?php endif; ?>
+ </span>
+ <span class="badge bg-primary rounded-pill d-flex align-items-center" style="gap: 0.3em;">
+ <?php echo \htmlentities($entrenador->puntuacion ?? '0'??'', ENT_QUOTES, 'UTF-8', false); ?>
+
+ <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gold" class="bi bi-star-fill ms-1" viewBox="0 0 16 16">
+ <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.32-.158-.888.283-.95l4.898-.696 2.197-4.386c.197-.392.73-.392.927 0l2.197 4.386 4.898.696c.441.062.612.63.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+ </svg>
+ </span>
+ </li>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </ol>
+</div>
+<?php endif; ?>
+
 </div>
 
 <footer class="footer-home text-center py-2 mt-5" style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100;">

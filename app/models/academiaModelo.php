@@ -129,23 +129,21 @@ class academiaModelo
         $this->db->query("
             SELECT 
             u.*,
-            COALESCE(r.nombreRol,
-                CASE 
-                    WHEN ae.idAcademiaEntrenador IS NOT NULL THEN 'Entrenador'
-                    ELSE 'Cliente'
-                END
-            ) AS rol
-        FROM AcademiaUsuarios au
-        INNER JOIN Usuarios u 
+            CASE 
+                WHEN ae.idAcademia IS NOT NULL THEN 'Entrenador'
+                ELSE COALESCE(r.nombreRol, 'Cliente')
+            END AS rol
+            FROM AcademiaUsuarios au
+            INNER JOIN Usuarios u 
             ON au.idUsuario = u.idUsuario
-        LEFT JOIN UsuariosRoles ur 
+            LEFT JOIN AcademiasEntrenadores ae 
+            ON ae.idUsuario = u.idUsuario
+               AND ae.idAcademia = au.idAcademia
+            LEFT JOIN UsuariosRoles ur 
             ON ur.idUsuario = u.idUsuario
-        LEFT JOIN Roles r 
+            LEFT JOIN Roles r 
             ON r.idRol = ur.idRol
-        LEFT JOIN AcademiasEntrenadores ae 
-            ON ae.idUsuario    = u.idUsuario
-           AND ae.idACademia  = au.idAcademia
-        WHERE au.idAcademia = :idAcademia
+            WHERE au.idAcademia = :idAcademia
         ");
         $this->db->bind(':idAcademia', $idAcademia);
         return $this->db->registros();
@@ -651,6 +649,31 @@ class academiaModelo
             WHERE au.idUsuario = :idUsuario
         ");
         $this->db->bind(':idUsuario', $idUsuario);
+        return $this->db->registros();
+    }
+
+    public function obtenerMejoresEntrenadores($limite = 5)
+    {
+        $this->db->query("
+            SELECT 
+            u.idUsuario,
+            u.nombreUsuario AS nombre,
+            u.login,
+            u.imagen,
+            u.emailUsuario,
+            a.nombreAcademia,
+            COALESCE(SUM(r.valoracion), 0) AS puntuacion
+            FROM AcademiasEntrenadores ae
+            INNER JOIN Usuarios u ON ae.idUsuario = u.idUsuario
+            INNER JOIN Academias a ON ae.idAcademia = a.idAcademia
+            LEFT JOIN Clases c ON c.idEntrenador = u.idUsuario AND c.idAcademia = a.idAcademia
+            LEFT JOIN Reservas r ON r.idClase = c.id
+            WHERE c.idEntrenador IS NOT NULL
+            GROUP BY u.idUsuario, a.idAcademia
+            ORDER BY puntuacion DESC
+            LIMIT :limite
+        ");
+        $this->db->bind(':limite', $limite, PDO::PARAM_INT);
         return $this->db->registros();
     }
 }

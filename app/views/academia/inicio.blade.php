@@ -273,7 +273,7 @@ $userRole = $usuario->rol;
                                     <td>
                                         <button class="btn btn-danger eliminarAlumno"
                                             data-idusuario="{{ $alumno->idUsuario }}">Eliminar</button>
-                                        @if ($alumno->rol !== 'Entrenador')
+                                        @if ($alumno->rol !== 'Entrenador' )
                                             <button class="btn btn-primary hacerEntrenador"
                                                 data-idusuario="{{ $alumno->idUsuario }}">Hacer entrenador</button>
                                         @endif
