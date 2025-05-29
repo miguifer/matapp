@@ -433,7 +433,6 @@ class Client implements ClientInterface, \Psr\Http\Client\ClientInterface
 
         // Ensure that sink is not an invalid value.
         if (isset($options['sink'])) {
-            // TODO: Add more sink validation?
             if (\is_bool($options['sink'])) {
                 throw new InvalidArgumentException('sink must not be a boolean');
             }

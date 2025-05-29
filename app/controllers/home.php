@@ -25,9 +25,11 @@ class home extends Controlador
 
         $academias = $this->academiaModelo->obtenerAcademias();
         $mejoresEntrenadores = $this->academiaModelo->obtenerMejoresEntrenadores(5);
+        $mejoresAcademias = $this->academiaModelo->obtenerMejoresAcademias(5);
         $datos = [
             'academias' => $academias,
             'mejoresEntrenadores' => $mejoresEntrenadores,
+            'mejoresAcademias' => $mejoresAcademias,
         ];
 
         $_SESSION['activos'] = $this->academiaModelo->obtenerUsuariosActivos();

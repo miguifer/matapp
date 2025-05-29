@@ -676,4 +676,23 @@ class academiaModelo
         $this->db->bind(':limite', $limite, PDO::PARAM_INT);
         return $this->db->registros();
     }
+
+    public function obtenerMejoresAcademias($limite = 5)
+    {
+        $this->db->query("
+            SELECT 
+                a.idAcademia,
+                a.nombreAcademia,
+                a.ubicacionAcademia,
+                a.path_imagen,
+                COUNT(au.idUsuario) AS total_alumnos
+            FROM Academias a
+            LEFT JOIN AcademiaUsuarios au ON a.idAcademia = au.idAcademia
+            GROUP BY a.idAcademia
+            ORDER BY total_alumnos DESC
+            LIMIT :limite
+        ");
+        $this->db->bind(':limite', $limite, PDO::PARAM_INT);
+        return $this->db->registros();
+    }
 }

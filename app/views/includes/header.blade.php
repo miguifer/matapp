@@ -125,7 +125,7 @@
                             data-bs-dismiss="offcanvas" aria-label="Close" title="Cerrar"></button>
                     </div>
                     <div class="offcanvas-body">
-
+                    {{-- TODO noticiero --}}
                         <div class="row">
 
                             <?php if (isset($usuario->rol) && $usuario->rol == "Administrador") { ?>

@@ -17,9 +17,11 @@
         academia? ¡Crea una!</a>
 </div>
 
+<div class="rankings">
+
 @if(isset($mejoresEntrenadores) && count($mejoresEntrenadores) > 0)
 <div class="ranking-entrenadores mt-5">
-    <h5 class="mb-3">Entrenadores MatApp</h5>
+    <h5 class="mb-3"><i class="fa-solid fa-ranking-star"></i> Entrenadores MatApp</h5>
     <ol class="list-group list-group-numbered">
         @foreach($mejoresEntrenadores as $i => $entrenador)
         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -53,13 +55,48 @@
 </div>
 @endif
 
+@if(isset($mejoresAcademias) && count($mejoresAcademias) > 0)
+<div class="ranking-academias mt-5">
+    <h5 class="mb-3"><i class="fa-solid fa-trophy"></i> Academias con más alumnos</h5>
+    <ol class="list-group list-group-numbered">
+        @foreach($mejoresAcademias as $i => $academia)
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="d-flex align-items-center" style="gap: 0.5em;">
+                @php
+                    $trofeo = '';
+                    if ($i === 0) $trofeo = '🏆';
+                    elseif ($i === 1) $trofeo = '🥈';
+                    elseif ($i === 2) $trofeo = '🥉';
+                @endphp
+                @if($trofeo)
+                    <span style="font-size: 1.3em;">{{ $trofeo }}</span>
+                @endif
+                {{ $academia->nombreAcademia ?? 'Sin nombre' }}
+                @if(!empty($academia->ubicacionAcademia))
+                    <small class="text-muted ms-2">- {{ $academia->ubicacionAcademia }}</small>
+                @endif
+            </span>
+            <span class="badge bg-success rounded-pill d-flex align-items-center" style="gap: 0.3em;">
+                {{ $academia->total_alumnos ?? '0' }}
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gold" class="bi bi-people-fill ms-1" viewBox="0 0 16 16">
+                  <path d="M13 7a3 3 0 1 0-6 0 3 3 0 0 0 6 0zm-7 3a2 2 0 1 0-4 0 2 2 0 0 0 4 0zm9 2c0-1-1-2-3-2s-3 1-3 2v1h6v-1zm-7 1v-1c0-.628.134-1.197.356-1.684C2.67 10.07 1 11.07 1 12v1h5z"/>
+                </svg>
+            </span>
+        </li>
+        @endforeach
+    </ol>
+</div>
+@endif
+
 </div>
 
-<footer class="footer-home text-center py-2 mt-5" style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100;">
+</div>
+
+{{-- <footer class="footer-home text-center py-2 mt-5" style="position: fixed; bottom: 0; left: 0; width: 100%; z-index: 100;">
     <div class="container">
         <span class="text-muted">&copy; {{ date('Y') }} {{ NOMBRE_SITIO }}. Todos los derechos reservados.</span>
     </div>
-</footer>
+</footer> --}}
 
 <?php if (isset($_GET['toastrErr'])): ?>
 <script>
