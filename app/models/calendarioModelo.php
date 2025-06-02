@@ -1,5 +1,6 @@
 <?php
 
+// Modelo para manejar las operaciones relacionadas con el calendario y las clases
 class calendarioModelo
 {
     private $db;

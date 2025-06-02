@@ -1,6 +1,9 @@
 <?php
 session_start();
 
+// Iniciador de la aplicación
+// Cargar las configuraciones y helpers necesarios
+
 require_once 'config/configurar.php';
 
 require_once 'helpers/url_helper.php';

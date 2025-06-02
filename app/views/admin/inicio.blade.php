@@ -238,6 +238,7 @@
 
 <div class="container" id="main">
 
+    {{-- Variables de php para JavasCript --}}
     <script>
         let estadisticasAcademia = @json($estadisticaAcademia);
         let estadisticaAcademiaModalidad = @json($estadisticaAcademiaModalidad);

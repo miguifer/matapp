@@ -56,12 +56,6 @@
 
                     <h3 class="mt-3 mb-1">
                         <span class="fs-6 opacity-50">@</span>{{ $usuario->login }}
-                        {{-- @if ($rolUsuario == 'Administrador')
-                            <span class="badge bg-warning ms-2" title="Tus monedas/puntos">
-                                <i class="fas fa-coins me-1"></i>
-                                 isset($usuario->monedas) ? $usuario->monedas : 0 ?>
-                            </span>
-                        @endif --}}
                     </h3>
 
                 </div>
@@ -87,19 +81,13 @@
                                             <a class="nav-link" href="#" data-section="asistencia"><i
                                                     class="fas fa-check-circle me-2"></i>Asistencia</a>
                                         @endif
-                                        {{-- @if ($rolUsuario == 'Administrador')
-                                            <a class="nav-link" href="#" data-section="objetivos">
-                                                <i class="fas fa-bullseye me-2"></i>Objetivos
-                                                <span class="badge bg-warning ms-2">En desarrollo</span>
-                                            </a>
-                                        @endif --}}
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-lg-9">
                                 <div class="p-4">
-                                    <!-- Personal Information -->
+                                    <!-- Informacion personal  -->
                                     <div class="mb-4 content-section" id="infoPersonal">
                                         <h5 class="mb-4">Información personal</h5>
                                         <form id="editForm" action="{{ RUTA_URL }}/perfil/actualizarPerfil"
@@ -306,43 +294,6 @@
                                         @else
                                             <div class="text-center">No tienes asistencias registradas.</div>
                                         @endif
-                                    </div>
-
-                                    <div class="mb-4 content-section d-none" id="objetivos">
-                                        <h5 class="mb-4">Tus objetivos</h5>
-                                        <form id="objetivoForm" class="mb-3">
-                                            <div class="row align-items-center">
-                                                <div class="col-auto">
-                                                    <label for="objetivoClases" class="form-label mb-0">Clases
-                                                        objetivo por semana:</label>
-                                                </div>
-                                                <div class="col-auto">
-                                                    <input type="number" min="1" max="14"
-                                                        class="form-control" id="objetivoClases" value="3"
-                                                        style="width:80px;">
-                                                </div>
-                                                <div class="col-auto">
-                                                    <button type="submit"
-                                                        class="btn btn-primary btn-sm">Guardar</button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                        <div>
-                                            <label class="form-label">Progreso semanal:</label>
-                                            <div class="progress" style="height: 25px;">
-                                                <div id="progresoBarra" class="progress-bar" role="progressbar"
-                                                    style="width: 0%">0/0</div>
-                                            </div>
-                                        </div>
-                                        <!-- Apartado para reclamar recompensas -->
-                                        <div class="mt-4" id="recompensas">
-                                            <h6>Reclamar recompensas</h6>
-                                            <div class="alert alert-info mb-2" id="mensajeRecompensa"
-                                                style="display:none;"></div>
-                                            <button class="btn btn-success" id="btnReclamarRecompensa">
-                                                <i class="fas fa-gift me-1"></i> Reclamar recompensa semanal
-                                            </button>
-                                        </div>
                                     </div>
 
                                 </div>
