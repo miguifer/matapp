@@ -1,3 +1,6 @@
+import './variables.js';
+import { RUTA_URL } from './variables.js';
+
 $(function() {
     // Llama a cargarSolicitudes al cargar la página para actualizar la badge del botón
     cargarSolicitudes();
@@ -9,7 +12,7 @@ $(function() {
             $('#resultadosBusqueda').empty();
             return;
         }
-        $.get(window.RUTA_URL + '/amigos/buscar', {
+        $.get(`${RUTA_URL}` + '/amigos/buscar', {
             q: query
         }, function(res) {
             let html = '';
@@ -24,7 +27,7 @@ $(function() {
                 }
                 // Imagen de perfil
                 let imgSrc = u.imagen ? `data:image/jpeg;base64,${u.imagen}` :
-                    window.RUTA_URL + '/public/img/default_profile.png';
+                    `${RUTA_URL}` + '/public/img/default_profile.png';
                 html += `<li class="list-group-item d-flex justify-content-between align-items-center">
                     <span class="d-flex align-items-center">
                         <img src="${imgSrc}" alt="Perfil" class="rounded-circle me-2" style="width:32px;height:32px;object-fit:cover;">
@@ -39,12 +42,12 @@ $(function() {
 
     // Cargar amigos
     function cargarAmigos() {
-        $.get(window.RUTA_URL + '/amigos/lista', function(res) {
+        $.get(`${RUTA_URL}` + '/amigos/lista', function(res) {
             let html = '';
             if (res.length === 0) html = '<li class="list-group-item text-muted">Sin amigos</li>';
             res.forEach(a => {
                 let imgSrc = a.imagen ? `data:image/jpeg;base64,${a.imagen}` :
-                    window.RUTA_URL + '/public/img/default_profile.png';
+                    `${RUTA_URL}` + '/public/img/default_profile.png';
                 let onlineBadge = a.online == 1 ?
                     '<span class="badge bg-success ms-2">Online</span>' :
                     '<span class="badge bg-secondary ms-2">Offline</span>';
@@ -65,7 +68,7 @@ $(function() {
 
     // Cargar solicitudes
     function cargarSolicitudes() {
-        $.get(window.RUTA_URL + '/amigos/solicitudes', function(res) {
+        $.get(`${RUTA_URL}` + '/amigos/solicitudes', function(res) {
             let html = '';
             if (res.length === 0) {
                 html = '<li class="list-group-item text-muted">Sin solicitudes</li>';
@@ -77,7 +80,7 @@ $(function() {
             }
             res.forEach(s => {
                 let imgSrc = s.imagen ? `data:image/jpeg;base64,${s.imagen}` :
-                    window.RUTA_URL + '/public/img/default_profile.png';
+                    `${RUTA_URL}` + '/public/img/default_profile.png';
                 html += `<li class="list-group-item d-flex justify-content-between align-items-center">
                     <span class="d-flex align-items-center">
                         <img src="${imgSrc}" alt="Perfil" class="rounded-circle me-2" style="width:32px;height:32px;object-fit:cover;">
@@ -96,7 +99,7 @@ $(function() {
     // Aceptar/rechazar solicitud
     $('#listaSolicitudes').on('click', '.aceptar-solicitud', function() {
         let id = $(this).data('id');
-        $.post(window.RUTA_URL + '/amigos/aceptar', {
+        $.post(`${RUTA_URL}` + '/amigos/aceptar', {
             id: id
         }, function(res) {
             toastr.success(res.message || 'Solicitud aceptada');
@@ -106,7 +109,7 @@ $(function() {
     });
     $('#listaSolicitudes').on('click', '.rechazar-solicitud', function() {
         let id = $(this).data('id');
-        $.post(window.RUTA_URL + '/amigos/rechazar', {
+        $.post(`${RUTA_URL}` + '/amigos/rechazar', {
             id: id
         }, function(res) {
             toastr.info(res.message || 'Solicitud rechazada');
@@ -117,7 +120,7 @@ $(function() {
     // Eliminar amigo
     $('#listaAmigos').on('click', '.eliminar-amigo', function() {
         let id = $(this).data('id');
-        $.post(window.RUTA_URL + '/amigos/eliminar', {
+        $.post(`${RUTA_URL}` + '/amigos/eliminar', {
             id: id
         }, function(res) {
             toastr.info(res.message || 'Amistad eliminada');
@@ -128,7 +131,7 @@ $(function() {
     // Solicitar amistad
     $('#resultadosBusqueda').on('click', '.solicitar-amistad', function() {
         let idUsuario2 = $(this).data('id');
-        $.post(window.RUTA_URL + '/amigos/solicitar', {
+        $.post(`${RUTA_URL}` + '/amigos/solicitar', {
             idUsuario2: idUsuario2
         }, function(res) {
             toastr.success(res.message || 'Solicitud enviada');
@@ -145,11 +148,11 @@ $(function() {
 
     $('#listaAmigos').on('click', '.ver-perfil-amigo', function() {
         let id = $(this).data('id');
-        $.get(window.RUTA_URL + '/amigos/perfil', {
+        $.get(`${RUTA_URL}` + '/amigos/perfil', {
             id: id
         }, function(res) {
             let imgSrc = res.imagen ? `data:image/jpeg;base64,${res.imagen}` :
-                window.RUTA_URL + '/public/img/default_profile.png';
+                `${RUTA_URL}` + '/public/img/default_profile.png';
             let html = `
                 <div class="text-center mb-3">
                     <img src="${imgSrc}" class="rounded-circle" style="width:80px;height:80px;object-fit:cover;">

@@ -1,11 +1,11 @@
-const defecto = window.RUTA_LOGO_DEFECTO;
 
-const gimnasios = window.GIMNASIOS_DATA;
+import { RUTA_IMG_ACADEMIAS } from "./variables.js";
 
-console.log(gimnasios);
 
 const searchInput = document.getElementById("searchInput");
 const resultadosContainer = document.getElementById("resultados");
+
+
 
 function mostrarResultados() {
     const query = searchInput.value.toLowerCase();
@@ -25,9 +25,9 @@ function mostrarResultados() {
             div.classList.add("resultado", "p-2");
             const img = document.createElement("img");
             img.classList.add("me-2");
-            img.src = (gimnasio.path_imagen && gimnasio.path_imagen.trim() !== "" && gimnasio.path_imagen !== "undefined" && gimnasio.path_imagen !== null) ?
-                gimnasio.path_imagen :
-                defecto;
+            img.src = (gimnasio.path_imagen && gimnasio.path_imagen.trim() !== "" && gimnasio.path_imagen !== "undefined" && gimnasio.path_imagen !== null)
+                ? RUTA_IMG_ACADEMIAS + gimnasio.path_imagen
+                : defecto;
             img.alt = gimnasio.nombreAcademia;
             img.style.width = "30px";
             img.style.height = "30px";
@@ -55,7 +55,7 @@ function mostrarResultados() {
             div.addEventListener("click", () => {
                 const form = document.createElement("form");
                 form.method = "POST";
-                form.action = window.RUTA_ACADEMIA + "?academia=" + encodeURIComponent(JSON.stringify(gimnasio));
+                form.action = `${RUTA_ACADEMIA}` + "?academia=" + encodeURIComponent(JSON.stringify(gimnasio));
 
                 const input = document.createElement("input");
                 input.type = "hidden";
@@ -77,7 +77,8 @@ function mostrarResultados() {
 
 searchInput.addEventListener("input", mostrarResultados);
 
-if (window.toastrMsg) {
+
+if (typeof toastrMsg !== "undefined" && toastrMsg) {
     toastr.options = {
         "closeButton": true,
         "positionClass": "toast-top-right",
@@ -86,5 +87,5 @@ if (window.toastrMsg) {
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     };
-    toastr.info(window.toastrMsg);
+    toastr.info(toastrMsg);
 }

@@ -1,3 +1,6 @@
+import './variables.js';
+import { RUTA_URL } from './variables.js';
+
 document.addEventListener("DOMContentLoaded", function () {
     const calendarEl = document.getElementById('calendar');
     const today = new Date();

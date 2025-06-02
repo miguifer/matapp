@@ -1,5 +1,7 @@
+import { RUTA_URL } from "./variables.js";
+
 // Configuración de toastr si hay mensaje (esto requiere que window.toastrMsg esté definido desde PHP)
-if (window.toastrMsg) {
+if (typeof toastrMsg !== "undefined" && toastrMsg) {
     toastr.options = {
         "closeButton": true,
         "positionClass": "toast-top-right",
@@ -8,7 +10,7 @@ if (window.toastrMsg) {
         "showMethod": "fadeIn",
         "hideMethod": "fadeOut"
     };
-    toastr.info(window.toastrMsg);
+    toastr.info(toastrMsg);
 }
 
 // DataTables para tablas de solicitudes y asistencia
@@ -18,8 +20,6 @@ $(document).ready(function () {
 });
 
 // Variables globales necesarias (deben definirse en el Blade antes de incluir este JS)
-const RUTA_URL = window.RUTA_URL;
-let USUARIO_ID = window.USUARIO_ID;
 let calendar;
 
 // Inicialización de FullCalendar
@@ -194,7 +194,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-function valorar(idClase, yaValorada) {
+// Hacer la función valorar global para que sea accesible desde el HTML
+window.valorar = function (idClase, yaValorada) {
     if (yaValorada) {
         Swal.fire('Ya valorada', 'Ya has valorado esta clase.', 'info');
         return;

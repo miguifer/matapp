@@ -8,38 +8,38 @@
 <script src="{{ RUTA_URL }}/public/libs/flatpickr.min.js"></script>
 <link rel="stylesheet" href="{{ RUTA_URL }}/public/css/academia.css">
 
+@php
+    $usuario = json_decode($_SESSION['userLogin']['usuario']);
+    $userRole = $usuario->rol;
+@endphp
 
-<?php
-$usuario = json_decode($_SESSION['userLogin']['usuario']);
-$userRole = $usuario->rol;
-
-?>
-
-<?php if ($usuario->rol == 'Entrenador') { ?>
-<script>
-    currentRole = "Entrenador";
-</script>
-<?php } else if ($usuario->rol == 'Alumno') { ?>
-<script>
-    currentRole = "Alumno";
-</script>
-<?php } else if ($usuario->rol == 'Gerente') { ?>
-<script>
-    currentRole = "Gerente";
-</script>
-<?php } else if ($usuario->rol == 'Administrador') { ?>
-<script>
-    currentRole = "Administrador";
-</script>
-<?php }else{
-    redireccionar('/academia/solicitarAcceso?academia=' . urlencode(json_encode($academia)));
-} ?>
+@if ($usuario->rol == 'Entrenador')
+    <script>
+        currentRole = "Entrenador";
+    </script>
+@elseif ($usuario->rol == 'Alumno')
+    <script>
+        currentRole = "Alumno";
+    </script>
+@elseif ($usuario->rol == 'Gerente')
+    <script>
+        currentRole = "Gerente";
+    </script>
+@elseif ($usuario->rol == 'Administrador')
+    <script>
+        currentRole = "Administrador";
+    </script>
+@else
+    @php
+        redireccionar('/academia/solicitarAcceso?academia=' . urlencode(json_encode($academia)));
+    @endphp
+@endif
 
 <ul class="nav nav-tabs mb-3" id="academiaTabs" role="tablist">
 
     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab"
-            aria-controls="info" aria-selected="false">
+        <button class="nav-link" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button"
+            role="tab" aria-controls="info" aria-selected="false">
             Información
         </button>
     </li>
@@ -273,7 +273,7 @@ $userRole = $usuario->rol;
                                     <td>
                                         <button class="btn btn-danger eliminarAlumno"
                                             data-idusuario="{{ $alumno->idUsuario }}">Eliminar</button>
-                                        @if ($alumno->rol !== 'Entrenador' )
+                                        @if ($alumno->rol !== 'Entrenador')
                                             <button class="btn btn-primary hacerEntrenador"
                                                 data-idusuario="{{ $alumno->idUsuario }}">Hacer entrenador</button>
                                         @endif
@@ -326,7 +326,7 @@ $userRole = $usuario->rol;
     <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
         <div class="mt-4">
             <h2>Información de la Academia</h2>
-            <img src="{{ $academia->path_imagen }}" alt="Imagen academia"
+            <img src="{{ RUTA_IMG_ACADEMIAS. $academia->path_imagen }}" alt="Imagen academia"
                 style="width:120px; height:120px; object-fit:cover; border-radius:50%; margin-bottom:10px;">
             <p><strong>Nombre:</strong> {{ $academia->nombreAcademia }}</p>
             <p><strong>Tipo de academia:</strong> {{ $academia->tipoAcademia ?? 'Sin tipo disponible.' }}</p>
@@ -572,28 +572,22 @@ $userRole = $usuario->rol;
     </div>
 </div>
 
+{{-- Variables de php para JavasCript --}}
 <script>
-    const RUTA_URL = '<?= RUTA_URL ?>';
+    const ACADEMIA_NOMBRE = '<?= addslashes($academia->nombreAcademia) ?>';
+    const ACADEMIA_UBICACION = '<?= addslashes($academia->ubicacionAcademia ?? '') ?>';
     const ACADEMIA_ID = '<?= $academia->idAcademia ?>';
     const ACADEMIA_ID_GERENTE = '<?= $academia->idGerente ?>';
     let USUARIO_ID = '<?= $usuario->idUsuario ?>';
     let currentRole = "<?= $usuario->rol ?>";
-    const ACADEMIA_NOMBRE = '<?= addslashes($academia->nombreAcademia) ?>';
-    const ACADEMIA_UBICACION = '<?= addslashes($academia->ubicacionAcademia ?? '') ?>';
     const ENTRENADORES = @json($entrenadores);
 </script>
 
-
-
-
-<script>
-    window.RUTA_URL = "{{ RUTA_URL }}";
-    window.USUARIO_ID = <?= json_encode($usuario->idUsuario) ?>;
-</script>
-<script src="{{ RUTA_URL }}/js/academia.mensajes.js"></script>
 <script src="{{ RUTA_URL }}/public/js/academia.js"></script>
-<script src="{{ RUTA_URL }}/public/js/academia.calendario.js"></script>
-<script src="{{ RUTA_URL }}/public/js/academia.admin.js"></script>
-<script src="{{ RUTA_URL }}/public/libs/DataTables/datatables.min.js"></script> 
+<script type="module" src="{{ RUTA_URL }}/public/js/academia.admin.js"></script>
+<script type="module" src="{{ RUTA_URL }}/public/js/academia.calendario.js"></script>
+<script type="module" src="{{ RUTA_URL }}/js/academia.mensajes.js"></script>
+
+<script src="{{ RUTA_URL }}/public/libs/DataTables/datatables.min.js"></script>
 
 @include('includes.footer')

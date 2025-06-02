@@ -26,188 +26,175 @@
         <nav id="navegacion" class="navbar mb-3 mt-3">
             <div class="container-fluid d-flex justify-content-end">
 
-                <?php
-        
-                if (!isset($_SESSION['userLogin'])) {
-        
-                ?>
-                <span class="text-white me-auto">
-                    <img src="<?= RUTA_URL ?>/public/img/favicon/android-chrome-512x512.png" alt="Logo"
-                        class="img-fluid" width="40" height="40" id="logo" title="Home" />
-                </span>
-
-
-                <a class="navbar-brand text-black me-0 d-flex align-items-center" id="iniciar-sesion"
-                    title="Iniciar Sesion" href="<?= RUTA_URL ?>/inicioSesion">
-                    <!-- Esta el svg dentro del codigo para poder hacerle el fill -->
-                    {{-- <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="currentColor"
-                            d="M12 3.75a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5m-4 9.5A3.75 3.75 0 0 0 4.25 17v1.188c0 .754.546 1.396 1.29 1.517c4.278.699 8.642.699 12.92 0a1.54 1.54 0 0 0 1.29-1.517V17A3.75 3.75 0 0 0 16 13.25h-.34q-.28.001-.544.086l-.866.283a7.25 7.25 0 0 1-4.5 0l-.866-.283a1.8 1.8 0 0 0-.543-.086z" />
-                    </svg> --}}
-                    <span class="small">Iniciar Sesion</span>
-                </a>
-                <a id="registrarse" title="Registrarse" class="btn btn-dark ms-3" type="submit"
-                    href="<?= RUTA_URL ?>/registroUsuario">
-                    Registrarse
-                </a>
-
-                <?php
-                } else {
-
-                    $usuario = json_decode($_SESSION['userLogin']['usuario']);
-
-                ?>
-
-                <span class="text-white me-auto">
-                    <img src="<?= RUTA_URL ?>/public/img/favicon/android-chrome-512x512.png" alt="Logo"
-                        class="img-fluid" width="40" height="40" id="logo" title="Home" />
-                    <?php if (isset($usuario->rol) && $usuario->rol == "Administrador") { ?>
-                    <span class="text-danger small p-1">
-                        <i class="fa-solid fa-lock me-1"></i>Administrador
+                @if (!isset($_SESSION['userLogin']))
+                    <span class="text-white me-auto">
+                        <img src="{{ RUTA_URL }}/public/img/favicon/android-chrome-512x512.png" alt="Logo"
+                            class="img-fluid" width="40" height="40" id="logo" title="Home" />
                     </span>
-                    <?php } ?>
-                </span>
+
+                    <a class="navbar-brand text-black me-0 d-flex align-items-center" id="iniciar-sesion"
+                        title="Iniciar Sesion" href="{{ RUTA_URL }}/inicioSesion">
+                        <span class="small">Iniciar Sesion</span>
+                    </a>
+                    <a id="registrarse" title="Registrarse" class="btn btn-dark ms-3" type="submit"
+                        href="{{ RUTA_URL }}/registroUsuario">
+                        Registrarse
+                    </a>
+                @else
+                    @php
+                        $usuario = json_decode($_SESSION['userLogin']['usuario']);
+                    @endphp
+
+                    <span class="text-white me-auto">
+                        <img src="{{ RUTA_URL }}/public/img/favicon/android-chrome-512x512.png" alt="Logo"
+                            class="img-fluid" width="40" height="40" id="logo" title="Home" />
+                        @if (isset($usuario->rol) && $usuario->rol == 'Administrador')
+                            <span class="text-danger small p-1">
+                                <i class="fa-solid fa-lock me-1"></i>Administrador
+                            </span>
+                        @endif
+                    </span>
 
 
-                <div class="dropdown me-3">
-                    <button class="btn btn-light position-relative" type="button" id="dropdownNotificaciones"
-                        data-bs-toggle="dropdown" aria-expanded="false" title="Notificaciones">
-                        <i class="fa fa-bell"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                            id="notificaciones-count">
-                            0
-                            <span class="visually-hidden">mensajes nuevos</span>
-                        </span>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownNotificaciones"
-                        style="min-width: 300px;" id="notificaciones-list">
-                        <li class="dropdown-header">Notificaciones</li>
-                        <li class="text-center py-2" id="notificaciones-loader">
-                            <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
-                        </li>
-                    </ul>
-                </div>
-            
-
-                <a href="#" id="amigos" class="btn btn-light me-3 position-relative" title="Amigos"
-                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasAmigos">
-                    <i class="fa-solid fa-user-group text-white"></i>
-                    <span id="badgeSolicitudesBtn"
-                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                        style="display:none;">0</span>
-                </a>
-
-                <button id="botonPerfil" class="btn rounded-circle p-0" type="button" data-bs-toggle="offcanvas"
-                    title="Menú" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                    <?php if (!empty($usuario->imagen)) { ?>
-                    <img src="data:image/jpeg;base64,<?= $usuario->imagen ?>" alt="Imagen del cliente"
-                        class="rounded-circle" style="width: 40px; height: 40px;">
-                    <?php } else { ?>
-                    <img src="<?= RUTA_URL ?>/public/img/default_profile.png" alt="Imagen por defecto"
-                        class=" rounded-circle" style="width: 40px; height: 40px;">
-                    <?php } ?>
-                </button>
-
-                <div class="offcanvas offcanvas-end  text-white" tabindex="-1" id="offcanvasRight"
-                    aria-labelledby="offcanvasRightLabel">
-                    <div class="offcanvas-header">
-                        <?php if (!empty($usuario->imagen)) { ?>
-                        <img src="data:image/jpeg;base64,<?= $usuario->imagen ?>" alt="Imagen del cliente"
-                            class="me-2 rounded-circle" style="width: 40px; height: 40px;">
-                        <?php } else { ?>
-                        <img src="<?= RUTA_URL ?>/public/img/default_profile.png" alt="Imagen por defecto"
-                            class="me-2 rounded-circle" style="width: 40px; height: 40px;">
-                        <?php } ?>
-                        <h5 class="offcanvas-title text-dark" id="offcanvasRightLabel">
-                            <?= isset($usuario->login) ? $usuario->login : 'Invitado' ?>
-                        </h5>
-                        <button type="button" class="cerrarBoton btn-close btn-close-dark"
-                            data-bs-dismiss="offcanvas" aria-label="Close" title="Cerrar"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                    {{-- TODO noticiero --}}
-                        <div class="row">
-
-                            <?php if (isset($usuario->rol) && $usuario->rol == "Administrador") { ?>
-                            <div class="col-12 mb-1">
-                                <a class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
-                                    href="<?= RUTA_URL ?>/admin"><i class="fa-solid fa-lock"></i>&nbsp;&nbsp;Panel
-                                    de administración</a>
-                            </div>
-                            <?php } ?>
-                            <div class="col-12 mb-2">
-                                <a class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
-                                    href="<?= RUTA_URL ?>/perfil"><i class="fa fa-user"></i>&nbsp;&nbsp;Tu
-                                    perfil </a>
-                            </div>
-                            <div class="col-12 mb-1">
-                                <a href="#"
-                                    class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
-                                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasAmigos">
-                                    <i class="fa-solid fa-user-group"></i>&nbsp;&nbsp;Tus amigos
-                                </a>
-                            </div>
-                            <div class="col-12 mt-2 border-top border-dark-subtle">
-                                <a class=" link link-danger d-flex align-items-center text-decoration-none ms-2 mt-3"
-                                    href="<?= RUTA_URL ?>/inicioSesion/cerrarSesion"><i
-                                        class="fa-solid fa-right-from-bracket"></i>&nbsp;Cerrar Sesion </a>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAmigos"
-                    aria-labelledby="offcanvasAmigosLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasAmigosLabel">Amigos</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
-                            aria-label="Cerrar"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <ul class="nav nav-tabs" id="amigosTabs" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="buscar-tab" data-bs-toggle="tab"
-                                    data-bs-target="#buscar" type="button" role="tab">Buscar usuarios</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="amistades-tab" data-bs-toggle="tab"
-                                    data-bs-target="#amistades" type="button" role="tab">Mis amistades</button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="solicitudes-tab" data-bs-toggle="tab"
-                                    data-bs-target="#solicitudes" type="button" role="tab">
-                                    Solicitudes
-                                    <span id="badgeSolicitudes" class="badge bg-danger ms-1"
-                                        style="display:none;">0</span>
-                                </button>
+                    <div class="dropdown me-3">
+                        <button class="btn btn-light position-relative" type="button" id="dropdownNotificaciones"
+                            data-bs-toggle="dropdown" aria-expanded="false" title="Notificaciones">
+                            <i class="fa fa-bell"></i>
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                                id="notificaciones-count">
+                                0
+                                <span class="visually-hidden">mensajes nuevos</span>
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownNotificaciones"
+                            style="min-width: 300px;" id="notificaciones-list">
+                            <li class="dropdown-header">Notificaciones</li>
+                            <li class="text-center py-2" id="notificaciones-loader">
+                                <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
                             </li>
                         </ul>
-                        <div class="tab-content mt-3" id="amigosTabsContent">
-                            <div class="tab-pane fade show active" id="buscar" role="tabpanel">
-                                <input type="text" class="form-control mb-2" id="buscarUsuarioInput"
-                                    placeholder="Buscar usuario...">
-                                <ul class="list-group" id="resultadosBusqueda"></ul>
+                    </div>
+
+
+                    <a href="#" id="amigos" class="btn btn-light me-3 position-relative" title="Amigos"
+                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasAmigos">
+                        <i class="fa-solid fa-user-group text-white"></i>
+                        <span id="badgeSolicitudesBtn"
+                            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                            style="display:none;">0</span>
+                    </a>
+
+                    <button id="botonPerfil" class="btn rounded-circle p-0" type="button" data-bs-toggle="offcanvas"
+                        title="Menú" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                        @if (!empty($usuario->imagen))
+                            <img src="data:image/jpeg;base64,{{ $usuario->imagen }}" alt="Imagen del cliente"
+                                class="rounded-circle" style="width: 40px; height: 40px;">
+                        @else
+                            <img src="{{ RUTA_URL }}/public/img/default_profile.png" alt="Imagen por defecto"
+                                class="rounded-circle" style="width: 40px; height: 40px;">
+                        @endif
+                    </button>
+
+                    <div class="offcanvas offcanvas-end  text-white" tabindex="-1" id="offcanvasRight"
+                        aria-labelledby="offcanvasRightLabel">
+                        <div class="offcanvas-header">
+                            @if (!empty($usuario->imagen))
+                                <img src="data:image/jpeg;base64,{{ $usuario->imagen }}" alt="Imagen del cliente"
+                                    class="me-2 rounded-circle" style="width: 40px; height: 40px;">
+                            @else
+                                <img src="{{ RUTA_URL }}/public/img/default_profile.png"
+                                    alt="Imagen por defecto" class="me-2 rounded-circle"
+                                    style="width: 40px; height: 40px;">
+                            @endif
+                            <h5 class="offcanvas-title text-dark" id="offcanvasRightLabel">
+                                {{ isset($usuario->login) ? $usuario->login : 'Invitado' }}
+                            </h5>
+                            <button type="button" class="cerrarBoton btn-close btn-close-dark"
+                                data-bs-dismiss="offcanvas" aria-label="Close" title="Cerrar"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            {{-- TODO noticiero --}}
+                            <div class="row">
+
+                                @if (isset($usuario->rol) && $usuario->rol == 'Administrador')
+                                    <div class="col-12 mb-1">
+                                        <a class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
+                                            href="{{ RUTA_URL }}/admin"><i
+                                                class="fa-solid fa-lock"></i>&nbsp;&nbsp;Panel
+                                            de administración</a>
+                                    </div>
+                                @endif
+                                <div class="col-12 mb-2">
+                                    <a class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
+                                        href="{{ RUTA_URL }}/perfil"><i class="fa fa-user"></i>&nbsp;&nbsp;Tu
+                                        perfil </a>
+                                </div>
+                                <div class="col-12 mb-1">
+                                    <a href="#"
+                                        class="menu-item w-100 btn btn-light text-start text-dark text-opacity-70"
+                                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasAmigos">
+                                        <i class="fa-solid fa-user-group"></i>&nbsp;&nbsp;Tus amigos
+                                    </a>
+                                </div>
+                                <div class="col-12 mt-2 border-top border-dark-subtle">
+                                    <a class=" link link-danger d-flex align-items-center text-decoration-none ms-2 mt-3"
+                                        href="{{ RUTA_URL }}/inicioSesion/cerrarSesion"><i
+                                            class="fa-solid fa-right-from-bracket"></i>&nbsp;Cerrar Sesion </a>
+                                </div>
                             </div>
-                            <div class="tab-pane fade" id="amistades" role="tabpanel">
-                                <ul class="list-group" id="listaAmigos">
-                                    <li class="list-group-item text-muted">Cargando...</li>
-                                </ul>
-                            </div>
-                            <div class="tab-pane fade" id="solicitudes" role="tabpanel">
-                                <ul class="list-group" id="listaSolicitudes">
-                                    <li class="list-group-item text-muted">Cargando...</li>
-                                </ul>
+
+                        </div>
+                    </div>
+
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAmigos"
+                        aria-labelledby="offcanvasAmigosLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasAmigosLabel">Amigos</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                aria-label="Cerrar"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <ul class="nav nav-tabs" id="amigosTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="buscar-tab" data-bs-toggle="tab"
+                                        data-bs-target="#buscar" type="button" role="tab">Buscar
+                                        usuarios</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="amistades-tab" data-bs-toggle="tab"
+                                        data-bs-target="#amistades" type="button" role="tab">Mis
+                                        amistades</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="solicitudes-tab" data-bs-toggle="tab"
+                                        data-bs-target="#solicitudes" type="button" role="tab">
+                                        Solicitudes
+                                        <span id="badgeSolicitudes" class="badge bg-danger ms-1"
+                                            style="display:none;">0</span>
+                                    </button>
+                                </li>
+                            </ul>
+                            <div class="tab-content mt-3" id="amigosTabsContent">
+                                <div class="tab-pane fade show active" id="buscar" role="tabpanel">
+                                    <input type="text" class="form-control mb-2" id="buscarUsuarioInput"
+                                        placeholder="Buscar usuario...">
+                                    <ul class="list-group" id="resultadosBusqueda"></ul>
+                                </div>
+                                <div class="tab-pane fade" id="amistades" role="tabpanel">
+                                    <ul class="list-group" id="listaAmigos">
+                                        <li class="list-group-item text-muted">Cargando...</li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane fade" id="solicitudes" role="tabpanel">
+                                    <ul class="list-group" id="listaSolicitudes">
+                                        <li class="list-group-item text-muted">Cargando...</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-
-                <?php
-                }
-                ?>
-
+                @endif
 
             </div>
         </nav>
@@ -230,12 +217,9 @@
         </div>
 
 
-        <script>
-            window.RUTA_URL = '<?= RUTA_URL ?>';
-        </script>
-        <script src="{{ RUTA_URL }}/public/js/header.logo.js"></script>
-        <script src="{{ RUTA_URL }}/public/js/header.notificaciones.js"></script>
-        <script src="{{ RUTA_URL }}/public/js/header.amigos.js"></script>
+        <script type="module" src="{{ RUTA_URL }}/public/js/header.logo.js"></script>
+        <script type="module" src="{{ RUTA_URL }}/public/js/header.notificaciones.js"></script>
+        <script type="module" src="{{ RUTA_URL }}/public/js/header.amigos.js"></script>
 
 </body>
 

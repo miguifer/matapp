@@ -1,3 +1,6 @@
+import './variables.js';
+import { RUTA_URL } from './variables.js';
+
 function enviarMail(event) {
     event.preventDefault(); // Evita el comportamiento predeterminado de enviar el formulario
 

@@ -32,7 +32,7 @@ $userRole = $usuario->rol;
         <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
             <div class="mt-4">
                 <h2>Información de la Academia</h2>
-                <img src="{{ $academia->path_imagen }}" alt="Imagen academia"
+                <img src="{{ RUTA_IMG_ACADEMIAS . $academia->path_imagen }}" alt="Imagen academia"
                     style="width:120px; height:120px; object-fit:cover; border-radius:50%; margin-bottom:10px;">
                 <p><strong>Nombre:</strong> {{ $academia->nombreAcademia }}</p>
                 <p><strong>Tipo de academia:</strong> {{ $academia->tipoAcademia ?? 'Sin tipo disponible.' }}</p>
@@ -80,8 +80,9 @@ $userRole = $usuario->rol;
                     @csrf
                     <input type="hidden" name="idAcademia" value="{{ $academia->idAcademia }}">
                     <input type="hidden" name="idUsuario" value="{{ $usuario->idUsuario }}">
-                    <button type="submit" class="btn btn-primary" id="solicitar-acceso" >Crear Solicitud</button>
-                    <p class="mt-3 text-muted" style="font-size: 0.rem;">Si quiere formar parte de esta academia, haga clic en "Crear Solicitud".</p>
+                    <button type="submit" class="btn btn-primary" id="solicitar-acceso">Crear Solicitud</button>
+                    <p class="mt-3 text-muted" style="font-size: 0.rem;">Si quiere formar parte de esta academia, haga
+                        clic en "Crear Solicitud".</p>
                 </form>
             </div>
         </div>

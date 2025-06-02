@@ -9,7 +9,6 @@
 <link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/styles/matapp-perfil.less">
 
 @php
-
     $usuario = json_decode($_SESSION['userLogin']['usuario']);
     $loginUsuario = $usuario->login;
     $rolUsuario = $usuario->rol;
@@ -22,53 +21,41 @@
             <div class="col-12 mb-4">
                 <div class="profile-header position-relative mb-4"
                     style="
-                    <?php
-                    if (!isset($usuario->imagen) || empty($usuario->imagen)) {
-                        echo 'background: linear-gradient(135deg, #2847d1 0%, #e0dbdb 100%);';
-                    } else {
-                        echo 'background: url(\'data:image/jpeg;base64,' . $usuario->imagen . '\') no-repeat center center; background-size: cover;';
-                    }
-                    ?>
+                    @if (!isset($usuario->imagen) || empty($usuario->imagen)) background: linear-gradient(135deg, #2847d1 0%, #e0dbdb 100%);
+                    @else
+                    background: url('data:image/jpeg;base64,{{ $usuario->imagen }}') no-repeat center center; background-size: cover; @endif
                 ">
                 </div>
 
                 <div class="text-center">
                     <div class="position-relative d-inline-block">
-                        <img src="<?php
-                        if (!isset($usuario->imagen) || empty($usuario->imagen)) {
-                            echo RUTA_URL . '/public/img/default_profile.png';
-                        } else {
-                            echo 'data:image/jpeg;base64,' . $usuario->imagen;
-                        }
-                        ?>" class="rounded-circle profile-pic" alt="Profile Picture" />
+                        <img src="@if (!isset($usuario->imagen) || empty($usuario->imagen)) {{ RUTA_URL . '/public/img/default_profile.png' }}
+                        @else
+                            data:image/jpeg;base64,{{ $usuario->imagen }} @endif"
+                            class="rounded-circle profile-pic" alt="Profile Picture" />
 
-                        <form action="<?= RUTA_URL ?>/perfil/actualizarImagen" method="POST"
+                        <form action="{{ RUTA_URL }}/perfil/actualizarImagen" method="POST"
                             enctype="multipart/form-data" class="position-absolute bottom-0 end-0" id="formImagen">
                             <input type="file" name="imagen" id="imagen" class="d-none"
                                 onchange="this.form.submit();">
-                            <input type="hidden" name="id" value="<?= $usuario->idUsuario ?>">
+                            <input type="hidden" name="id" value="{{ $usuario->idUsuario }}">
                             <label for="imagen" class="btn btn-primary btn-sm rounded-circle">
                                 <i class="fas fa-camera"></i>
                             </label>
                         </form>
 
                     </div>
-                    <?php
+                    @if (isset($errores['imagen_error']))
+                        <span id="error_imagen" class="small text-danger d-flex align-items-center"><svg
+                                xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="-2 -3 24 24"
+                                class="ms-1 me-1">
+                                <path fill="currentColor"
+                                    d="m12.8 1.613l6.701 11.161c.963 1.603.49 3.712-1.057 4.71a3.2 3.2 0 0 1-1.743.516H3.298C1.477 18 0 16.47 0 14.581c0-.639.173-1.264.498-1.807L7.2 1.613C8.162.01 10.196-.481 11.743.517c.428.276.79.651 1.057 1.096M10 14a1 1 0 1 0 0-2a1 1 0 0 0 0 2m0-9a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V6a1 1 0 0 0-1-1" />
+                            </svg>{{ $errores['imagen_error'] }}</span>
+                    @endif
 
-                    if (isset($errores['imagen_error'])) {
-
-                    ?>
-                    <span id="error_imagen" class="small text-danger d-flex align-items-center"><svg
-                            xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="-2 -3 24 24"
-                            class="ms-1 me-1">
-                            <path fill="currentColor"
-                                d="m12.8 1.613l6.701 11.161c.963 1.603.49 3.712-1.057 4.71a3.2 3.2 0 0 1-1.743.516H3.298C1.477 18 0 16.47 0 14.581c0-.639.173-1.264.498-1.807L7.2 1.613C8.162.01 10.196-.481 11.743.517c.428.276.79.651 1.057 1.096M10 14a1 1 0 1 0 0-2a1 1 0 0 0 0 2m0-9a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0V6a1 1 0 0 0-1-1" />
-                        </svg><?= $errores['imagen_error'] ?></span>
-                    <?php
-                    }
-                    ?>
                     <h3 class="mt-3 mb-1">
-                        <span class="fs-6 opacity-50">@</span><?= $usuario->login ?>
+                        <span class="fs-6 opacity-50">@</span>{{ $usuario->login }}
                         {{-- @if ($rolUsuario == 'Administrador')
                             <span class="badge bg-warning ms-2" title="Tus monedas/puntos">
                                 <i class="fas fa-coins me-1"></i>
@@ -115,82 +102,83 @@
                                     <!-- Personal Information -->
                                     <div class="mb-4 content-section" id="infoPersonal">
                                         <h5 class="mb-4">Información personal</h5>
-                                        <form id="editForm" action="<?= RUTA_URL ?>/perfil/actualizarPerfil"
+                                        <form id="editForm" action="{{ RUTA_URL }}/perfil/actualizarPerfil"
                                             method="POST">
-                                            <input type="hidden" name="id" value="<?= $usuario->idUsuario ?>">
+                                            <input type="hidden" name="id" value="{{ $usuario->idUsuario }}">
                                             <div class="row g-3">
                                                 <div class="col-md-6">
                                                     <label class="form-label">login de usuario</label>
                                                     <input type="text" class="form-control editable"
-                                                        value="<?= $usuario->login ?>" name="login" />
-                                                    <?php if (isset($errores['login_error'])) { ?>
-                                                    <span class="small text-danger d-flex align-items-center">
-                                                        <?= $errores['login_error'] ?>
-                                                    </span>
-                                                    <?php } ?>
+                                                        value="{{ $usuario->login }}" name="login" />
+                                                    @if (isset($errores['login_error']))
+                                                        <span class="small text-danger d-flex align-items-center">
+                                                            {{ $errores['login_error'] }}
+                                                        </span>
+                                                    @endif
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label class="form-label">Email</label>
                                                     <input type="email" class="form-control editable"
-                                                        value="<?= $usuario->emailUsuario ?>" name="email" />
-                                                    <?php if (isset($errores['email_error'])) { ?>
-                                                    <span class="small text-danger d-flex align-items-center">
-                                                        <?= $errores['email_error'] ?>
-                                                    </span>
-                                                    <?php } ?>
+                                                        value="{{ $usuario->emailUsuario }}" name="email" />
+                                                    @if (isset($errores['email_error']))
+                                                        ?>
+                                                        <span class="small text-danger d-flex align-items-center">
+                                                            {{ $errores['email_error'] }}
+                                                        </span>
+                                                    @endif
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label class="form-label">Nombre</label>
                                                     <input type="text" class="form-control editable"
-                                                        value="<?= $usuario->nombreUsuario ?>" name="nombreUsuario" />
-                                                    <?php if (isset($errores['nombreUsuario_error'])) { ?>
-                                                    <span class="small text-danger d-flex align-items-center">
-                                                        <?= $errores['nombreUsuario_error'] ?>
-                                                    </span>
-                                                    <?php } ?>
+                                                        value="{{ $usuario->nombreUsuario }}" name="nombreUsuario" />
+                                                    @if (isset($errores['nombreUsuario_error']))
+                                                        <span class="small text-danger d-flex align-items-center">
+                                                            {{ $errores['nombreUsuario_error'] }}
+                                                        </span>
+                                                    @endif
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label class="form-label">Primer Apellido</label>
                                                     <input type="text" class="form-control editable"
-                                                        value="<?= $usuario->apellido1Usuario ?>"
+                                                        value="{{ $usuario->apellido1Usuario }}"
                                                         name="apellido1Usuario" />
-                                                    <?php if (isset($errores['apellido1Usuario_error'])) { ?>
-                                                    <span class="small text-danger d-flex align-items-center">
-                                                        <?= $errores['apellido1Usuario_error'] ?>
-                                                    </span>
-                                                    <?php } ?>
+                                                    @if (isset($errores['apellido1Usuario_error']))
+                                                        <span class="small text-danger d-flex align-items-center">
+                                                            {{ $errores['apellido1Usuario_error'] }}
+                                                        </span>
+                                                    @endif
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label class="form-label">Segundo Apellido</label>
                                                     <input type="text" class="form-control editable"
-                                                        value="<?= $usuario->apellido2Usuario ?>"
+                                                        value="{{ $usuario->apellido2Usuario }}"
                                                         name="apellido2Usuario" />
-                                                    <?php if (isset($errores['apellido2Usuario_error'])) { ?>
-                                                    <span class="small text-danger d-flex align-items-center">
-                                                        <?= $errores['apellido2Usuario_error'] ?>
-                                                    </span>
-                                                    <?php } ?>
+                                                    @if (isset($errores['apellido2Usuario_error']))
+                                                        <span class="small text-danger d-flex align-items-center">
+                                                            {{ $errores['apellido2Usuario_error'] }}
+                                                        </span>
+                                                    @endif
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label class="form-label">Teléfono</label>
                                                     <input type="text" class="form-control editable"
-                                                        value="<?= $usuario->telefonoUsuario ?>"
+                                                        value="{{ $usuario->telefonoUsuario }}"
                                                         name="telefonoUsuario" />
-                                                    <?php if (isset($errores['telefono_error'])) { ?>
-                                                    <span class="small text-danger d-flex align-items-center">
-                                                        <?= $errores['telefono_error'] ?>
-                                                    </span>
-                                                    <?php } ?>
+                                                    @if (isset($errores['telefono_error']))
+                                                        <span class="small text-danger d-flex align-items-center">
+                                                            {{ $errores['telefono_error'] }}
+                                                        </span>
+                                                    @endif
                                                 </div>
                                                 <div class="col-md-12">
                                                     <label class="form-label">Nueva contraseña</label>
                                                     <input type="password" class="form-control editable"
                                                         name="password" />
-                                                    <?php if (isset($errores['password_error'])) { ?>
-                                                    <span class="small text-danger d-flex align-items-center">
-                                                        <?= $errores['password_error'] ?>
-                                                    </span>
-                                                    <?php } ?>
+                                                    @if (isset($errores['password_error']))
+                                                        <span class="small text-danger d-flex align-items-center">
+                                                            {{ $errores['password_error'] }}
+                                                        </span>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="mt-3">
@@ -370,16 +358,17 @@
 </div>
 
 
-<script>
-    window.toastrMsg = <?= isset($_GET['toastrMsg']) ? json_encode($_GET['toastrMsg']) : 'null' ?>;
-</script>
+@if (isset($_GET['toastrMsg']))
+    <script>
+        let toastrMsg = `{{ $_GET['toastrMsg'] }}`;
+    </script>
+@endif
 
 <script>
-    window.RUTA_URL = "{{ RUTA_URL }}";
-    window.USUARIO_ID = <?= json_encode($usuario->idUsuario) ?>;
+    const USUARIO_ID = `{{ json_encode($usuario->idUsuario) }}`;
 </script>
 
-<script src="<?= RUTA_URL ?>/public/js/perfil.inicio.js"></script>
+<script type="module" src="{{ RUTA_URL }}/public/js/perfil.inicio.js"></script>
 <script src="{{ RUTA_URL }}/public/libs/DataTables/datatables.min.js"></script>
 
 @include('includes.footer')

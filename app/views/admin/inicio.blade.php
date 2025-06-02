@@ -1,18 +1,19 @@
 @include('includes.header')
 
-<link href="<?= RUTA_URL ?>/libs/coreui-5.3.1-dist/css/coreui.min.css" rel="stylesheet">
+<link href="{{ RUTA_URL }}/libs/coreui-5.3.1-dist/css/coreui.min.css" rel="stylesheet">
 <link rel="stylesheet" href="{{ RUTA_URL }}/public/libs/DataTables/datatables.min.css" />
 <script src="{{ RUTA_URL }}/public/libs/chart.umd.js"></script>
-<link rel="stylesheet" type="text/css" href="<?= RUTA_URL ?>/public/css/admin.css">
+<link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/admin.css">
 
 
 @php
-
     $usuario = json_decode($_SESSION['userLogin']['usuario']);
     $loginUsuario = $usuario->login;
     $rolUsuario = $usuario->rol;
     $nombreUsuario = $usuario->nombreUsuario;
-
+    $idsActivos = array_map(function ($u) {
+        return is_object($u) ? $u->idUsuario : $u;
+    }, $_SESSION['activos']);
 @endphp
 
 
@@ -20,8 +21,8 @@
 <div class="wrapper">
     <nav class="sidebar">
         <div class="sidebar-header">
-            <span class="text-white me-auto" onclick="window.location.href='<?= RUTA_URL ?>'">
-                <img src="<?= RUTA_URL ?>/public/img/favicon/android-chrome-512x512.png" alt="Logo"
+            <span class="text-white me-auto" onclick="window.location.href='{{ RUTA_URL }}'">
+                <img src="{{ RUTA_URL }}/public/img/favicon/android-chrome-512x512.png" alt="Logo"
                     class="img-fluid" width="40" height="40" id="logo" title="Home" />
             </span>
         </div>
@@ -33,12 +34,6 @@
         </ul>
     </nav>
 
-    @php
-        $idsActivos = array_map(function ($u) {
-            return is_object($u) ? $u->idUsuario : $u;
-        }, $_SESSION['activos']);
-    @endphp
-
     <div class="main">
         <h1>Panel de administrador</h1>
         <div class="container-fluid">
@@ -49,11 +44,11 @@
                             <div class="card-header">Resumen de Usuarios</div>
                             <div class="card-body">
                                 <div class="mb-4">
-                                    <div class="stat-number"><?= $estadisticaUsuarios ?></div>
+                                    <div class="stat-number">{{ $estadisticaUsuarios }}</div>
                                     <div class="stat-label">Total de Usuarios</div>
                                 </div>
                                 <div>
-                                    <div class="stat-number text-success"><?= count($_SESSION['activos']) ?></div>
+                                    <div class="stat-number text-success">{{ count($_SESSION['activos']) }}</div>
                                     <div class="stat-label">Usuarios Activos</div>
                                 </div>
                             </div>
@@ -243,21 +238,16 @@
 
 <div class="container" id="main">
 
-
-
-    <?php
-    $estadisticaAcademiaJS = json_encode($estadisticaAcademia);
-    ?>
-
-
     <script>
-        window.RUTA_URL = "<?= RUTA_URL ?>";
-        window.estadisticaAcademia = <?= json_encode($estadisticaAcademia) ?>;
-        window.estadisticaAcademiaModalidad = @json($estadisticaAcademiaModalidad);
+        let estadisticasAcademia = @json($estadisticaAcademia);
+        let estadisticaAcademiaModalidad = @json($estadisticaAcademiaModalidad);
     </script>
-    <script src="<?= RUTA_URL ?>/public/js/admin.js"></script>
-    <script src="<?= RUTA_URL ?>/libs/coreui-5.3.1-dist/js/coreui.bundle.min.js"> </script>
-    <script src="{{ RUTA_URL }}/public/libs/DataTables/datatables.min.js"></script> 
+
+    <script type="module" src="{{ RUTA_URL }}/public/js/admin.js"></script>
+    <script src="{{ RUTA_URL }}/public/js/navDisplay.js"></script>
+
+    <script src="{{ RUTA_URL }}/libs/coreui-5.3.1-dist/js/coreui.bundle.min.js"></script>
+    <script src="{{ RUTA_URL }}/public/libs/DataTables/datatables.min.js"></script>
 
 
     @include('includes.footer')

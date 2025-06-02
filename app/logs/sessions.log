@@ -349,3 +349,33 @@
 [2025-05-29 20:26:31][::1][gerente1][SUCCESS] Cierre de sesión
 [2025-06-01 20:07:48][::1][miguifer][SUCCESS] Login correcto
 [2025-06-02 14:19:44][::1][miguifer][SUCCESS] Login correcto
+[2025-06-02 16:11:51][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-06-02 16:11:57][::1][gerente1][SUCCESS] Login correcto
+[2025-06-02 16:26:09][::1][gerente1][SUCCESS] Cierre de sesión
+[2025-06-02 16:26:14][::1][admin][SUCCESS] Login correcto
+[2025-06-02 18:01:11][::1][admin][SUCCESS] Cierre de sesión
+[2025-06-02 18:38:14][::1][miguifer][FAIL] Credenciales incorrectas
+[2025-06-02 18:38:21][::1][miguifer][SUCCESS] Login correcto
+[2025-06-02 18:46:15][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-06-02 18:49:31][::1][miguifer][SUCCESS] Login correcto
+[2025-06-02 18:49:44][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-06-02 18:49:50][::1][usuario1][SUCCESS] Login correcto
+[2025-06-02 18:50:00][::1][usuario1][SUCCESS] Cierre de sesión
+[2025-06-02 18:50:08][::1][gerente1][SUCCESS] Login correcto
+[2025-06-02 19:00:49][::1][gerente1][SUCCESS] Cierre de sesión
+[2025-06-02 19:00:57][::1][miguifer][SUCCESS] Login correcto
+[2025-06-02 19:01:20][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-06-02 19:01:25][::1][gerente1][SUCCESS] Login correcto
+[2025-06-02 19:04:46][::1][gerente1][SUCCESS] Cierre de sesión
+[2025-06-02 19:04:53][::1][usuario1][SUCCESS] Login correcto
+[2025-06-02 19:04:59][::1][usuario1][SUCCESS] Cierre de sesión
+[2025-06-02 19:05:04][::1][gerente1][SUCCESS] Login correcto
+[2025-06-02 19:05:21][::1][gerente1][SUCCESS] Cierre de sesión
+[2025-06-02 19:05:21][::1][][SUCCESS] Cierre de sesión
+[2025-06-02 19:05:27][::1][miguifer][SUCCESS] Login correcto
+[2025-06-02 19:05:37][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-06-02 19:05:43][::1][usuario1][SUCCESS] Login correcto
+[2025-06-02 19:06:07][::1][usuario1][SUCCESS] Cierre de sesión
+[2025-06-02 19:06:12][::1][miguifer][SUCCESS] Login correcto
+[2025-06-02 19:06:50][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-06-02 19:06:56][::1][usuario1][SUCCESS] Login correcto

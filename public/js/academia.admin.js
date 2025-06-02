@@ -1,3 +1,6 @@
+import './variables.js';
+import { RUTA_URL } from './variables.js';
+
 $(document).ready(function () {
     // Tabla de solicitudes
     $('#solicitudesTable').DataTable();

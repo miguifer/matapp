@@ -1,7 +1,5 @@
-// Ocultar navegación si existe
-if (document.querySelector('#navegacion')) {
-    document.querySelector('#navegacion').style.display = 'none';
-}
+import './variables.js';
+import { RUTA_URL } from './variables.js';
 
 // Tabs
 const tabs = document.querySelectorAll('.nav-link');
@@ -17,7 +15,6 @@ tabs.forEach(tab => {
 
 // Gráfico de alumnos por modalidad
 const ctx = document.getElementById('miGrafico').getContext('2d');
-const estadisticasAcademia = window.estadisticaAcademia;
 const labels = estadisticasAcademia.map(item => item.nombreTipo);
 const data = estadisticasAcademia.map(item => item.numAlumnos);
 const miGrafico = new Chart(ctx, {
@@ -50,7 +47,6 @@ const miGrafico = new Chart(ctx, {
 });
 
 // Gráfico de academias por modalidad
-const estadisticaAcademiaModalidad = window.estadisticaAcademiaModalidad;
 const labelsModalidad = estadisticaAcademiaModalidad.map(item => item.modalidad);
 const dataModalidad = estadisticaAcademiaModalidad.map(item => item.numAcademias);
 const palette = [
@@ -100,7 +96,7 @@ $(document).ready(function () {
     $('.fila-academia').on('click', function () {
         const idAcademia = $(this).data('id');
         $.ajax({
-            url: window.RUTA_URL + '/admin/historicoClases/' + idAcademia,
+            url: `${RUTA_URL}/admin/historicoClases/${idAcademia}`,
             method: 'GET',
             success: function (res) {
                 let clases = [];
@@ -146,7 +142,7 @@ $(document).ready(function () {
     $(document).on('click', '.ver-participantes', function () {
         const idClase = $(this).data('id');
         $.ajax({
-            url: window.RUTA_URL + '/admin/participantesClase/' + idClase,
+            url: `${RUTA_URL}/admin/participantesClase/${idClase}`,
             method: 'GET',
             success: function (res) {
                 let participantes = [];
@@ -159,10 +155,10 @@ $(document).ready(function () {
                 if (participantes.length > 0) {
                     participantes.forEach(function (p) {
                         html += `<tr>
-<td>${p.login ?? ''}</td>
-<td>${p.nombreUsuario ?? p.nombre ?? ''}</td>
-<td>${p.asistencia ? 'Sí' : 'No'}</td>
-</tr>`;
+                    <td>${p.login ?? ''}</td>
+                    <td>${p.nombreUsuario ?? p.nombre ?? ''}</td>
+                    <td>${p.asistencia ? 'Sí' : 'No'}</td>
+                    </tr>`;
                     });
                 } else {
                     html = '<tr><td colspan="3">No hay participantes.</td></tr>';

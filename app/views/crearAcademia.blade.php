@@ -1,6 +1,6 @@
 @include('includes.header')
 
-<link rel="stylesheet" type="text/css" href="<?= RUTA_URL ?>/public/css/crearAcademia.css">
+<link rel="stylesheet" type="text/css" href="{{ RUTA_URL }}/public/css/crearAcademia.css">
 
 </div>
 
@@ -10,8 +10,8 @@
             <div class="register-container w-100 w-md-50 d-flex justify-content-center" style="margin-top: 5vh">
                 <form class="p-3 rounded-2" id="form-register" style="min-width: 70%" onsubmit="enviarMail(event)">
                     <div class="d-flex justify-content-center mb-4">
-                        <a href="<?=RUTA_URL?>/">
-                            <img src="<?= RUTA_URL ?>/public/img/favicon/android-chrome-512x512.png" alt="Logo"
+                        <a href="{{ RUTA_URL }}/">
+                            <img src="{{ RUTA_URL }}/public/img/favicon/android-chrome-512x512.png" alt="Logo"
                                 class="img-fluid" width="50" height="50" id="logoIS" title="Home" />
                         </a>
                     </div>
@@ -124,7 +124,7 @@
 
         <div class="col-12 col-md-6 text-white d-none d-md-block"
             style="
-            background-image: url('<?= RUTA_URL ?>/public/img/crearAcademia/hero.png');
+            background-image: url('{{ RUTA_URL }}/public/img/crearAcademia/hero.png');
             background-position: top;
             background-repeat: no-repeat;
             background-size: cover;
@@ -155,7 +155,7 @@
 
 <div class="container" id="main">
 
-    <script src="<?= RUTA_URL ?>/public/js/crearAcademia.js"></script>
-    <script src="<?= RUTA_URL ?>/public/js/navDisplay.js"></script>
+    <script type="module" src="{{ RUTA_URL }}/public/js/crearAcademia.js"></script>
+    <script type="module" src="{{ RUTA_URL }}/public/js/navDisplay.js"></script>
 
     @include('includes.footer')

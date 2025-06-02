@@ -1,3 +1,6 @@
+import './variables.js';
+import { RUTA_URL } from './variables.js';
+
 $(document).ready(function () {
     $('#formEnviarMensaje').on('submit', function (e) {
         e.preventDefault();
@@ -54,7 +57,7 @@ $(document).ready(function () {
         const idMensaje = $(this).data('id');
         const idAcademia = $('input[name="idAcademia"]').val();
         $.ajax({
-            url: window.RUTA_URL + '/mensajesController/fijarMensaje',
+            url: `${RUTA_URL}/mensajesController/fijarMensaje`,
             type: 'POST',
             data: {
                 idMensaje: idMensaje,
@@ -91,7 +94,7 @@ $(document).ready(function () {
     $('#listaMensajes').on('click', '.desfijar-mensaje', function () {
         const idMensaje = $(this).data('id');
         $.ajax({
-            url: window.RUTA_URL + '/mensajesController/desfijarMensaje',
+            url: `${RUTA_URL}/mensajesController/desfijarMensaje`,
             type: 'POST',
             data: {
                 idMensaje: idMensaje

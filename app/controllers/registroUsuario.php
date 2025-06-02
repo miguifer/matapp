@@ -50,7 +50,7 @@ class registroUsuario extends Controlador
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
             $mail->Username = $_ENV['EMAIL_EMAIL']; // Dirección de correo electrónico
-            $mail->Password = $_ENV['EMAIL_CONTRASENA_APLICACION']; // Contraseña de aplicación 
+            $mail->Password = str_replace("_", " ", $_ENV['EMAIL_CONTRASENA_APLICACION']); // Contraseña de aplicación
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
@@ -105,7 +105,7 @@ class registroUsuario extends Controlador
             return true;
         } catch (Exception $e) {
 
-            error_log("Error al enviar el correo: {$mail->ErrorInfo}", 3, __DIR__ . '/../logs/email_errors.log');
+            error_log(date('[Y-m-d H:i:s] ') . "Error al enviar el correo: {$mail->ErrorInfo}" . PHP_EOL, 3, __DIR__ . '/../logs/email_errors.log');
             return false;
         }
     }
@@ -212,6 +212,8 @@ class registroUsuario extends Controlador
             // Si no hay errores en el formulario, se procede a registrar al usuario (inactivo)
             if (empty($errores)) {
                 $datos['token'] = bin2hex(random_bytes(16));
+
+
                 if ($this->academiaModelo->registro($datos)) {
                     $datos = [
                         'login' => "",
