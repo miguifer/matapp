@@ -1,16 +1,16 @@
 <?php
 
-
+// Cargar clases de BladeOne, Dotenv y PHPMailer
 use eftec\bladeone\BladeOne;
 use Dotenv\Dotenv;
-
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../..');
 $dotenv->load();
+
+// Controlador para el registro de usuarios
 class registroUsuario extends Controlador
 {
 
@@ -24,33 +24,40 @@ class registroUsuario extends Controlador
         $this->academiaModelo = $this->modelo('academiaModelo');
     }
 
+    /**
+     * Envia un correo de confirmación al usuario después del registro.
+     *
+     * @param string $email El email del usuario.
+     * @param string $login El login del usuario.
+     * @return bool Devuelve true si el correo se envió correctamente, false en caso contrario.
+     */
     public function enviarCorreo($email, $login)
     {
 
-
+        // Obtiene datos del usuario creado 
         $usuario = $this->academiaModelo->obtenerUsuarioPorLogin($login);
         $token = $usuario->token;
         $id = $usuario->idUsuario;
 
+        // URl con el token y el id y token del usuario para confirmar la cuenta
         $URL_CONFIRMACION = RUTA_URL . "/registroUsuario/autenticar?id=" . $id . "&token=" . $token;
 
+        // Iniciar PHPMailer
         $mail = new PHPMailer(true);
-
         try {
+            // Credenciales / Conf de servidor de correo y cuenta
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'mailermatapp@gmail.com';
-            $mail->Password = 'gpay kscj haxp hiwz';
+            $mail->Username = $_ENV['EMAIL_EMAIL']; // Dirección de correo electrónico
+            $mail->Password = $_ENV['EMAIL_CONTRASENA_APLICACION']; // Contraseña de aplicación 
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = 587;
 
-            // Destinatario
-            $mail->setFrom('mailermatapp@gmail.com', NOMBRE_SITIO);
+            $mail->setFrom($_ENV['EMAIL_EMAIL'], NOMBRE_SITIO);
             $mail->addAddress($email, $login);
 
-            $f = new DateTime('now');
-
+            // Correo
             $mail->Subject = 'Confirmacion de cuenta';
 
             $mensaje = <<<EOT
@@ -91,24 +98,31 @@ class registroUsuario extends Controlador
 
             $mail->isHTML(true);
             $mail->Body = $mensaje;
-            $mail->AltBody = 'por si no es html';
+            $mail->AltBody = "{$login}, verifica tu cuenta en MatApp. Haz clic en el siguiente enlace para confirmar tu email: {$URL_CONFIRMACION}";
 
             $mail->send();
 
             return true;
         } catch (Exception $e) {
-            // echo "Error al enviar el correo: {$mail->ErrorInfo}";
+
+            error_log("Error al enviar el correo: {$mail->ErrorInfo}", 3, __DIR__ . '/../logs/email_errors.log');
             return false;
         }
     }
 
+    /**
+     * Muestra el formulario de registro y procesa el envío del mismo.
+     * Valida los datos introducidos y registra al usuario si no hay errores.
+     */
     public function index()
     {
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+
             $errores = [];
 
+            //Valida los datos introducidos en el formulario
             if (isset($_POST["login"])) {
                 if (!empty($_POST['login'])) {
                     if (strlen($_POST['login']) < 50) {
@@ -195,6 +209,7 @@ class registroUsuario extends Controlador
             }
 
 
+            // Si no hay errores en el formulario, se procede a registrar al usuario (inactivo)
             if (empty($errores)) {
                 $datos['token'] = bin2hex(random_bytes(16));
                 if ($this->academiaModelo->registro($datos)) {
@@ -219,18 +234,23 @@ class registroUsuario extends Controlador
                 header("Location: " . RUTA_URL . "/registroUsuario?errores=" . urlencode(json_encode($datos['errores'])) . "&login=" . urlencode($datos['login']) . "&email=" . urlencode($datos['email']) . "&success=" . urlencode($datos['success']) . "&registro_error=" . urlencode($datos['registro_error']));;
             }
         } else {
-
             $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_DEBUG);
             echo $this->blade->run("registroUsuario", []);
         }
     }
 
+    /**
+     * Activa la cuenta del usuario después de hacer clic en el enlace de confirmación enviado por correo.
+     */
     public function autenticar()
     {
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
+
+            // Verifica que se reciban los parámetros necesarios por el enlace
             $id = $_GET['id'] ?? null;
             $token = $_GET['token'] ?? null;
 
+            // Si se reciben los parámetros, se procede a activar la cuenta
             if ($id && $token) {
                 if ($this->academiaModelo->activarCuenta($id, $token)) {
                     redireccionar('?toastrErr=Cuenta activada correctamente, ya puede iniciar sesión.');

@@ -1,23 +1,15 @@
 <?php
 
-
+// Cargar clases BladeOne
 use eftec\bladeone\BladeOne;
-use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../..');
-$dotenv->load();
+// Controlador para página 'crear una academia'
 class crearAcademia extends Controlador
 {
 
-    private $academiaModelo;
     private $blade;
     private $views = __DIR__ . '/../views';
     private $cache = __DIR__ . '/../cache';
-
-    public function __construct()
-    {
-        $this->academiaModelo = $this->modelo('academiaModelo');
-    }
 
     public function index()
     {

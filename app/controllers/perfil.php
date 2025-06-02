@@ -1,10 +1,9 @@
 <?php
 
+// Cargar plantillas blade
 use eftec\bladeone\BladeOne;
-use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../..');
-$dotenv->load();
+// Controlador del perfil de usuario
 class perfil extends Controlador
 {
 
@@ -22,6 +21,7 @@ class perfil extends Controlador
     {
         if (isset($_SESSION['userLogin'])) {
 
+            // Datos para el perfil
             $usuario = isset($_SESSION['userLogin']['usuario']) ? json_decode($_SESSION['userLogin']['usuario']) : null;
             $datos['solicitudesS'] = $this->academiaModelo->getSolicitudesPorIdUsuario($usuario->idUsuario);;
             $datos['asistencias'] = $this->academiaModelo->getAsistenciaPorIdUsuario($usuario->idUsuario);
@@ -34,6 +34,9 @@ class perfil extends Controlador
         }
     }
 
+    /**
+     * Actualiza los datos del perfil de usuario.
+     */
     public function actualizarPerfil()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -43,6 +46,7 @@ class perfil extends Controlador
             $id = test_input($_POST['id']);
             $usuario = $this->academiaModelo->getUsuarioPorId($id);
 
+            // Verificar formulario de actualización
             if (isset($_POST["login"])) {
                 if (!empty($_POST['login'])) {
 
@@ -177,12 +181,16 @@ class perfil extends Controlador
                 $datos['password'] = null;
             }
 
+            // Si no hay errores, proceder a modificar el usuario
             if (empty($errores)) {
                 if ($datos['password'] === null) {
                     unset($datos['password']);
                 }
+
+                // Modificar el usuario en la base de datos
                 if ($this->academiaModelo->modificarUsuario($id, $datos)) {
 
+                    // Actualizar la sesión del usuario
                     unset($_SESSION['userLogin']);
 
                     $usuario = $this->academiaModelo->getUsuarioPorId($id);
@@ -214,6 +222,9 @@ class perfil extends Controlador
         }
     }
 
+    /**
+     * Método para actualizar la imagen del perfil de usuario.
+     */
     public function actualizarImagen()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -221,6 +232,7 @@ class perfil extends Controlador
             $id = test_input($_POST['id']);
             $usuario = $this->academiaModelo->getUsuarioPorId($id);
 
+            // Verifica la imagen subida
             if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] == 0) {
                 $permitidos = ['image/jpeg', 'image/png', 'image/gif'];
                 $max_tamano = 2 * 1024 * 1024;
@@ -243,9 +255,11 @@ class perfil extends Controlador
                 $datos['imagen'] = $usuario->imagen;
             }
 
+            // Si no hay errores, proceder a modificar la imagen
             if (empty($errores)) {
                 if ($this->academiaModelo->modificarImagen($id, $datos)) {
 
+                    // Actualizar la sesión del usuario
                     $usuario = $this->academiaModelo->getUsuarioPorId($id);
 
                     $usuario->imagen = base64_encode($usuario->imagen);

@@ -1,23 +1,19 @@
 <?php
 
-use eftec\bladeone\BladeOne;
-use Dotenv\Dotenv;
-
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../..');
-$dotenv->load();
+// Controlador de mensajería / "notificaciones"
 class mensajesController extends Controlador
 {
 
     private $academiaModelo;
-    private $blade;
-    private $views = __DIR__ . '/../views';
-    private $cache = __DIR__ . '/../cache';
 
     public function __construct()
     {
         $this->academiaModelo = $this->modelo('academiaModelo');
     }
 
+    /**
+     * Almacena el mensaje en la BD
+     */
     public function enviarMensaje()
     {
 
@@ -48,6 +44,9 @@ class mensajesController extends Controlador
         }
     }
 
+    /*
+     * Fija un mensaje como destacado.
+     */
     public function fijarMensaje()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -70,6 +69,9 @@ class mensajesController extends Controlador
         }
     }
 
+    /*
+     * Desfija un mensaje destacado.
+     */
     public function desfijarMensaje()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -89,12 +91,15 @@ class mensajesController extends Controlador
         }
     }
 
+    /**
+     * Obtiene los mensajes del usuario logueado.
+     */
     public function mensajesUsuario()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'GET') {
             $usuario = isset($_SESSION['userLogin']['usuario']) ? json_decode($_SESSION['userLogin']['usuario']) : null;
             $idUsuario = $usuario->idUsuario ?? null;
-            
+
             if (!$idUsuario) {
                 header('Content-Type: application/json');
                 echo json_encode(['success' => false, 'message' => 'ID de usuario no proporcionado.']);

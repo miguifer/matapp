@@ -46,3 +46,7 @@ SQLSTATE[HY000] [14] unable to open database file[2025-05-21 19:51:45] Error de 
 [2025-05-28 19:08:21] SQLSTATE[HY000]: General error: 1 near "u": syntax error
 [2025-05-28 19:08:32] SQLSTATE[HY000]: General error: 1 no such column: r.idEntrenador
 [2025-05-28 19:08:33] SQLSTATE[HY000]: General error: 1 no such column: r.idEntrenador
+SQLSTATE[HY000] [14] unable to open database file[2025-06-02 15:14:23] Error de conexión a la base de datos.
+SQLSTATE[HY000] [14] unable to open database file[2025-06-02 15:14:52] Error de conexión a la base de datos.
+SQLSTATE[HY000] [14] unable to open database file[2025-06-02 15:14:52] Error de conexión a la base de datos.
+SQLSTATE[HY000] [14] unable to open database file[2025-06-02 15:15:18] Error de conexión a la base de datos.

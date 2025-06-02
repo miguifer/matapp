@@ -1,23 +1,17 @@
 <?php
 
-use eftec\bladeone\BladeOne;
-use Dotenv\Dotenv;
-
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../..');
-$dotenv->load();
+// Controlador para gestionar entrenadores en la academia
 class entrenadorController extends Controlador
 {
 
     private $academiaModelo;
-    private $blade;
-    private $views = __DIR__ . '/../views';
-    private $cache = __DIR__ . '/../cache';
 
     public function __construct()
     {
         $this->academiaModelo = $this->modelo('academiaModelo');
     }
 
+    // Eliminar un entrenador de la academia
     public function eliminarEntrenador()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -37,6 +31,7 @@ class entrenadorController extends Controlador
         }
     }
 
+    // Hacer a un usuario entrenador
     public function hacerEntrenador()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {

@@ -1,11 +1,10 @@
 <?php
 
 
+// Cargar clases para vistas Blade
 use eftec\bladeone\BladeOne;
-use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../..');
-$dotenv->load();
+// Controlador para el panel de administración
 class admin extends Controlador
 {
 
@@ -23,8 +22,10 @@ class admin extends Controlador
     {
         $usuario = json_decode($_SESSION['userLogin']['usuario']);
 
+        // Verificar si el usuario es un administrador
         if ($usuario->rol == 'Administrador') {
 
+            //Datos para la vista del panel
             $estadisticaAcademia = $this->academiaModelo->obtenerEstadisticaAcademias();
             $estadisticaUsuarios = $this->academiaModelo->obtenerTotalUsuarios();
             $datos['estadisticaAcademia'] = $estadisticaAcademia;
@@ -40,6 +41,7 @@ class admin extends Controlador
         }
     }
 
+    // Obtener histórico de clases de una academia
     public function historicoClases($academiaId)
     {
         $usuario = json_decode($_SESSION['userLogin']['usuario']);
@@ -52,6 +54,8 @@ class admin extends Controlador
             redireccionar('/');
         }
     }
+
+    // Obtener participantes de una clase específica
     public function participantesClase($claseId)
     {
         $usuario = json_decode($_SESSION['userLogin']['usuario']);

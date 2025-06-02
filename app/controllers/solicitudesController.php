@@ -1,18 +1,10 @@
 <?php
 
-use eftec\bladeone\BladeOne;
-use Dotenv\Dotenv;
-
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../..');
-$dotenv->load();
+// Controlador de administración de gerente de solicitudes de inscripción a las academias
 class solicitudesController extends Controlador
 {
 
     private $academiaModelo;
-    private $blade;
-    private $views = __DIR__ . '/../views';
-    private $cache = __DIR__ . '/../cache';
-
     public function __construct()
     {
         $this->academiaModelo = $this->modelo('academiaModelo');
@@ -69,7 +61,7 @@ class solicitudesController extends Controlador
 
             header('Content-Type: application/json');
             if ($resultado) {
-                // Eliminar en caso de que sea entrenador
+                // Eliminar de tabla entrenadoresAcademia en caso de que sea entrenador
                 $this->academiaModelo->eliminarEntrenador($idUsuario, $idAcademia);
 
                 echo json_encode(['message' => 'Alumno eliminado con éxito']);

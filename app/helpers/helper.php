@@ -1,4 +1,8 @@
 <?php
+/* 
+ * Funciones de ayuda para la aplicación
+ * Forularios, formatos de fecha, validaciones, etc.
+ */
 
 function formatDate($date, $format = 'Y-m-d')
 {
@@ -13,7 +17,6 @@ function test_input($data)
     $data = htmlspecialchars($data);
     return $data;
 }
-
 
 function validar_telefono($telefono)
 {

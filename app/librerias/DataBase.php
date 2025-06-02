@@ -1,12 +1,14 @@
 <?php
+
+// BASE DE DATOS
 class DataBase
 {
-    private $rutaBD = 'C:/Program Files/Ampps/www/matapp/app/db/matapp.db';
+    private $rutaBD = RUTA_APP . '/db/matapp.db';
 
     private $dbh;
     private $stmt;
-    private $error;
 
+    // Conexión a la base de datos
     public function __construct()
     {
         $dsn = 'sqlite:' . $this->rutaBD;
@@ -18,15 +20,12 @@ class DataBase
         try {
             $this->dbh = new PDO($dsn, null, null, $opciones);
         } catch (PDOException $e) {
-            $this->error = $e->getMessage();
-            $logPath = dirname(__FILE__) . '/../logs/db_errors.log';
-            if (!is_dir(dirname($logPath))) {
-                mkdir(dirname($logPath), 0777, true);
-            }
-            error_log($this->error, 3, $logPath);
+            $this->logError($e->getMessage());
         }
     }
 
+    // prepara una consulta SQL
+    // $sql: consulta SQL a preparar
     public function query($sql)
     {
         try {
@@ -41,6 +40,9 @@ class DataBase
         }
     }
 
+    // vincula un parámetro a la consulta preparada
+    // $parametro: nombre del parámetro (ej. :id)
+    // $valor: valor a vincular al parámetro
     public function bind($parametro, $valor, $tipo = null)
     {
         try {
@@ -66,6 +68,7 @@ class DataBase
         }
     }
 
+    // ejecuta la consulta preparada
     public function execute()
     {
         try {
@@ -76,6 +79,7 @@ class DataBase
         }
     }
 
+    // obtiene todos los registros de la consulta
     public function registros()
     {
         try {
@@ -87,6 +91,7 @@ class DataBase
         }
     }
 
+    // obtiene un único registro de la consulta
     public function registro()
     {
         try {
@@ -98,6 +103,7 @@ class DataBase
         }
     }
 
+    // obtiene el numero de filas afectadas por la última consulta
     public function rowCount()
     {
         try {
@@ -117,6 +123,7 @@ class DataBase
         error_log(date('[Y-m-d H:i:s] ') . $mensaje . PHP_EOL, 3, $logPath);
     }
 
+    // cierra la conexión a la base de datos
     public function close()
     {
         $this->dbh = null;

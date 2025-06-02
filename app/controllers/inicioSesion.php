@@ -1,10 +1,9 @@
 <?php
 
+// Cargar clases de BladeOne 
 use eftec\bladeone\BladeOne;
-use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../..');
-$dotenv->load();
+// Controlador para el inicio de sesión
 class inicioSesion extends Controlador
 {
 
@@ -18,10 +17,12 @@ class inicioSesion extends Controlador
         $this->academiaModelo = $this->modelo('academiaModelo');
     }
 
+
     public function index()
     {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+            // Validar y limpiar los datos de entrada
             if (isset($_POST["login"])) {
                 if (!empty($_POST['login'])) {
 
@@ -54,30 +55,35 @@ class inicioSesion extends Controlador
                 $datos['error'] = "Ambos campos son obligatorios";
             }
 
+            // Si no hay errores, proceder con el inicio de sesión
             if (!isset($datos['error'])) {
 
                 if ($this->academiaModelo->obtenerUsuarioPorLogin($login)) {
 
                     $usuario = $this->academiaModelo->obtenerUsuarioPorLogin($login);
 
+                    // Verificar si el usuario está activo 
                     if ($usuario->activo == 1) {
 
+                        // Verificar la contraseña hasheada
                         if (password_verify($password, $usuario->password)) {
 
+                            // En caso de no tener un rol asignado, asignar 'Cliente'
                             $usuario->rol = $this->academiaModelo->obtenerRolDeUsuario($usuario->idUsuario) ?? 'Cliente';
 
+                            // Hacer que se vea la cuenta en línea
                             $this->academiaModelo->actualizarActividad($usuario->idUsuario);
 
+                            // Iniciar sesión
                             if (isset($usuario->imagen)) {
                                 $usuario->imagen = base64_encode($usuario->imagen);
                             }
-
                             $_SESSION['userLogin'] = [
                                 'usuario' => json_encode($usuario),
                             ];
-
                             $this->logSession($login, true, 'Login correcto');
 
+                            // Si venía de una academia, redirigir a esa academia
                             if (isset($_GET['academia'])) {
                                 redireccionar('/academia?academia=' . urlencode($_GET['academia']));
                             } else {
@@ -131,6 +137,9 @@ class inicioSesion extends Controlador
         }
     }
 
+    /**
+     * Cierra la sesión del usuario y redirige a la página de inicio.
+     */
     public function cerrarSesion()
     {
         $login = '';
@@ -143,6 +152,13 @@ class inicioSesion extends Controlador
         redireccionar('/');
     }
 
+    /**
+     * Registra un intento de inicio de sesión en un archivo de log.
+     *
+     * @param string $login El nombre de usuario que intentó iniciar sesión.
+     * @param bool $success Indica si el inicio de sesión fue exitoso o no.
+     * @param string $reason Razón del éxito o fallo del inicio de sesión.
+     */
     private function logSession($login, $success, $reason = '')
     {
         $file = __DIR__ . '/../logs/sessions.log';

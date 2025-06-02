@@ -1,10 +1,13 @@
 <?php
 
+// Cargar clases de Blade y dotenv
 use eftec\bladeone\BladeOne;
 use Dotenv\Dotenv;
 
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../..');
 $dotenv->load();
+
+// Controlador de Academia
 class academia extends Controlador
 {
 
@@ -22,9 +25,9 @@ class academia extends Controlador
     {
 
         $academia = isset($_GET['academia']) ? json_decode(urldecode($_GET['academia'])) : null;
-
         $usuario = isset($_SESSION['userLogin']['usuario']) ? json_decode($_SESSION['userLogin']['usuario']) : null;
 
+        // Verificar rol del usuario logueado
         $esAdmin = $usuario->rol == 'Administrador' ? true : false;
         $esAlumno = $this->academiaModelo->esAlumno($academia->idAcademia, $usuario->idUsuario);
         $esGerente = $academia->idGerente == $usuario->idUsuario;
@@ -41,6 +44,7 @@ class academia extends Controlador
                 'academia' => $academia,
             ];
 
+            // Dependiendo del rol del usuario, se obtienen diferentes datos de la academia
             if ($esAdmin) {
                 $estadisticaAcademia = $this->academiaModelo->obtenerEstadisticaAcademias();
                 $solicitudes = $this->academiaModelo->obtenerSolicitudesAcademia($academia->idAcademia);
@@ -134,11 +138,11 @@ class academia extends Controlador
                 redireccionar('/academia/solicitarAcceso?academia=' . urlencode(json_encode($academia)));
             }
 
+            // start Datos comunes a todos los roles
             $entrenadores = $this->academiaModelo->obtenerEntrenadoresAcademia($academia->idAcademia) ?? [];
             $mensajes = $this->academiaModelo->obtenerMensajesAcademia($academia->idAcademia);
             $ranking = $this->academiaModelo->getRankingAsistencia($academia->idAcademia);
 
-            // Convertir imagen blob a base64 para cada entrenador
             foreach ($entrenadores as &$entrenador) {
                 if (isset($entrenador->imagen) && !empty($entrenador->imagen)) {
                     $entrenador->imagen = 'data:image/jpeg;base64,' . base64_encode($entrenador->imagen);
@@ -157,16 +161,20 @@ class academia extends Controlador
                 }
             }
             $datos['ranking'] = $ranking;
+            // stop Datos comunes a todos los roles
 
             $this->blade = new BladeOne($this->views, $this->cache, BladeOne::MODE_AUTO);
             echo $this->blade->run("academia.inicio", $datos);
         }
     }
 
+    /**
+     * Método para solicitar acceso a una academia.
+     * Si el usuario ya tiene una solicitud en curso, redirige con un mensaje de error.
+     * Si no, crea una nueva solicitud y redirige con un mensaje de éxito.
+     */
     public function solicitarAcceso()
     {
-
-
 
         $academia = isset($_GET['academia']) ? json_decode(urldecode($_GET['academia'])) : null;
         $usuario = isset($_SESSION['userLogin']['usuario']) ? json_decode($_SESSION['userLogin']['usuario']) : null;
@@ -207,37 +215,12 @@ class academia extends Controlador
         }
     }
 
-    public function aceptarSolicitud()
-    {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            redireccionar('/');
-        } else {
-            if (isset($_POST['idAcademia']) && isset($_POST['idUsuario'])) {
-                $this->academiaModelo->aceptarSolicitud($_POST['idUsuario'], $_POST['idAcademia']);
-                redireccionar('/');
-            } else {
-                redireccionar('/');
-            }
-        }
-    }
 
-    public function rechazarSolicitud()
-    {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            redireccionar('/');
-        } else {
-            if (isset($_POST['idAcademia']) && isset($_POST['idUsuario'])) {
-                $this->academiaModelo->rechazarSolicitud($_POST['idUsuario'], $_POST['idAcademia']);
-                redireccionar('/');
-            } else {
-                redireccionar('/');
-            }
-        }
-    }
 
+    // Método para subir una foto a la galería de la academia
+    // Pone la foto en la carpeta pública data/academias-gallery/{idAcademia}
     public function subirFoto()
     {
-        session_start();
         $usuario = isset($_SESSION['userLogin']['usuario']) ? json_decode($_SESSION['userLogin']['usuario']) : null;
         if (!$usuario || !isset($_POST['idAcademia'])) {
             redireccionar('/');
@@ -258,6 +241,7 @@ class academia extends Controlador
         }
     }
 
+    // Método para editar la información de la academia
     public function editarInfo()
     {
         header('Content-Type: application/json');
