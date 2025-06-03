@@ -383,3 +383,10 @@
 [2025-06-02 19:27:41][::1][admin][SUCCESS] Login correcto
 [2025-06-02 19:28:34][::1][admin][SUCCESS] Cierre de sesión
 [2025-06-02 19:28:40][::1][usuario1][SUCCESS] Login correcto
+[2025-06-02 20:38:01][::1][miguifer][SUCCESS] Login correcto
+[2025-06-02 20:38:30][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-06-02 20:48:22][::1][miguifer][FAIL] Credenciales incorrectas
+[2025-06-02 20:48:27][::1][miguifer][SUCCESS] Login correcto
+[2025-06-02 20:49:56][::1][miguifer][SUCCESS] Login correcto
+[2025-06-02 20:50:09][::1][miguifer][SUCCESS] Cierre de sesión
+[2025-06-03 14:40:20][::1][miguifer][SUCCESS] Login correcto

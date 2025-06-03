@@ -1,10 +1,12 @@
 import './variables.js';
 import { RUTA_URL } from './variables.js';
 
+//Inicializa las funciones administrativas de la academia
 $(document).ready(function () {
-    // Tabla de solicitudes
+    // Inicializa el DataTable para las solicitudes
     $('#solicitudesTable').DataTable();
 
+    // Configuración de aceptar y rechazar solicitudes
     $('.aceptarSolicitud').on('click', function () {
         const id = $(this).data('id');
         const row = $(this).closest('tr');
@@ -100,6 +102,7 @@ $(document).ready(function () {
     // Tabla de alumnos
     $('#alumnosTable').DataTable();
 
+    // Funciones para eliminar y hacer entrenador a los alumnos
     $('.eliminarAlumno').on('click', function () {
         const row = $(this).closest('tr');
         const idUsuario = $(this).data('idusuario');
@@ -199,6 +202,7 @@ $(document).ready(function () {
         }
     });
 
+    // Función para eliminar entrenadores
     $('.eliminarEntrenador').on('click', function () {
         const row = $(this).closest('tr');
         const idUsuario = $(this).data('id');

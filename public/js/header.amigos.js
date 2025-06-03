@@ -146,6 +146,7 @@ $(function() {
         cargarSolicitudes();
     });
 
+    // Cargar perfil de amigo
     $('#listaAmigos').on('click', '.ver-perfil-amigo', function() {
         let id = $(this).data('id');
         $.get(`${RUTA_URL}` + '/amigos/perfil', {

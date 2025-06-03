@@ -1,6 +1,8 @@
 import './variables.js';
 import { RUTA_URL } from './variables.js';
 
+
+//Muro de mensajes
 $(document).ready(function () {
     $('#formEnviarMensaje').on('submit', function (e) {
         e.preventDefault();
@@ -14,7 +16,6 @@ $(document).ready(function () {
             data: form.serialize(),
             dataType: 'json',
             success: function (response) {
-                // Si el backend responde con {success: true, message: "..."}
 
                 if (response && response.success) {
                     Swal.fire({
@@ -24,7 +25,7 @@ $(document).ready(function () {
                             'Tu mensaje ha sido enviado correctamente.'
                     }).then(() => {
                         location
-                            .reload(); // Recarga la página después de cerrar el SweetAlert
+                            .reload();
                     });
                     form[0].reset();
                 } else {

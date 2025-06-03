@@ -1,3 +1,5 @@
+// Cambiar rol de Alumno a Entrenador o Gerente
+
 function toggleRoleSwitch() {
     if (currentRole === "Alumno") {
         currentRole = "Entrenador";

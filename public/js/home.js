@@ -6,7 +6,7 @@ const searchInput = document.getElementById("searchInput");
 const resultadosContainer = document.getElementById("resultados");
 
 
-
+// Mostrar lista de gimnasios por coincidencia en la búsqueda
 function mostrarResultados() {
     const query = searchInput.value.toLowerCase();
     resultadosContainer.innerHTML = "";
@@ -77,7 +77,7 @@ function mostrarResultados() {
 
 searchInput.addEventListener("input", mostrarResultados);
 
-
+//Mostrar popup de toastr si existe un mensaje
 if (typeof toastrMsg !== "undefined" && toastrMsg) {
     toastr.options = {
         "closeButton": true,

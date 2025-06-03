@@ -1,6 +1,7 @@
 import './variables.js';
 import { RUTA_URL } from './variables.js';
 
+// Funcionalidaddes de FullCalendar de la aacademia
 document.addEventListener("DOMContentLoaded", function () {
     const calendarEl = document.getElementById('calendar');
     const today = new Date();
@@ -9,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const endDate = new Date(today);
     endDate.setMonth(today.getMonth() + 3);
 
+    // Inicializar el calendario
     const calendar = new FullCalendar.Calendar(calendarEl, {
         schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
         locale: 'es',
@@ -51,8 +53,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 container: 'body'
             });
         },
+        // Al hacer clic en una clase
         eventClick: function (info) {
-            // Permisos de edición
             if ((currentRole == 'Gerente' && ACADEMIA_ID_GERENTE === USUARIO_ID) ||
                 currentRole === 'Entrenador' || currentRole === 'Administrador') {
 
@@ -330,6 +332,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             }
         },
+        // Al hacer clic en una fecha vacía
         dateClick: function (info) {
 
             if ((currentRole == 'Gerente' && ACADEMIA_ID_GERENTE === USUARIO_ID) ||
@@ -464,6 +467,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+// Funcionalidades de la tabla de clases
+// Asistencia
 $(document).ready(function () {
     $('#tablaClases').DataTable();
 

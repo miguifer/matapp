@@ -1,6 +1,6 @@
 import { RUTA_URL } from "./variables.js";
 
-// Configuración de toastr si hay mensaje (esto requiere que window.toastrMsg esté definido desde PHP)
+// Configuración de toastr si hay mensaje 
 if (typeof toastrMsg !== "undefined" && toastrMsg) {
     toastr.options = {
         "closeButton": true,
@@ -19,10 +19,9 @@ $(document).ready(function () {
     $('#asistenciaTable').DataTable();
 });
 
-// Variables globales necesarias (deben definirse en el Blade antes de incluir este JS)
 let calendar;
 
-// Inicialización de FullCalendar
+// Inicialización de FullCalendar con mis clases
 document.addEventListener("DOMContentLoaded", function () {
     const calendarEl = document.getElementById('calendar');
     if (!calendarEl) return;
@@ -80,6 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 html: true
             });
         },
+        //Desapuntarse de una clase
         eventClick: function (info) {
             const idClase = info.event.id;
             const eventDate = new Date(info.event.start);
@@ -159,6 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    /// Fuerza la renderización del calendario 
     if (document.querySelector('.nav-link.active').getAttribute('data-section') === 'infoClases' && calendar) {
         setTimeout(() => {
             calendar.render();
