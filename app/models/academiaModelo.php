@@ -1,5 +1,8 @@
 <?php
 
+/* * Modelo de Academia
+ * Este modelo maneja las operaciones relacionadas con todo menos con el calendario
+ */
 class academiaModelo
 {
     private $db;
