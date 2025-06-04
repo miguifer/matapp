@@ -165,10 +165,20 @@ class academiaModelo
 
     public function obtenerEntrenadoresAcademia($idAcademia)
     {
-        $this->db->query("SELECT u.*
+        $this->db->query("
+            SELECT u.*
             FROM Usuarios u
-            INNER JOIN AcademiasEntrenadores ae ON u.idUsuario = ae.idUsuario
-            WHERE ae.idAcademia = :idAcademia");
+            INNER JOIN (
+            SELECT ae.idUsuario
+            FROM AcademiasEntrenadores ae
+            WHERE ae.idAcademia = :idAcademia
+            UNION
+            SELECT a.idGerente AS idUsuario
+            FROM Academias a
+            WHERE a.idAcademia = :idAcademia
+            ) entrenadores
+            ON u.idUsuario = entrenadores.idUsuario
+        ");
         $this->db->bind(':idAcademia', $idAcademia);
         return $this->db->registros();
     }
