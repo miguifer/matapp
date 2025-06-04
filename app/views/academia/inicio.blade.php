@@ -298,23 +298,25 @@
                         </thead>
                         <tbody>
                             @foreach ($entrenadores as $entrenador)
-                                <tr>
-                                    <td>
-                                        @if (!empty($entrenador->imagen))
-                                            <img src="{{ $entrenador->imagen }}" alt="Imagen entrenador"
-                                                style="width:40px; height:40px; object-fit:cover; border-radius:50%;">
-                                        @else
-                                            <span class="fa fa-user-circle"
-                                                style="font-size:32px;color:#ccc;margin-right:8px;vertical-align:middle;"></span>
-                                        @endif
-                                    </td>
-                                    <td>{{ $entrenador->login }}</td>
-                                    <td>{{ $entrenador->nombreUsuario }}</td>
-                                    <td>
-                                        <button class="btn btn-danger eliminarEntrenador"
-                                            data-id="{{ $entrenador->idUsuario }}">Eliminar</button>
-                                    </td>
-                                </tr>
+                                @if ($entrenador->idUsuario != $academia->idGerente)
+                                    <tr>
+                                        <td>
+                                            @if (!empty($entrenador->imagen))
+                                                <img src="{{ $entrenador->imagen }}" alt="Imagen entrenador"
+                                                    style="width:40px; height:40px; object-fit:cover; border-radius:50%;">
+                                            @else
+                                                <span class="fa fa-user-circle"
+                                                    style="font-size:32px;color:#ccc;margin-right:8px;vertical-align:middle;"></span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $entrenador->login }}</td>
+                                        <td>{{ $entrenador->nombreUsuario }}</td>
+                                        <td>
+                                            <button class="btn btn-danger eliminarEntrenador"
+                                                data-id="{{ $entrenador->idUsuario }}">Eliminar</button>
+                                        </td>
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>

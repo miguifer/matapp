@@ -419,6 +419,7 @@ class academiaModelo
             c.title AS nombreClase, 
             c.start AS fecha, 
             a.nombreAcademia, 
+            a.path_imagen,
             u.nombreUsuario AS nombreEntrenador
         FROM Reservas r
         INNER JOIN Clases c ON r.idClase = c.id
@@ -675,13 +676,12 @@ class academiaModelo
             u.imagen,
             u.emailUsuario,
             a.nombreAcademia,
-            COALESCE(SUM(r.valoracion), 0) AS puntuacion
-            FROM AcademiasEntrenadores ae
-            INNER JOIN Usuarios u ON ae.idUsuario = u.idUsuario
-            INNER JOIN Academias a ON ae.idAcademia = a.idAcademia
-            LEFT JOIN Clases c ON c.idEntrenador = u.idUsuario AND c.idAcademia = a.idAcademia
+            COALESCE(SUM(r.valoracion), 0) AS puntuacion,
+            CASE WHEN a.idGerente = u.idUsuario THEN 1 ELSE 0 END AS esGerente
+            FROM Clases c
+            INNER JOIN Usuarios u ON c.idEntrenador = u.idUsuario
+            INNER JOIN Academias a ON c.idAcademia = a.idAcademia
             LEFT JOIN Reservas r ON r.idClase = c.id
-            WHERE c.idEntrenador IS NOT NULL
             GROUP BY u.idUsuario, a.idAcademia
             ORDER BY puntuacion DESC
             LIMIT :limite

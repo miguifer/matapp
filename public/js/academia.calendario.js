@@ -516,6 +516,16 @@ $(document).ready(function () {
                                 data: formData,
                                 success: function (response) {
                                     resolve(response);
+                                    if (response && response.message) {
+                                        Swal.fire({
+                                            title: 'Éxito!',
+                                            text: response.message,
+                                            icon: 'success',
+                                            confirmButtonText: 'OK'
+                                        }).then(() => {
+                                            location.reload();
+                                        });
+                                    }
                                 },
                                 error: function (xhr) {
                                     reject(xhr.responseJSON && xhr.responseJSON.message
