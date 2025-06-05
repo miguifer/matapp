@@ -422,3 +422,9 @@
 [2025-06-04 19:03:04][::1][usuario3][SUCCESS] Login correcto
 [2025-06-04 19:03:47][::1][usuario3][SUCCESS] Cierre de sesión
 [2025-06-04 19:03:52][::1][mfernandez][SUCCESS] Login correcto
+[2025-06-05 14:26:56][::1][mfernandez][FAIL] Credenciales incorrectas
+[2025-06-05 14:27:01][::1][mfernandez][SUCCESS] Login correcto
+[2025-06-05 14:34:44][::1][mfernandez][SUCCESS] Cierre de sesión
+[2025-06-05 14:34:49][::1][gerente2][SUCCESS] Login correcto
+[2025-06-05 14:35:59][::1][gerente2][SUCCESS] Cierre de sesión
+[2025-06-05 14:37:17][::1][mfernandez][SUCCESS] Login correcto
