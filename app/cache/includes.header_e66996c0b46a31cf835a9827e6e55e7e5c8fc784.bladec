@@ -61,7 +61,7 @@
  data-bs-toggle="dropdown" aria-expanded="false" title="Notificaciones">
  <i class="fa fa-bell"></i>
  <span
- class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+ class="position-absolute top-0 start-100 translate-middle badge rounded-pill"
  id="notificaciones-count">
  0
  <span class="visually-hidden">mensajes nuevos</span>

@@ -37,3 +37,43 @@
   background-position: right;
 }
 
+input[type="file"] {
+  margin-top: 10px;
+  display: block;
+  width: 100%;
+  font-size: 1rem;
+  color: #45bf62;
+  background-color: #fff;
+  transition: border-color 0.2s;
+}
+
+input[type="file"]::file-selector-button {
+  color: #fff;
+  background-color: #45bf62;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+input[type="file"]::file-selector-button:hover {
+  opacity: 0.8;
+}
+
+button[type="submit"] {
+  background-color: #45bf62;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 10px;
+  padding: 6px 16px;
+}
+
+button[type="submit"]:hover {
+  opacity: 0.8;
+}
