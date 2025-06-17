@@ -475,3 +475,6 @@
 [2025-06-16 16:54:56][::1][admin][SUCCESS] Cierre de sesión
 [2025-06-16 16:55:04][::1][prueba][SUCCESS] Login correcto
 [2025-06-16 16:58:47][::1][prueba][SUCCESS] Cierre de sesión
+[2025-06-17 11:36:02][::1][ejemplo][FAIL] Usuario no encontrado
+[2025-06-17 11:38:04][::1][crisgonpal][SUCCESS] Login correcto
+[2025-06-17 11:38:07][::1][crisgonpal][SUCCESS] Cierre de sesión
